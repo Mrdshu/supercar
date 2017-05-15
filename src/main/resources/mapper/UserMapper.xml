@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xw.supercar.entity.User">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.User">
+		<result property="id" column="U_ID" />
+		<result property="username" column="U_USERNAME" />
+		<result property="password" column="U_PASSWORD" />
+		<result property="isDeleted" column="isDeleted" />
+	</resultMap>
+
+	<sql id="table">USER</sql>
+	<sql id="columns">U_ID,U_USERNAME,U_PASSWORD,isDeleted</sql>
+
+	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="username == ''">null</when><otherwise>#{username}</otherwise></choose>, 
+				<choose><when test="password == ''">null</when><otherwise>#{password}</otherwise></choose>, 
+				false, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE U_ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE U_ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/>
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="username != null">U_USERNAME = <choose><when test="username == ''">null</when><otherwise>#{username}</otherwise></choose>,</if>
+			<if test="password != null">U_PASSWORD = <choose><when test="password == ''">null</when><otherwise>#{password}</otherwise></choose>,</if>
+			<if test="isDeleted != null">isDeleted = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND U_ID = #{id}</if>
+			<if test="username != null">AND U_USERNAME = #{username}</if>
+			<if test="password != null">AND U_PASSWORD = #{password}</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND U_ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND U_ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">U_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">U_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.username_eq != null">AND U_USERNAME = #{filter.username_eq}</if>
+				<if test="filter.username_like != null">AND lower(U_USERNAME) LIKE lower(#{filter.username_like})</if>
+				<if test="filter.username_in != null">AND <foreach item="ii" collection="filter.username_in" open="(" separator=" OR " close=")">U_USERNAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.username_notIn != null">AND <foreach item="ii" collection="filter.username_notIn" open="(" separator=" AND " close=")">U_USERNAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			</if>
+		</trim>
+	</sql>
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+
+</mapper>
+
