@@ -75,7 +75,7 @@
     <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <!-- <property name="cacheManager" ref="ehCacheManager"/> -->
         <!-- 使用第三方缓存  -->
-        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/> 
+        <property name="cacheManagerConfigFile" value="classpath:/config/ehcache-config.xml"/> 
     </bean>
     
     <!-- 多realm认证器  -->
@@ -97,7 +97,7 @@
     	3. 配置 Realm 
     	3.1 直接配置实现了 org.apache.shiro.realm.Realm 接口的 bean
     -->     
-    <bean id="firstRealm" class="com.supercar.core.ShiroAuthorizaingRealm">
+    <bean id="firstRealm" class="com.xw.supercar.shiro.core.ShiroAuthorizaingRealm">
     	<!-- 使用MD5的凭证比配 -->
     	<property name="credentialsMatcher">
     		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -109,7 +109,7 @@
     	</property>
     </bean>
     
-    <bean id="secondRealm" class="com.supercar.core.SecondRealm">
+    <bean id="secondRealm" class="com.xw.supercar.shiro.core.SecondRealm">
     	<!-- 使用SHA1的凭证比配 -->
     	<property name="credentialsMatcher">
     		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -175,6 +175,6 @@
     <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->
     <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"></bean>
     
-    <bean id="filterChainDefinitionMapBuilder" class="com.supercar.core.FilterChainDefinitionMapBuilder"></bean>
+    <bean id="filterChainDefinitionMapBuilder" class="com.xw.supercar.shiro.core.FilterChainDefinitionMapBuilder"></bean>
     
 </beans>

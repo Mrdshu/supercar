@@ -22,7 +22,7 @@
 	<description>Spring 配置</description>
 	
 	<!--定义spring上下文管理类-->
-	<bean id="springContextHolder" class="com.xw.supercar.util.spring.SpringContextHolder" lazy-init="false" />
+	<bean id="springContextHolder" class="com.xw.supercar.spring.util.SpringContextHolder" lazy-init="false" />
 	
 	<!--扫描:bean、dao、sevice层-->
 	<context:component-scan base-package="com.xw.supercar" use-default-filters="false">
