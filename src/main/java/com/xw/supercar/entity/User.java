@@ -19,4 +19,10 @@ public class User extends BaseEntity{
 	
 	public User(){}
 
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
 }

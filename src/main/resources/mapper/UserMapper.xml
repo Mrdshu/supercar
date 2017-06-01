@@ -48,8 +48,14 @@
 	<!-- 查询 -->
 	<select id="selectBy" resultMap="resultMap">
 		SELECT * from  <include refid="table" />
-		<include refid="where"/>
+		<include refid="where"/> <include refid="sort" />
 	</select>
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(U_ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
 	
 	<!-- 修改时用的的set语句 -->
 	<sql id="set">
@@ -83,6 +89,7 @@
 			</if>
 		</trim>
 	</sql>
+	
 	<!-- where语句-->
 	<sql id="where">
 		<trim prefix="WHERE " prefixOverrides="AND |OR ">
@@ -93,6 +100,20 @@
 				<include refid="whereFilter" />
 			</trim>
 		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER BY U_USERNAME ASC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					<if test="key == 'username'">U_USERNAME ${val},</if>
+				</foreach>
+			</trim>
+		</if>
 	</sql>
 
 </mapper>

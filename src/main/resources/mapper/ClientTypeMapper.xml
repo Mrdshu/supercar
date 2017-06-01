@@ -3,14 +3,16 @@
 
 <mapper namespace="com.xw.supercar.entity.User">
 	<resultMap id="resultMap" type="com.xw.supercar.entity.User">
-		<result property="id" column="U_ID" />
-		<result property="username" column="U_USERNAME" />
-		<result property="password" column="U_PASSWORD" />
-		<result property="isDeleted" column="isDeleted" />
+		<result property="id" column="ID" />
+		<result property="code" column="CODE" />
+		<result property="name" column="NAME" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="partsDiscount" column="PARTS_DISCOUNT" />
+		<result property="itemsDiscount" column="ITEMS_DISCOUNT" />
 	</resultMap>
 
 	<sql id="table">USER</sql>
-	<sql id="columns">U_ID,U_USERNAME,U_PASSWORD,isDeleted</sql>
+	<sql id="columns">ID,CODE,NAME,DESCRIPTION,PARTS_DISCOUNT,ITEMS_DISCOUNT</sql>
 
 	<!-- 新增 -->
 	<insert id="insert">

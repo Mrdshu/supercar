@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import com.xw.supercar.entity.BaseEntity;
+import com.xw.supercar.sql.page.Page;
+import com.xw.supercar.sql.page.PageImpl;
+import com.xw.supercar.sql.page.Pageable;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.sql.search.SearchableConvertUtils;
 import com.xw.supercar.util.ReflectUtil;
@@ -68,6 +72,13 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	       	throw new IllegalArgumentException("Entity class does not have a primary key property.");
 	    }
 	}
+	
+	/**
+	 * 获取默认过滤条件，由子类完成
+	 * @return
+	 * @author  wangsz 2017-05-12
+	 */
+	public abstract Searchable getDefaultFiltersForSelect();
 	
 	/**
 	 * 新增
@@ -282,7 +293,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("entity's id can't be empty");
 		//mapper文件中操作对应的声明
-		String statement = getFindStatement();
+		String statement = getSelectStatement();
 		//过滤条件map
 		Map<String, Object> parameter = convertToMap(entityClass, null, null, null, id);
 		E result = getSqlSessionTemplate().selectOne(statement, parameter);
@@ -294,7 +305,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * @author  wangsz 2017-05-12
 	 */
 	public List<E> selectBy(Searchable searchable, boolean useDefaultFilters) {
-		return this.selectBy(getFindStatement(), searchable, null, useDefaultFilters);
+		return this.selectBy(getSelectStatement(), searchable, null, useDefaultFilters);
 	}
 	
 	/**
@@ -302,7 +313,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * @author  wangsz 2017-05-12
 	 */
 	public List<E> selectBy(E entity, boolean useDefaultFilters) {
-		return this.selectBy(getFindStatement(), null, entity, useDefaultFilters);
+		return this.selectBy(getSelectStatement(), null, entity, useDefaultFilters);
 	}
 	
 	/**
@@ -310,38 +321,106 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * @author  wangsz 2017-05-12
 	 */
 	public List<E> selectBy(Searchable searchable, E entity, boolean useDefaultFilters) {
-		return this.selectBy(getFindStatement(), searchable, entity, useDefaultFilters);
+		return this.selectBy(getSelectStatement(), searchable, entity, useDefaultFilters);
 	}
 	
+	/**
+	 * 条件查询功能方法
+	 * @author  wangsz 2017-05-16
+	 */
 	private List<E> selectBy(String statement, Searchable searchable, E entity, boolean useDefaultFilters) {
 		Searchable defaultFilters = useDefaultFilters ? this.getDefaultFiltersForSelect() : null;
 		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultFilters, searchable, entity, null);
 		List<E> results = new ArrayList<E>();
 		//如果没有设置分页
 		if(searchable == null || !searchable.hasPage()){
-			return getSqlSessionTemplate().selectList(statement, filters);
+			results = getSqlSessionTemplate().selectList(statement, filters);
 		}
 		//如果设置了分页
-//		results = this.getSqlSessionTemplate().selectList(statement, filters, 
-//				new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
-		if (results == null)
-			results = new ArrayList<E>();
-		//TODO-分页以及不分页的两种写法
+		else{
+			results = this.getSqlSessionTemplate().selectList(statement, filters, 
+					new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
+		}
+		
 		return results;
 	}
 	
 	/**
-	 * 获取默认过滤条件，由子类完成
-	 * @return
-	 * @author  wangsz 2017-05-12
+	 * 分页查询-searchable
+	 * 
+	 * @param searchable 过滤条件
+	 * @param defaultFilters 是否启用默认过滤条件
+	 * @author  wangsz 2017-05-16
 	 */
-	public abstract Searchable getDefaultFiltersForSelect();
+	public Page<E> selectPage(Searchable searchable, boolean defaultFilters){
+		return page(getSelectStatement(), getCountStatement(), searchable, null, defaultFilters);
+	}
+	
+	/**
+	 * 分页查询-searchable和entity
+	 * 
+	 * @param searchable 过滤条件
+	 * @param defaultFilters 是否启用默认过滤条件
+	 * @author  wangsz 2017-05-16
+	 */
+	public Page<E> selectPage(Searchable searchable, E entity, boolean defaultFilters){
+		return page(getSelectStatement(), getCountStatement(), searchable, entity, defaultFilters);
+	}
+	
+	/**
+	 * 分页查询功能实现
+	 * @author  wangsz 2017-05-16
+	 */
+	private Page<E> page(String selectStatement,String countStatement, Searchable searchable, E entity, boolean defaultFilters){
+		//分页的过滤条件
+		Map<String, Object> filters = convertToMap(entityClass, defaultFilters ? getDefaultFiltersForSelect() : null,
+				searchable, entity, null);
+		//获取查询的实体总数目
+		Long totalCount = countBy(searchable, defaultFilters);
+		if(totalCount <= 0)
+			return new PageImpl<>(null, null, 0);
+		//如果没有设置分页的参数（起始页和页大小），采用默认参数
+		if (!searchable.hasPage())
+			searchable.addPage(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+		//查询出某页数据
+		List<E> results = this.getSqlSessionTemplate().selectList(selectStatement, filters, 
+				new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
+		
+		if (results == null)
+			results = new ArrayList<E>();
+		//封装数据，返回
+		return new PageImpl<>(results, searchable.getPage(), totalCount);
+	}
+	
+	/**
+	 * 查询数目-searchable
+	 * @author  wangsz 2017-05-16
+	 */
+	public long countBy(Searchable searchable, boolean defaultFilters){
+		return countBy(searchable, null, defaultFilters);
+	}
+	/**
+	 * 查询数目-searchable和entity
+	 * @author  wangsz 2017-05-16
+	 */
+	public long countBy(Searchable searchable, E entity, boolean defaultFilters){
+		Searchable defaultSearchable = defaultFilters ? getDefaultFiltersForSelect() : null;
+		String id = getId(entity);
+		Map<String, Object> filter = convertToMap(entityClass, defaultSearchable, searchable, entity, id);
+		
+		return getSqlSessionTemplate().selectOne(getCountStatement(),filter);
+	}
+	
+	
 	
 	/**
 	 * 通过反射获取entity中的id，默认entity的id字段名为NAME_ID
 	 * @author  wangsz 2017-05-10
 	 */
 	private String getId(E entity) {
+		if(entity == null)
+			return null;
+		
 		PropertyDescriptor propertyDescriptor = entityPropDescriptorMap.get(NAME_ID);
 		Method getIdMethod = propertyDescriptor.getReadMethod();
 		
@@ -485,10 +564,16 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * 返回查询操作在mapper文件中的statement
 	 * @author  wangsz 2017-05-11
 	 */
-	private String getFindStatement() {
+	private String getSelectStatement() {
 		return getStatementForEntityClass(entityClass, STMT_SELECT_BY);
 	}
 	
-	
+	/**
+	 * 返回计数操作在mapper文件中的statement
+	 * @author  wangsz 2017-05-11
+	 */
+	private String getCountStatement() {
+		return getStatementForEntityClass(entityClass, STMT_COUNT_BY);
+	}
 	
 }

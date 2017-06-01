@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import com.xw.supercar.dao.BaseDao;
 import com.xw.supercar.entity.BaseEntity;
+import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
 
 /**
@@ -64,6 +65,22 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	protected void afterModify(E entity) {}
+	/**
+	 * 查询后的操作(单个查询)，可由子类覆盖实现具体步骤
+	 * @param entity
+	 * @author  wangsz 2017-05-16
+	 */
+	protected void afterSearch(E entity){}
+	/**
+	 * 查询后的操作（多个查询）
+	 * @param entity
+	 * @author  wangsz 2017-05-16
+	 */
+	protected void afterSearch(List<E> entitys){
+		for (E e : entitys) {
+			afterSearch(e);
+		}
+	}
 	
 	/**
 	 * 新增
@@ -157,7 +174,10 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public E searchById(String id){
-		return baseDao.selectById(id);
+		E entity =  baseDao.selectById(id);
+		afterSearch(entity);
+		
+		return entity;
 	}
 	
 	/**
@@ -165,7 +185,24 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public List<E> searchBy(Searchable searchable,boolean useDefaultFilters){
-		return baseDao.selectBy(searchable, useDefaultFilters);
+		List<E> entitys = baseDao.selectBy(searchable, useDefaultFilters);
+		afterSearch(entitys);
+		
+		return entitys;
+	}
+	
+	/**
+	 * 分页查询
+	 * @author  wangsz 2017-05-16
+	 */
+	public Page<E> searchPage(Searchable searchable,boolean useDefaultFilters){
+		Page<E> page = baseDao.selectPage(searchable, useDefaultFilters);
+		
+		List<E> entitys = page.getContent();
+		afterSearch(entitys);
+		
+		return page;
+		
 	}
 	
 }

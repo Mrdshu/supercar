@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xw.supercar.entity.User">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.User">
+		<result property="id" column="ID" />
+		<result property="name" column="C_NAME" />
+		<result property="sex" column="C_SEX" />
+		<result property="idcard" column="C_IDCARD" />
+		<result property="type" column="C_TYPE" />
+		<result property="email" column="C_EMAIL" />
+		<result property="mobile" column="C_MOBILE" />
+		<result property="address" column="C_ADDRESS" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="isDeleted" column="ISDELETED" />
+	</resultMap>
+
+	<sql id="table">USER</sql>
+	<sql id="columns">ID,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_MOBILE,C_ADDRESS,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
+
+	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>, 
+				<choose><when test="sex == ''">null</when><otherwise>#{sex}</otherwise></choose>,
+				<choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>, 
+				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
+				<choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>, 
+				<choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>, 
+				<choose><when test="address == ''">null</when><otherwise>#{address}</otherwise></choose>, 
+				<choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>, 
+				<choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>, 
+				<choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="name != null">C_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
+			<if test="sex != null">C_SEX = <choose><when test="sex == ''">null</when><otherwise>#{sex}</otherwise></choose>,</if>
+			<if test="idcard != null">C_IDCARD = <choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>,</if>
+			<if test="type != null">C_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
+			<if test="email != null">C_EMAIL = <choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>,</if>
+			<if test="mobile != null">C_MOBILE = <choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>,</if>
+			<if test="address != null">C_ADDRESS = <choose><when test="address == ''">null</when><otherwise>#{address}</otherwise></choose>,</if>
+			<if test="createTime != null">CREATE_TIME = <choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>,</if>
+			<if test="updateTime != null">UPDATE_TIME = <choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="name != null">AND C_NAME = #{name}</if>
+			<if test="sex != null">AND C_SEX = #{sex}</if>
+			<if test="idcard != null">AND C_IDCARD = #{idcard}</if>
+			<if test="type != null">AND C_TYPE = #{type}</if>
+			<if test="email != null">AND C_EMAIL = #{email}</if>
+			<if test="mobile != null">AND C_MOBILE = #{mobile}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.name_eq != null">AND C_NAME = #{filter.name_eq}</if>
+				<if test="filter.name_ne != null">AND C_NAME != #{filter.name_ne}</if>
+				<if test="filter.name_like != null">AND lower(C_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">C_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">C_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.sex_eq != null">AND C_SEX = #{filter.sex_eq}</if>
+				<if test="filter.sex_ne != null">AND C_SEX != #{filter.sex_ne}</if>
+				
+				<if test="filter.idcard_eq != null">AND C_IDCARD = #{filter.idcard_eq}</if>
+				<if test="filter.idcard_ne != null">AND C_IDCARD != #{filter.idcard_ne}</if>
+				<if test="filter.idcard_like != null">AND lower(C_IDCARD) LIKE lower(#{filter.idcard_like})</if>
+				<if test="filter.idcard_in != null">AND <foreach item="ii" collection="filter.idcard_in" open="(" separator=" OR " close=")">C_IDCARD in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.idcard_notIn != null">AND <foreach item="ii" collection="filter.idcard_notIn" open="(" separator=" AND " close=")">C_IDCARD not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.type_eq != null">AND C_TYPE = #{filter.type_eq}</if>
+				<if test="filter.type_ne != null">AND C_TYPE != #{filter.type_ne}</if>
+				<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">C_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">C_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.email_eq != null">AND C_EMAIL = #{filter.email_eq}</if>
+				<if test="filter.email_like != null">AND lower(C_EMAIL) LIKE lower(#{filter.email_like})</if>
+				
+				<if test="filter.mobile_eq != null">AND C_MOBILE = #{filter.mobile_eq}</if>
+				<if test="filter.mobile_like != null">AND lower(C_MOBILE) LIKE lower(#{filter.mobile_like})</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER BY CREATE_TIME DESC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					<if test="key == 'username'">U_USERNAME ${val},</if>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+</mapper>
+
