@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.xw.supercar.entity.User">
-	<resultMap id="resultMap" type="com.xw.supercar.entity.User">
+<mapper namespace="com.xw.supercar.entity.Client">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.Client">
 		<result property="id" column="ID" />
 		<result property="name" column="C_NAME" />
 		<result property="sex" column="C_SEX" />
@@ -16,7 +16,7 @@
 		<result property="isDeleted" column="ISDELETED" />
 	</resultMap>
 
-	<sql id="table">USER</sql>
+	<sql id="table">U_CLIENT</sql>
 	<sql id="columns">ID,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_MOBILE,C_ADDRESS,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 
 	<!-- 新增 -->

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xw.supercar.entity.ClientCar">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.ClientCar">
+		<result property="id" column="ID" />
+		<result property="clientId" column="CLIENT_ID" />
+		<result property="carId" column="CAR_ID" />
+	</resultMap>
+
+	<sql id="table">U_CLIENT_CAR</sql>
+	<sql id="columns">ID,CLIENT_ID,CAR_ID</sql>
+
+	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>, 
+				<choose><when test="carId == ''">null</when><otherwise>#{carId}</otherwise></choose>, 
+				false, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="clientId != null">CLIENT_ID = <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,</if>
+			<if test="carId != null">CAR_ID = <choose><when test="carId == ''">null</when><otherwise>#{carId}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="clientId != null">AND CLIENT_ID = #{clientId}</if>
+			<if test="carId != null">AND CAR_ID = #{carId}</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.clientId_eq != null">AND CLIENT_ID = #{filter.clientId_eq}</if>
+				<if test="filter.clientId_in != null">AND <foreach item="ii" collection="filter.clientId_in" open="(" separator=" OR " close=")">CLIENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clientId_notIn != null">AND <foreach item="ii" collection="filter.clientId_notIn" open="(" separator=" AND " close=")">CLIENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.carId_eq != null">AND CAR_ID = #{filter.carId_eq}</if>
+				<if test="filter.carId_in != null">AND <foreach item="ii" collection="filter.carId_in" open="(" separator=" OR " close=")">CAR_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.carId_notIn != null">AND <foreach item="ii" collection="filter.carId_notIn" open="(" separator=" AND " close=")">CAR_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER BY CLIENT_ID ASC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					<if test="key == 'clientId'">CLIENT_ID ${val},</if>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+</mapper>
+

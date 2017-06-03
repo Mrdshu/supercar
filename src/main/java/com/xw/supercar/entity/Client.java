@@ -34,6 +34,6 @@ public class Client extends BaseEntity{
 	private Boolean isDeleted;
 	
 	public static enum DP{
-		id,name,sex,idcard,type,email,mobile,address,createTime,updateTime
+		id,name,sex,idcard,type,email,mobile,address,createTime,updateTime,isDeleted
 	}
 }

@@ -1,23 +1,11 @@
 package com.xw.supercar.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.xw.supercar.entity.User;
-import com.xw.supercar.service.UserService;
-import com.xw.supercar.spring.util.SpringContextHolder;
-import com.xw.supercar.sql.page.Page;
-import com.xw.supercar.sql.search.SearchOperator;
-import com.xw.supercar.sql.search.Searchable;
-
-import sun.launcher.resources.launcher;
 
 @Controller
 @RequestMapping("/hello")

@@ -14,7 +14,7 @@ public class ClientType extends BaseEntity{
 	private String code;
 	/**类别名称*/
 	private String name;
-	/**类别描述*/
+	/**描述*/
 	private String description;
 	/**配件折扣*/
 	private Double partsDiscount;
