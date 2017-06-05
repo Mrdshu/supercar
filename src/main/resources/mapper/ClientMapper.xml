@@ -33,8 +33,8 @@
 				<choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>, 
 				<choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>, 
 				<choose><when test="address == ''">null</when><otherwise>#{address}</otherwise></choose>, 
-				<choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>, 
-				<choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>, 
+				<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+				<choose><when test="updateTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
 				<choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>, 
 			</trim>
 		)

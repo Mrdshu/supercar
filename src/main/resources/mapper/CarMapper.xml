@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper carNospace="com.xw.supercar.entity.Car">
-	<resultMap id="resultMap" carColor="com.xw.supercar.entity.Car">
+<mapper namespace="com.xw.supercar.entity.Car">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.Car">
 		<result property="id" column="ID" />
 		<result property="carNo" column="CAR_NO" />
 		<result property="carModel" column="CAR_MODEL" />
@@ -36,8 +36,8 @@
 				<choose><when test="insurer == ''">null</when><otherwise>#{insurer}</otherwise></choose>, 
 				<choose><when test="insuranceEndtime == ''">null</when><otherwise>#{insuranceEndtime}</otherwise></choose>,
 				<choose><when test="registrationDate == ''">null</when><otherwise>#{registrationDate}</otherwise></choose>, 
-				<choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>, 
-				<choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>, 
+				<choose><when test="createTime == null">null</when><otherwise>#{createTime}</otherwise></choose>, 
+				<choose><when test="updateTime == null">null</when><otherwise>#{updateTime}</otherwise></choose>, 
 				<choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>, 
 			</trim>
 		)

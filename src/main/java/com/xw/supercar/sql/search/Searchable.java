@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.util.StringUtils;
+
+import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.sql.page.Pageable;
 import com.xw.supercar.sql.page.Pageable.Direction;
 
@@ -360,6 +363,19 @@ public class Searchable implements Cloneable, Serializable {
 
 	public Searchable addPage(int pageNumber, int pageSize) {
 		merge(new Pageable(pageNumber, pageSize), this.getSort());
+		return this;
+	}
+	
+	public Searchable addPage(String pageNumber, String pageSize) {
+		int pageNumberInt = DaoConstant.DEFAULT_PAGE_NUMBER;
+		int pageSizeInt = DaoConstant.DEFAULT_PAGE_SIZE;
+		
+		if(!StringUtils.isEmpty(pageNumber))
+			pageNumberInt = Integer.valueOf(pageNumber);
+		if(!StringUtils.isEmpty(pageSize))
+			pageSizeInt = Integer.valueOf(pageSize);
+		
+		merge(new Pageable(pageNumberInt, pageSizeInt), this.getSort());
 		return this;
 	}
 

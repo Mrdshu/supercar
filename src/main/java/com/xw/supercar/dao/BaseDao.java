@@ -161,7 +161,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	}
 	
 	/**
-	 * 软删除
+	 * 软删除,如果实体表没有'idDeleted'，将转换为硬删除
 	 * @author  wangsz 2017-05-11
 	 */
 	public boolean delete(E entity) {
@@ -170,6 +170,10 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		String id = getId(entity);
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("'entity.id' must be not empty");
+		//id必须可查到对应的实体
+		E deleteEntity = selectById(id);
+		if(deleteEntity == null)
+			throw new IllegalArgumentException("can't find the entity of id");
 		/*
 		 * 软删除其实就是更新isDeleted字段为true的过程
 		 */
@@ -246,6 +250,10 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("'entity.id' must be not empty");
 		
+		E deleteEntity = selectById(id,false);
+		if(deleteEntity == null)
+			throw new IllegalArgumentException("can't find the entity of id");
+		
 		boolean result = getSqlSessionTemplate().delete(getDeleteStatement(), id) == 1;
 		return result;
 	}
@@ -277,7 +285,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("entity's id can't be empty");
 		
-		E deleteEntity = selectById(id);
+		E deleteEntity = selectById(id,false);
 		if(deleteEntity == null)
 			throw new IllegalArgumentException("can't find the entity of id");
 		
@@ -286,16 +294,25 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	}
 	
 	/**
-	 * 根据id获取实体
+	 * 根据id获取实体,默认有默认过滤条件
 	 * @author  wangsz 2017-05-11
 	 */
 	public E selectById(String id){
+		return selectById(id, true);
+	}
+	
+	/**
+	 * 根据id获取实体，可指明是否有默认过滤条件
+	 * @author  wangsz 2017-05-11
+	 */
+	public E selectById(String id,Boolean filter){
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("entity's id can't be empty");
 		//mapper文件中操作对应的声明
 		String statement = getSelectStatement();
 		//过滤条件map
-		Map<String, Object> parameter = convertToMap(entityClass, null, null, null, id);
+		Searchable defaultFilters = filter? this.getDefaultFiltersForSelect() : null;
+		Map<String, Object> parameter = convertToMap(entityClass, defaultFilters, null, null, id);
 		E result = getSqlSessionTemplate().selectOne(statement, parameter);
 		return result;
 	}
@@ -304,8 +321,8 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * 根据条件查询-searchable
 	 * @author  wangsz 2017-05-12
 	 */
-	public List<E> selectBy(Searchable searchable, boolean useDefaultFilters) {
-		return this.selectBy(getSelectStatement(), searchable, null, useDefaultFilters);
+	public List<E> selectBy(Searchable searchable, boolean defaultFilters) {
+		return this.selectBy(getSelectStatement(), searchable, null, defaultFilters);
 	}
 	
 	/**
@@ -372,6 +389,8 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * @author  wangsz 2017-05-16
 	 */
 	private Page<E> page(String selectStatement,String countStatement, Searchable searchable, E entity, boolean defaultFilters){
+		if(searchable == null)
+			searchable = Searchable.newSearchable();
 		//分页的过滤条件
 		Map<String, Object> filters = convertToMap(entityClass, defaultFilters ? getDefaultFiltersForSelect() : null,
 				searchable, entity, null);

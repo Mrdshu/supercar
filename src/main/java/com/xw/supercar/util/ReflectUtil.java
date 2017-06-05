@@ -3,6 +3,7 @@ package com.xw.supercar.util;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
 
 import com.xw.supercar.dao.BaseDao;
 import com.xw.supercar.dao.UserDao;
+import com.xw.supercar.entity.Client;
 
 /**
  * 反射工具类
@@ -95,6 +97,35 @@ public class ReflectUtil {
 	}
 	
 	/**
+	 * 通过反射，获取实体中指定属性的值
+	 * @param object 实体对象
+	 * @param propertyDescriptor 属性描述
+	 * 
+	 * @author  wangsz 2017-05-11
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T, V> V getPropertyValue(T object, String propertyName) {
+		Assert.notNull(object, "'object' must not be null.");
+		V propertyValue = null;
+		try {
+			Field field = object.getClass().getDeclaredField(propertyName);
+			//设置私有域也可访问
+			field.setAccessible(true);
+			propertyValue = (V) field.get(object);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		return propertyValue;
+	}
+	
+	/**
 	 * 通过反射，设置实体中指定属性的值
 	 * @param object 实体类
 	 * @param propertyDescriptor 属性描述
@@ -172,5 +203,4 @@ public class ReflectUtil {
 		throw new UndeclaredThrowableException(ex);
 	}
 	
-	public static void main(String[] args) {}
 }

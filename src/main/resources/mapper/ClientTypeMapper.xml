@@ -118,12 +118,12 @@
 	<!-- sort排序语句-->
 	<sql id="sort">
 		<if test="sort == null" >
-			ORDER BY U_USERNAME ASC
+			ORDER BY CODE ASC
 		</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">
 				<foreach collection="sort" index="key" item="val">
-					<if test="key == 'username'">U_USERNAME ${val},</if>
+					
 				</foreach>
 			</trim>
 		</if>

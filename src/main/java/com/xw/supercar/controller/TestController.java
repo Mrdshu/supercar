@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 	private static Logger logger = Logger.getLogger(TestController.class);
 	private static Logger selfNameLogger = Logger.getLogger("selfName");
+	
 	@RequestMapping("/test")
 	public void test(HttpServletRequest request,HttpServletResponse response) {
 		logger.info("=============test log4j=================");

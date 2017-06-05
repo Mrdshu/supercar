@@ -23,5 +23,9 @@
 	        <setting name="defaultStatementTimeout" value="25" />  
 	        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
    	 </settings>  -->
+   	 
+   	 <settings>  
+        <setting name="logImpl" value="LOG4J" />    
+    </settings>  
 	
 </configuration>

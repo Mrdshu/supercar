@@ -94,6 +94,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 			id = UUID.randomUUID().toString().replace("-", "").toUpperCase();
 			entity.setId(id);
 		}
+		
 		baseDao.insert(entity);
 		
 		entity = searchById(id);
