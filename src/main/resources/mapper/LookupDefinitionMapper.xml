@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xw.supercar.entity.LookupDefinition">
+	<resultMap id="resultMap" type="com.xw.supercar.entity.LookupDefinition">
+		<result property="id" column="ID" />
+		<result property="code" column="LKD_CODE" />
+		<result property="name" column="LKD_NAME" />
+		<result property="description" column="LKD_DESCRIPTION" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+
+	</resultMap>
+
+	<sql id="table">TB_LOOKUP_DF</sql>
+	<sql id="columns">ID,LKD_CODE,LKD_NAME,LKD_DESCRIPTION,CREATE_TIME,UPDATE_TIME</sql>
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="code != null">LKD_CODE = #{code},</if>
+			<if test="name != null">LKD_NAME = #{name},</if>
+			<if test="description != null">LKD_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
+			<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+			<choose><when test="updateTime == null">null</when><otherwise>#{updateTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+		</trim>
+	</sql>
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="code != null">AND LKD_CODE = #{code}</if>
+			<if test="name != null">AND LKD_NAME = #{name}</if>
+		</trim>
+	</sql>
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.code_eq != null">AND LKD_CODE = #{filter.code_eq}</if>
+				<if test="filter.code_like != null">AND lower(LKD_CODE) LIKE lower(#{filter.code_like})</if>
+				<if test="filter.name_eq != null">AND LKD_NAME = #{filter.name_eq}</if>
+				<if test="filter.name_like != null">AND lower(LKD_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{createTime,jdbcType=TIMESTAMP}</if>
+				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{createTime,jdbcType=TIMESTAMP}</if>
+				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{updateTime,jdbcType=TIMESTAMP}</if>
+				<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{updateTime,jdbcType=TIMESTAMP}</if>
+			</if>
+		</trim>
+	</sql>
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>, 
+				<choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>, 
+				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
+				<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+				<choose><when test="updateTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>,
+			</trim>
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE <include refid="table" /> SET <include refid="set" /> WHERE ID = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+
+	<select id="selectBy" resultMap="resultMap">
+		SELECT <include refid="columns" />FROM <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+
+	<update id="updateBy">
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter" />
+	</update>
+
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" />
+		<include refid="where" />
+	</delete>
+	
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER  BY LKD_CODE DESC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					<if test="key == 'id'">ID ${val},</if>
+					<if test="key == 'code'">LKD_CODE ${val},</if>
+					<if test="key == 'name'">LKD_NAME ${val},</if>
+					<if test="key == 'createTime'">CREATE_TIME ${val},</if>
+					<if test="key == 'updateTime'">UPDATE_TIME ${val},</if>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>
+

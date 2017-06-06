@@ -33,6 +33,7 @@ public class ClientController extends BaseController<Client>{
 			addAttributeToData(client,Client.DP.type.name(),ClientTypeService.class);
 		}
 		else if(data.containsKey("entitys")){
+			@SuppressWarnings("unchecked")
 			List<Client> clients = (List<Client>) data.get("entitys");
 			for (Client client : clients) {
 				addAttributeToData(client,Client.DP.type.name(),ClientTypeService.class);

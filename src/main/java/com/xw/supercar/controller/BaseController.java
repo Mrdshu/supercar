@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
@@ -221,7 +222,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @param attributeService
 	 * @author  wangsz 2017-06-04
 	 */
-	protected void addAttributeToData(BaseEntity object, String attributeName,Class<? extends BaseService> attributeService) {
+	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService> attributeService) {
 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
 		Object type = SpringContextHolder.getBean(ClientTypeService.class).searchById(attributeId);
 		

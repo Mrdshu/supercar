@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bamboocloud.im.entity.Lookup">
+	<resultMap id="resultMap" type="com.bamboocloud.im.entity.Lookup">
+		<result property="id" column="SLKP_ID" />
+		<result property="parentId" column="SLKP_PARENT_ID" />
+		<result property="definitionId" column="SLKPDF_ID" />
+		<result property="code" column="SLKP_CODE" />
+		<result property="value" column="SLKP_VALUE" />
+		<result property="additional" column="SLKP_ADDITIONAL" />
+		<result property="description" column="SLKP_DESCRIPTION"/>
+		<result property="tag" column="SLKP_TAG"/>
+		<result property="sequence" column="SLKP_SEQUENCE" />
+		<result property="isSystem" column="SLKP_IS_SYSTEM" />
+		<result property="isEncrypted" column="SLKP_IS_ENCRYPTED" />
+		<result property="isDisabled" column="SLKP_IS_DISABLED" />
+		<result property="isReconciled" column="SLKP_IS_RECONCILED" />
+		<result property="provisionStatus" column="SLKP_PROVISION_STATUS" />
+		<result property="provisionAt" column="SLKP_PROVISION_AT" />
+		<result property="reconcileAt" column="SLKP_RECONCILE_AT" />
+		<result property="createAt" column="SLKP_CREATE_AT" />
+		<result property="updateAt" column="SLKP_UPDATE_AT" />
+		<result property="createBy" column="SLKP_CREATE_BY" />
+		<result property="updateBy" column="SLKP_UPDATE_BY" />
+		<result property="guid" column="SLKP_GUID" />
+		<result property="zzProcessStatus" column="SLKP_PROCESS_STATUS" />
+		<result property="zzDisplayPath" column="SLKP_DISPLAY_PATH" />
+		<result property="zzLevel" column="SLKP_LEVEL" />
+		<result property="zzIsLeaf" column="SLKP_IS_LEAF" />
+		<result property="zzLevel1Id" column="SLKP_LEVEL1_ID" />
+		<result property="zzLevel2Id" column="SLKP_LEVEL2_ID" />
+		<result property="zzLevel3Id" column="SLKP_LEVEL3_ID" />
+		<result property="zzLevel4Id" column="SLKP_LEVEL4_ID" />
+		<result property="zzLevel5Id" column="SLKP_LEVEL5_ID" />
+		<result property="zzLevel6Id" column="SLKP_LEVEL6_ID" />
+	</resultMap>
+
+	<sql id="table">TB_SLKP</sql>
+	<sql id="columns">SLKP_ID,SLKP_PARENT_ID,SLKPDF_ID,SLKP_CODE,SLKP_VALUE,SLKP_ADDITIONAL,SLKP_DESCRIPTION,SLKP_TAG,SLKP_SEQUENCE,
+	SLKP_IS_SYSTEM,SLKP_IS_ENCRYPTED,SLKP_IS_DISABLED,SLKP_IS_RECONCILED,
+	SLKP_PROVISION_STATUS,SLKP_PROVISION_AT,SLKP_RECONCILE_AT,
+	SLKP_CREATE_AT,SLKP_UPDATE_AT,SLKP_CREATE_BY,SLKP_UPDATE_BY,SLKP_GUID,
+	SLKP_PROCESS_STATUS,SLKP_DISPLAY_PATH,SLKP_LEVEL,SLKP_IS_LEAF,SLKP_LEVEL1_ID,SLKP_LEVEL2_ID,SLKP_LEVEL3_ID,SLKP_LEVEL4_ID,SLKP_LEVEL5_ID,SLKP_LEVEL6_ID</sql>
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="parentId != null">SLKP_PARENT_ID = <choose><when test="parentId == ''">null</when><otherwise>#{parentId}</otherwise></choose>,</if>
+			<if test="code != null">SLKP_CODE = <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,</if>
+			<if test="value != null">SLKP_VALUE = <choose><when test="value == ''">null</when><otherwise>#{value}</otherwise></choose>,</if>
+			<if test="additional != null">SLKP_ADDITIONAL = <choose><when test="additional == ''">null</when><otherwise>#{additional}</otherwise></choose>,</if>
+			<if test="description != null">SLKP_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
+			<if test="tag != null">SLKP_TAG = <choose><when test="tag == ''">null</when><otherwise>#{tag}</otherwise></choose>,</if>
+			<if test="sequence != null">SLKP_SEQUENCE = #{sequence},</if>
+			<if test="isEncrypted != null">SLKP_IS_ENCRYPTED = #{isEncrypted},</if>
+			<if test="isDisabled != null">SLKP_IS_DISABLED = #{isDisabled},</if>
+			<if test="isReconciled != null">SLKP_IS_RECONCILED = #{isReconciled},</if>
+			<if test="provisionStatus != null">SLKP_PROVISION_STATUS = #{provisionStatus},</if>
+			<if test="provisionAt != null">SLKP_PROVISION_AT =
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+			</if>
+			<if test="reconcileAt != null">SLKP_RECONCILE_AT =
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+			</if>
+			<if test="updateAt != null">SLKP_UPDATE_AT =
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose> 
+			</if>
+			<if test="updateBy != null">SLKP_UPDATE_BY = <choose><when test="updateBy == ''">null</when><otherwise>#{updateBy}</otherwise></choose>,</if>
+			<if test="guid != null">SLKP_GUID = <choose><when test="guid == ''">null</when><otherwise>#{guid}</otherwise></choose>,</if>
+			<if test="zzProcessStatus != null">SLKP_PROCESS_STATUS = #{zzProcessStatus},</if>
+			<if test="zzDisplayPath != null">SLKP_DISPLAY_PATH = <choose><when test="zzDisplayPath == ''">null</when><otherwise>#{zzDisplayPath}</otherwise></choose>,</if>
+			<if test="zzLevel != null">SLKP_LEVEL = #{zzLevel},</if>
+			<if test="zzIsLeaf != null">SLKP_IS_LEAF = #{zzIsLeaf},</if>
+			<if test="zzLevel1Id != null">SLKP_LEVEL1_ID = <choose><when test="zzLevel1Id == ''">null</when><otherwise>#{zzLevel1Id}</otherwise></choose>,</if>
+			<if test="zzLevel2Id != null">SLKP_LEVEL2_ID = <choose><when test="zzLevel2Id == ''">null</when><otherwise>#{zzLevel2Id}</otherwise></choose>,</if>
+			<if test="zzLevel3Id != null">SLKP_LEVEL3_ID = <choose><when test="zzLevel3Id == ''">null</when><otherwise>#{zzLevel3Id}</otherwise></choose>,</if>
+			<if test="zzLevel4Id != null">SLKP_LEVEL4_ID = <choose><when test="zzLevel4Id == ''">null</when><otherwise>#{zzLevel4Id}</otherwise></choose>,</if>
+			<if test="zzLevel5Id != null">SLKP_LEVEL5_ID = <choose><when test="zzLevel5Id == ''">null</when><otherwise>#{zzLevel5Id}</otherwise></choose>,</if>
+			<if test="zzLevel6Id != null">SLKP_LEVEL6_ID = <choose><when test="zzLevel6Id == ''">null</when><otherwise>#{zzLevel6Id}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND SLKP_ID = #{id}</if>
+			<if test="parentId != null">AND SLKP_PARENT_ID = #{parentId}</if>
+			<if test="definitionId != null">AND SLKPDF_ID = #{definitionId}</if>
+			<if test="code != null">AND SLKP_CODE = #{code}</if>
+			<if test="value != null">AND SLKP_VALUE = #{value}</if>
+			<if test="tag != null">AND SLKP_TAG = #{tag}</if>
+			<if test="isSystem != null">AND SLKP_IS_SYSTEM = #{isSystem}</if>
+			<if test="isEncrypted != null">AND SLKP_IS_ENCRYPTED = #{isEncrypted}</if>
+			<if test="isDisabled != null">AND SLKP_IS_DISABLED = #{isDisabled}</if>
+			<if test="isReconciled != null">AND SLKP_IS_RECONCILED = #{isReconciled}</if>
+			<if test="provisionStatus != null">AND SLKP_PROVISION_STATUS = #{provisionStatus}</if>
+			<if test="guid != null">AND GUID = #{guid}</if>
+			<if test="zzProcessStatus != null">AND SLKP_PROCESS_STATUS = #{zzProcessStatus}</if>
+		</trim>
+	</sql>
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND SLKP_ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND SLKP_ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">SLKP_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">SLKP_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.parentId_eq != null">AND SLKP_PARENT_ID = #{filter.parentId_eq}</if>
+				<if test="filter.parentId_ne != null">AND SLKP_PARENT_ID != #{filter.parentId_ne}</if>
+				<if test="filter.parentId_in != null">AND <foreach item="ii" collection="filter.parentId_in" open="(" separator=" OR " close=")">SLKP_PARENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.parentId_notIn != null">AND (SLKP_PARENT_ID IS NULL OR <foreach item="ii" collection="filter.parentId_notIn" open="(" separator=" AND " close=")">SLKP_PARENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach>)</if>
+				<if test="filter.parentId_isNull != null">AND SLKP_PARENT_ID IS NULL</if>
+				<if test="filter.parentId_isNotNull != null">AND SLKP_PARENT_ID IS NOT NULL</if>
+				<if test="filter.definitionId_eq != null">AND SLKPDF_ID = #{filter.definitionId_eq}</if>
+				<if test="filter.code_eq != null">AND SLKP_CODE = #{filter.code_eq}</if>
+				<if test="filter.code_ne != null">AND SLKP_CODE != #{filter.code_ne}</if>
+				<if test="filter.code_like != null">AND lower(SLKP_CODE) LIKE lower(#{filter.code_like})</if>
+				<if test="filter.code_notLike != null">AND lower(SLKP_CODE) NOT LIKE lower(#{filter.code_notLike})</if>
+				<if test="filter.code_in != null">AND <foreach item="ii" collection="filter.code_in" open="(" separator=" OR " close=")">SLKP_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.code_notIn != null">AND (SLKP_CODE IS NULL OR <foreach item="ii" collection="filter.code_notIn" open="(" separator=" AND " close=")">SLKP_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach>)</if>
+				<if test="filter.value_eq != null">AND SLKP_VALUE = #{filter.value_eq}</if>
+				<if test="filter.value_ne != null">AND SLKP_VALUE != #{filter.value_ne}</if>
+				<if test="filter.value_like != null">AND lower(SLKP_VALUE) LIKE lower(#{filter.value_like})</if>
+				<if test="filter.value_notLike != null">AND lower(SLKP_VALUE) NOT LIKE lower(#{filter.value_notLike})</if>
+				<if test="filter.value_isNull != null">AND SLKP_VALUE IS NULL</if>
+				<if test="filter.value_isNotNull != null">AND SLKP_VALUE IS NOT NULL</if>
+				<if test="filter.tag_eq != null">AND SLKP_TAG = #{filter.tag_eq}</if>
+				<if test="filter.tag_ne != null">AND SLKP_TAG != #{filter.tag_ne}</if>
+				<if test="filter.tag_like != null">AND lower(SLKP_TAG) LIKE lower(#{filter.tag_like})</if>
+				<if test="filter.isSystem_eq != null">AND SLKP_IS_SYSTEM = #{filter.isSystem_eq}</if>
+				<if test="filter.isEncrypted_eq != null">AND SLKP_IS_ENCRYPTED = #{filter.isEncrypted_eq}</if>
+				<if test="filter.isDisabled_eq != null">AND SLKP_IS_DISABLED = #{filter.isDisabled_eq}</if>
+				<if test="filter.isReconcile_eq != null">AND SLKP_IS_RECONCILED = #{filter.isReconcile_eq}</if>
+				<if test="filter.provisionStatus_eq != null">AND SLKP_PROVISION_STATUS = #{filter.provisionStatus_eq}</if>
+				<if test="filter.provisionStatus_ne != null">AND SLKP_PROVISION_STATUS != #{filter.provisionStatus_ne}</if>
+				<if test="filter.provisionStatus_in != null">AND <foreach item="ii" collection="filter.provisionStatus_in" open="(" separator=" OR " close=")"> SLKP_PROVISION_STATUS in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.provisionStatus_notIn != null">AND (SLKP_PROVISION_STATUS IS NULL OR <foreach item="ii" collection="filter.provisionStatus_notIn" open="(" separator=" OR " close=")"> SLKP_PROVISION_STATUS not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach>)</if>
+				<if test="filter.provisionAt_gte != null">AND SLKP_PROVISION_AT &gt;=
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.provisionAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.provisionAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.provisionAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.provisionAt_lte != null">AND SLKP_PROVISION_AT &lt;=
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.provisionAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.provisionAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.provisionAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.reconcileAt_gte != null">AND SLKP_RECONCILE_AT &gt;=
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.reconcileAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.reconcileAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.reconcileAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.reconcileAt_lte != null">AND SLKP_RECONCILE_AT &lt;= 
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.reconcileAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.reconcileAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.reconcileAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.createAt_gte != null">AND SLKP_CREATE_AT &gt;=
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.createAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.createAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.createAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.createAt_lte != null">AND SLKP_CREATE_AT &lt;= 
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.createAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.createAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.createAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.updateAt_gte != null">AND SLKP_UPDATE_AT &gt;= 
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.updateAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.updateAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.updateAt_gte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.updateAt_lte != null">AND SLKP_UPDATE_AT &lt;= 
+					<choose>
+						<when test="_databaseId == 'oracle'">
+							TO_TIMESTAMP(#{filter.updateAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff')
+						</when>
+						<when test="_databaseId == 'mysql'">
+							STR_TO_DATE(#{filter.updateAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s')
+						</when>
+						<otherwise>
+							#{filter.updateAt_lte,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}
+						</otherwise>
+					</choose>
+				</if>
+				<if test="filter.createBy_eq != null">AND SLKPDF_CREATE_BY = #{filter.createBy_eq}</if>
+				<if test="filter.updateBy_eq != null">AND SLKPDF_UPDATE_BY = #{filter.updateBy_eq}</if>
+				<if test="filter.guid_eq != null">AND SLKP_GUID = #{filter.guid_eq}</if>
+				<if test="filter.guid_in != null">AND <foreach item="ii" collection="filter.guid_in" open="(" separator=" OR " close=")">SLKP_GUID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.guid_notIn != null">AND (SLKP_GUID IS NULL OR <foreach item="ii" collection="filter.guid_notIn" open="(" separator=" AND " close=")">SLKP_GUID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach>)</if>
+				<if test="filter.zzProcessStatus_eq != null">AND SLKP_PROCESS_STATUS = #{filter.zzProcessStatus_eq}</if>
+				<if test="filter.zzDisplayPath_eq != null">AND SLKP_DISPLAY_PATH = #{filter.zzDisplayPath_eq}</if>
+				<if test="filter.zzDisplayPath_like != null">AND SLKP_DISPLAY_PATH LIKE #{filter.zzDisplayPath_like}</if>
+				<if test="filter.zzCode_eq != null">AND SLKP_CODE = #{filter.zzCode_eq}</if>
+				<if test="filter.zzCode_like != null">AND SLKP_CODE LIKE #{filter.zzCode_like}</if>
+				<if test="filter.zzLevel_eq != null">AND SLKP_LEVEL = #{filter.zzLevel_eq}</if>
+				<if test="filter.zzLevel_lte != null">AND SLKP_LEVEL &lt;= #{filter.zzLevel_lte}</if>
+				<if test="filter.zzLevel_gte != null">AND SLKP_LEVEL &gt;= #{filter.zzLevel_gte}</if>
+				<if test="filter.zzIsLeaf_eq != null">AND SLKP_IS_LEAF = #{filter.zzIsLeaf_eq}</if>
+				<if test="filter.zzLevel1Id_eq != null">AND SLKP_LEVEL1_ID = #{filter.zzLevel1Id_eq}</if>
+				<if test="filter.zzLevel1Id_in != null">AND <foreach item="ii" collection="filter.zzLevel1Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL1_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzLevel2Id_eq != null">AND SLKP_LEVEL2_ID = #{filter.zzLevel2Id_eq}</if>
+				<if test="filter.zzLevel2Id_in != null">AND <foreach item="ii" collection="filter.zzLevel2Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL2_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzLevel3Id_eq != null">AND SLKP_LEVEL3_ID = #{filter.zzLevel3Id_eq}</if>
+				<if test="filter.zzLevel3Id_in != null">AND <foreach item="ii" collection="filter.zzLevel3Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL3_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzLevel4Id_eq != null">AND SLKP_LEVEL4_ID = #{filter.zzLevel4Id_eq}</if>
+				<if test="filter.zzLevel4Id_in != null">AND <foreach item="ii" collection="filter.zzLevel4Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL4_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzLevel5Id_eq != null">AND SLKP_LEVEL5_ID = #{filter.zzLevel5Id_eq}</if>
+				<if test="filter.zzLevel5Id_in != null">AND <foreach item="ii" collection="filter.zzLevel5Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL5_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzLevel6Id_eq != null">AND SLKP_LEVEL6_ID = #{filter.zzLevel6Id_eq}</if>
+				<if test="filter.zzLevel6Id_in != null">AND <foreach item="ii" collection="filter.zzLevel6Id_in" open="(" separator=" OR " close=")">SLKP_LEVEL6_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.zzParentIds_eq != null">AND (SLKP_LEVEL1_ID = #{filter.zzParentIds_eq} OR SLKP_LEVEL2_ID = #{filter.zzParentIds_eq} OR SLKP_LEVEL3_ID = #{filter.zzParentIds_eq} OR SLKP_LEVEL4_ID = #{filter.zzParentIds_eq} OR SLKP_LEVEL5_ID = #{filter.zzParentIds_eq} OR SLKP_LEVEL6_ID = #{filter.zzParentIds_eq})</if>
+				<if test="filter._treeFilters_eq != null">
+					<if test="filter._treeFilters_eq.excludeIds != null">AND (
+						<trim prefixOverrides="AND |OR ">
+							<foreach item="ii" collection="filter._treeFilters_eq.excludeIds" separator=" AND ">
+									SLKP_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>
+									AND (SLKP_LEVEL &lt; 2 OR SLKP_LEVEL1_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+									AND (SLKP_LEVEL &lt; 3 OR SLKP_LEVEL2_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+									AND (SLKP_LEVEL &lt; 4 OR SLKP_LEVEL3_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+									AND (SLKP_LEVEL &lt; 5 OR SLKP_LEVEL4_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+									AND (SLKP_LEVEL &lt; 6 OR SLKP_LEVEL5_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+									AND (SLKP_LEVEL &lt; 7 OR SLKP_LEVEL6_ID NOT IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach>)
+							</foreach>
+						</trim>)
+					</if>
+					<if test="filter._treeFilters_eq.filters != null">AND (
+						<foreach collection="filter._treeFilters_eq.filters" item="treeFilter" separator=" AND ">
+							(<trim prefixOverrides="AND |OR ">
+								<if test="treeFilter.ids != null">OR <foreach item="ii" collection="treeFilter.ids" separator=" OR ">SLKP_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="treeFilter.parentIds != null">OR <foreach item="ii" collection="treeFilter.parentIds" separator=" OR ">SLKP_PARENT_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="treeFilter.hasRootParent != null">OR SLKP_PARENT_ID IS NULL</if>
+								<if test="treeFilter.levelIds != null">OR (
+									<foreach collection="treeFilter.levelIds" index="key" item="val" separator=" OR ">
+										<choose>
+											<when test="key == 'zzLevel1Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL1_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+											<when test="key == 'zzLevel2Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL2_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+											<when test="key == 'zzLevel3Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL3_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+											<when test="key == 'zzLevel4Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL4_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+											<when test="key == 'zzLevel5Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL5_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+											<when test="key == 'zzLevel6Id'"><foreach item="ii" collection="val" separator=" OR ">SLKP_LEVEL6_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+										</choose>
+									</foreach>)
+								</if>
+								<if test="treeFilter.rootLevelId != null and treeFilter.rootLevel >= 1">OR (
+									(<choose>
+										<when test="treeFilter.rootLevelId == 'zzLevel1Id'">
+											<choose>
+												<when test="treeFilter.rootIds == null">SLKP_LEVEL1_ID IS NULL OR SLKP_LEVEL1_ID IN (SELECT SLKP_ID FROM <include refid="table" /> WHERE SLKP_PARENT_ID IS NULL)</when>
+												<otherwise><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL1_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></otherwise>
+											</choose>
+										</when>
+										<when test="treeFilter.rootLevelId == 'zzLevel2Id'"><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL2_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+										<when test="treeFilter.rootLevelId == 'zzLevel3Id'"><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL3_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+										<when test="treeFilter.rootLevelId == 'zzLevel4Id'"><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL4_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+										<when test="treeFilter.rootLevelId == 'zzLevel5Id'"><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL5_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+										<when test="treeFilter.rootLevelId == 'zzLevel6Id'"><foreach item="ii" collection="treeFilter.rootIds" separator=" OR ">SLKP_LEVEL6_ID IN <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></when>
+									</choose>)
+									AND SLKP_LEVEL &lt;= #{treeFilter.rootLevel}
+									)
+								</if>
+							</trim>)
+						</foreach>)
+					</if>
+				</if>
+				<if test="filter._definitionCode_eq != null">AND SLKPDF_ID IN (SELECT SLKPDF_ID FROM <include refid="com.bamboocloud.im.entity.Lookup.table" /> WHERE CODE = #{filter._definitionCode_eq})</if>
+				<if test="filter.WHERE_SQL_custom != null">AND (${filter.WHERE_SQL_custom})</if>
+			</if>
+		</trim>
+	</sql>
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER BY SLKP_SEQUENCE ASC, SLKP_VALUE ASC, SLKP_CODE ASC, SLKP_CREATE_AT ASC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					<if test="key == 'id'">SLKP_ID ${val},</if>
+					<if test="key == 'parentId'">SLKP_PARENT_ID ${val},</if>
+					<if test="key == 'code'">SLKP_CODE ${val},</if>
+					<if test="key == 'value'">SLKP_VALUE ${val},</if>
+					<if test="key == 'tag'">SLKP_TAG ${val},</if>
+					<if test="key == 'sequence'">SLKP_SEQUENCE ${val},</if>
+					<if test="key == 'isSystem'">SLKP_IS_SYSTEM ${val},</if>
+					<if test="key == 'isEncrypted'">SLKP_IS_ENCRYPTED ${val},</if>
+					<if test="key == 'isDisabled'">SLKP_IS_DISABLED ${val},</if>
+					<if test="key == 'isReconciled'">SLKP_IS_RECONCILED ${val},</if>
+					<if test="key == 'provisionStatus'">SLKP_PROVISION_STATUS ${val},</if>
+					<if test="key == 'provisionAt'">SLKP_PROVISION_AT ${val},</if>
+					<if test="key == 'reconcileAt'">SLKP_RECONCILE_AT ${val},</if>
+					<if test="key == 'createAt'">SLKP_CREATE_AT ${val},</if>
+					<if test="key == 'updateAt'">SLKP_UPDATE_AT ${val},</if>
+					<if test="key == 'guid'">SLKP_GUID ${val},</if>
+					<if test="key == 'zzProcessStatus'">SLKP_PROCESS_STATUS ${val},</if>
+					<if test="key == 'zzDisplayPath'">SLKP_DISPLAY_PATH ${val},</if>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="parentId == ''">null</when><otherwise>#{parentId}</otherwise></choose>, 
+				<choose><when test="definitionId == ''">null</when><otherwise>#{definitionId}</otherwise></choose>, 
+				<choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>, 
+				<choose><when test="value == ''">null</when><otherwise>#{value}</otherwise></choose>, 
+				<choose><when test="additional == ''">null</when><otherwise>#{additional}</otherwise></choose>, 
+				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
+				<choose><when test="tag == ''">null</when><otherwise>#{tag}</otherwise></choose>, 
+				#{sequence}, #{isSystem}, #{isEncrypted}, #{isDisabled}, #{isReconciled}, 
+				#{provisionStatus}, 
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{provisionAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{reconcileAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{createAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{createAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{createAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="_databaseId == 'oracle'">
+						TO_TIMESTAMP(#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler}, 'yyyy-mm-dd hh24:mi:ss.ff'),
+					</when>
+					<when test="_databaseId == 'mysql'">
+						STR_TO_DATE(#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlDatetimeTypeHandler}, '%Y-%m-%d %H:%i:%s'),
+					</when>
+					<otherwise>
+						#{updateAt,typeHandler=com.bamboocloud.fw.mybatis.type.SqlTimestampTypeHandler},
+					</otherwise>
+				</choose>
+				<choose><when test="createBy == ''">null</when><otherwise>#{createBy}</otherwise></choose>, 
+				<choose><when test="updateBy == ''">null</when><otherwise>#{updateBy}</otherwise></choose>,
+				<choose><when test="guid == ''">null</when><otherwise>#{guid}</otherwise></choose>,
+				#{zzProcessStatus},
+				<choose><when test="zzDisplayPath == ''">null</when><otherwise>#{zzDisplayPath}</otherwise></choose>,
+				#{zzLevel},
+				#{zzIsLeaf},
+				<choose><when test="zzLevel1Id == ''">null</when><otherwise>#{zzLevel1Id}</otherwise></choose>,
+				<choose><when test="zzLevel2Id == ''">null</when><otherwise>#{zzLevel2Id}</otherwise></choose>,
+				<choose><when test="zzLevel3Id == ''">null</when><otherwise>#{zzLevel3Id}</otherwise></choose>,
+				<choose><when test="zzLevel4Id == ''">null</when><otherwise>#{zzLevel4Id}</otherwise></choose>,
+				<choose><when test="zzLevel5Id == ''">null</when><otherwise>#{zzLevel5Id}</otherwise></choose>,
+				<choose><when test="zzLevel6Id == ''">null</when><otherwise>#{zzLevel6Id}</otherwise></choose>,
+			</trim>
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE <include refid="table" /> SET <include refid="set" /> WHERE SLKP_ID = #{id}
+		<if test="@Ognl@isMap(_parameter)">
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</if>
+	</update>
+
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE SLKP_ID = #{id}
+	</delete>
+	
+	<select id="unique" resultType="long">
+		SELECT count(SLKP_ID) FROM <include refid="table" />
+		INNER JOIN (
+			SELECT SLKP_ID AS ID__ FROM <include refid="table" />
+		 	<where>1=2
+				<if test="code != null and code != ''">OR lower(SLKP_CODE) = lower(#{code})</if>
+				<if test="value != null and value != ''">OR SLKP_VALUE = #{value}</if>
+			</where>
+			) T on SLKP_ID = T.ID__ 
+		<where>
+			<if test="id != null and id != ''">AND SLKP_ID != #{id}</if>
+			<if test="definitionId != null and definitionId != ''">AND SLKPDF_ID = #{definitionId}</if>
+		</where>
+	</select>
+
+	<select id="findId" resultType="string">
+		SELECT SLKP_ID FROM <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+
+	<select id="findBy" resultMap="resultMap">
+		SELECT <include refid="columns" />FROM <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<select id="countBy" resultType="long">
+		SELECT count(SLKP_ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+
+	<update id="updateBy">
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter" />
+	</update>
+
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+</mapper>
+

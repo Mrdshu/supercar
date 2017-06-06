@@ -11,7 +11,7 @@ import lombok.ToString;
  * @author wangsz 2017-06-01
  */
 @Setter @Getter @ToString
-public class Client extends BaseEntity{
+public class Client extends BaseDateEntity{
 	/**客户姓名*/
 	private String name;
 	/**客户性别（true为男，false为女）*/
