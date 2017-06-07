@@ -13,7 +13,6 @@ import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
-import com.xw.supercar.service.ClientTypeService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
@@ -224,7 +223,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService> attributeService) {
 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
-		Object type = SpringContextHolder.getBean(ClientTypeService.class).searchById(attributeId);
+		Object type = SpringContextHolder.getBean(BaseService.class).searchById(attributeId);
 		
 		object.getDate().put("type", type);
 	}

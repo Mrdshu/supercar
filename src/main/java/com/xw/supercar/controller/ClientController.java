@@ -11,7 +11,7 @@ import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.ClientService;
-import com.xw.supercar.service.ClientTypeService;
+import com.xw.supercar.service.LookupService;
 
 @Controller
 @RequestMapping("/client")
@@ -30,13 +30,13 @@ public class ClientController extends BaseController<Client>{
 		//将type对应的实体放入data
 		if(data.containsKey("entity")){
 			Client client = (Client) data.get("entity");
-			addAttributeToData(client,Client.DP.type.name(),ClientTypeService.class);
+			addAttributeToData(client,Client.DP.type.name(),LookupService.class);
 		}
 		else if(data.containsKey("entitys")){
 			@SuppressWarnings("unchecked")
 			List<Client> clients = (List<Client>) data.get("entitys");
 			for (Client client : clients) {
-				addAttributeToData(client,Client.DP.type.name(),ClientTypeService.class);
+				addAttributeToData(client,Client.DP.type.name(),LookupService.class);
 			}
 		}
 	}

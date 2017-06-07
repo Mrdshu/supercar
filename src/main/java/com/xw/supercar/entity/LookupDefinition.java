@@ -22,4 +22,8 @@ public class LookupDefinition extends BaseEntity{
 	private Date createTime;
 	/**更新时间*/
 	private Date updateTime;
+	
+	public static enum DP{
+		id,code,name,description,createTime,updateTime
+	}
 }

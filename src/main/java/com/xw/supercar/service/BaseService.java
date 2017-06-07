@@ -186,6 +186,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public List<E> searchBy(Searchable searchable,boolean useDefaultFilters){
+		//TODO --过滤条件为空时，会把所有数据查出来。此处要做控制，超过500条时只返回前500条数据
 		List<E> entitys = baseDao.selectBy(searchable, useDefaultFilters);
 		afterSearch(entitys);
 		
