@@ -16,7 +16,7 @@
 		<result property="isDeleted" column="ISDELETED" />
 	</resultMap>
 
-	<sql id="table">U_CLIENT</sql>
+	<sql id="table">TB_CLIENT</sql>
 	<sql id="columns">ID,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_MOBILE,C_ADDRESS,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 
 	<!-- 新增 -->
@@ -136,6 +136,16 @@
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+				
+				<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{filter.createTime_gte}</if>
+				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{filter.createTime_lte}</if>
+				<if test="filter.createTime_gt != null">AND CREATE_TIME &gt;= #{filter.createTime_gt}</if>
+				<if test="filter.createTime_lt != null">AND CREATE_TIME &lt;= #{filter.createTime_lt}</if>
+				
+				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gte}</if>
+				<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lte}</if>
+				<if test="filter.updateTime_gt != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gt}</if>
+				<if test="filter.updateTime_lt != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lt}</if>
 			</if>
 		</trim>
 	</sql>

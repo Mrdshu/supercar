@@ -8,7 +8,7 @@
 		<result property="carId" column="CAR_ID" />
 	</resultMap>
 
-	<sql id="table">U_CLIENT_CAR</sql>
+	<sql id="table">TB_CLIENT_CAR</sql>
 	<sql id="columns">ID,CLIENT_ID,CAR_ID</sql>
 
 	<!-- 新增 -->

@@ -1,13 +1,18 @@
 package com.xw.supercar.dao;
 
+import static com.xw.supercar.constant.DaoConstant.DEFAULT_PAGE_NUMBER;
+import static com.xw.supercar.constant.DaoConstant.DEFAULT_PAGE_SIZE;
 import static com.xw.supercar.constant.DaoConstant.NAME_ID;
 import static com.xw.supercar.constant.DaoConstant.NAME_IS_DELETED;
+import static com.xw.supercar.constant.DaoConstant.STMT_COUNT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_DELETE;
-import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
+import static com.xw.supercar.constant.DaoConstant.STMT_DELETE_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_INSERT;
+import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE;
+import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE_BY;
 import static com.xw.supercar.constant.DaoConstant.whereSqlCustomKey;
-import static com.xw.supercar.constant.DaoConstant.*;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,7 +34,6 @@ import org.springframework.util.StringUtils;
 import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.page.PageImpl;
-import com.xw.supercar.sql.page.Pageable;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.sql.search.SearchableConvertUtils;
 import com.xw.supercar.util.ReflectUtil;

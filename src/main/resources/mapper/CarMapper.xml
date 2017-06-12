@@ -17,7 +17,7 @@
 		<result property="isDeleted" column="ISDELETED" />
 	</resultMap>
 
-	<sql id="table">U_CAR</sql>
+	<sql id="table">TB_CAR</sql>
 	<sql id="columns">ID,CAR_NO,CAR_MODEL,CAR_CHASSIS,CAR_COLOR,CAR_ENGINE,
 	CAR_INSURER,CAR_INSURANCE_ENDTIME,CAR_REGISTRATION_TIME,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 

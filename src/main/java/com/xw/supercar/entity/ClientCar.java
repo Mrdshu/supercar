@@ -16,7 +16,6 @@ public class ClientCar extends BaseEntity{
 	private String carId;
 	
 	public static enum DP{
-		id,carNo,carModel,carVIN,carColor,engineNo,insurer,insuranceEndtime,registrationDate
-		,createTime,updateTime,isDeleted
+		id,clientId,carId
 	}
 }

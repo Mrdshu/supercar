@@ -34,4 +34,12 @@
 	<!--设置默认的注解mapping和注解adapter-->
 	<mvc:annotation-driven/> 
 	
+	<!--自定义参数注入-->
+	<mvc:annotation-driven>
+        <mvc:argument-resolvers>
+        	<bean class="com.xw.supercar.spring.resolver.PageableMethodArgumentResolver" />
+            <bean class="com.xw.supercar.spring.resolver.SearchableMethodArgumentResolver" />
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+	
 </beans>

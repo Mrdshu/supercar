@@ -3,14 +3,23 @@
 
 <mapper namespace="com.xw.supercar.entity.User">
 	<resultMap id="resultMap" type="com.xw.supercar.entity.User">
-		<result property="id" column="U_ID" />
+		<result property="id" column="ID" />
 		<result property="username" column="U_USERNAME" />
+		<result property="fullname" column="U_FULLNAME" />
 		<result property="password" column="U_PASSWORD" />
-		<result property="isDeleted" column="isDeleted" />
+		<result property="email" column="U_EMAIL" />
+		<result property="mobile" column="U_MOBILE" />
+		<result property="role" column="U_ROLE" />
+		<result property="company" column="U_COMPANY" />
+		<result property="description" column="U_DESCRIPTION" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="isDisable" column="ISDISABLE" />
+		<result property="isDeleted" column="ISDELETED" />
 	</resultMap>
 
-	<sql id="table">USER</sql>
-	<sql id="columns">U_ID,U_USERNAME,U_PASSWORD,isDeleted</sql>
+	<sql id="table">TB_USER</sql>
+	<sql id="columns">ID,U_USERNAME,U_FULLNAME,U_PASSWORD,U_EMAIL,U_MOBILE,U_ROLE,U_COMPANY,U_DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDISABLE,ISDELETED</sql>
 
 	<!-- 新增 -->
 	<insert id="insert">
@@ -20,15 +29,24 @@
 			<trim suffixOverrides=",">
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="username == ''">null</when><otherwise>#{username}</otherwise></choose>, 
+				<choose><when test="fullname == ''">null</when><otherwise>#{fullname}</otherwise></choose>, 
 				<choose><when test="password == ''">null</when><otherwise>#{password}</otherwise></choose>, 
-				false, 
+				<choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>, 
+				<choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>, 
+				<choose><when test="role == ''">null</when><otherwise>#{role}</otherwise></choose>, 
+				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
+				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
+				<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+				<choose><when test="updateTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+				<choose><when test="isDisable == ''">null</when><otherwise>#{isDisable}</otherwise></choose>, 
+				<choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>, 
 			</trim>
 		)
 	</insert>
 	<!-- 修改 -->
 	<update id="update" >
 		UPDATE <include refid="table" /> SET <include refid="set" />
-		WHERE U_ID = #{id}
+		WHERE ID = #{id}
 	</update>
 	<!-- 批量修改 -->
 	<update id="updateBy" >
@@ -38,7 +56,7 @@
 	<!-- 删除 -->
 	<delete id="delete">
 		DELETE FROM <include refid="table" /> 
-		WHERE U_ID = #{id}
+		WHERE ID = #{id}
 	</delete>
 	<!-- 条件搜索删除 -->
 	<delete id="deleteBy">
@@ -52,40 +70,93 @@
 	</select>
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
-		SELECT count(U_ID) FROM <include refid="table" />
+		SELECT count(ID) FROM <include refid="table" />
 		<include refid="where" />
 	</select>
 	
-	
+	<!-- ID,U_USERNAME,U_FULLNAME,U_PASSWORD,U_EMAIL,U_MOBILE,U_ROLE,U_COMPANY,U_DESCRIPTION,ISDISABLE,ISDELETED -->
 	<!-- 修改时用的的set语句 -->
 	<sql id="set">
 		<trim suffixOverrides=",">
 			<if test="username != null">U_USERNAME = <choose><when test="username == ''">null</when><otherwise>#{username}</otherwise></choose>,</if>
+			<if test="fullname != null">U_FULLNAME = <choose><when test="fullname == ''">null</when><otherwise>#{fullname}</otherwise></choose>,</if>
 			<if test="password != null">U_PASSWORD = <choose><when test="password == ''">null</when><otherwise>#{password}</otherwise></choose>,</if>
-			<if test="isDeleted != null">isDeleted = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+			<if test="email != null">U_EMAIL = <choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>,</if>
+			<if test="mobile != null">U_MOBILE = <choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>,</if>
+			<if test="role != null">U_ROLE = <choose><when test="role == ''">null</when><otherwise>#{role}</otherwise></choose>,</if>
+			<if test="company != null">U_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
+			<if test="description != null">U_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
+			<if test="createTime != null">CREATE_TIME = <choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>,</if>
+			<if test="updateTime != null">UPDATE_TIME = <choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+			<if test="isDisable != null">ISDISABLE = <choose><when test="isDisable == ''">null</when><otherwise>#{isDisable}</otherwise></choose>,</if>
 		</trim>
 	</sql>
 	<!-- where语句（对应entity中的属性）-->
 	<sql id="whereEntity">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="id != null">AND U_ID = #{id}</if>
+			<if test="id != null">AND ID = #{id}</if>
 			<if test="username != null">AND U_USERNAME = #{username}</if>
-			<if test="password != null">AND U_PASSWORD = #{password}</if>
+			<if test="fullname != null">AND U_FULLNAME = #{fullname}</if>
+			<if test="email != null">AND U_EMAIL = #{email}</if>
+			<if test="mobile != null">AND U_MOBILE = #{mobile}</if>
+			<if test="role != null">AND U_ROLE = #{role}</if>
+			<if test="company != null">AND U_COMPANY = #{company}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+			<if test="isDisable != null">AND ISDISABLE = #{isDisable}</if>
 		</trim>
 	</sql>
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="filter != null">
-				<if test="filter.id_eq != null">AND U_ID = #{filter.id_eq}</if>
-				<if test="filter.id_ne != null">AND U_ID != #{filter.id_ne}</if>
-				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">U_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">U_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
 				<if test="filter.username_eq != null">AND U_USERNAME = #{filter.username_eq}</if>
 				<if test="filter.username_like != null">AND lower(U_USERNAME) LIKE lower(#{filter.username_like})</if>
 				<if test="filter.username_in != null">AND <foreach item="ii" collection="filter.username_in" open="(" separator=" OR " close=")">U_USERNAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				<if test="filter.username_notIn != null">AND <foreach item="ii" collection="filter.username_notIn" open="(" separator=" AND " close=")">U_USERNAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.fullname_eq != null">AND U_FULLNAME = #{filter.fullname_eq}</if>
+				<if test="filter.fullname_like != null">AND lower(U_FULLNAME) LIKE lower(#{filter.fullname_like})</if>
+				<if test="filter.fullname_in != null">AND <foreach item="ii" collection="filter.fullname_in" open="(" separator=" OR " close=")">U_FULLNAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.fullname_notIn != null">AND <foreach item="ii" collection="filter.fullname_notIn" open="(" separator=" AND " close=")">U_FULLNAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
+				<if test="filter.role_eq != null">AND U_ROLE = #{filter.role_eq}</if>
+				<if test="filter.role_like != null">AND lower(U_ROLE) LIKE lower(#{filter.role_like})</if>
+				<if test="filter.role_in != null">AND <foreach item="ii" collection="filter.role_in" open="(" separator=" OR " close=")">U_ROLE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.role_notIn != null">AND <foreach item="ii" collection="filter.role_notIn" open="(" separator=" AND " close=")">U_ROLE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
+				<if test="filter.company_eq != null">AND U_COMPANY = #{filter.company_eq}</if>
+				<if test="filter.company_like != null">AND lower(U_COMPANY) LIKE lower(#{filter.company_like})</if>
+				<if test="filter.company_in != null">AND <foreach item="ii" collection="filter.company_in" open="(" separator=" OR " close=")">U_COMPANY in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.company_notIn != null">AND <foreach item="ii" collection="filter.company_notIn" open="(" separator=" AND " close=")">U_COMPANY not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
+				<if test="filter.mobile_eq != null">AND U_MOBILE = #{filter.mobile_eq}</if>
+				<if test="filter.mobile_like != null">AND lower(U_MOBILE) LIKE lower(#{filter.mobile_like})</if>
+				
+				<if test="filter.email_eq != null">AND U_EMAIL = #{filter.email_eq}</if>
+				<if test="filter.email_like != null">AND lower(U_EMAIL) LIKE lower(#{filter.email_like})</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+				
+				<if test="filter.isDisable_eq != null">AND ISDISABLE = #{filter.isDisable_eq}</if>
+				<if test="filter.isDisable_ne != null">AND ISDISABLE != #{filter.isDisable_ne}</if>
+				
+				<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{filter.createTime_gte}</if>
+				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{filter.createTime_lte}</if>
+				<if test="filter.createTime_gt != null">AND CREATE_TIME &gt;= #{filter.createTime_gt}</if>
+				<if test="filter.createTime_lt != null">AND CREATE_TIME &lt;= #{filter.createTime_lt}</if>
+				
+				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gte}</if>
+				<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lte}</if>
+				<if test="filter.updateTime_gt != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gt}</if>
+				<if test="filter.updateTime_lt != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lt}</if>
+				
 			</if>
 		</trim>
 	</sql>
@@ -105,13 +176,11 @@
 	<!-- sort排序语句-->
 	<sql id="sort">
 		<if test="sort == null" >
-			ORDER BY U_USERNAME ASC
+			ORDER BY CREATE_TIME DESC
 		</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">
-				<foreach collection="sort" index="key" item="val">
-					<if test="key == 'username'">U_USERNAME ${val},</if>
-				</foreach>
+				
 			</trim>
 		</if>
 	</sql>
