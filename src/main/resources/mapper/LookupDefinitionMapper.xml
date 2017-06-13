@@ -19,8 +19,8 @@
 			<if test="code != null">LKD_CODE = #{code},</if>
 			<if test="name != null">LKD_NAME = #{name},</if>
 			<if test="description != null">LKD_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
-			<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
-			<choose><when test="updateTime == null">null</when><otherwise>#{updateTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
+			<if test="createTime != null">CREATE_TIME = <choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>,</if>
+			<if test="updateTime != null">UPDATE_TIME = <choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>,</if>
 		</trim>
 	</sql>
 	<sql id="whereEntity">

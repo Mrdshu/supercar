@@ -1,14 +1,17 @@
 package com.xw.supercar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
+import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.dao.BaseDao;
 import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.sql.page.Page;
+import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 
 /**
@@ -114,6 +117,28 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	}
 	
 	/**
+	 * 批量删除
+	 * @author  wangsz 2017-06-13
+	 */
+	public long removeBy(List<E> entitys){
+		long rs = 0;
+		
+		List<String> ids = new ArrayList<>();
+		for (E e : entitys) {
+			String id = e.getId();
+			if(!StringUtils.isEmpty(id))
+				ids.add(id);
+		}
+		
+		if (ids.size() > 0) {
+			Searchable searchable = Searchable.newSearchable().addSearchFilter(DaoConstant.NAME_ID, SearchOperator.in, ids);
+			rs = getDao().deleteBy(searchable);
+		}
+		
+		return rs;
+	}
+	
+	/**
 	 * 根据id软删除
 	 * @author  wangsz 2017-05-14
 	 */
@@ -128,6 +153,22 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		
 		return rs;
 	}
+	
+	/**
+	 * 根据id集合，批量删除
+	 * @author  wangsz 2017-06-13
+	 */
+	public long removeByIds(List<String> ids){
+		long rs = 0;
+		
+		if (ids != null && ids.size() > 0) {
+			Searchable searchable = Searchable.newSearchable().addSearchFilter(DaoConstant.NAME_ID, SearchOperator.in, ids);
+			rs = getDao().deleteBy(searchable);
+		}
+		
+		return rs;
+	}
+	
 	/**
 	 * 根据实体类硬删除，该实体类id不能为空
 	 * @author  wangsz 2017-05-14

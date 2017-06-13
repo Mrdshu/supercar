@@ -77,8 +77,9 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/page",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult page(String pageNo, String pageSize){
-		Searchable searchable = Searchable.newSearchable()
+	public ResponseResult page(Searchable searchable, String pageNo, String pageSize){
+		if(searchable == null)
+		searchable = Searchable.newSearchable()
 				.addPage(pageNo, pageSize);
 		Page<E> page = getSevice().searchPage(searchable, true);
 		//生成返回实体类
@@ -180,6 +181,26 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 		Boolean rs = getSevice().removeById(id);
 		
 		if(!rs)
+			return ResponseResult.generateErrorResponse("", "删除失败");
+		
+		ResponseResult result = ResponseResult.generateResponse();
+		result.setErrorMsg("删除成功！");
+		
+		return result;
+	}
+	
+	/**
+	 * 根据id集合批量删除
+	 * @param id
+	 * @return
+	 * @author  wangsz 2017-06-04
+	 */
+	@RequestMapping(value = "/removeByIds",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult removeByIds(List<String> ids){
+		long rs = getSevice().removeByIds(ids);
+		
+		if(rs != ids.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");
 		
 		ResponseResult result = ResponseResult.generateResponse();
