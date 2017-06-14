@@ -9,11 +9,11 @@
 		<result property="description" column="LKD_DESCRIPTION" />
 		<result property="createTime" column="CREATE_TIME" />
 		<result property="updateTime" column="UPDATE_TIME" />
-
+		<result property="isDeleted" column="ISDELETED" />
 	</resultMap>
 
 	<sql id="table">TB_LOOKUP_DF</sql>
-	<sql id="columns">ID,LKD_CODE,LKD_NAME,LKD_DESCRIPTION,CREATE_TIME,UPDATE_TIME</sql>
+	<sql id="columns">ID,LKD_CODE,LKD_NAME,LKD_DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 	<sql id="set">
 		<trim suffixOverrides=",">
 			<if test="code != null">LKD_CODE = #{code},</if>
@@ -21,6 +21,7 @@
 			<if test="description != null">LKD_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
 			<if test="createTime != null">CREATE_TIME = <choose><when test="createTime == ''">null</when><otherwise>#{createTime}</otherwise></choose>,</if>
 			<if test="updateTime != null">UPDATE_TIME = <choose><when test="updateTime == ''">null</when><otherwise>#{updateTime}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
 	</sql>
 	<sql id="whereEntity">
@@ -28,6 +29,7 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="code != null">AND LKD_CODE = #{code}</if>
 			<if test="name != null">AND LKD_NAME = #{name}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
 	</sql>
 	<sql id="whereFilter">
@@ -44,6 +46,8 @@
 				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{createTime,jdbcType=TIMESTAMP}</if>
 				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{updateTime,jdbcType=TIMESTAMP}</if>
 				<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{updateTime,jdbcType=TIMESTAMP}</if>
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
 			</if>
 		</trim>
 	</sql>
@@ -69,6 +73,7 @@
 				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
 				<choose><when test="createTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>, 
 				<choose><when test="updateTime == null">null</when><otherwise>#{createTime,jdbcType=TIMESTAMP}</otherwise></choose>,
+				<choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>, 
 			</trim>
 		)
 	</insert>
@@ -104,7 +109,7 @@
 	
 	<sql id="sort">
 		<if test="sort == null" >
-			ORDER  BY LKD_CODE DESC
+			ORDER  BY CREATE_TIME DESC
 		</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">

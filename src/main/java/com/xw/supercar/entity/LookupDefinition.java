@@ -22,8 +22,10 @@ public class LookupDefinition extends BaseEntity{
 	private Date createTime;
 	/**更新时间*/
 	private Date updateTime;
+	/**软删除标志*/
+	private Boolean isDeleted;
 	
 	public static enum DP{
-		id,code,name,description,createTime,updateTime
+		id,code,name,description,createTime,updateTime,isDeleted
 	}
 }

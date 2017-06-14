@@ -1,14 +1,20 @@
 package com.xw.supercar.controller;
 
+import java.util.Arrays;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.entity.ResponseResult;
@@ -77,10 +83,10 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/page",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult page(Searchable searchable, String pageNo, String pageSize){
+	public ResponseResult page(Searchable searchable){
 		if(searchable == null)
-		searchable = Searchable.newSearchable()
-				.addPage(pageNo, pageSize);
+			searchable = Searchable.newSearchable()
+				.addPage(DaoConstant.DEFAULT_PAGE_NUMBER, DaoConstant.DEFAULT_PAGE_SIZE);
 		Page<E> page = getSevice().searchPage(searchable, true);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
@@ -118,7 +124,8 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/getBy_id",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult getById(String id){
+	public ResponseResult getById(@NotNull String id){
+		
 		E entity = getSevice().searchById(id);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
@@ -135,7 +142,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
-	@RequestMapping(value = "/new",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/new",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult newEntity(E entity){
 		E afterInsertEntity = getSevice().add(entity);
@@ -170,6 +177,26 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	}
 	
 	/**
+	 * 批量删除
+	 * @param entity
+	 * @return
+	 * @author  wangsz 2017-06-04
+	 */
+	@RequestMapping(value = "/removes",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult removes(@RequestBody List<E> entitys){
+		long rs = getSevice().removeBy(entitys);
+		
+		if(rs != entitys.size())
+			return ResponseResult.generateErrorResponse("", "删除失败");
+		
+		ResponseResult result = ResponseResult.generateResponse();
+		result.setErrorMsg("删除成功！");
+		
+		return result;
+	}
+	
+	/**
 	 * 根据id删除
 	 * @param id
 	 * @return
@@ -195,12 +222,33 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
+//	@RequestMapping(value = "/removeByIds",produces={MediaType.APPLICATION_JSON_VALUE})
+//	@ResponseBody
+//	public ResponseResult removeByIds(@RequestBody List<String> ids){
+//		long rs = getSevice().removeByIds(ids);
+//		
+//		if(rs != ids.size())
+//			return ResponseResult.generateErrorResponse("", "删除失败");
+//		
+//		ResponseResult result = ResponseResult.generateResponse();
+//		result.setErrorMsg("删除成功！");
+//		
+//		return result;
+//	}
+	
+	/**
+	 * 根据id集合批量删除
+	 * @param id
+	 * @return
+	 * @author  wangsz 2017-06-04
+	 */
 	@RequestMapping(value = "/removeByIds",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult removeByIds(List<String> ids){
-		long rs = getSevice().removeByIds(ids);
+	public ResponseResult removeByIds(String[] ids){
+		List<String> idsList = Arrays.asList(ids);
+		long rs = getSevice().removeByIds(idsList);
 		
-		if(rs != ids.size())
+		if(rs != idsList.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");
 		
 		ResponseResult result = ResponseResult.generateResponse();
@@ -215,7 +263,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
-	@RequestMapping(value = "/edit",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/edit",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult edit(E entity){
 		E afterModifyEntity = getSevice().modify(entity);
