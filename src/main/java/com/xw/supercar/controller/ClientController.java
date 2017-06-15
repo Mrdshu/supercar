@@ -4,14 +4,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.entity.Car;
 import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
+import com.xw.supercar.service.CarService;
 import com.xw.supercar.service.ClientService;
 import com.xw.supercar.service.LookupService;
+import com.xw.supercar.spring.util.SpringContextHolder;
 
 @Controller
 @RequestMapping("/client")
@@ -39,6 +46,26 @@ public class ClientController extends BaseController<Client>{
 				addAttributeToData(client,Client.DP.type.name(),LookupService.class);
 			}
 		}
+	}
+	
+	/**
+	 * 新增客户以及绑定的车辆
+	 * @author  wangsz 2017-06-04
+	 */
+	@Transactional
+	@RequestMapping(value = "/newClientAndCar",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult newClientAndCar(Client client, Car car){
+		Client afterInsertEntity = getSevice().add(client);
+		Car afterInsertCar = SpringContextHolder.getBean(CarService.class).add(car);
+		
+		if(afterInsertEntity == null || afterInsertCar == null)
+			return ResponseResult.generateErrorResponse("", "新增失败");
+		
+		ResponseResult result = ResponseResult.generateResponse();
+		result.setErrorMsg("新增成功！");
+		
+		return result;
 	}
 	
 }

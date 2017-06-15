@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : test
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,118 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-09 17:22:07
+Date: 2017-06-15 18:00:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for tb_car
--- ----------------------------
-DROP TABLE IF EXISTS `tb_car`;
-CREATE TABLE `tb_car` (
-  `id` varchar(32) NOT NULL COMMENT 'id',
-  `car_no` varchar(32) NOT NULL COMMENT '车牌号',
-  `car_model` varchar(32) NOT NULL COMMENT '车型，外键',
-  `car_chassis` varchar(32) DEFAULT NULL COMMENT '底盘号',
-  `car_color` varchar(32) DEFAULT NULL COMMENT '车身颜色',
-  `car_engine` varchar(32) DEFAULT NULL COMMENT '发动机号',
-  `car_insurer` varchar(32) DEFAULT NULL COMMENT '保险公司',
-  `car_insurance_endtime` datetime DEFAULT NULL COMMENT '保险到期时间',
-  `car_registration_time` datetime DEFAULT NULL COMMENT '上牌日期',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
-  `isdeleted` tinyint(4) DEFAULT '1',
-  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `car_no` (`car_no`),
-  KEY `car_model_fk` (`car_model`),
-  CONSTRAINT `car_model_fk` FOREIGN KEY (`car_model`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_car
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_client
--- ----------------------------
-DROP TABLE IF EXISTS `tb_client`;
-CREATE TABLE `tb_client` (
-  `id` varchar(32) NOT NULL COMMENT 'id',
-  `c_name` varchar(20) NOT NULL COMMENT '客户姓名',
-  `c_sex` tinyint(4) DEFAULT NULL COMMENT '客户性别',
-  `c_idcard` varchar(32) DEFAULT NULL COMMENT '客户身份证',
-  `c_type` varchar(32) NOT NULL COMMENT '客户类别，外键',
-  `c_email` varchar(20) DEFAULT NULL COMMENT '邮箱',
-  `c_mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
-  `c_address` varchar(20) DEFAULT NULL COMMENT '地址',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
-  `isdeleted` tinyint(4) DEFAULT '0',
-  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `c_idcard` (`c_idcard`),
-  KEY `c_type` (`c_type`),
-  CONSTRAINT `c_type_fk` FOREIGN KEY (`c_type`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_client
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_client_car
--- ----------------------------
-DROP TABLE IF EXISTS `tb_client_car`;
-CREATE TABLE `tb_client_car` (
-  `id` varchar(32) NOT NULL COMMENT 'id',
-  `client_id` varchar(32) NOT NULL COMMENT '客户id，外键',
-  `c_car_id` varchar(32) NOT NULL COMMENT '车id，外键',
-  PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  KEY `c_car_id` (`c_car_id`),
-  CONSTRAINT `tb_client_car_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `tb_client` (`id`),
-  CONSTRAINT `tb_client_car_ibfk_2` FOREIGN KEY (`c_car_id`) REFERENCES `tb_car` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_client_car
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_company
--- ----------------------------
-DROP TABLE IF EXISTS `tb_company`;
-CREATE TABLE `tb_company` (
-  `id` varchar(32) NOT NULL COMMENT 'id',
-  `cp_name` varchar(20) NOT NULL COMMENT '公司名称',
-  `cp_code` tinyint(4) NOT NULL COMMENT '公司code',
-  `cp_brand` varchar(20) DEFAULT NULL COMMENT '公司品牌,外键',
-  `cp_type` varchar(20) DEFAULT NULL COMMENT '公司类别，外键',
-  `cp_mobile` varchar(20) NOT NULL COMMENT '售后热线',
-  `cp_carNo` varchar(20) DEFAULT NULL COMMENT '默认车牌',
-  `cp_email` varchar(20) DEFAULT NULL COMMENT '公司邮箱',
-  `cp_address` varchar(20) DEFAULT NULL COMMENT '公司地址',
-  `cp_description` varchar(20) DEFAULT NULL COMMENT '备注',
-  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cp_code` (`cp_code`),
-  KEY `tb_brand_fk` (`cp_brand`),
-  KEY `tb_type_fk` (`cp_type`),
-  CONSTRAINT `tb_brand_fk` FOREIGN KEY (`cp_brand`) REFERENCES `tb_lookup` (`id`),
-  CONSTRAINT `tb_type_fk` FOREIGN KEY (`cp_type`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_company
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_lookup
@@ -164,11 +56,12 @@ INSERT INTO `tb_lookup` VALUES ('5', '2', 'gold', '金牌用户', null, null, nu
 DROP TABLE IF EXISTS `tb_lookup_df`;
 CREATE TABLE `tb_lookup_df` (
   `id` varchar(32) NOT NULL COMMENT 'id',
-  `LKD_CODE` varchar(10) NOT NULL COMMENT '数据字典定义code',
+  `LKD_CODE` varchar(30) NOT NULL COMMENT '数据字典定义code',
   `LKD_NAME` varchar(20) NOT NULL COMMENT '数据字典定义名称',
   `LKD_DESCRIPTION` varchar(20) DEFAULT NULL COMMENT '数据字典定义描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`LKD_CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -176,36 +69,88 @@ CREATE TABLE `tb_lookup_df` (
 -- ----------------------------
 -- Records of tb_lookup_df
 -- ----------------------------
-INSERT INTO `tb_lookup_df` VALUES ('1', 'car_model', '车型', '车辆型号', null, null);
-INSERT INTO `tb_lookup_df` VALUES ('2', 'client_typ', '客户类别', '不同类别客户享受的优惠不一样', null, null);
+INSERT INTO `tb_lookup_df` VALUES ('1', 'car_model', '车型', '车辆型号', '2017-06-28 21:25:51', '2017-06-30 21:25:54', '0');
+INSERT INTO `tb_lookup_df` VALUES ('1E1E742EC1B0479FAEE73F05AAA7E3A6', 'qqq', 'qqq', '11', null, null, null);
+INSERT INTO `tb_lookup_df` VALUES ('2', 'client_type', '客户类别', '不同类别客户享受的优惠不一样', null, null, '0');
+INSERT INTO `tb_lookup_df` VALUES ('476F93E82B8E4CAAB1B31E63D0FEFBBD', 'ttt', 'ttt', null, null, null, null);
+INSERT INTO `tb_lookup_df` VALUES ('7BB9A24C1F914763957D3E56C0F2506F', 'test222', 'test2', '啊哎哎', null, null, '1');
+INSERT INTO `tb_lookup_df` VALUES ('7C7E4BFBFB0E4F90A7B001B7820B23FA', 'test11', 'test1', null, null, null, '1');
+INSERT INTO `tb_lookup_df` VALUES ('84A5CB08266E4F8FB4D2A34718F993A6', '33311', '222', null, null, null, '0');
 
 -- ----------------------------
--- Table structure for tb_user
+-- Table structure for u_car
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_user`;
-CREATE TABLE `tb_user` (
+DROP TABLE IF EXISTS `u_car`;
+CREATE TABLE `u_car` (
   `id` varchar(32) NOT NULL COMMENT 'id',
-  `u_username` varchar(20) NOT NULL COMMENT '用户名',
-  `u_fullname` tinyint(4) NOT NULL COMMENT '全名',
-  `u_password` varchar(32) DEFAULT NULL COMMENT '密码',
-  `u_email` varchar(20) DEFAULT NULL COMMENT '邮箱',
-  `u_mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
-  `u_role` varchar(20) NOT NULL COMMENT '角色，外键',
-  `u_company` varchar(20) NOT NULL COMMENT '分公司，外键',
-  `u_description` varchar(20) DEFAULT NULL COMMENT '备注',
+  `car_no` varchar(32) NOT NULL COMMENT '车牌号',
+  `car_model` varchar(32) NOT NULL COMMENT '车型，外键',
+  `car_chassis` varchar(32) DEFAULT NULL COMMENT '底盘号',
+  `car_color` varchar(32) DEFAULT NULL COMMENT '车身颜色',
+  `car_engine` varchar(32) DEFAULT NULL COMMENT '发动机号',
+  `car_insurer` varchar(32) DEFAULT NULL COMMENT '保险公司',
+  `car_insurance_endtime` datetime DEFAULT NULL COMMENT '保险到期时间',
+  `car_registration_time` datetime DEFAULT NULL COMMENT '上牌日期',
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新日期',
-  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
-  `isdisable` tinyint(4) DEFAULT '0' COMMENT '禁用标志',
+  `isdeleted` tinyint(4) DEFAULT '0',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `u_username` (`u_username`),
-  KEY `tb_role_fk` (`u_role`),
-  CONSTRAINT `tb_role_fk` FOREIGN KEY (`u_role`) REFERENCES `tb_lookup` (`id`)
+  UNIQUE KEY `car_no` (`car_no`),
+  KEY `car_model_fk` (`car_model`),
+  CONSTRAINT `car_model_fk` FOREIGN KEY (`car_model`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_user
+-- Records of u_car
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for u_client
+-- ----------------------------
+DROP TABLE IF EXISTS `u_client`;
+CREATE TABLE `u_client` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `c_name` varchar(20) NOT NULL COMMENT '客户姓名',
+  `c_sex` tinyint(4) DEFAULT NULL COMMENT '客户性别',
+  `c_idcard` varchar(32) DEFAULT NULL COMMENT '客户身份证',
+  `c_type` varchar(32) NOT NULL COMMENT '客户类别，外键',
+  `c_email` varchar(20) DEFAULT NULL COMMENT '邮箱',
+  `c_mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
+  `c_address` varchar(20) DEFAULT NULL COMMENT '地址',
+  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
+  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `isdeleted` tinyint(4) DEFAULT '0',
+  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `c_idcard` (`c_idcard`),
+  KEY `c_type` (`c_type`),
+  CONSTRAINT `c_type_fk` FOREIGN KEY (`c_type`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of u_client
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for u_client_car
+-- ----------------------------
+DROP TABLE IF EXISTS `u_client_car`;
+CREATE TABLE `u_client_car` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `client_id` varchar(32) NOT NULL COMMENT '客户id，外键',
+  `c_car_id` varchar(32) NOT NULL COMMENT '车id，外键',
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`),
+  KEY `c_car_id` (`c_car_id`),
+  CONSTRAINT `u_client_car_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `u_client` (`id`),
+  CONSTRAINT `u_client_car_ibfk_2` FOREIGN KEY (`c_car_id`) REFERENCES `u_car` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of u_client_car
 -- ----------------------------

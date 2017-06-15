@@ -138,8 +138,6 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 新增
-	 * @param entity
-	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/new",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
