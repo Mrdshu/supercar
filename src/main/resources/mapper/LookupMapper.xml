@@ -144,11 +144,6 @@
 
 	<update id="update">
 		UPDATE <include refid="table" /> SET <include refid="set" /> WHERE ID = #{id}
-		<if test="@Ognl@isMap(_parameter)">
-			<trim prefix="AND " prefixOverrides="WHERE ">
-				<include refid="whereFilter" />
-			</trim>
-		</if>
 	</update>
 
 	<delete id="delete">

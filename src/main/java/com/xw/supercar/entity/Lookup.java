@@ -19,16 +19,16 @@ public class Lookup extends BaseEntity{
 	private String code;
 	/**数据字典value*/
 	private String value;
-	/**数据字典描述*/
+	/**描述*/
 	private String description;
 	/**附加内容*/
 	private String additional;
 	/**父节点id*/
 	private String parentId;
 	/**节点层级*/
-	private String zzLevel;
+	private Integer zzLevel;
 	/**是否叶子节点*/
-	private String zzIsLeaf;
+	private Boolean zzIsLeaf;
 	/**一级父节点*/
 	private String zzLevel1Id;
 	/**二级父节点*/

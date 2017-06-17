@@ -288,11 +288,11 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @param attributeService
 	 * @author  wangsz 2017-06-04
 	 */
-	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService> attributeService) {
+	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
-		Object type = SpringContextHolder.getBean(BaseService.class).searchById(attributeId);
+		Object type = SpringContextHolder.getBean(attributeServiceClass).searchById(attributeId);
 		
-		object.getDate().put("type", type);
+		object.getDate().put(attributeName, type);
 	}
 	
 }

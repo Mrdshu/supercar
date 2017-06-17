@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : test
+Source Server         : localhost_conn
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-15 18:00:15
+Date: 2017-06-17 09:40:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,8 +59,8 @@ CREATE TABLE `tb_lookup_df` (
   `LKD_CODE` varchar(30) NOT NULL COMMENT '数据字典定义code',
   `LKD_NAME` varchar(20) NOT NULL COMMENT '数据字典定义名称',
   `LKD_DESCRIPTION` varchar(20) DEFAULT NULL COMMENT '数据字典定义描述',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`LKD_CODE`)
@@ -69,13 +69,14 @@ CREATE TABLE `tb_lookup_df` (
 -- ----------------------------
 -- Records of tb_lookup_df
 -- ----------------------------
-INSERT INTO `tb_lookup_df` VALUES ('1', 'car_model', '车型', '车辆型号', '2017-06-28 21:25:51', '2017-06-30 21:25:54', '0');
-INSERT INTO `tb_lookup_df` VALUES ('1E1E742EC1B0479FAEE73F05AAA7E3A6', 'qqq', 'qqq', '11', null, null, null);
-INSERT INTO `tb_lookup_df` VALUES ('2', 'client_type', '客户类别', '不同类别客户享受的优惠不一样', null, null, '0');
-INSERT INTO `tb_lookup_df` VALUES ('476F93E82B8E4CAAB1B31E63D0FEFBBD', 'ttt', 'ttt', null, null, null, null);
-INSERT INTO `tb_lookup_df` VALUES ('7BB9A24C1F914763957D3E56C0F2506F', 'test222', 'test2', '啊哎哎', null, null, '1');
-INSERT INTO `tb_lookup_df` VALUES ('7C7E4BFBFB0E4F90A7B001B7820B23FA', 'test11', 'test1', null, null, null, '1');
-INSERT INTO `tb_lookup_df` VALUES ('84A5CB08266E4F8FB4D2A34718F993A6', '33311', '222', null, null, null, '0');
+INSERT INTO `tb_lookup_df` VALUES ('1', 'car_model', '测试名称1', '车辆型号', '2017-06-28 21:25:51', '2017-06-17 09:28:02', '0');
+INSERT INTO `tb_lookup_df` VALUES ('1E1E742EC1B0479FAEE73F05AAA7E3A6', 'qqq', '测试名称1', '11', null, '2017-06-17 09:28:02', null);
+INSERT INTO `tb_lookup_df` VALUES ('2', 'client_type', '测试名称1', '不同类别客户享受的优惠不一样', null, '2017-06-17 09:28:02', '0');
+INSERT INTO `tb_lookup_df` VALUES ('3', 'testcode', '测试名称1', null, '2017-06-17 09:27:20', '2017-06-17 09:28:02', '0');
+INSERT INTO `tb_lookup_df` VALUES ('476F93E82B8E4CAAB1B31E63D0FEFBBD', 'ttt', '测试名称1', null, null, '2017-06-17 09:28:02', null);
+INSERT INTO `tb_lookup_df` VALUES ('7BB9A24C1F914763957D3E56C0F2506F', 'test222', '测试名称1', '啊哎哎', null, '2017-06-17 09:28:02', '1');
+INSERT INTO `tb_lookup_df` VALUES ('7C7E4BFBFB0E4F90A7B001B7820B23FA', 'test11', '测试名称1', null, null, '2017-06-17 09:28:02', '1');
+INSERT INTO `tb_lookup_df` VALUES ('84A5CB08266E4F8FB4D2A34718F993A6', '33311', '测试名称1', null, null, '2017-06-17 09:28:02', '0');
 
 -- ----------------------------
 -- Table structure for u_car
@@ -91,8 +92,8 @@ CREATE TABLE `u_car` (
   `car_insurer` varchar(32) DEFAULT NULL COMMENT '保险公司',
   `car_insurance_endtime` datetime DEFAULT NULL COMMENT '保险到期时间',
   `car_registration_time` datetime DEFAULT NULL COMMENT '上牌日期',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `isdeleted` tinyint(4) DEFAULT '0',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
@@ -120,8 +121,8 @@ CREATE TABLE `u_client` (
   `c_email` varchar(20) DEFAULT NULL COMMENT '邮箱',
   `c_mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `c_address` varchar(20) DEFAULT NULL COMMENT '地址',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `isdeleted` tinyint(4) DEFAULT '0',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
