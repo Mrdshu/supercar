@@ -30,6 +30,8 @@ public class Client extends BaseDateEntity{
 	private Date insuranceEndtime;
 	/**上牌日期*/
 	private Date registrationDate;
+	/**所属门店*/
+	private String company;
 	
 	/**客户姓名*/
 	private String name;
@@ -56,6 +58,6 @@ public class Client extends BaseDateEntity{
 	
 	public static enum DP{
 		id,carNo,carBrand,carModel,carVIN,carColor,engineNo,insurer,insuranceEndtime,registrationDate,
-		name,sex,idcard,type,email,mobile,address,description,createTime,updateTime,isDeleted
+		name,sex,idcard,type,email,company,mobile,address,description,createTime,updateTime,isDeleted
 	}
 }

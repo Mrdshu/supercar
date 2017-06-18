@@ -19,6 +19,7 @@
 		<result property="idcard" column="C_IDCARD" />
 		<result property="type" column="C_TYPE" />
 		<result property="email" column="C_EMAIL" />
+		<result property="company" column="C_COMPANY" />
 		<result property="mobile" column="C_MOBILE" />
 		<result property="address" column="C_ADDRESS" />
 		<result property="description" column="DESCRIPTION" />
@@ -29,7 +30,7 @@
 
 	<sql id="table">TB_CLIENT</sql>
 	<sql id="columns">ID,CAR_NO,CAR_BRAND,CAR_MODEL,CAR_CHASSIS,CAR_COLOR,CAR_ENGINE,
-	CAR_INSURER,CAR_INSURANCE_ENDTIME,CAR_REGISTRATION_TIME,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_MOBILE,C_ADDRESS,DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
+	CAR_INSURER,CAR_INSURANCE_ENDTIME,CAR_REGISTRATION_TIME,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_COMPANY,C_MOBILE,C_ADDRESS,DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 
 	<!-- 新增 -->
 	<insert id="insert">
@@ -52,6 +53,7 @@
 				<choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>, 
 				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
 				<choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>, 
+				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
 				<choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>, 
 				<choose><when test="address == ''">null</when><otherwise>#{address}</otherwise></choose>, 
 				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
@@ -110,6 +112,7 @@
 			<if test="idcard != null">C_IDCARD = <choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>,</if>
 			<if test="type != null">C_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
 			<if test="email != null">C_EMAIL = <choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>,</if>
+			<if test="company != null">C_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 			<if test="mobile != null">C_MOBILE = <choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>,</if>
 			<if test="address != null">C_ADDRESS = <choose><when test="address == ''">null</when><otherwise>#{address}</otherwise></choose>,</if>
 			<if test="description != null">DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
@@ -134,6 +137,7 @@
 			<if test="idcard != null">AND C_IDCARD = #{idcard}</if>
 			<if test="type != null">AND C_TYPE = #{type}</if>
 			<if test="email != null">AND C_EMAIL = #{email}</if>
+			<if test="company != null">AND C_COMPANY = #{company}</if>
 			<if test="mobile != null">AND C_MOBILE = #{mobile}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
@@ -198,6 +202,11 @@
 			
 				<if test="filter.email_eq != null">AND C_EMAIL = #{filter.email_eq}</if>
 				<if test="filter.email_like != null">AND lower(C_EMAIL) LIKE lower(#{filter.email_like})</if>
+				
+				<if test="filter.company_eq != null">AND C_COMPANY = #{filter.company_eq}</if>
+				<if test="filter.company_ne != null">AND C_COMPANY != #{filter.company_ne}</if>
+				<if test="filter.company_in != null">AND <foreach item="ii" collection="filter.company_in" open="(" separator=" OR " close=")">C_COMPANY in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.company_notIn != null">AND <foreach item="ii" collection="filter.company_notIn" open="(" separator=" AND " close=")">C_COMPANY not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				
 				<if test="filter.mobile_eq != null">AND C_MOBILE = #{filter.mobile_eq}</if>
 				<if test="filter.mobile_like != null">AND lower(C_MOBILE) LIKE lower(#{filter.mobile_like})</if>

@@ -1,5 +1,7 @@
 package com.xw.supercar.entity;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,14 +10,14 @@ import lombok.ToString;
  * @author wsz 2017-06-09
  */
 @Setter @Getter @ToString
-public class Company extends BaseEntity{
+public class Company extends BaseDateEntity{
 	/**公司名称*/
 	private String name;
 	/**公司code*/
 	private String code;
 	/**公司品牌*/
 	private String brand;
-	/**公司类别*/
+	/**公司类别,数据字典外键*/
 	private String type;
 	/**售后热线*/
 	private String mobile;
@@ -27,8 +29,14 @@ public class Company extends BaseEntity{
 	private String address;
 	/**备注*/
 	private String description;
+	/**创建时间*/
+	private Date createTime;
+	/**更新时间*/
+	private Date updateTime;
+	/**软删除标志，必须用Boolean*/
+	private Boolean isDeleted;
 	
 	public static enum DP{
-		name,code,brand,type,mobile,carNo,email,address,description
+		name,code,brand,type,mobile,carNo,email,address,description,createTime,updateTime,isDeleted
 	}
 }

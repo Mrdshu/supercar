@@ -16,7 +16,9 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	http://www.springframework.org/schema/jee
-	http://www.springframework.org/schema/jee/spring-jee.xsd">
+	http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<description>Spring Web MVC 配置</description>
 	
@@ -41,5 +43,10 @@
             <bean class="com.xw.supercar.spring.resolver.SearchableMethodArgumentResolver" />
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
+    
+    <!--aop设置-->
+	<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+	<!--aop的拦截配置类-->
+	<bean class="com.xw.supercar.spring.util.ControllerExceptionAop" lazy-init="false" />
 	
 </beans>

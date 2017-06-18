@@ -63,6 +63,22 @@ public class ReflectUtil {
 	}
 	
 	/**
+	 * 通过反射执行指定对象的指定方法
+	 *
+	 * @author wangsz  Dec 27, 2016 1:58:39 PM
+	 */
+	public static Object exeMethodOfObj(Object object,String methodName,Class<?>[] parameterTypes,Object[] parameters) {
+		Object rs = null;
+		try {
+			Method method = object.getClass().getMethod(methodName, parameterTypes);
+			rs = method.invoke(object, parameters);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	/**
 	 * 反射执行对象的方法（无形参）
 	 */
 	public static Object invokeMethod(Method method, Object target) {

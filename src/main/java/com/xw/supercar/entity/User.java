@@ -11,7 +11,7 @@ import lombok.ToString;
  * @author wsz 2017-06-09
  */
 @Setter @Getter @ToString
-public class User extends BaseEntity{
+public class User extends BaseDateEntity{
 	/**用户名*/
 	private String username;
 	/**全名*/
@@ -22,9 +22,9 @@ public class User extends BaseEntity{
 	private String email;
 	/**手机*/
 	private String mobile;
-	/**角色*/
+	/**角色，数据字典外键*/
 	private String role;
-	/**公司*/
+	/**公司，外键*/
 	private String company;
 	/**备注*/
 	private String description;
@@ -38,7 +38,7 @@ public class User extends BaseEntity{
 	private Boolean isDisable;
 	
 	public static enum DP{
-		username,fullname,password,email,mobile,role,company,description,createTime,updateTime,isDeleted;
+		id,username,fullname,password,email,mobile,role,company,description,createTime,updateTime,isDeleted;
 	}
 
 }

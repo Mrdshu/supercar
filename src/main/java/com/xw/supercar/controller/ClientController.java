@@ -1,7 +1,5 @@
 package com.xw.supercar.controller;
 
-import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.ClientService;
 import com.xw.supercar.service.LookupService;
-import com.xw.supercar.sql.page.Page;
 
 @Controller
 @RequestMapping("/client")
@@ -30,28 +27,8 @@ public class ClientController extends BaseController<Client>{
 	protected void afterReturn(ResponseResult result) {
 		Map<String, Object> data = result.getData();
 		//将数据字典对应的实体放入data
-		if(data.containsKey("entity")){
-			Client client = (Client) data.get("entity");
-			addAttributeToData(client,Client.DP.type.name(),LookupService.class);
-			addAttributeToData(client,Client.DP.carBrand.name(),LookupService.class);
-		}
-		else if(data.containsKey("entitys")){
-			@SuppressWarnings("unchecked")
-			List<Client> clients = (List<Client>) data.get("entitys");
-			for (Client client : clients) {
-				addAttributeToData(client,Client.DP.type.name(),LookupService.class);
-				addAttributeToData(client,Client.DP.carBrand.name(),LookupService.class);
-			}
-		}
-		else if(data.containsKey("page")){
-			@SuppressWarnings("unchecked")
-			Page<Client> page = (Page<Client>) data.get("page");
-			List<Client> clients = page.getContent();
-			for (Client client : clients) {
-				addAttributeToData(client,Client.DP.type.name(),LookupService.class);
-				addAttributeToData(client,Client.DP.carBrand.name(),LookupService.class);
-			}
-		}
+		addAttributesToData(data, new String[]{Client.DP.type.name(),Client.DP.carBrand.name()}
+		, new Class[]{LookupService.class,LookupService.class});
 	}
 	
 }

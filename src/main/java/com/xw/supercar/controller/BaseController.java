@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
+import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
+import com.xw.supercar.service.LookupService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
@@ -282,10 +285,58 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	protected void afterReturn(ResponseResult result) {}
 	
 	/**
+	 * 将data数组中实体成员类的变量多个外键对应的对象放入Data中
+	 * @param data map集合，实体类存放其中
+	 * @param attributeNames 外键名数组
+	 * @param attributeServicesClazz 外键对应的service的class数组
+	 * @author  wangsz 2017-06-04
+	 */
+	protected void addAttributesToData(Map<String, Object> data, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(attributeNames.length != attributeServicesClazz.length)
+			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
+		
+		if(data.containsKey("entity")){
+			BaseDateEntity entity = (BaseDateEntity) data.get("entity");
+			addAttributesToData(entity, attributeNames, attributeServicesClazz);
+		}
+		else if(data.containsKey("entitys")){
+			@SuppressWarnings("unchecked")
+			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) data.get("entitys");
+			for (BaseDateEntity entity : entities) {
+				addAttributesToData(entity, attributeNames, attributeServicesClazz);
+			}
+		}
+		else if(data.containsKey("page")){
+			@SuppressWarnings("unchecked")
+			Page<? extends BaseDateEntity> page = (Page<? extends BaseDateEntity>) data.get("page");
+			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) page.getContent();
+			for (BaseDateEntity entity : entities) {
+				addAttributesToData(entity, attributeNames, attributeServicesClazz);
+			}
+		}
+	}
+	
+	/**
+	 * 将实体成员变量多个外键对应的对象放入Data中
+	 * @param object 实体类
+	 * @param attributeNames 外键名数组
+	 * @param attributeServicesClazz 外键对应的service的class数组
+	 * @author  wangsz 2017-06-04
+	 */
+	protected void addAttributesToData(BaseDateEntity object, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(attributeNames.length != attributeServicesClazz.length)
+			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
+		
+		for (int i = 0; i < attributeNames.length; i++) {
+			addAttributeToData(object, attributeNames[i], attributeServicesClazz[i]);
+		}
+	}
+	
+	/**
 	 * 将实体成员变量外键对应的对象放入Data中
-	 * @param object
-	 * @param attributeName
-	 * @param attributeService
+	 * @param object 实体类
+	 * @param attributeName 外键名
+	 * @param attributeService 外键对应的service的class
 	 * @author  wangsz 2017-06-04
 	 */
 	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
