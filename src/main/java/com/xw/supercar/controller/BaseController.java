@@ -26,56 +26,72 @@ import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.util.ReflectUtil;
-
+/**
+ * Controller层的基础类，实现了基础的增、删、改、查(new、remove、edit、list(get)方法。
+ * 继承即可使用（需指定泛型为对应实体）
+ * 
+ * @author wangsz 2017-05-14
+ */
 public abstract class BaseController<E extends BaseEntity> implements InitializingBean {
 	protected final Logger log = Logger.getLogger(this.getClass());
 	
-	/**controller的url前缀*/
-	protected String viewPrefix;
-	protected String parentPath = "";
-	
+	/**
+	 * 获取controller层对应的service层对象
+	 * @author wsz 2017-06-18
+	 */
 	protected abstract BaseService<E> getSevice();
 	
-	/**
-	 * 当前模块 视图的前缀
-	 * 默认
-	 * 1、获取当前类头上的@RequestMapping中的value作为前缀
-	 * 2、如果没有就使用当前模型小写的简单类名
-	 */
-	public void setViewPrefix(String viewPrefix) {
-		if(!viewPrefix.startsWith("/")) {
-			viewPrefix = "/" + viewPrefix;
-		}
-		this.viewPrefix = viewPrefix;
-	}
-
-	public String getViewPrefix() {
-		return viewPrefix;
-	}
-	
-	@Override
 	public void afterPropertiesSet() throws Exception {
-		this.setViewPrefix(this.getDefaultViewPrefix());
-		RequestMapping requestMapping = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-		if (requestMapping != null && requestMapping.value().length > 0) {
-			this.parentPath = requestMapping.value()[0];
-		}
+		
 	}
 
-	protected String getDefaultViewPrefix() {
-		String currentViewPrefix = "";
-		RequestMapping requestMapping = AnnotationUtils.findAnnotation(getClass(), RequestMapping.class);
-		if (requestMapping != null && requestMapping.value().length > 0) {
-			currentViewPrefix = requestMapping.value()[0];
-		}
-		if (currentViewPrefix == null || "".equals(currentViewPrefix)) {
-			currentViewPrefix = this.getClass().getSimpleName().toLowerCase();
-			if (currentViewPrefix.endsWith("controller")) currentViewPrefix = currentViewPrefix.substring(0, currentViewPrefix.length() - "controller".length());
-		}
-		if (!currentViewPrefix.startsWith("/")) currentViewPrefix = "/" + currentViewPrefix;
+	//================注释内容为controller转发请求用的，现在前后端分离，故此项目不需要=================
+//	/**controller的url前缀*/
+//	protected String viewPrefix;
+//	protected String parentPath = "";
+//	
 
-		return currentViewPrefix;
-	}
+//	
+//	/**
+//	 * 当前模块 视图的前缀
+//	 * 默认
+//	 * 1、获取当前类头上的@RequestMapping中的value作为前缀
+//	 * 2、如果没有就使用当前模型小写的简单类名
+//	 */
+//	public void setViewPrefix(String viewPrefix) {
+//		if(!viewPrefix.startsWith("/")) {
+//			viewPrefix = "/" + viewPrefix;
+//		}
+//		this.viewPrefix = viewPrefix;
+//	}
+//
+//	public String getViewPrefix() {
+//		return viewPrefix;
+//	}
+//	
+//	@Override
+//	public void afterPropertiesSet() throws Exception {
+//		this.setViewPrefix(this.getDefaultViewPrefix());
+//		RequestMapping requestMapping = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
+//		if (requestMapping != null && requestMapping.value().length > 0) {
+//			this.parentPath = requestMapping.value()[0];
+//		}
+//	}
+//
+//	protected String getDefaultViewPrefix() {
+//		String currentViewPrefix = "";
+//		RequestMapping requestMapping = AnnotationUtils.findAnnotation(getClass(), RequestMapping.class);
+//		if (requestMapping != null && requestMapping.value().length > 0) {
+//			currentViewPrefix = requestMapping.value()[0];
+//		}
+//		if (currentViewPrefix == null || "".equals(currentViewPrefix)) {
+//			currentViewPrefix = this.getClass().getSimpleName().toLowerCase();
+//			if (currentViewPrefix.endsWith("controller")) currentViewPrefix = currentViewPrefix.substring(0, currentViewPrefix.length() - "controller".length());
+//		}
+//		if (!currentViewPrefix.startsWith("/")) currentViewPrefix = "/" + currentViewPrefix;
+//
+//		return currentViewPrefix;
+//	}
 	
 	/**
 	 * 分页查询
@@ -90,7 +106,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 		if(searchable == null)
 			searchable = Searchable.newSearchable()
 				.addPage(DaoConstant.DEFAULT_PAGE_NUMBER, DaoConstant.DEFAULT_PAGE_SIZE);
-		Page<E> page = getSevice().searchPage(searchable, true);
+		Page<E> page = getSevice().findPage(searchable, true);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("page", page);
@@ -106,10 +122,10 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
-	@RequestMapping(value = "/get_list",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/list",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult getList(Searchable searchable){
-		List<E> entitys = getSevice().searchBy(searchable, true);
+	public ResponseResult list(Searchable searchable){
+		List<E> entitys = getSevice().findBy(searchable, true);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("entitys", entitys);
@@ -125,11 +141,10 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
-	@RequestMapping(value = "/getBy_id",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/getById",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult getById(@NotNull String id){
-		
-		E entity = getSevice().searchById(id);
+		E entity = getSevice().getById(id);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("entity", entity);
@@ -341,7 +356,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
-		Object type = SpringContextHolder.getBean(attributeServiceClass).searchById(attributeId);
+		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
 		
 		object.getDate().put(attributeName, type);
 	}

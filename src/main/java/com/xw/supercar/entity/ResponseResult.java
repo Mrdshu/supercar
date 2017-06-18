@@ -26,6 +26,11 @@ public class ResponseResult {
 		return responseEntity;
 	}
 	
+	/**
+	 * 返回错误信息的报文
+	 *
+	 * @author wsz 2017-06-18
+	 */
 	public static ResponseResult generateErrorResponse(String errorNo,String errorMsg){
 		ResponseResult responseEntity = new ResponseResult(false, errorNo, errorMsg);
 		return responseEntity;

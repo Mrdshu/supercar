@@ -52,7 +52,7 @@ public class LookupService extends BaseService<Lookup> {
 		if (!StringUtils.isEmpty(lookupDefineId)) {
 			Searchable searchable = Searchable.newSearchable().addSearchFilter(Lookup.DP.definitionId.name(),
 					SearchOperator.eq, lookupDefineId);
-			lookups = searchBy(searchable, true);
+			lookups = findBy(searchable, true);
 		}
 
 		return lookups;
@@ -71,7 +71,7 @@ public class LookupService extends BaseService<Lookup> {
 			Searchable searchable = Searchable.newSearchable()
 					.addSearchFilter(Lookup.DP.definitionId.name(),SearchOperator.eq, lookupDefinition.getId())
 					.addPage(pageNo, pageSize);
-			page = searchPage(searchable, true);
+			page = findPage(searchable, true);
 		}
 
 		return page;

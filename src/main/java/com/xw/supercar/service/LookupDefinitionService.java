@@ -32,7 +32,7 @@ public class LookupDefinitionService extends BaseService<LookupDefinition>{
 			throw new IllegalArgumentException("the LookupDefinition code can't be empty!");
 		
 		Searchable searchable = Searchable.newSearchable().addSearchFilter(LookupDefinition.DP.code.name(), SearchOperator.eq, code);
-		List<LookupDefinition> lookupDefinitions = searchBy(searchable, true);
+		List<LookupDefinition> lookupDefinitions = findBy(searchable, true);
 		if(lookupDefinitions == null || lookupDefinitions.size() == 0)
 			return null;
 		else

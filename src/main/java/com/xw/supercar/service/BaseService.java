@@ -15,7 +15,7 @@ import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 
 /**
- * Service层的基础类，实现了基础的增、删、改、查(add、remove、modify、search)方法。
+ * Service层的基础类，实现了基础的增、删、改、查(add、remove、modify、find与get)方法。
  * 继承即可使用（需指定泛型为对应实体）
  * 
  * @author wangsz 2017-05-14
@@ -100,7 +100,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		
 		baseDao.insert(entity);
 		
-		entity = searchById(id);
+		entity = getById(id);
 		afterAdd(entity);
 		return entity;
 	}
@@ -143,7 +143,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public boolean removeById(String id) {
-		E entity = searchById(id);
+		E entity = getById(id);
 		if(entity == null)
 			throw new IllegalArgumentException("can't find the entity of id:"+id);
 		
@@ -185,7 +185,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public boolean hardRemoveById(String id) {
-		E entity = searchById(id);
+		E entity = getById(id);
 		if(entity == null)
 			throw new IllegalArgumentException("can't find the entity of id:"+id);
 		
@@ -206,7 +206,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		if(!rs)
 			throw new IllegalArgumentException("modify entity【"+entity.toString()+"】 fail");
 		
-		entity = searchById(entity.getId());
+		entity = getById(entity.getId());
 		afterModify(entity);
 		return entity;
 	}
@@ -215,8 +215,30 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * 根据id查询
 	 * @author  wangsz 2017-05-14
 	 */
-	public E searchById(String id){
+	public E getById(String id){
 		E entity =  baseDao.selectById(id);
+		afterSearch(entity);
+		
+		return entity;
+	}
+	
+	/**
+	 * 根据查询条件查询
+	 * @param searchable 查询条件
+	 * @param useDefaultFilters 默认过滤条件是否开启
+	 * @param check 为true时检查复核条件的结果条数，如果超过一条抛出异常
+	 * @return
+	 *
+	 * @author wsz 2017-06-18
+	 */
+	public E getBy(Searchable searchable, Boolean useDefaultFilters, Boolean check){
+		List<E> entitys =   baseDao.selectBy(searchable, useDefaultFilters);
+		if(entitys == null || entitys.size() <= 0)
+			return null;
+		if(check && entitys.size() > 1)
+			throw new IllegalArgumentException("getBy method find more than 1 row record");
+		
+		E entity = entitys.get(0);
 		afterSearch(entity);
 		
 		return entity;
@@ -226,7 +248,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * 根据过滤条件查询
 	 * @author  wangsz 2017-05-14
 	 */
-	public List<E> searchBy(Searchable searchable,boolean useDefaultFilters){
+	public List<E> findBy(Searchable searchable,boolean useDefaultFilters){
 		//TODO --过滤条件为空时，会把所有数据查出来。此处要做控制，超过500条时只返回前500条数据
 		List<E> entitys = baseDao.selectBy(searchable, useDefaultFilters);
 		afterSearch(entitys);
@@ -238,7 +260,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * 分页查询
 	 * @author  wangsz 2017-05-16
 	 */
-	public Page<E> searchPage(Searchable searchable,boolean useDefaultFilters){
+	public Page<E> findPage(Searchable searchable,boolean useDefaultFilters){
 		Page<E> page = baseDao.selectPage(searchable, useDefaultFilters);
 		
 		List<E> entitys = page.getContent();

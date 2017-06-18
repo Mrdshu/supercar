@@ -23,6 +23,7 @@ public class ClientController extends BaseController<Client>{
 		return baseService;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void afterReturn(ResponseResult result) {
 		Map<String, Object> data = result.getData();
