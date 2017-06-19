@@ -18,6 +18,7 @@
 		<result property="sex" column="C_SEX" />
 		<result property="idcard" column="C_IDCARD" />
 		<result property="type" column="C_TYPE" />
+		<result property="level" column="C_LEVEL" />
 		<result property="email" column="C_EMAIL" />
 		<result property="company" column="C_COMPANY" />
 		<result property="mobile" column="C_MOBILE" />
@@ -30,7 +31,7 @@
 
 	<sql id="table">TB_CLIENT</sql>
 	<sql id="columns">ID,CAR_NO,CAR_BRAND,CAR_MODEL,CAR_CHASSIS,CAR_COLOR,CAR_ENGINE,
-	CAR_INSURER,CAR_INSURANCE_ENDTIME,CAR_REGISTRATION_TIME,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_EMAIL,C_COMPANY,C_MOBILE,C_ADDRESS,DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
+	CAR_INSURER,CAR_INSURANCE_ENDTIME,CAR_REGISTRATION_TIME,C_NAME,C_SEX,C_IDCARD,C_TYPE,C_LEVEL,C_EMAIL,C_COMPANY,C_MOBILE,C_ADDRESS,DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
 
 	<!-- 新增 -->
 	<insert id="insert">
@@ -52,6 +53,7 @@
 				<choose><when test="sex == ''">null</when><otherwise>#{sex}</otherwise></choose>,
 				<choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>, 
 				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
+				<choose><when test="level == ''">null</when><otherwise>#{level}</otherwise></choose>, 
 				<choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>, 
 				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
 				<choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>, 
@@ -111,6 +113,7 @@
 			<if test="sex != null">C_SEX = <choose><when test="sex == ''">null</when><otherwise>#{sex}</otherwise></choose>,</if>
 			<if test="idcard != null">C_IDCARD = <choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>,</if>
 			<if test="type != null">C_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
+			<if test="level != null">C_LEVEL = <choose><when test="level == ''">null</when><otherwise>#{level}</otherwise></choose>,</if>
 			<if test="email != null">C_EMAIL = <choose><when test="email == ''">null</when><otherwise>#{email}</otherwise></choose>,</if>
 			<if test="company != null">C_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 			<if test="mobile != null">C_MOBILE = <choose><when test="mobile == ''">null</when><otherwise>#{mobile}</otherwise></choose>,</if>
@@ -136,6 +139,7 @@
 			<if test="sex != null">AND C_SEX = #{sex}</if>
 			<if test="idcard != null">AND C_IDCARD = #{idcard}</if>
 			<if test="type != null">AND C_TYPE = #{type}</if>
+			<if test="level != null">AND C_LEVEL = #{level}</if>
 			<if test="email != null">AND C_EMAIL = #{email}</if>
 			<if test="company != null">AND C_COMPANY = #{company}</if>
 			<if test="mobile != null">AND C_MOBILE = #{mobile}</if>
@@ -200,6 +204,11 @@
 				<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">C_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">C_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			
+				<if test="filter.level_eq != null">AND C_LEVEL = #{filter.level_eq}</if>
+				<if test="filter.level_ne != null">AND C_LEVEL != #{filter.level_ne}</if>
+				<if test="filter.level_in != null">AND <foreach item="ii" collection="filter.level_in" open="(" separator=" OR " close=")">C_LEVEL in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.level_notIn != null">AND <foreach item="ii" collection="filter.level_notIn" open="(" separator=" AND " close=")">C_LEVEL not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
 				<if test="filter.email_eq != null">AND C_EMAIL = #{filter.email_eq}</if>
 				<if test="filter.email_like != null">AND lower(C_EMAIL) LIKE lower(#{filter.email_like})</if>
 				

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-18 17:18:03
+Date: 2017-06-19 08:33:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,10 +21,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `tb_client`;
 CREATE TABLE `tb_client` (
   `id` varchar(32) NOT NULL COMMENT 'id',
-  `c_name` varchar(20) NOT NULL COMMENT '客户姓名',
+  `c_name` varchar(32) NOT NULL COMMENT '客户姓名',
   `c_sex` tinyint(4) DEFAULT NULL COMMENT '客户性别（true为男，false为女）',
   `c_idcard` varchar(32) DEFAULT NULL COMMENT '客户身份证',
-  `c_type` varchar(32) NOT NULL COMMENT '客户类别，外键',
+  `c_level` varchar(32) NOT NULL COMMENT '客户级别，数据字典外键',
+  `c_type` varchar(32) NOT NULL COMMENT '客户类别，数据字典外键',
   `c_email` varchar(20) DEFAULT NULL COMMENT '邮箱',
   `c_mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `c_address` varchar(20) DEFAULT NULL COMMENT '地址',
@@ -47,8 +48,10 @@ CREATE TABLE `tb_client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `c_idcard` (`c_idcard`),
   KEY `c_type` (`c_type`),
+  KEY `c_level` (`c_level`),
   KEY `car_model_fk` (`car_brand`),
   KEY `cp_company_fk` (`c_company`),
+  CONSTRAINT `c_level_fk` FOREIGN KEY (`c_level`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `c_type_fk` FOREIGN KEY (`c_type`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `car_model_fk` FOREIGN KEY (`car_brand`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `cp_company_fk` FOREIGN KEY (`c_company`) REFERENCES `tb_company` (`ID`)
@@ -57,7 +60,7 @@ CREATE TABLE `tb_client` (
 -- ----------------------------
 -- Records of tb_client
 -- ----------------------------
-INSERT INTO `tb_client` VALUES ('1', 'wsz', '0', '42102366262266', '5', '842803829@qq.com', '18782252525', '广发银行总部99楼', '1', '此用户是大客户', '2017-06-17 17:51:41', '2017-06-18 15:50:33', '0', '甘P82585', '1', '99x', '1111', null, null, '红', '12312', '天天保险', '2017-06-23 17:49:59', '2017-06-29 17:50:03');
+INSERT INTO `tb_client` VALUES ('1', 'wsz', '0', '42102366262266', '', '5', '842803829@qq.com', '18782252525', '广发银行总部99楼', '1', '此用户是大客户', '2017-06-17 17:51:41', '2017-06-18 15:50:33', '0', '甘P82585', '1', '99x', '1111', null, null, '红', '12312', '天天保险', '2017-06-23 17:49:59', '2017-06-29 17:50:03');
 
 -- ----------------------------
 -- Table structure for tb_company
@@ -78,7 +81,8 @@ CREATE TABLE `tb_company` (
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`ID`),
-  KEY `cp_type_fk` (`CP_TYPE`),
+  KEY `cp_type_fk2` (`CP_TYPE`),
+  KEY `CP_EMAIL_fk2` (`CP_EMAIL`),
   CONSTRAINT `cp_type_fk` FOREIGN KEY (`CP_TYPE`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -156,6 +160,41 @@ INSERT INTO `tb_lookup_df` VALUES ('E3F9A726B2434B219EDEE2E23734EA4B', 'user_rol
 INSERT INTO `tb_lookup_df` VALUES ('F6DF8162CE964F669C82BA9C6DA449F1', 'q', 'q', null, '2017-06-17 18:25:02', '2017-06-18 14:24:38', '1');
 
 -- ----------------------------
+-- Table structure for tb_part
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_part`;
+CREATE TABLE `tb_part` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `p_code` varchar(32) NOT NULL COMMENT '配件编号',
+  `p_name` varchar(50) NOT NULL COMMENT '配件名称',
+  `p_unit` varchar(32) DEFAULT NULL COMMENT '单位',
+  `p_sale` double DEFAULT NULL COMMENT '销售价',
+  `p_wholesale` double DEFAULT NULL COMMENT '批发价',
+  `p_produce_area` varchar(32) DEFAULT NULL COMMENT '产地',
+  `p_specification` varchar(32) DEFAULT NULL COMMENT '规格',
+  `p_car_model` varchar(32) DEFAULT NULL COMMENT '适用车型',
+  `p_category` varchar(32) DEFAULT NULL COMMENT '分类',
+  `p_repositoty` varchar(32) DEFAULT NULL COMMENT '库位号',
+  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
+  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
+  `isdisable` tinyint(4) DEFAULT '0' COMMENT '禁用标志',
+  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `p_code` (`p_code`),
+  KEY `p_unit_fk` (`p_unit`),
+  KEY `p_category_fk` (`p_category`),
+  CONSTRAINT `p_category_fk` FOREIGN KEY (`p_category`) REFERENCES `tb_lookup` (`id`),
+  CONSTRAINT `p_unit_fk` FOREIGN KEY (`p_unit`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_part
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
@@ -163,7 +202,7 @@ CREATE TABLE `tb_user` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
   `U_USERNAME` varchar(50) NOT NULL COMMENT '用户名',
   `U_FULLNAME` varchar(50) DEFAULT NULL COMMENT '全名',
-  `U_PASSWORD` varchar(50) NOT NULL COMMENT '密码',
+  `U_PASSWORD` varchar(200) NOT NULL COMMENT '密码',
   `U_EMAIL` varchar(50) DEFAULT NULL COMMENT '邮箱',
   `U_MOBILE` varchar(50) DEFAULT NULL COMMENT '手机',
   `U_ROLE` varchar(32) DEFAULT NULL COMMENT '角色，数据字典外键',

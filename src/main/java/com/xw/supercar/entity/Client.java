@@ -41,6 +41,8 @@ public class Client extends BaseDateEntity{
 	private String idcard;
 	/**客户类别，数据字典*/
 	private String type;
+	/**客户级别，数据字典*/
+	private String level;
 	/**邮箱*/
 	private String email;
 	/**手机*/
@@ -58,6 +60,6 @@ public class Client extends BaseDateEntity{
 	
 	public static enum DP{
 		id,carNo,carBrand,carModel,carVIN,carColor,engineNo,insurer,insuranceEndtime,registrationDate,
-		name,sex,idcard,type,email,company,mobile,address,description,createTime,updateTime,isDeleted
+		name,sex,idcard,type,level,email,company,mobile,address,description,createTime,updateTime,isDeleted
 	}
 }
