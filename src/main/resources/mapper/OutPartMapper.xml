@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.OutPartMapper">
+  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.OutPart">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="out_workorder_no" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="out_type" jdbcType="VARCHAR" property="type" />
+    <result column="out_client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="out_receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="out_sum" jdbcType="DECIMAL" property="sum" />
+    <result column="p_company" jdbcType="VARCHAR" property="company" />
+    <result column="isdeleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, out_workorder_no, out_time, out_type, out_client_name, out_receiver, out_sum, 
+    p_company, isdeleted, extend1, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_out_part
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_out_part
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xw.supercar.entity.OutPart">
+    insert into tb_out_part (id, out_workorder_no, out_time, 
+      out_type, out_client_name, out_receiver, 
+      out_sum, p_company, isdeleted, 
+      extend1, extend2, extend3
+      )
+    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{outTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+      #{sum,jdbcType=DECIMAL}, #{company,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+      #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xw.supercar.entity.OutPart">
+    insert into tb_out_part
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="workOrderNo != null">
+        out_workorder_no,
+      </if>
+      <if test="outTime != null">
+        out_time,
+      </if>
+      <if test="type != null">
+        out_type,
+      </if>
+      <if test="clientName != null">
+        out_client_name,
+      </if>
+      <if test="receiver != null">
+        out_receiver,
+      </if>
+      <if test="sum != null">
+        out_sum,
+      </if>
+      <if test="company != null">
+        p_company,
+      </if>
+      <if test="isDeleted != null">
+        isdeleted,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderNo != null">
+        #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null">
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        #{sum,jdbcType=DECIMAL},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.OutPart">
+    update tb_out_part
+    <set>
+      <if test="workOrderNo != null">
+        out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTime != null">
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        out_type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null">
+        out_client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        out_receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        out_sum = #{sum,jdbcType=DECIMAL},
+      </if>
+      <if test="company != null">
+        p_company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        isdeleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.OutPart">
+    update tb_out_part
+    set out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      out_type = #{type,jdbcType=VARCHAR},
+      out_client_name = #{clientName,jdbcType=VARCHAR},
+      out_receiver = #{receiver,jdbcType=VARCHAR},
+      out_sum = #{sum,jdbcType=DECIMAL},
+      p_company = #{company,jdbcType=VARCHAR},
+      isdeleted = #{isDeleted,jdbcType=TINYINT},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.PartMapper">
+  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.Part">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="p_code" jdbcType="VARCHAR" property="code" />
+    <result column="p_name" jdbcType="VARCHAR" property="name" />
+    <result column="p_unit" jdbcType="VARCHAR" property="unit" />
+    <result column="p_sale" jdbcType="DOUBLE" property="sale" />
+    <result column="p_wholesale" jdbcType="DOUBLE" property="wholeSale" />
+    <result column="p_produce_area" jdbcType="VARCHAR" property="produceArea" />
+    <result column="p_specification" jdbcType="VARCHAR" property="specification" />
+    <result column="p_car_model" jdbcType="VARCHAR" property="carModel" />
+    <result column="p_category" jdbcType="VARCHAR" property="pCategory" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="isdeleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="isdisable" jdbcType="TINYINT" property="isDisable" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, p_code, p_name, p_unit, p_sale, p_wholesale, p_produce_area, p_specification, 
+    p_car_model, p_category, create_time, update_time, isdeleted, isdisable, extend1, 
+    extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_part
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_part
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xw.supercar.entity.Part">
+    insert into tb_part (id, p_code, p_name, 
+      p_unit, p_sale, p_wholesale, 
+      p_produce_area, p_specification, p_car_model, 
+      p_category, create_time, update_time, 
+      isdeleted, isdisable, extend1, 
+      extend2, extend3)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{sale,jdbcType=DOUBLE}, #{wholeSale,jdbcType=DOUBLE}, 
+      #{produceArea,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{carModel,jdbcType=VARCHAR}, 
+      #{pCategory,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=TINYINT}, #{isDisable,jdbcType=TINYINT}, #{extend1,jdbcType=VARCHAR}, 
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xw.supercar.entity.Part">
+    insert into tb_part
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        p_code,
+      </if>
+      <if test="name != null">
+        p_name,
+      </if>
+      <if test="unit != null">
+        p_unit,
+      </if>
+      <if test="sale != null">
+        p_sale,
+      </if>
+      <if test="wholeSale != null">
+        p_wholesale,
+      </if>
+      <if test="produceArea != null">
+        p_produce_area,
+      </if>
+      <if test="specification != null">
+        p_specification,
+      </if>
+      <if test="carModel != null">
+        p_car_model,
+      </if>
+      <if test="pCategory != null">
+        p_category,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDeleted != null">
+        isdeleted,
+      </if>
+      <if test="isDisable != null">
+        isdisable,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="sale != null">
+        #{sale,jdbcType=DOUBLE},
+      </if>
+      <if test="wholeSale != null">
+        #{wholeSale,jdbcType=DOUBLE},
+      </if>
+      <if test="produceArea != null">
+        #{produceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="carModel != null">
+        #{carModel,jdbcType=VARCHAR},
+      </if>
+      <if test="pCategory != null">
+        #{pCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="isDisable != null">
+        #{isDisable,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.Part">
+    update tb_part
+    <set>
+      <if test="code != null">
+        p_code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        p_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        p_unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="sale != null">
+        p_sale = #{sale,jdbcType=DOUBLE},
+      </if>
+      <if test="wholeSale != null">
+        p_wholesale = #{wholeSale,jdbcType=DOUBLE},
+      </if>
+      <if test="produceArea != null">
+        p_produce_area = #{produceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null">
+        p_specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="carModel != null">
+        p_car_model = #{carModel,jdbcType=VARCHAR},
+      </if>
+      <if test="pCategory != null">
+        p_category = #{pCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        isdeleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="isDisable != null">
+        isdisable = #{isDisable,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.Part">
+    update tb_part
+    set p_code = #{code,jdbcType=VARCHAR},
+      p_name = #{name,jdbcType=VARCHAR},
+      p_unit = #{unit,jdbcType=VARCHAR},
+      p_sale = #{sale,jdbcType=DOUBLE},
+      p_wholesale = #{wholeSale,jdbcType=DOUBLE},
+      p_produce_area = #{produceArea,jdbcType=VARCHAR},
+      p_specification = #{specification,jdbcType=VARCHAR},
+      p_car_model = #{carModel,jdbcType=VARCHAR},
+      p_category = #{pCategory,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      isdeleted = #{isDeleted,jdbcType=TINYINT},
+      isdisable = #{isDisable,jdbcType=TINYINT},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

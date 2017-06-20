@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.InPartInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.InPartInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pin_workorder_num" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="p_id" jdbcType="VARCHAR" property="partId" />
+    <result column="p_count" jdbcType="INTEGER" property="count" />
+    <result column="p_cost" jdbcType="DECIMAL" property="cost" />
+    <result column="p_supplier" jdbcType="VARCHAR" property="suppler" />
+    <result column="r_code" jdbcType="VARCHAR" property="repositoryCode" />
+    <result column="isdeleted" jdbcType="TINYINT" property="isDelete" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pin_workorder_num, p_id, p_count, p_cost, p_supplier, r_code, isdeleted, extend1, 
+    extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_in_part_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_in_part_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xw.supercar.entity.InPartInfo">
+    insert into tb_in_part_info (id, pin_workorder_num, p_id, 
+      p_count, p_cost, p_supplier, 
+      r_code, isdeleted, extend1, 
+      extend2, extend3)
+    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{partId,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{cost,jdbcType=DECIMAL}, #{suppler,jdbcType=VARCHAR}, 
+      #{repositoryCode,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{extend1,jdbcType=VARCHAR}, 
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xw.supercar.entity.InPartInfo">
+    insert into tb_in_part_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="workOrderNo != null">
+        pin_workorder_num,
+      </if>
+      <if test="partId != null">
+        p_id,
+      </if>
+      <if test="count != null">
+        p_count,
+      </if>
+      <if test="cost != null">
+        p_cost,
+      </if>
+      <if test="suppler != null">
+        p_supplier,
+      </if>
+      <if test="repositoryCode != null">
+        r_code,
+      </if>
+      <if test="isDelete != null">
+        isdeleted,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderNo != null">
+        #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partId != null">
+        #{partId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="suppler != null">
+        #{suppler,jdbcType=VARCHAR},
+      </if>
+      <if test="repositoryCode != null">
+        #{repositoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.InPartInfo">
+    update tb_in_part_info
+    <set>
+      <if test="workOrderNo != null">
+        pin_workorder_num = #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partId != null">
+        p_id = #{partId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        p_count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        p_cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="suppler != null">
+        p_supplier = #{suppler,jdbcType=VARCHAR},
+      </if>
+      <if test="repositoryCode != null">
+        r_code = #{repositoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        isdeleted = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.InPartInfo">
+    update tb_in_part_info
+    set pin_workorder_num = #{workOrderNo,jdbcType=VARCHAR},
+      p_id = #{partId,jdbcType=VARCHAR},
+      p_count = #{count,jdbcType=INTEGER},
+      p_cost = #{cost,jdbcType=DECIMAL},
+      p_supplier = #{suppler,jdbcType=VARCHAR},
+      r_code = #{repositoryCode,jdbcType=VARCHAR},
+      isdeleted = #{isDelete,jdbcType=TINYINT},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

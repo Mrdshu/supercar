@@ -8,37 +8,40 @@ import lombok.ToString;
 
 /**
  * 用户信息实体类
+ * 
  * @author wsz 2017-06-09
  */
-@Setter @Getter @ToString
-public class User extends BaseDateEntity{
-	/**用户名*/
+@Setter
+@Getter
+@ToString
+public class User extends BaseDateEntity {
+	/** 用户名 */
 	private String username;
-	/**全名*/
+	/** 全名 */
 	private String fullname;
-	/**密码*/
+	/** 密码 */
 	private String password;
-	/**邮箱*/
+	/** 邮箱 */
 	private String email;
-	/**手机*/
+	/** 手机 */
 	private String mobile;
-	/**角色，数据字典外键*/
+	/** 角色，数据字典外键 */
 	private String role;
-	/**公司，外键*/
+	/** 公司，外键 */
 	private String company;
-	/**备注*/
+	/** 备注 */
 	private String description;
-	/**创建时间*/
+	/** 创建时间 */
 	private Date createTime;
-	/**更新时间*/
+	/** 更新时间 */
 	private Date updateTime;
-	/**软删除标志，必须用Boolean*/
+	/** 软删除标志，必须用Boolean */
 	private Boolean isDeleted;
-	/**禁用标志*/
+	/** 禁用标志 */
 	private Boolean isDisable;
-	
-	public static enum DP{
-		id,username,fullname,password,email,mobile,role,company,description,createTime,updateTime,isDeleted;
+
+	public static enum DP {
+		id, username, fullname, password, email, mobile, role, company, description, createTime, updateTime, isDeleted;
 	}
 
 }

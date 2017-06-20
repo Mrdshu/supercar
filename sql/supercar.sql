@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-19 08:33:14
+Date: 2017-06-20 08:45:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,6 +93,95 @@ INSERT INTO `tb_company` VALUES ('1', '深圳门店', 'shenzhen', '辉门冠军'
 INSERT INTO `tb_company` VALUES ('2', '兰州门店', 'lanzhou', '辉门冠军', 'E2221CCC83404FAEB89A882D5E112E15', '222', '甘A', null, null, null, '0', '2017-06-18 14:37:28', '2017-06-18 14:37:28');
 
 -- ----------------------------
+-- Table structure for tb_inventory
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_inventory`;
+CREATE TABLE `tb_inventory` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `p_id` varchar(32) NOT NULL COMMENT '配件id',
+  `p_count` int(11) DEFAULT '0' COMMENT '配件库存数目',
+  `p_cost` double DEFAULT NULL COMMENT '进货价',
+  `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
+  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
+  `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
+  `extend1` varchar(255) DEFAULT NULL,
+  `extend2` varchar(255) DEFAULT NULL,
+  `extend3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `p_id_fk` (`p_id`),
+  KEY `p_supplier_fk` (`p_supplier`),
+  KEY `r_code_fk` (`r_code`),
+  KEY `inventory_p_company_fk` (`p_company`),
+  CONSTRAINT `inventory_p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `p_id_fk` FOREIGN KEY (`p_id`) REFERENCES `tb_part` (`id`),
+  CONSTRAINT `p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
+  CONSTRAINT `r_code_fk` FOREIGN KEY (`r_code`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库存';
+
+-- ----------------------------
+-- Records of tb_inventory
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_in_part
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_in_part`;
+CREATE TABLE `tb_in_part` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `pin_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
+  `pin_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入库时间',
+  `pin_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
+  `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
+  `pin_sum` double DEFAULT NULL COMMENT '合计金额',
+  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
+  `extend1` varchar(255) DEFAULT NULL,
+  `extend2` varchar(255) DEFAULT NULL,
+  `extend3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pin_pay_method_fk` (`pin_pay_method`),
+  KEY `in_p_supplier_fk` (`p_supplier`),
+  KEY `p_company_fk` (`p_company`),
+  CONSTRAINT `in_p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
+  CONSTRAINT `p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `pin_pay_method_fk` FOREIGN KEY (`pin_pay_method`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_in_part
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_in_part_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_in_part_info`;
+CREATE TABLE `tb_in_part_info` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `pin_workorder_num` varchar(32) DEFAULT NULL COMMENT '入库单号',
+  `p_id` varchar(32) DEFAULT NULL COMMENT '配件id',
+  `p_count` int(11) DEFAULT NULL COMMENT '配件入库数目',
+  `p_cost` decimal(10,0) DEFAULT NULL COMMENT '进货价',
+  `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
+  `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
+  `extend1` varchar(255) DEFAULT NULL,
+  `extend2` varchar(255) DEFAULT NULL,
+  `extend3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `info_p_id_fk` (`p_id`),
+  KEY `info_p_supplier_fk` (`p_supplier`),
+  KEY `info_r_code_fk` (`r_code`),
+  CONSTRAINT `info_p_id_fk` FOREIGN KEY (`p_id`) REFERENCES `tb_part` (`id`),
+  CONSTRAINT `info_p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
+  CONSTRAINT `info_r_code_fk` FOREIGN KEY (`r_code`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_in_part_info
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_lookup
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_lookup`;
@@ -160,6 +249,58 @@ INSERT INTO `tb_lookup_df` VALUES ('E3F9A726B2434B219EDEE2E23734EA4B', 'user_rol
 INSERT INTO `tb_lookup_df` VALUES ('F6DF8162CE964F669C82BA9C6DA449F1', 'q', 'q', null, '2017-06-17 18:25:02', '2017-06-18 14:24:38', '1');
 
 -- ----------------------------
+-- Table structure for tb_out_part
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_out_part`;
+CREATE TABLE `tb_out_part` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `out_workorder_no` varchar(32) DEFAULT NULL COMMENT '出库单号',
+  `out_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '出库时间',
+  `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，数据字典外键',
+  `out_client_name` varchar(50) DEFAULT NULL COMMENT '车主名称',
+  `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，外键',
+  `out_sum` decimal(10,0) DEFAULT NULL COMMENT '合计金额',
+  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店，数据字典外键',
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
+  `extend1` varchar(255) DEFAULT NULL,
+  `extend2` varchar(255) DEFAULT NULL,
+  `extend3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `out_type_fk` (`out_type`),
+  KEY `out_p_company_fk` (`p_company`),
+  KEY `out_receiver_fk` (`out_receiver`),
+  CONSTRAINT `out_p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`),
+  CONSTRAINT `out_type_fk` FOREIGN KEY (`out_type`) REFERENCES `tb_lookup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_out_part
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_out_part_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_out_part_info`;
+CREATE TABLE `tb_out_part_info` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `out_workorder_no` varchar(50) DEFAULT NULL COMMENT '出库单号',
+  `inventory_id` varchar(32) DEFAULT NULL COMMENT '库存配件id，外键',
+  `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
+  `item_code` varchar(50) DEFAULT NULL,
+  `extend1` varchar(255) DEFAULT NULL,
+  `extend2` varchar(255) DEFAULT NULL,
+  `extend3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inventory_id_fk` (`inventory_id`),
+  CONSTRAINT `inventory_id_fk` FOREIGN KEY (`inventory_id`) REFERENCES `tb_inventory` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_out_part_info
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_part
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_part`;
@@ -170,11 +311,10 @@ CREATE TABLE `tb_part` (
   `p_unit` varchar(32) DEFAULT NULL COMMENT '单位',
   `p_sale` double DEFAULT NULL COMMENT '销售价',
   `p_wholesale` double DEFAULT NULL COMMENT '批发价',
-  `p_produce_area` varchar(32) DEFAULT NULL COMMENT '产地',
+  `p_produce_area` varchar(32) DEFAULT '' COMMENT '产地',
   `p_specification` varchar(32) DEFAULT NULL COMMENT '规格',
   `p_car_model` varchar(32) DEFAULT NULL COMMENT '适用车型',
   `p_category` varchar(32) DEFAULT NULL COMMENT '分类',
-  `p_repositoty` varchar(32) DEFAULT NULL COMMENT '库位号',
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新日期',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
@@ -188,7 +328,7 @@ CREATE TABLE `tb_part` (
   KEY `p_category_fk` (`p_category`),
   CONSTRAINT `p_category_fk` FOREIGN KEY (`p_category`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `p_unit_fk` FOREIGN KEY (`p_unit`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配件';
 
 -- ----------------------------
 -- Records of tb_part

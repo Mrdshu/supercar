@@ -59,11 +59,13 @@ public class UserController extends BaseController<User>{
 				.addSearchFilter(User.DP.company.name(), SearchOperator.eq, company);
 		User user = getSevice().getBy(searchable, true, true);
 		
-		if(user == null || !PasswordHash.validatePassword(password, user.getPassword()))
+		if(user == null || !PasswordHash.validatePassword(password, user.getPassword())){
 			result = ResponseResult.generateErrorResponse("", "账号或密码错误");
+		}
 		else{
 			//在用户第一次登录时，将用户放入session
-			session.setAttribute("username", user.getUsername());
+			session.setAttribute("loginUser", user);
+			result.addAttribute("entity", user);
 			result.setErrorMsg("登录成功！");
 		}
 			

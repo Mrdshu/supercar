@@ -38,7 +38,7 @@
       <property name="rootClass" value="com.xw.supercar.entity.BaseEntity" />
     </javaModelGenerator>
 
-    <!-- sql mapper 隐射配置文件 -->
+    <!-- sql mapper 映射配置文件 -->
     <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources/">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
@@ -49,20 +49,85 @@
     </javaClientGenerator> -->
 
     <!-- 要对那些数据表进行生成操作，必须要有一个. -->
-    <table schema="mybatis" tableName="tb_client" domainObjectName="tb_client" 
+    <table schema="mybatis" tableName="TB_PART" domainObjectName="Part" 
         enableCountByExample="false" enableUpdateByExample="false"
         enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false">
-        <columnOverride column="C_NAME"  property="name"/>
-        <columnOverride column="C_SEX" property="sex"/>
-        <columnOverride column="C_IDCARD"  property="idcard"/>
-        <columnOverride column="C_TYPE" property="type" />
-        <columnOverride column="C_EMAIL" property="email"/>
-        <columnOverride column="C_MOBILE" property="mobile" />
-        <columnOverride column="C_ADDRESS" property="address" />
+        <columnOverride column="P_CODE"  property="code"/>
+        <columnOverride column="P_NAME" property="name"/>
+        <columnOverride column="P_UNIT"  property="unit"/>
+        <columnOverride column="P_SALE" property="sale" />
+        <columnOverride column="P_WHOLESALE" property="wholeSale"/>
+        <columnOverride column="P_PRODUCE_AREA" property="produceArea" />
+        <columnOverride column="P_SPECIFICATION" property="specification" />
+        <columnOverride column="P_CAR_MODEL" property="carModel" />
+        <columnOverride column="ISDISABLE" property="isDisable" />
         <columnOverride column="ISDELETED" property="isDeleted" />
         <columnOverride column="CREATE_TIME" property="createTime" />
         <columnOverride column="UPDATE_TIME" property="updateTime" />
+    </table>
+    
+    <table schema="mybatis" tableName="TB_INVENTORY" domainObjectName="Inventory" 
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        <columnOverride column="P_ID"  property="partId"/>
+        <columnOverride column="P_COUNT" property="count"/>
+        <columnOverride column="P_COST"  property="cost"/>
+        <columnOverride column="P_SUPPLIER" property="supplier" />
+        <columnOverride column="P_COMPANY" property="company"/>
+        <columnOverride column="R_CODE" property="repositoryCode" />
+        <columnOverride column="ISDELETED" property="isDelete" />
+    </table>
+    
+    <table schema="mybatis" tableName="TB_IN_PART" domainObjectName="InPart" 
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        <columnOverride column="PIN_WORKORDER_NO"  property="workOrderNo"/>
+        <columnOverride column="PIN_PAY_METHOD"  property="payMethhod"/>
+        <columnOverride column="P_SUPPLIER" property="suppler" />
+        <columnOverride column="PIN_SUM" property="sum"/>
+        <columnOverride column="P_COMPANY" property="company" />
+        <columnOverride column="ISDELETED" property="isDelete" />
+        <columnOverride column="PIN_TIME" property="inTime"/>
+    </table>
+    
+    <table schema="mybatis" tableName="TB_IN_PART_INFO" domainObjectName="InPartInfo" 
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        <columnOverride column="PIN_WORKORDER_NUM"  property="workOrderNo"/>
+        <columnOverride column="P_ID" property="partId"/>
+        <columnOverride column="P_COUNT"  property="count"/>
+        <columnOverride column="P_COST" property="cost" />
+        <columnOverride column="P_SUPPLIER" property="suppler"/>
+        <columnOverride column="R_CODE" property="repositoryCode" />
+        <columnOverride column="ISDELETED" property="isDelete" />
+    </table>
+    
+    <table schema="mybatis" tableName="TB_OUT_PART" domainObjectName="OutPart" 
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        <columnOverride column="OUT_WORKORDER_NO"  property="workOrderNo"/>
+        <columnOverride column="OUT_TYPE"  property="type"/>
+        <columnOverride column="OUT_CLIENT_NAME" property="clientName" />
+        <columnOverride column="OUT_RECEIVER" property="receiver"/>
+        <columnOverride column="OUT_SUM" property="sum" />
+        <columnOverride column="P_COMPANY" property="company" />
+        <columnOverride column="ISDELETED" property="isDeleted" />
+        <columnOverride column="OUT_TIME" property="outTime"/>
+    </table>
+    
+     <table schema="mybatis" tableName="TB_OUT_PART_INFO" domainObjectName="OutPartInfo" 
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        <columnOverride column="OUT_WORKORDER_NO"  property="workOrderNo"/>
+        <columnOverride column="INVENTORY_ID"  property="inventoryId"/>
+        <columnOverride column="OUT_COUNT" property="count" />
+        <columnOverride column="ITEM_CODE" property="itemCode"/>
     </table>
 
   </context>

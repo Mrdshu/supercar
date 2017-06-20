@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.InPartMapper">
+  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.InPart">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pin_workorder_no" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="pin_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="pin_pay_method" jdbcType="VARCHAR" property="payMethhod" />
+    <result column="p_supplier" jdbcType="VARCHAR" property="suppler" />
+    <result column="pin_sum" jdbcType="DOUBLE" property="sum" />
+    <result column="p_company" jdbcType="VARCHAR" property="company" />
+    <result column="isdeleted" jdbcType="TINYINT" property="isDelete" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pin_workorder_no, pin_time, pin_pay_method, p_supplier, pin_sum, p_company, isdeleted, 
+    extend1, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_in_part
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_in_part
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xw.supercar.entity.InPart">
+    insert into tb_in_part (id, pin_workorder_no, pin_time, 
+      pin_pay_method, p_supplier, pin_sum, 
+      p_company, isdeleted, extend1, 
+      extend2, extend3)
+    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{payMethhod,jdbcType=VARCHAR}, #{suppler,jdbcType=VARCHAR}, #{sum,jdbcType=DOUBLE}, 
+      #{company,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{extend1,jdbcType=VARCHAR}, 
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xw.supercar.entity.InPart">
+    insert into tb_in_part
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="workOrderNo != null">
+        pin_workorder_no,
+      </if>
+      <if test="inTime != null">
+        pin_time,
+      </if>
+      <if test="payMethhod != null">
+        pin_pay_method,
+      </if>
+      <if test="suppler != null">
+        p_supplier,
+      </if>
+      <if test="sum != null">
+        pin_sum,
+      </if>
+      <if test="company != null">
+        p_company,
+      </if>
+      <if test="isDelete != null">
+        isdeleted,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderNo != null">
+        #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMethhod != null">
+        #{payMethhod,jdbcType=VARCHAR},
+      </if>
+      <if test="suppler != null">
+        #{suppler,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        #{sum,jdbcType=DOUBLE},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.InPart">
+    update tb_in_part
+    <set>
+      <if test="workOrderNo != null">
+        pin_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        pin_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMethhod != null">
+        pin_pay_method = #{payMethhod,jdbcType=VARCHAR},
+      </if>
+      <if test="suppler != null">
+        p_supplier = #{suppler,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        pin_sum = #{sum,jdbcType=DOUBLE},
+      </if>
+      <if test="company != null">
+        p_company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        isdeleted = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.InPart">
+    update tb_in_part
+    set pin_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
+      pin_time = #{inTime,jdbcType=TIMESTAMP},
+      pin_pay_method = #{payMethhod,jdbcType=VARCHAR},
+      p_supplier = #{suppler,jdbcType=VARCHAR},
+      pin_sum = #{sum,jdbcType=DOUBLE},
+      p_company = #{company,jdbcType=VARCHAR},
+      isdeleted = #{isDelete,jdbcType=TINYINT},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
