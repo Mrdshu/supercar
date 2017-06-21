@@ -25,15 +25,9 @@ public class Inventory extends BaseEntity {
     private String repositoryCode;
 
     /** 软删除标志 */
-    private Byte isDelete;
-
-    private String extend1;
-
-    private String extend2;
-
-    private String extend3;
+    private Boolean isDeleted;
     
     public static enum DP {
-		id, partId, count, cost, supplier, company, repositoryCode, isDelete;
+		id, partId, count, cost, supplier, company, repositoryCode, isDeleted;
 	}
 }

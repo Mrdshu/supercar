@@ -1,7 +1,5 @@
 package com.xw.supercar.entity;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +17,11 @@ public class OutPartInfo extends BaseEntity {
 
     /**项目代码*/
     private String itemCode;
-
-    private String extend1;
-
-    private String extend2;
-
-    private String extend3;
+    
+    /** 软删除标志 */
+    private Boolean isDeleted;
     
     public static enum DP {
-		id, workOrderNo, inventoryId, count, itemCode;
+		id, workOrderNo, inventoryId, count, itemCode, isDeleted;
 	}
 }

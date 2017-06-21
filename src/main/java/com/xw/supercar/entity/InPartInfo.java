@@ -19,21 +19,15 @@ public class InPartInfo extends BaseEntity {
     private Long cost;
 
     /** 供应商，数据字典外键 */
-    private String suppler;
+    private String supplier;
 
     /** 库位号code，数据字典外键 */
     private String repositoryCode;
 
     /** 软删除标志 */
-    private Byte isDelete;
-
-    private String extend1;
-
-    private String extend2;
-
-    private String extend3;
+    private Boolean isDeleted;
     
     public static enum DP {
-		id, workOrderNo, partId, count, cost,suppler,repositoryCode,isDelete;
+		id, workOrderNo, partId, count, cost,supplier,repositoryCode,isDeleted;
 	}
 }

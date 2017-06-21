@@ -1,164 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.InPartInfoMapper">
-  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.InPartInfo">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="pin_workorder_num" jdbcType="VARCHAR" property="workOrderNo" />
-    <result column="p_id" jdbcType="VARCHAR" property="partId" />
-    <result column="p_count" jdbcType="INTEGER" property="count" />
-    <result column="p_cost" jdbcType="DECIMAL" property="cost" />
-    <result column="p_supplier" jdbcType="VARCHAR" property="suppler" />
-    <result column="r_code" jdbcType="VARCHAR" property="repositoryCode" />
-    <result column="isdeleted" jdbcType="TINYINT" property="isDelete" />
-    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
-    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
-    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+<mapper namespace="com.xw.supercar.entity.InPartInfo">
+
+  <resultMap id="resultMap" type="com.xw.supercar.entity.InPartInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="IN_WORKORDER_NUM" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="P_ID" jdbcType="VARCHAR" property="partId" />
+    <result column="IN_COUNT" jdbcType="INTEGER" property="count" />
+    <result column="P_COST" jdbcType="DECIMAL" property="cost" />
+    <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplier" />
+    <result column="R_CODE" jdbcType="VARCHAR" property="repositoryCode" />
+    <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, pin_workorder_num, p_id, p_count, p_cost, p_supplier, r_code, isdeleted, extend1, 
-    extend2, extend3
+  
+  <sql id="table">TB_IN_PART_INFO</sql>
+  <sql id="columns">
+    ID, IN_WORKORDER_NUM, P_ID, IN_COUNT, P_COST, P_SUPPLIER, R_CODE, ISDELETED
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tb_in_part_info
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from tb_in_part_info
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xw.supercar.entity.InPartInfo">
-    insert into tb_in_part_info (id, pin_workorder_num, p_id, 
-      p_count, p_cost, p_supplier, 
-      r_code, isdeleted, extend1, 
-      extend2, extend3)
-    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{partId,jdbcType=VARCHAR}, 
-      #{count,jdbcType=INTEGER}, #{cost,jdbcType=DECIMAL}, #{suppler,jdbcType=VARCHAR}, 
-      #{repositoryCode,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{extend1,jdbcType=VARCHAR}, 
-      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xw.supercar.entity.InPartInfo">
-    insert into tb_in_part_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="workOrderNo != null">
-        pin_workorder_num,
-      </if>
-      <if test="partId != null">
-        p_id,
-      </if>
-      <if test="count != null">
-        p_count,
-      </if>
-      <if test="cost != null">
-        p_cost,
-      </if>
-      <if test="suppler != null">
-        p_supplier,
-      </if>
-      <if test="repositoryCode != null">
-        r_code,
-      </if>
-      <if test="isDelete != null">
-        isdeleted,
-      </if>
-      <if test="extend1 != null">
-        extend1,
-      </if>
-      <if test="extend2 != null">
-        extend2,
-      </if>
-      <if test="extend3 != null">
-        extend3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="workOrderNo != null">
-        #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="partId != null">
-        #{partId,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
-      </if>
-      <if test="cost != null">
-        #{cost,jdbcType=DECIMAL},
-      </if>
-      <if test="suppler != null">
-        #{suppler,jdbcType=VARCHAR},
-      </if>
-      <if test="repositoryCode != null">
-        #{repositoryCode,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        #{extend3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.InPartInfo">
-    update tb_in_part_info
-    <set>
-      <if test="workOrderNo != null">
-        pin_workorder_num = #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="partId != null">
-        p_id = #{partId,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        p_count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="cost != null">
-        p_cost = #{cost,jdbcType=DECIMAL},
-      </if>
-      <if test="suppler != null">
-        p_supplier = #{suppler,jdbcType=VARCHAR},
-      </if>
-      <if test="repositoryCode != null">
-        r_code = #{repositoryCode,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        isdeleted = #{isDelete,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        extend1 = #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        extend2 = #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        extend3 = #{extend3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.InPartInfo">
-    update tb_in_part_info
-    set pin_workorder_num = #{workOrderNo,jdbcType=VARCHAR},
-      p_id = #{partId,jdbcType=VARCHAR},
-      p_count = #{count,jdbcType=INTEGER},
-      p_cost = #{cost,jdbcType=DECIMAL},
-      p_supplier = #{suppler,jdbcType=VARCHAR},
-      r_code = #{repositoryCode,jdbcType=VARCHAR},
-      isdeleted = #{isDelete,jdbcType=TINYINT},
-      extend1 = #{extend1,jdbcType=VARCHAR},
-      extend2 = #{extend2,jdbcType=VARCHAR},
-      extend3 = #{extend3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+  
+  <!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
+				<choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>, 
+				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
+				<choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>, 
+				<choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>, 
+				<choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>, 
+				default, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="count" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="workOrderNo != null">PIN_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
+			<if test="partId != null">P_ID = <choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>,</if>
+			<if test="count != null">IN_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
+			<if test="cost != null">P_COST = <choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>,</if>
+			<if test="supplier != null">P_SUPPLIER = <choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>,</if>
+			<if test="repositoryCode != null">R_CODE = <choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="workOrderNo != null">AND PIN_WORKORDER_NO = #{workOrderNo}</if>
+			<if test="count != null">AND IN_COUNT = #{count}</if>
+			<if test="partId != null">AND P_ID = #{partId}</if>
+			<if test="supplier != null">AND P_SUPPLIER = #{supplier}</if>
+			<if test="repositoryCode != null">AND R_CODE = #{repositoryCode}</if>
+			<if test="cost != null">AND P_COST = #{cost}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.workOrderNo_eq != null">AND PIN_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND PIN_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">PIN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">PIN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.count_eq != null">AND IN_COUNT = #{filter.count_eq}</if>
+				<if test="filter.count_ne != null">AND IN_COUNT != #{filter.count_ne}</if>
+				
+				<if test="filter.cost_gte != null">AND P_COST &gt;= #{filter.cost_gte}</if>
+				<if test="filter.cost_lte != null">AND P_COST &lt;= #{filter.cost_lte}</if>
+				<if test="filter.cost_gt != null">AND P_COST &gt;= #{filter.cost_gt}</if>
+				<if test="filter.cost_lt != null">AND P_COST &lt;= #{filter.cost_lt}</if>
+				<if test="filter.cost_eq != null">AND P_COST = #{filter.cost_eq}</if>
+				<if test="filter.cost_ne != null">AND P_COST != #{filter.cost_ne}</if>
+				
+				<if test="filter.repositoryCode_eq != null">AND R_CODE = #{filter.repositoryCode_eq}</if>
+				<if test="filter.repositoryCode_like != null">AND lower(R_CODE) LIKE lower(#{filter.repositoryCode_like})</if>
+				
+				<if test="filter.supplier_eq != null">AND P_SUPPLIER = #{filter.supplier_eq}</if>
+				<if test="filter.supplier_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplier_like})</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+				
+				<if test="filter.partId_eq != null">AND P_ID = #{filter.partId_eq}</if>
+				<if test="filter.partId_ne != null">AND P_ID != #{filter.partId_ne}</if>
+				<if test="filter.partId_in != null">AND <foreach item="ii" collection="filter.partId_in" open="(" separator=" OR " close=")">P_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.partId_notIn != null">AND <foreach item="ii" collection="filter.partId_notIn" open="(" separator=" AND " close=")">P_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				
+			</trim>
+		</if>
+	</sql>
 </mapper>

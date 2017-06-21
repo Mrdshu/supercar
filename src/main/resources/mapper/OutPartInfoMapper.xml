@@ -1,128 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.OutPartInfoMapper">
-  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.OutPartInfo">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="out_workorder_no" jdbcType="VARCHAR" property="workOrderNo" />
-    <result column="inventory_id" jdbcType="VARCHAR" property="inventoryId" />
-    <result column="out_count" jdbcType="INTEGER" property="count" />
-    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
-    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
-    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
-    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+<mapper namespace="com.xw.supercar.entity.OutPartInfo">
+
+  <resultMap id="resultMap" type="com.xw.supercar.entity.OutPartInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OUT_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="INVENTORY_ID" jdbcType="VARCHAR" property="inventoryId" />
+    <result column="OUT_COUNT" jdbcType="INTEGER" property="count" />
+    <result column="ITEM_CODE" jdbcType="VARCHAR" property="itemCode" />
+    <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
+    <result column="EXTEND1" jdbcType="VARCHAR" property="extend1" />
+    <result column="EXTEND2" jdbcType="VARCHAR" property="extend2" />
+    <result column="EXTEND3" jdbcType="VARCHAR" property="extend3" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, out_workorder_no, inventory_id, out_count, item_code, extend1, extend2, extend3
+  
+  <sql id="table">TB_OUT_PART_INFO</sql>
+  <sql id="columns">
+    ID, OUT_WORKORDER_NO, INVENTORY_ID, OUT_COUNT, ITEM_CODE,ISDELETED, EXTEND1, EXTEND2, EXTEND3
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tb_out_part_info
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from tb_out_part_info
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xw.supercar.entity.OutPartInfo">
-    insert into tb_out_part_info (id, out_workorder_no, inventory_id, 
-      out_count, item_code, extend1, 
-      extend2, extend3)
-    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{inventoryId,jdbcType=VARCHAR}, 
-      #{count,jdbcType=INTEGER}, #{itemCode,jdbcType=VARCHAR}, #{extend1,jdbcType=VARCHAR}, 
-      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xw.supercar.entity.OutPartInfo">
-    insert into tb_out_part_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="workOrderNo != null">
-        out_workorder_no,
-      </if>
-      <if test="inventoryId != null">
-        inventory_id,
-      </if>
-      <if test="count != null">
-        out_count,
-      </if>
-      <if test="itemCode != null">
-        item_code,
-      </if>
-      <if test="extend1 != null">
-        extend1,
-      </if>
-      <if test="extend2 != null">
-        extend2,
-      </if>
-      <if test="extend3 != null">
-        extend3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="workOrderNo != null">
-        #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="inventoryId != null">
-        #{inventoryId,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
-      </if>
-      <if test="itemCode != null">
-        #{itemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="extend1 != null">
-        #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        #{extend3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.OutPartInfo">
-    update tb_out_part_info
-    <set>
-      <if test="workOrderNo != null">
-        out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="inventoryId != null">
-        inventory_id = #{inventoryId,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        out_count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="itemCode != null">
-        item_code = #{itemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="extend1 != null">
-        extend1 = #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        extend2 = #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        extend3 = #{extend3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.OutPartInfo">
-    update tb_out_part_info
-    set out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
-      inventory_id = #{inventoryId,jdbcType=VARCHAR},
-      out_count = #{count,jdbcType=INTEGER},
-      item_code = #{itemCode,jdbcType=VARCHAR},
-      extend1 = #{extend1,jdbcType=VARCHAR},
-      extend2 = #{extend2,jdbcType=VARCHAR},
-      extend3 = #{extend3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+  
+  <!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
+				<choose><when test="inventoryId == ''">null</when><otherwise>#{inventoryId}</otherwise></choose>, 
+				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
+				<choose><when test="itemCode == ''">null</when><otherwise>#{itemCode}</otherwise></choose>, 
+				default, 
+				<choose><when test="extend1 == ''">null</when><otherwise>#{extend1}</otherwise></choose>, 
+				<choose><when test="extend2 == ''">null</when><otherwise>#{extend2}</otherwise></choose>, 
+				<choose><when test="extend3 == ''">null</when><otherwise>#{extend3}</otherwise></choose>, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="count" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="workOrderNo != null">OUT_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
+			<if test="count != null">OUT_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
+			<if test="inventoryId != null">INVENTORY_ID = <choose><when test="inventoryId == ''">null</when><otherwise>#{inventoryId}</otherwise></choose>,</if>
+			<if test="itemCode != null">ITEM_CODE = <choose><when test="itemCode == ''">null</when><otherwise>#{itemCode}</otherwise></choose>,</if>
+			<if test="extend1 != null">EXTEND1 = <choose><when test="extend1 == ''">null</when><otherwise>#{extend1}</otherwise></choose>,</if>
+			<if test="extend2 != null">EXTEND2 = <choose><when test="extend2 == ''">null</when><otherwise>#{extend2}</otherwise></choose>,</if>
+			<if test="extend3 != null">EXTEND3 = <choose><when test="extend3 == ''">null</when><otherwise>#{extend3}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="workOrderNo != null">AND OUT_WORKORDER_NO = #{workOrderNo}</if>
+			<if test="count != null">AND OUT_COUNT = #{count}</if>
+			<if test="inventoryId != null">AND INVENTORY_ID = #{inventoryId}</if>
+			<if test="itemCode != null">AND ITEM_CODE = #{itemCode}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+			<if test="extend1 != null">AND EXTEND1 = #{extend1}</if>
+			<if test="extend2 != null">AND EXTEND2 = #{extend2}</if>
+			<if test="extend3 != null">AND EXTEND3 = #{extend3}</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.workOrderNo_eq != null">AND OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.count_eq != null">AND OUT_COUNT = #{filter.count_eq}</if>
+				<if test="filter.count_ne != null">AND OUT_COUNT != #{filter.count_ne}</if>
+				
+				<if test="filter.extend2_gte != null">AND EXTEND2 &gt;= #{filter.extend2_gte}</if>
+				<if test="filter.extend2_lte != null">AND EXTEND2 &lt;= #{filter.extend2_lte}</if>
+				<if test="filter.extend2_gt != null">AND EXTEND2 &gt;= #{filter.extend2_gt}</if>
+				<if test="filter.extend2_lt != null">AND EXTEND2 &lt;= #{filter.extend2_lt}</if>
+				<if test="filter.extend2_eq != null">AND EXTEND2 = #{filter.extend2_eq}</if>
+				<if test="filter.extend2_ne != null">AND EXTEND2 != #{filter.extend2_ne}</if>
+				
+				<if test="filter.extend3_eq != null">AND EXTEND3 = #{filter.extend3_eq}</if>
+				<if test="filter.extend3_ne != null">AND EXTEND3 != #{filter.extend3_ne}</if>
+				
+				<if test="filter.itemCode_eq != null">AND ITEM_CODE = #{filter.itemCode_eq}</if>
+				<if test="filter.itemCode_like != null">AND lower(ITEM_CODE) LIKE lower(#{filter.itemCode_like})</if>
+				
+				<if test="filter.extend1_eq != null">AND EXTEND1 = #{filter.extend1_eq}</if>
+				<if test="filter.extend1_like != null">AND lower(EXTEND1) LIKE lower(#{filter.extend1_like})</if>
+				
+				<if test="filter.inventoryId_gte != null">AND INVENTORY_ID &gt;= #{filter.inventoryId_gte}</if>
+				<if test="filter.inventoryId_lte != null">AND INVENTORY_ID &lt;= #{filter.inventoryId_lte}</if>
+				<if test="filter.inventoryId_gt != null">AND INVENTORY_ID &gt;= #{filter.inventoryId_gt}</if>
+				<if test="filter.inventoryId_lt != null">AND INVENTORY_ID &lt;= #{filter.inventoryId_lt}</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				
+			</trim>
+		</if>
+	</sql>
 </mapper>

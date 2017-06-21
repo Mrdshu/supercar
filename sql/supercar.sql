@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-20 08:45:43
+Date: 2017-06-21 23:05:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -129,23 +129,23 @@ CREATE TABLE `tb_inventory` (
 DROP TABLE IF EXISTS `tb_in_part`;
 CREATE TABLE `tb_in_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
-  `pin_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
-  `pin_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入库时间',
-  `pin_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
+  `in_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
+  `in_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入库时间',
+  `in_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
+  `in_sum` double DEFAULT NULL COMMENT '合计金额',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
-  `pin_sum` double DEFAULT NULL COMMENT '合计金额',
   `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `pin_pay_method_fk` (`pin_pay_method`),
+  KEY `pin_pay_method_fk` (`in_pay_method`),
   KEY `in_p_supplier_fk` (`p_supplier`),
   KEY `p_company_fk` (`p_company`),
   CONSTRAINT `in_p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
-  CONSTRAINT `pin_pay_method_fk` FOREIGN KEY (`pin_pay_method`) REFERENCES `tb_lookup` (`id`)
+  CONSTRAINT `pin_pay_method_fk` FOREIGN KEY (`in_pay_method`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -158,9 +158,9 @@ CREATE TABLE `tb_in_part` (
 DROP TABLE IF EXISTS `tb_in_part_info`;
 CREATE TABLE `tb_in_part_info` (
   `id` varchar(32) NOT NULL COMMENT '主键',
-  `pin_workorder_num` varchar(32) DEFAULT NULL COMMENT '入库单号',
+  `in_workorder_num` varchar(32) DEFAULT NULL COMMENT '入库单号',
   `p_id` varchar(32) DEFAULT NULL COMMENT '配件id',
-  `p_count` int(11) DEFAULT NULL COMMENT '配件入库数目',
+  `in_count` int(11) DEFAULT NULL COMMENT '配件入库数目',
   `p_cost` decimal(10,0) DEFAULT NULL COMMENT '进货价',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
   `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
@@ -288,6 +288,7 @@ CREATE TABLE `tb_out_part_info` (
   `inventory_id` varchar(32) DEFAULT NULL COMMENT '库存配件id，外键',
   `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
   `item_code` varchar(50) DEFAULT NULL,
+  `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,

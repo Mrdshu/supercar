@@ -18,7 +18,7 @@ public class InPart extends BaseEntity {
 	private String payMethhod;
 
 	/** 供应商，数据字典外键 */
-	private String suppler;
+	private String supplier;
 
 	/** 合计金额 */
 	private Double sum;
@@ -27,15 +27,9 @@ public class InPart extends BaseEntity {
 	private String company;
 
 	/** 软删除标志 */
-	private Byte isDelete;
-
-	private String extend1;
-
-	private String extend2;
-
-	private String extend3;
+	private Boolean isDeleted;
 	
 	public static enum DP {
-		id, workOrderNo, inTime, payMethhod, suppler,sum,company,isDelete;
+		id, workOrderNo, inTime, payMethhod, supplier,sum,company,isDeleted;
 	}
 }

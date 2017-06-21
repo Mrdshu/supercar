@@ -31,15 +31,9 @@ public class OutPart extends BaseEntity {
 
 	/** 软删除标志 */
 	private Byte isDeleted;
-
-	private String extend1;
-
-	private String extend2;
-
-	private String extend3;
 	
 	public static enum DP {
-		id,workOrderNo, outTime, type, clientName, receiver, sum, company, isDelete;
+		id,workOrderNo, outTime, type, clientName, receiver, sum, company, isDeleted;
 	}
 
 }

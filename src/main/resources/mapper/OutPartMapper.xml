@@ -1,177 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.OutPartMapper">
-  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.OutPart">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="out_workorder_no" jdbcType="VARCHAR" property="workOrderNo" />
-    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
-    <result column="out_type" jdbcType="VARCHAR" property="type" />
-    <result column="out_client_name" jdbcType="VARCHAR" property="clientName" />
-    <result column="out_receiver" jdbcType="VARCHAR" property="receiver" />
-    <result column="out_sum" jdbcType="DECIMAL" property="sum" />
-    <result column="p_company" jdbcType="VARCHAR" property="company" />
-    <result column="isdeleted" jdbcType="TINYINT" property="isDeleted" />
-    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
-    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
-    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+<mapper namespace="com.xw.supercar.entity.OutPart">
+
+  <resultMap id="resultMap" type="com.xw.supercar.entity.OutPart">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OUT_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="OUT_TIME" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="OUT_TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="OUT_CLIENT_NAME" jdbcType="VARCHAR" property="clientName" />
+    <result column="OUT_RECEIVER" jdbcType="VARCHAR" property="receiver" />
+    <result column="OUT_SUM" jdbcType="DECIMAL" property="sum" />
+    <result column="P_COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, out_workorder_no, out_time, out_type, out_client_name, out_receiver, out_sum, 
-    p_company, isdeleted, extend1, extend2, extend3
+  
+  <sql id="table">TB_OUT_PART</sql>
+  <sql id="columns">
+    ID, OUT_WORKORDER_NO, OUT_TIME, OUT_TYPE, OUT_CLIENT_NAME, OUT_RECEIVER, OUT_SUM, 
+    P_COMPANY, ISDELETED
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tb_out_part
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from tb_out_part
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xw.supercar.entity.OutPart">
-    insert into tb_out_part (id, out_workorder_no, out_time, 
-      out_type, out_client_name, out_receiver, 
-      out_sum, p_company, isdeleted, 
-      extend1, extend2, extend3
-      )
-    values (#{id,jdbcType=VARCHAR}, #{workOrderNo,jdbcType=VARCHAR}, #{outTime,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
-      #{sum,jdbcType=DECIMAL}, #{company,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
-      #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xw.supercar.entity.OutPart">
-    insert into tb_out_part
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="workOrderNo != null">
-        out_workorder_no,
-      </if>
-      <if test="outTime != null">
-        out_time,
-      </if>
-      <if test="type != null">
-        out_type,
-      </if>
-      <if test="clientName != null">
-        out_client_name,
-      </if>
-      <if test="receiver != null">
-        out_receiver,
-      </if>
-      <if test="sum != null">
-        out_sum,
-      </if>
-      <if test="company != null">
-        p_company,
-      </if>
-      <if test="isDeleted != null">
-        isdeleted,
-      </if>
-      <if test="extend1 != null">
-        extend1,
-      </if>
-      <if test="extend2 != null">
-        extend2,
-      </if>
-      <if test="extend3 != null">
-        extend3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="workOrderNo != null">
-        #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="outTime != null">
-        #{outTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="clientName != null">
-        #{clientName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiver != null">
-        #{receiver,jdbcType=VARCHAR},
-      </if>
-      <if test="sum != null">
-        #{sum,jdbcType=DECIMAL},
-      </if>
-      <if test="company != null">
-        #{company,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        #{extend3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.OutPart">
-    update tb_out_part
-    <set>
-      <if test="workOrderNo != null">
-        out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="outTime != null">
-        out_time = #{outTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        out_type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="clientName != null">
-        out_client_name = #{clientName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiver != null">
-        out_receiver = #{receiver,jdbcType=VARCHAR},
-      </if>
-      <if test="sum != null">
-        out_sum = #{sum,jdbcType=DECIMAL},
-      </if>
-      <if test="company != null">
-        p_company = #{company,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null">
-        isdeleted = #{isDeleted,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        extend1 = #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        extend2 = #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        extend3 = #{extend3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.OutPart">
-    update tb_out_part
-    set out_workorder_no = #{workOrderNo,jdbcType=VARCHAR},
-      out_time = #{outTime,jdbcType=TIMESTAMP},
-      out_type = #{type,jdbcType=VARCHAR},
-      out_client_name = #{clientName,jdbcType=VARCHAR},
-      out_receiver = #{receiver,jdbcType=VARCHAR},
-      out_sum = #{sum,jdbcType=DECIMAL},
-      p_company = #{company,jdbcType=VARCHAR},
-      isdeleted = #{isDeleted,jdbcType=TINYINT},
-      extend1 = #{extend1,jdbcType=VARCHAR},
-      extend2 = #{extend2,jdbcType=VARCHAR},
-      extend3 = #{extend3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+ 
+ 	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
+				<choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>, 
+				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
+				<choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>, 
+				<choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>, 
+				<choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>, 
+				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
+				default, 
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="count" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="workOrderNo != null">OUT_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
+			<if test="type != null">OUT_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
+			<if test="outTime != null">OUT_TIME = <choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>,</if>
+			<if test="clientName != null">OUT_CLIENT_NAME = <choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>,</if>
+			<if test="receiver != null">OUT_RECEIVER = <choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>,</if>
+			<if test="sum != null">OUT_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
+			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="workOrderNo != null">AND OUT_WORKORDER_NO = #{workOrderNo}</if>
+			<if test="type != null">AND OUT_TYPE = #{type}</if>
+			<if test="outTime != null">AND OUT_TIME = #{outTime}</if>
+			<if test="clientName != null">AND OUT_CLIENT_NAME = #{clientName}</if>
+			<if test="company != null">AND P_COMPANY = #{company}</if>
+			<if test="sum != null">AND OUT_SUM = #{sum}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.workOrderNo_eq != null">AND OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.type_eq != null">AND OUT_TYPE = #{filter.type_eq}</if>
+				<if test="filter.type_ne != null">AND OUT_TYPE != #{filter.type_ne}</if>
+				
+				<if test="filter.sum_gte != null">AND OUT_SUM &gt;= #{filter.sum_gte}</if>
+				<if test="filter.sum_lte != null">AND OUT_SUM &lt;= #{filter.sum_lte}</if>
+				<if test="filter.sum_gt != null">AND OUT_SUM &gt;= #{filter.sum_gt}</if>
+				<if test="filter.sum_lt != null">AND OUT_SUM &lt;= #{filter.sum_lt}</if>
+				<if test="filter.sum_eq != null">AND OUT_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND OUT_SUM != #{filter.sum_ne}</if>
+				
+				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
+				<if test="filter.company_ne != null">AND P_COMPANY != #{filter.company_ne}</if>
+				
+				<if test="filter.clientName_eq != null">AND OUT_CLIENT_NAME = #{filter.clientName_eq}</if>
+				<if test="filter.clientName_like != null">AND lower(OUT_CLIENT_NAME) LIKE lower(#{filter.clientName_like})</if>
+				
+				<if test="filter.receiver_eq != null">AND OUT_RECEIVER = #{filter.receiver_eq}</if>
+				<if test="filter.receiver_like != null">AND lower(OUT_RECEIVER) LIKE lower(#{filter.receiver_like})</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+				
+				<if test="filter.outTime_gte != null">AND OUT_TIME &gt;= #{filter.outTime_gte}</if>
+				<if test="filter.outTime_lte != null">AND OUT_TIME &lt;= #{filter.outTime_lte}</if>
+				<if test="filter.outTime_gt != null">AND OUT_TIME &gt;= #{filter.outTime_gt}</if>
+				<if test="filter.outTime_lt != null">AND OUT_TIME &lt;= #{filter.outTime_lt}</if>
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				
+			</trim>
+		</if>
+	</sql>
+	
 </mapper>
