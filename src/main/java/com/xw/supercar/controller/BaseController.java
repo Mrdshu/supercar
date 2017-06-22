@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
-import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
-import com.xw.supercar.service.LookupService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.util.ReflectUtil;
 /**
- * Controller层的基础类，实现了基础的增、删、改、查(new、remove、edit、list(get)方法。
+ * Controller层的基础类，实现了基础的增、删、改、查(new、remove、edit、list(get) )方法。
  * 继承即可使用（需指定泛型为对应实体）
  * 
  * @author wangsz 2017-05-14

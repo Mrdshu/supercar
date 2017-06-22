@@ -19,6 +19,7 @@ import com.xw.supercar.service.UserService;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.util.CommonUtil;
+import com.xw.supercar.util.MD5Util;
 import com.xw.supercar.util.PasswordHash;
 @Controller
 @RequestMapping("/user")
@@ -51,15 +52,18 @@ public class UserController extends BaseController<User>{
 	public ResponseResult login(HttpSession session, String username,String password,String company){
 		ResponseResult result = ResponseResult.generateResponse();
 		
-		//TODO 前端md5密码解密
-		
 		//查询出指定用户名、公司的用户
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(User.DP.username.name(), SearchOperator.eq, username)
 				.addSearchFilter(User.DP.company.name(), SearchOperator.eq, company);
 		User user = getSevice().getBy(searchable, true, true);
+	
+		//=====加盐哈希加密算法暂时弃用，直接比较前台传来的密码与数据库的密码====
+//		if(user == null || !PasswordHash.validatePassword(password, user.getPassword())){
+//			result = ResponseResult.generateErrorResponse("", "账号或密码错误");
+//		}
 		
-		if(user == null || !PasswordHash.validatePassword(password, user.getPassword())){
+		if(user == null || !password.equals(user.getPassword())){
 			result = ResponseResult.generateErrorResponse("", "账号或密码错误");
 		}
 		else{
@@ -98,18 +102,18 @@ public class UserController extends BaseController<User>{
 	@ResponseBody
 	public ResponseResult register(User user){
 		ResponseResult result = ResponseResult.generateResponse();
-		String password = user.getPassword();
 		
-		//TODO 前端md5密码解密
-		
-		//将密码用PBKDF2（加盐哈希算法）加密后存入数据库
-		try {
-			password = PasswordHash.createHash(password);
-			user.setPassword(password);
-		} catch (Exception e) {
-			log.error("password encoding fail.\n"+CommonUtil.getExceptionInfo(e));
-			return ResponseResult.generateErrorResponse("", "注册失败，密码格式有误");
-		}
+		//=====加盐哈希加密算法暂时弃用，直接存入前台传来的md5加密密码====
+//		String password = user.getPassword();
+//				
+//		//将密码用PBKDF2（加盐哈希算法）加密后存入数据库
+//		try {
+//			password = PasswordHash.createHash(password);
+//			user.setPassword(password);
+//		} catch (Exception e) {
+//			log.error("password encoding fail.\n"+CommonUtil.getExceptionInfo(e));
+//			return ResponseResult.generateErrorResponse("", "注册失败，密码格式有误");
+//		}
 		
 		result = newEntity(user);
 		//进行后后处理
