@@ -1,0 +1,33 @@
+<result property="carColor" column="CAR_COLOR" />
+
+#insert
+<choose><when test="carColor == ''">null</when><otherwise>#{carColor}</otherwise></choose>, 
+
+#update-set
+<if test="carColor != null">CAR_COLOR = <choose><when test="carColor == ''">null</when><otherwise>#{carColor}</otherwise></choose>,</if>
+
+#where-entity
+<if test="filter.carColor_eq != null">AND CAR_COLOR = #{filter.carColor_eq}</if>
+<if test="filter.carColor_ne != null">AND CAR_COLOR != #{filter.carColor_ne}</if>
+<if test="filter.carColor_like != null">AND lower(CAR_COLOR) LIKE lower(#{filter.carColor_like})</if>
+<if test="filter.carColor_in != null">AND <foreach item="ii" collection="filter.carColor_in" open="(" separator=" OR " close=")">CAR_COLOR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+<if test="filter.carColor_notIn != null">AND <foreach item="ii" collection="filter.carColor_notIn" open="(" separator=" AND " close=")">CAR_COLOR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+
+#where-filter
+<if test="filter.carColor_eq != null">AND CAR_COLOR = #{filter.carColor_eq}</if>
+<if test="filter.carColor_ne != null">AND CAR_COLOR != #{filter.carColor_ne}</if>
+<if test="filter.carColor_like != null">AND lower(CAR_COLOR) LIKE lower(#{filter.carColor_like})</if>
+<if test="filter.carColor_in != null">AND <foreach item="ii" collection="filter.carColor_in" open="(" separator=" OR " close=")">CAR_COLOR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+<if test="filter.carColor_notIn != null">AND <foreach item="ii" collection="filter.carColor_notIn" open="(" separator=" AND " close=")">CAR_COLOR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{filter.createTime_gte}</if>
+<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{filter.createTime_lte}</if>
+<if test="filter.createTime_gt != null">AND CREATE_TIME &gt;= #{filter.createTime_gt}</if>
+<if test="filter.createTime_lt != null">AND CREATE_TIME &lt;= #{filter.createTime_lt}</if>
+
+<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gte}</if>
+<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lte}</if>
+<if test="filter.updateTime_gt != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gt}</if>
+<if test="filter.updateTime_lt != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lt}</if>
+
