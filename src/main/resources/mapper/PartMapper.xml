@@ -1,235 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.PartMapper">
-  <resultMap id="BaseResultMap" type="com.xw.supercar.entity.Part">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="p_code" jdbcType="VARCHAR" property="code" />
-    <result column="p_name" jdbcType="VARCHAR" property="name" />
-    <result column="p_unit" jdbcType="VARCHAR" property="unit" />
-    <result column="p_sale" jdbcType="DOUBLE" property="sale" />
-    <result column="p_wholesale" jdbcType="DOUBLE" property="wholeSale" />
-    <result column="p_produce_area" jdbcType="VARCHAR" property="produceArea" />
-    <result column="p_specification" jdbcType="VARCHAR" property="specification" />
-    <result column="p_car_model" jdbcType="VARCHAR" property="carModel" />
-    <result column="p_category" jdbcType="VARCHAR" property="pCategory" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="isdeleted" jdbcType="TINYINT" property="isDeleted" />
-    <result column="isdisable" jdbcType="TINYINT" property="isDisable" />
-    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
-    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
-    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+<mapper namespace="com.xw.supercar.entity.Part">
+
+  <resultMap id="resultMap" type="com.xw.supercar.entity.Part">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="P_CODE" jdbcType="VARCHAR" property="code" />
+    <result column="P_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="P_UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="P_SALE" jdbcType="DOUBLE" property="sale" />
+    <result column="P_WHOLESALE" jdbcType="DOUBLE" property="wholeSale" />
+    <result column="P_PRODUCE_AREA" jdbcType="VARCHAR" property="produceArea" />
+    <result column="P_SPECIFICATION" jdbcType="VARCHAR" property="specification" />
+    <result column="P_CAR_MODEL" jdbcType="VARCHAR" property="carModel" />
+    <result column="P_CATEGORY" jdbcType="VARCHAR" property="pCategory" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
+    <result column="ISDISABLE" jdbcType="TINYINT" property="isDisable" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, p_code, p_name, p_unit, p_sale, p_wholesale, p_produce_area, p_specification, 
-    p_car_model, p_category, create_time, update_time, isdeleted, isdisable, extend1, 
-    extend2, extend3
+  
+  <sql id="table">TB_PART</sql>
+  <sql id="columns">
+    ID, P_CODE, P_NAME, P_UNIT, P_SALE, P_WHOLESALE, P_PRODUCE_AREA, P_SPECIFICATION, 
+    P_CAR_MODEL, P_CATEGORY, CREATE_TIME, UPDATE_TIME, ISDELETED, ISDISABLE
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tb_part
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from tb_part
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xw.supercar.entity.Part">
-    insert into tb_part (id, p_code, p_name, 
-      p_unit, p_sale, p_wholesale, 
-      p_produce_area, p_specification, p_car_model, 
-      p_category, create_time, update_time, 
-      isdeleted, isdisable, extend1, 
-      extend2, extend3)
-    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{sale,jdbcType=DOUBLE}, #{wholeSale,jdbcType=DOUBLE}, 
-      #{produceArea,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{carModel,jdbcType=VARCHAR}, 
-      #{pCategory,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=TINYINT}, #{isDisable,jdbcType=TINYINT}, #{extend1,jdbcType=VARCHAR}, 
-      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xw.supercar.entity.Part">
-    insert into tb_part
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="code != null">
-        p_code,
-      </if>
-      <if test="name != null">
-        p_name,
-      </if>
-      <if test="unit != null">
-        p_unit,
-      </if>
-      <if test="sale != null">
-        p_sale,
-      </if>
-      <if test="wholeSale != null">
-        p_wholesale,
-      </if>
-      <if test="produceArea != null">
-        p_produce_area,
-      </if>
-      <if test="specification != null">
-        p_specification,
-      </if>
-      <if test="carModel != null">
-        p_car_model,
-      </if>
-      <if test="pCategory != null">
-        p_category,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="isDeleted != null">
-        isdeleted,
-      </if>
-      <if test="isDisable != null">
-        isdisable,
-      </if>
-      <if test="extend1 != null">
-        extend1,
-      </if>
-      <if test="extend2 != null">
-        extend2,
-      </if>
-      <if test="extend3 != null">
-        extend3,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="sale != null">
-        #{sale,jdbcType=DOUBLE},
-      </if>
-      <if test="wholeSale != null">
-        #{wholeSale,jdbcType=DOUBLE},
-      </if>
-      <if test="produceArea != null">
-        #{produceArea,jdbcType=VARCHAR},
-      </if>
-      <if test="specification != null">
-        #{specification,jdbcType=VARCHAR},
-      </if>
-      <if test="carModel != null">
-        #{carModel,jdbcType=VARCHAR},
-      </if>
-      <if test="pCategory != null">
-        #{pCategory,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
-      </if>
-      <if test="isDisable != null">
-        #{isDisable,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        #{extend3,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xw.supercar.entity.Part">
-    update tb_part
-    <set>
-      <if test="code != null">
-        p_code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        p_name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="unit != null">
-        p_unit = #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="sale != null">
-        p_sale = #{sale,jdbcType=DOUBLE},
-      </if>
-      <if test="wholeSale != null">
-        p_wholesale = #{wholeSale,jdbcType=DOUBLE},
-      </if>
-      <if test="produceArea != null">
-        p_produce_area = #{produceArea,jdbcType=VARCHAR},
-      </if>
-      <if test="specification != null">
-        p_specification = #{specification,jdbcType=VARCHAR},
-      </if>
-      <if test="carModel != null">
-        p_car_model = #{carModel,jdbcType=VARCHAR},
-      </if>
-      <if test="pCategory != null">
-        p_category = #{pCategory,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null">
-        isdeleted = #{isDeleted,jdbcType=TINYINT},
-      </if>
-      <if test="isDisable != null">
-        isdisable = #{isDisable,jdbcType=TINYINT},
-      </if>
-      <if test="extend1 != null">
-        extend1 = #{extend1,jdbcType=VARCHAR},
-      </if>
-      <if test="extend2 != null">
-        extend2 = #{extend2,jdbcType=VARCHAR},
-      </if>
-      <if test="extend3 != null">
-        extend3 = #{extend3,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xw.supercar.entity.Part">
-    update tb_part
-    set p_code = #{code,jdbcType=VARCHAR},
-      p_name = #{name,jdbcType=VARCHAR},
-      p_unit = #{unit,jdbcType=VARCHAR},
-      p_sale = #{sale,jdbcType=DOUBLE},
-      p_wholesale = #{wholeSale,jdbcType=DOUBLE},
-      p_produce_area = #{produceArea,jdbcType=VARCHAR},
-      p_specification = #{specification,jdbcType=VARCHAR},
-      p_car_model = #{carModel,jdbcType=VARCHAR},
-      p_category = #{pCategory,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      isdeleted = #{isDeleted,jdbcType=TINYINT},
-      isdisable = #{isDisable,jdbcType=TINYINT},
-      extend1 = #{extend1,jdbcType=VARCHAR},
-      extend2 = #{extend2,jdbcType=VARCHAR},
-      extend3 = #{extend3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+  
+ <!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
+				<choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>, 
+				<choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,
+				<choose><when test="unit == ''">null</when><otherwise>#{unit}</otherwise></choose>,
+				<choose><when test="sale == ''">null</when><otherwise>#{sale}</otherwise></choose>, 
+				<choose><when test="wholeSale == ''">null</when><otherwise>#{wholeSale}</otherwise></choose>, 
+				<choose><when test="produceArea == ''">null</when><otherwise>#{produceArea}</otherwise></choose>, 
+				<choose><when test="specification == ''">null</when><otherwise>#{specification}</otherwise></choose>, 
+				<choose><when test="carModel == ''">null</when><otherwise>#{carModel}</otherwise></choose>,
+				<choose><when test="pCategory == ''">null</when><otherwise>#{pCategory}</otherwise></choose>, 
+				default, 
+				default,
+				default, 
+				default,
+			</trim>
+		)
+	</insert>
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!--ID, P_CODE, P_NAME, P_UNIT, P_SALE, P_WHOLESALE, P_PRODUCE_AREA, P_SPECIFICATION, 
+    P_CAR_MODEL, P_CATEGORY, CREATE_TIME, UPDATE_TIME, ISDELETED, ISDISABLE-->
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="code != null">P_CODE = <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,</if>
+			<if test="name != null">P_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
+			<if test="unit != null">P_UNIT = <choose><when test="unit == ''">null</when><otherwise>#{unit}</otherwise></choose>,</if>
+			<if test="sale != null">P_SALE = <choose><when test="sale == ''">null</when><otherwise>#{sale}</otherwise></choose>,</if>
+			<if test="wholeSale != null">P_WHOLESALE = <choose><when test="wholeSale == ''">null</when><otherwise>#{wholeSale}</otherwise></choose>,</if>
+			<if test="produceArea != null">P_PRODUCE_AREA = <choose><when test="produceArea == ''">null</when><otherwise>#{produceArea}</otherwise></choose>,</if>
+			<if test="specification != null">P_SPECIFICATION = <choose><when test="specification == ''">null</when><otherwise>#{specification}</otherwise></choose>,</if>
+			<if test="carModel != null">P_CAR_MODEL = <choose><when test="carModel == ''">null</when><otherwise>#{carModel}</otherwise></choose>,</if>
+			<if test="pCategory != null">P_CATEGORY = <choose><when test="pCategory == ''">null</when><otherwise>#{pCategory}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+			<if test="isDisable != null">ISDISABLE = <choose><when test="isDisable == ''">0</when><otherwise>#{isDisable}</otherwise></choose>,</if>
+		</trim>
+	</sql>
+
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="code != null">AND P_CODE = #{code}</if>
+			<if test="name != null">AND P_NAME = #{name}</if>
+			<if test="unit != null">AND P_UNIT = #{unit}</if>
+			<if test="sale != null">AND P_SALE = #{sale}</if>
+			<if test="wholeSale != null">AND P_WHOLESALE = #{wholeSale}</if>
+			<if test="produceArea != null">AND P_PRODUCE_AREA = #{produceArea}</if>
+			<if test="specification != null">AND P_SPECIFICATION = #{specification}</if>
+			<if test="carModel != null">AND P_CAR_MODEL = #{carModel}</if>
+			<if test="pCategory != null">AND P_CATEGORY = #{pCategory}</if>
+			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+			<if test="isDisable != null">AND ISDISABLE = #{isDisable}</if>
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+				<if test="filter.code_eq != null">AND P_CODE = #{filter.code_eq}</if>
+				<if test="filter.code_ne != null">AND P_CODE != #{filter.code_ne}</if>
+				<if test="filter.code_like != null">AND lower(P_CODE) LIKE lower(#{filter.code_like})</if>
+				<if test="filter.code_in != null">AND <foreach item="ii" collection="filter.code_in" open="(" separator=" OR " close=")">P_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.code_notIn != null">AND <foreach item="ii" collection="filter.code_notIn" open="(" separator=" AND " close=")">P_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			
+				<if test="filter.name_eq != null">AND P_NAME = #{filter.name_eq}</if>
+				<if test="filter.name_ne != null">AND P_NAME != #{filter.name_ne}</if>
+				<if test="filter.name_like != null">AND lower(P_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">P_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">P_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
+				<if test="filter.unit_eq != null">AND P_UNIT = #{filter.unit_eq}</if>
+				<if test="filter.unit_ne != null">AND P_UNIT != #{filter.unit_ne}</if>
+				
+				<if test="filter.sale_eq != null">AND P_SALE = #{filter.sale_eq}</if>
+				<if test="filter.sale_ne != null">AND P_SALE != #{filter.sale_ne}</if>
+				
+				<if test="filter.wholeSale_eq != null">AND P_WHOLESALE = #{filter.wholeSale_eq}</if>
+				<if test="filter.wholeSale_ne != null">AND P_WHOLESALE != #{filter.wholeSale_ne}</if>
+			
+				<if test="filter.produceArea_eq != null">AND P_PRODUCE_AREA = #{filter.produceArea_eq}</if>
+				<if test="filter.produceArea_like != null">AND lower(P_PRODUCE_AREA) LIKE lower(#{filter.produceArea_like})</if>
+				
+				<if test="filter.specification_eq != null">AND P_SPECIFICATION = #{filter.specification_eq}</if>
+				
+				<if test="filter.carModel_eq != null">AND P_CAR_MODEL = #{filter.carModel_eq}</if>
+				<if test="filter.carModel_ne != null">AND P_CAR_MODEL != #{filter.carModel_ne}</if>
+				
+				<if test="filter.pCategory_eq != null">AND P_CATEGORY = #{filter.pCategory_eq}</if>
+				<if test="filter.pCategory_ne != null">AND P_CATEGORY != #{filter.pCategory_ne}</if>
+				
+				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+				
+				<if test="filter.isDisable_eq != null">AND ISDISABLE = #{filter.isDisable_eq}</if>
+				<if test="filter.isDisable_ne != null">AND ISDISABLE != #{filter.isDisable_ne}</if>
+
+				<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{filter.createTime_gte}</if>
+				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{filter.createTime_lte}</if>
+				<if test="filter.createTime_gt != null">AND CREATE_TIME &gt;= #{filter.createTime_gt}</if>
+				<if test="filter.createTime_lt != null">AND CREATE_TIME &lt;= #{filter.createTime_lt}</if>
+				
+				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gte}</if>
+				<if test="filter.updateTime_lte != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lte}</if>
+				<if test="filter.updateTime_gt != null">AND UPDATE_TIME &gt;= #{filter.updateTime_gt}</if>
+				<if test="filter.updateTime_lt != null">AND UPDATE_TIME &lt;= #{filter.updateTime_lt}</if>
+
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+			ORDER BY CREATE_TIME DESC
+		</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+					
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+  
 </mapper>

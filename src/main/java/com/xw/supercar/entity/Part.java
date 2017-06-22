@@ -18,7 +18,7 @@ public class Part extends BaseEntity {
 	/** 配件名称 */
 	private String name;
 
-	/** 单位 */
+	/** 单位 ，外键*/
 	private String unit;
 
 	/** 销售价 */
@@ -30,7 +30,7 @@ public class Part extends BaseEntity {
 	/** 产地 */
 	private String produceArea;
 
-	/** 规格 */
+	/** 规格，外键 */
 	private String specification;
 
 	/** 适用车型 */
@@ -51,14 +51,6 @@ public class Part extends BaseEntity {
 	/** 禁用标志 */
 	private Byte isDisable;
 
-	/** 预留拓展字段 */
-	private String extend1;
-
-	/** 预留拓展字段 */
-	private String extend2;
-
-	/** 预留拓展字段 */
-	private String extend3;
 
 	public static enum DP {
 		id, code, name, unit, sale, wholeSale, produceArea, specification, carModel, pCategory, createTime, updateTime, isDisable, isDeleted;
