@@ -1,4 +1,4 @@
-package com.xw.supercar.spring.util;
+package com.xw.supercar.spring.aop;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

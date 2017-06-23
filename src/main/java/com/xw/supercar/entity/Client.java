@@ -2,6 +2,8 @@ package com.xw.supercar.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -52,8 +54,10 @@ public class Client extends BaseDateEntity{
 	/**备注*/
 	private String description;
 	/**创建时间*/
+	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")  //若已设置全局json解析date格式配置，则不需要该注解
 	private Date createTime;
 	/**更新时间*/
+	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 	/**软删除标志*/
 	private Boolean isDeleted;

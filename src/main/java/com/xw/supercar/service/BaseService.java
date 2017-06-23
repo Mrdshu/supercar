@@ -1,9 +1,13 @@
 package com.xw.supercar.service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +17,7 @@ import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+import com.xw.supercar.util.ReflectUtil;
 
 /**
  * Service层的基础类，实现了基础的增、删、改、查(add、remove、modify、find与get)方法。
@@ -21,6 +26,7 @@ import com.xw.supercar.sql.search.Searchable;
  * @author wangsz 2017-05-14
  */
 public abstract class BaseService<E extends BaseEntity> implements InitializingBean{
+	protected final Log log = LogFactory.getLog(this.getClass());
 	
 	private BaseDao<E> baseDao;
 	
@@ -73,7 +79,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @param entity
 	 * @author  wangsz 2017-05-16
 	 */
-	protected void afterSearch(E entity){}
+	protected void afterSelect(E entity){}
 	/**
 	 * 查询后的操作（多个查询）
 	 * @param entity
@@ -81,7 +87,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	protected void afterSearch(List<E> entitys){
 		for (E e : entitys) {
-			afterSearch(e);
+			afterSelect(e);
 		}
 	}
 	
@@ -217,7 +223,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	public E getById(String id){
 		E entity =  baseDao.selectById(id);
-		afterSearch(entity);
+		afterSelect(entity);
 		
 		return entity;
 	}
@@ -239,7 +245,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 			throw new IllegalArgumentException("getBy method find more than 1 row record");
 		
 		E entity = entitys.get(0);
-		afterSearch(entity);
+		afterSelect(entity);
 		
 		return entity;
 	}
@@ -269,5 +275,6 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		return page;
 		
 	}
+	
 	
 }

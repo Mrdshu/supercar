@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:jee="http://www.springframework.org/schema/jee" 
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -19,34 +16,53 @@
 	http://www.springframework.org/schema/jee/spring-jee.xsd
 	http://www.springframework.org/schema/aop 
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-	
+
 	<description>Spring Web MVC 配置</description>
-	
+
 	<!-- spring-mvc 视图解析器 ViewResolver -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-	    <property name="prefix" value="/WEB-INF/jsp/"/>
-	    <property name="suffix" value=".jsp"/>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
 	</bean>
 
 	<!-- 注解探测器:扫描controller包下类的注解 -->
-	<context:component-scan base-package="com.xw.supercar.controller" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="com.xw.supercar.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	<!--设置默认的注解mapping和注解adapter-->
-	<mvc:annotation-driven/> 
 	
-	<!--自定义参数注入-->
+	<!--设置默认的注解mapping和注解adapter -->
+	<mvc:annotation-driven />
+
+	<!--自定义参数注入 -->
 	<mvc:annotation-driven>
-        <mvc:argument-resolvers>
-        	<bean class="com.xw.supercar.spring.resolver.PageableMethodArgumentResolver" />
-            <bean class="com.xw.supercar.spring.resolver.SearchableMethodArgumentResolver" />
-        </mvc:argument-resolvers>
-    </mvc:annotation-driven>
-    
-    <!--aop设置-->
-	<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
-	<!--aop的拦截配置类-->
-	<bean class="com.xw.supercar.spring.util.ControllerExceptionAop" lazy-init="false" />
+		<mvc:argument-resolvers>
+			<bean
+				class="com.xw.supercar.spring.resolver.PageableMethodArgumentResolver" />
+			<bean
+				class="com.xw.supercar.spring.resolver.SearchableMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 	
+	<!--自定义jackson 序列化date数据格式-->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper" ref="customObjectMapper"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean id="customObjectMapper" class="com.xw.supercar.spring.util.CustomJsonDateMapper"></bean>
+
+	<!--aop设置 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"
+		expose-proxy="true" />
+	<!--aop的拦截配置类 -->
+	<bean class="com.xw.supercar.spring.aop.ControllerExceptionAop" lazy-init="false" />
+
 </beans>
