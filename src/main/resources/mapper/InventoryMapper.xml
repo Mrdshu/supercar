@@ -7,9 +7,9 @@
     <result column="P_ID"  property="partId" />
     <result column="P_COUNT"  property="count" />
     <result column="P_COST"  property="cost" />
-    <result column="P_SUPPLIER"  property="supplier" />
+    <result column="P_SUPPLIER"  property="supplierLookup" />
     <result column="P_COMPANY"  property="company" />
-    <result column="R_CODE"  property="repositoryCode" />
+    <result column="R_CODE"  property="repCodeLookup" />
     <result column="ISDELETED" property="isDeleted" />
   </resultMap>
   
@@ -28,9 +28,9 @@
 				<choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>, 
 				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
 				<choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>, 
-				<choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>, 
+				<choose><when test="supplierLookup == ''">null</when><otherwise>#{supplierLookup}</otherwise></choose>, 
 				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
-				<choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>, 
+				<choose><when test="repCodeLookup == ''">null</when><otherwise>#{repCodeLookup}</otherwise></choose>, 
 				default, 
 			</trim>
 		)
@@ -72,9 +72,9 @@
 			<if test="partId != null">P_ID = <choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>,</if>
 			<if test="count != null">P_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
 			<if test="cost != null">P_COST = <choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>,</if>
-			<if test="supplier != null">P_SUPPLIER = <choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>,</if>
+			<if test="supplierLookup != null">P_SUPPLIER = <choose><when test="supplierLookup == ''">null</when><otherwise>#{supplierLookup}</otherwise></choose>,</if>
 			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
-			<if test="repositoryCode != null">R_CODE = <choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>,</if>
+			<if test="repCodeLookup != null">R_CODE = <choose><when test="repCodeLookup == ''">null</when><otherwise>#{repCodeLookup}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
 	</sql>
@@ -85,9 +85,9 @@
 			<if test="partId != null">AND P_ID = #{partId}</if>
 			<if test="count != null">AND P_COUNT = #{count}</if>
 			<if test="cost != null">AND P_COST = #{cost}</if>
-			<if test="supplier != null">AND P_SUPPLIER = #{supplier}</if>
+			<if test="supplierLookup != null">AND P_SUPPLIER = #{supplierLookup}</if>
 			<if test="company != null">AND P_COMPANY = #{company}</if>
-			<if test="repositoryCode != null">AND R_CODE = #{repositoryCode}</if>
+			<if test="repCodeLookup != null">AND R_CODE = #{repCodeLookup}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
 	</sql>
@@ -108,16 +108,16 @@
 				<if test="filter.count_eq != null">AND P_COUNT = #{filter.count_eq}</if>
 				<if test="filter.count_ne != null">AND P_COUNT != #{filter.count_ne}</if>
 				
-				<if test="filter.repositoryCode_eq != null">AND R_CODE = #{filter.repositoryCode_eq}</if>
-				<if test="filter.repositoryCode_like != null">AND lower(R_CODE) LIKE lower(#{filter.repositoryCode_like})</if>
-				<if test="filter.repositoryCode_in != null">AND <foreach item="ii" collection="filter.repositoryCode_in" open="(" separator=" OR " close=")">R_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.repositoryCode_notIn != null">AND <foreach item="ii" collection="filter.repositoryCode_notIn" open="(" separator=" AND " close=")">R_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.repCodeLookup_eq != null">AND R_CODE = #{filter.repCodeLookup_eq}</if>
+				<if test="filter.repCodeLookup_like != null">AND lower(R_CODE) LIKE lower(#{filter.repCodeLookup_like})</if>
+				<if test="filter.repCodeLookup_in != null">AND <foreach item="ii" collection="filter.repCodeLookup_in" open="(" separator=" OR " close=")">R_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.repCodeLookup_notIn != null">AND <foreach item="ii" collection="filter.repCodeLookup_notIn" open="(" separator=" AND " close=")">R_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 								
 				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
 				<if test="filter.company_like != null">AND lower(P_COMPANY) LIKE lower(#{filter.company_like})</if>
 				
-				<if test="filter.supplier_eq != null">AND P_SUPPLIER = #{filter.supplier_eq}</if>
-				<if test="filter.supplier_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplier_like})</if>
+				<if test="filter.supplierLookup_eq != null">AND P_SUPPLIER = #{filter.supplierLookup_eq}</if>
+				<if test="filter.supplierLookup_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLookup_like})</if>
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>

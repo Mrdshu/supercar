@@ -8,6 +8,7 @@ import static com.xw.supercar.constant.DaoConstant.STMT_COUNT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_DELETE;
 import static com.xw.supercar.constant.DaoConstant.STMT_DELETE_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_INSERT;
+import static com.xw.supercar.constant.DaoConstant.STMT_INSERT_LIST;
 import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE_BY;
@@ -92,6 +93,20 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		Assert.notNull(entity,"'entity' can't be null");
 		boolean result = false;
 		result = getSqlSessionTemplate().insert(getInsertStatement(), entity) == 1;
+		
+		return result;
+	}
+	
+	/**
+	 * 新增
+	 * @author  wangsz 2017-05-10
+	 */
+	public boolean insert(List<E> entitys){
+		boolean result = false;
+		if(entitys == null || entitys.size() <= 0)
+			return true;
+		
+		result = getSqlSessionTemplate().insert(getInsertListStatement(), entitys) == entitys.size();
 		
 		return result;
 	}
@@ -553,6 +568,13 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 */
 	private String getInsertStatement() {
 		return getStatementForEntityClass(entityClass, STMT_INSERT);
+	}
+	/**
+	 * 返回批量插入操作在mapper文件中的statement
+	 * @author  wangsz 2017-05-11
+	 */
+	private String getInsertListStatement() {
+		return getStatementForEntityClass(entityClass, STMT_INSERT_LIST);
 	}
 	/**
 	 * 返回修改操作在mapper文件中的statement

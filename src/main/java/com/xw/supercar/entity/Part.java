@@ -2,8 +2,6 @@ package com.xw.supercar.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +18,8 @@ public class Part extends BaseEntity {
 	/** 配件名称 */
 	private String name;
 
-	/** 单位 ，外键*/
-	private String unit;
+	/** 单位 ，数据字典外键*/
+	private String unitLookup;
 
 	/** 销售价 */
 	private Double sale;
@@ -32,14 +30,14 @@ public class Part extends BaseEntity {
 	/** 产地 */
 	private String produceArea;
 
-	/** 规格，外键 */
-	private String specification;
+	/** 规格，数据字典外键 */
+	private String specificationLookup;
 
 	/** 适用车型 */
 	private String carModel;
 
-	/** 分类 */
-	private String pCategory;
+	/** 分类 ，数据字典*/
+	private String pCategoryLookup;
 
 	/** 创建日期 */
 	private Date createTime;
@@ -55,7 +53,7 @@ public class Part extends BaseEntity {
 
 
 	public static enum DP {
-		id, code, name, unit, sale, wholeSale, produceArea, specification, carModel, pCategory, createTime, updateTime, isDisable, isDeleted;
+		id, code, name, unitLookup, sale, wholeSale, produceArea, specificationLookup, carModel, pCategoryLookup, createTime, updateTime, isDisable, isDeleted;
 	}
 
 }

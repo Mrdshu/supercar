@@ -1,8 +1,7 @@
 package com.xw.supercar.entity;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,9 @@ import lombok.ToString;
  * @author wangsz 2017-06-01
  */
 @Setter @Getter @ToString
-public class Client extends BaseDateEntity{
+public class Client extends BaseDateEntity implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	/**车牌号*/
 	private String carNo;
 	/**车品牌，数据字典*/

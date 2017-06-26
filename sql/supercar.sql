@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-21 23:05:13
+Date: 2017-06-26 08:41:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -122,6 +122,7 @@ CREATE TABLE `tb_inventory` (
 -- ----------------------------
 -- Records of tb_inventory
 -- ----------------------------
+INSERT INTO `tb_inventory` VALUES ('274E85D5ECF843BEA5DA00DAC95B149B', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part
@@ -240,10 +241,11 @@ CREATE TABLE `tb_lookup_df` (
 -- ----------------------------
 INSERT INTO `tb_lookup_df` VALUES ('1', 'car_brand', '车辆品牌', null, '2017-06-28 21:25:51', '2017-06-17 17:44:57', '0');
 INSERT INTO `tb_lookup_df` VALUES ('1253114623E54642A38112E4142E0D5A', 'company_type', '公司类型', null, '2017-06-18 14:24:56', '2017-06-18 14:26:06', '0');
-INSERT INTO `tb_lookup_df` VALUES ('2', 'client_type', '客户类别', '不同类别客户享受的优惠不一样', null, '2017-06-17 10:19:12', '0');
+INSERT INTO `tb_lookup_df` VALUES ('2', 'client_level', '客户级别', '不同级别客户享受的优惠不一样', null, '2017-06-22 23:03:08', '0');
 INSERT INTO `tb_lookup_df` VALUES ('25CDFCA32AB14D2AB39A4764F5D93470', 'w', 'w', null, '2017-06-17 18:30:44', '2017-06-18 14:24:38', '1');
 INSERT INTO `tb_lookup_df` VALUES ('91295F61D79A4CBC85558F65A946BFD1', 'test2', 'test2', null, '2017-06-17 10:19:33', '2017-06-17 10:23:07', '1');
 INSERT INTO `tb_lookup_df` VALUES ('D12E86A4F4054E5787404E8A9E75EA8D', 't', 't', 're', '2017-06-17 10:23:29', '2017-06-18 14:24:38', '1');
+INSERT INTO `tb_lookup_df` VALUES ('D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'client_type', '客户类型', null, '2017-06-25 09:38:38', '2017-06-25 09:38:38', '0');
 INSERT INTO `tb_lookup_df` VALUES ('E2929F4F40FB45F1A3A8D59B4DEA4756', 'test', 'test', '1', '2017-06-17 10:13:34', '2017-06-17 10:23:07', '1');
 INSERT INTO `tb_lookup_df` VALUES ('E3F9A726B2434B219EDEE2E23734EA4B', 'user_role', '账号角色', '账号角色，不同角色权限不一', '2017-06-18 16:18:32', '2017-06-18 16:18:32', '0');
 INSERT INTO `tb_lookup_df` VALUES ('F6DF8162CE964F669C82BA9C6DA449F1', 'q', 'q', null, '2017-06-17 18:25:02', '2017-06-18 14:24:38', '1');
@@ -334,6 +336,7 @@ CREATE TABLE `tb_part` (
 -- ----------------------------
 -- Records of tb_part
 -- ----------------------------
+INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '1', null, null, 'produceArea', '1', 'carModel\r\n\r\n\r\n', '1', null, null, '0', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -363,4 +366,5 @@ CREATE TABLE `tb_user` (
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` VALUES ('1', 'wsz', '王树政', '1231231', null, null, 'A072D82A6AE14146B47A70E4C58AA28D', '1', null, '2017-06-18 16:20:52', '2017-06-18 16:20:52', '0', '0');
+INSERT INTO `tb_user` VALUES ('1', 'wsz', '王树政', '5f4dcc3b5aa765d61d8327deb882cf99', null, null, 'A072D82A6AE14146B47A70E4C58AA28D', '1', null, '2017-06-18 16:20:52', '2017-06-22 22:46:25', '0', '0');
+INSERT INTO `tb_user` VALUES ('DC7A00CD45B0438AA38DED7223166FE1', 'username', 'fullname', 'password', 'email', 'mobile', '1', '1', 'description', '2017-06-25 21:25:08', '2017-06-25 21:25:08', '0', '0');

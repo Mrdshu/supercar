@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,20 +76,20 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 //		}
 //	}
 //
-//	protected String getDefaultViewPrefix() {
-//		String currentViewPrefix = "";
-//		RequestMapping requestMapping = AnnotationUtils.findAnnotation(getClass(), RequestMapping.class);
-//		if (requestMapping != null && requestMapping.value().length > 0) {
-//			currentViewPrefix = requestMapping.value()[0];
-//		}
-//		if (currentViewPrefix == null || "".equals(currentViewPrefix)) {
-//			currentViewPrefix = this.getClass().getSimpleName().toLowerCase();
-//			if (currentViewPrefix.endsWith("controller")) currentViewPrefix = currentViewPrefix.substring(0, currentViewPrefix.length() - "controller".length());
-//		}
-//		if (!currentViewPrefix.startsWith("/")) currentViewPrefix = "/" + currentViewPrefix;
-//
-//		return currentViewPrefix;
-//	}
+	protected String getDefaultViewPrefix() {
+		String currentViewPrefix = "";
+		RequestMapping requestMapping = AnnotationUtils.findAnnotation(getClass(), RequestMapping.class);
+		if (requestMapping != null && requestMapping.value().length > 0) {
+			currentViewPrefix = requestMapping.value()[0];
+		}
+		if (currentViewPrefix == null || "".equals(currentViewPrefix)) {
+			currentViewPrefix = this.getClass().getSimpleName().toLowerCase();
+			if (currentViewPrefix.endsWith("controller")) currentViewPrefix = currentViewPrefix.substring(0, currentViewPrefix.length() - "controller".length());
+		}
+		if (!currentViewPrefix.startsWith("/")) currentViewPrefix = "/" + currentViewPrefix;
+
+		return currentViewPrefix;
+	}
 	
 	/**
 	 * 分页查询
@@ -158,12 +159,15 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	@RequestMapping(value = "/new",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult newEntity(E entity){
+		ResponseResult result = beforeNew(entity);
+		if(!result.getSuccess())
+			return result;
+		
 		E afterInsertEntity = getSevice().add(entity);
 		
 		if(afterInsertEntity == null)
 			return ResponseResult.generateErrorResponse("", "新增失败");
 		
-		ResponseResult result = ResponseResult.generateResponse();
 		result.setErrorMsg("新增成功！");
 		
 		return result;
@@ -296,6 +300,14 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected void afterReturn(ResponseResult result) {}
 	
+	/**
+	 * 插入前处理方法，主要用于插入数据校验。子类可覆盖进行后处理
+	 * @author  wangsz 2017-06-04
+	 * @return 
+	 */
+	protected ResponseResult beforeNew(E entity) {
+		return ResponseResult.generateResponse();
+	}	
 	/**
 	 * 将data数组中实体成员类的变量多个外键对应的对象放入Data中
 	 * @param data map集合，实体类存放其中

@@ -22,6 +22,8 @@ public class DaoConstant {
 	
 	/**mapper文件中 '新增' 操作对应的statement*/
 	public final static String STMT_INSERT = ".insert";
+	/**mapper文件中 '批量新增' 操作对应的statement*/
+	public final static String STMT_INSERT_LIST = ".insertList";
 	/**mapper文件中'修改'操作对应的statement*/
 	public final static String STMT_UPDATE = ".update";
 	/**mapper文件中'删除'操作对应的statement*/

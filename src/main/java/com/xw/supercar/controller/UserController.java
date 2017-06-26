@@ -18,9 +18,6 @@ import com.xw.supercar.service.LookupService;
 import com.xw.supercar.service.UserService;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-import com.xw.supercar.util.CommonUtil;
-import com.xw.supercar.util.MD5Util;
-import com.xw.supercar.util.PasswordHash;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController<User>{

@@ -1,8 +1,6 @@
 package com.xw.supercar.service;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +15,6 @@ import com.xw.supercar.entity.BaseEntity;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-import com.xw.supercar.util.ReflectUtil;
 
 /**
  * Service层的基础类，实现了基础的增、删、改、查(add、remove、modify、find与get)方法。
@@ -49,6 +46,15 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	protected void beforeAdd(E entity) {}
+	/**
+	 * 批量插入前的操作，可由子类覆盖实现具体步骤
+	 * @author  wangsz 2017-05-14
+	 */
+	protected void beforeAdd(List<E> entitys) {
+		for (E e : entitys) {
+			beforeAdd(e);
+		}
+	}
 	/**
 	 * 插入后的操作，可由子类覆盖实现具体步骤
 	 * @author  wangsz 2017-05-14
@@ -109,6 +115,30 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		entity = getById(id);
 		afterAdd(entity);
 		return entity;
+	}
+	
+	/**
+	 * 新增
+	 * @author  wangsz 2017-05-14
+	 */
+	public List<E> add(List<E> entitys){
+		beforeAdd(entitys);
+		List<String> ids = new ArrayList<>();
+		
+		for (E entity : entitys) {
+			String id = entity.getId();
+			//如果id未被设置，则采用uuid自动生成的16位随机数
+			if(StringUtils.isEmpty(id)){
+				id = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+				entity.setId(id);
+			}
+			ids.add(id);
+		}
+		
+		baseDao.insert(entitys);
+		
+		entitys = getByIds(ids);
+		return entitys;
 	}
 	
 	/**
@@ -226,6 +256,23 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		afterSelect(entity);
 		
 		return entity;
+	}
+	
+	/**
+	 * 根据id集合查询
+	 * @author  wangsz 2017-05-14
+	 */
+	public List<E> getByIds(List<String> ids){
+		Searchable searchable = Searchable.newSearchable()
+				.addSearchFilter(DaoConstant.NAME_ID, SearchOperator.in, ids);
+		
+		List<E> entitys =  baseDao.selectBy(searchable, true);
+		
+		for (E entity : entitys) {
+			afterSelect(entity);
+		}
+		
+		return entitys;
 	}
 	
 	/**

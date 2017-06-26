@@ -4,7 +4,9 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,7 +17,7 @@ import lombok.ToString;
  */
 @Setter
 @Getter
-@ToString
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class User extends BaseDateEntity {
 	/** 用户名 */
 	private String username;
