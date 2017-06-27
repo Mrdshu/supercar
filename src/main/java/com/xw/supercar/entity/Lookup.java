@@ -1,6 +1,10 @@
 package com.xw.supercar.entity;
 
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -8,7 +12,9 @@ import lombok.ToString;
  * 数据字典实体类
  * @author wangsz 2017-06-06
  */
-@Setter @Getter @ToString
+@Setter
+@Getter
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class Lookup extends BaseEntity{
 	/**最大层级*/
 	public static int maxLevel = 7;

@@ -6,16 +6,16 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="IN_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
     <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="IN_PAY_METHOD" jdbcType="VARCHAR" property="payMethhod" />
-    <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplier" />
-    <result column="PIN_SUM" jdbcType="DOUBLE" property="sum" />
+    <result column="IN_PAY_METHOD" jdbcType="VARCHAR" property="payMethhodLK" />
+    <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplierLK" />
+    <result column="IN_SUM" jdbcType="DOUBLE" property="sum" />
     <result column="P_COMPANY" jdbcType="VARCHAR" property="company" />
     <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
   
   <sql id="table">TB_IN_PART</sql>
   <sql id="columns">
-    ID, IN_WORKORDER_NO, IN_TIME, IN_PAY_METHOD, P_SUPPLIER, PIN_SUM, P_COMPANY, ISDELETED
+    ID, IN_WORKORDER_NO, IN_TIME, IN_PAY_METHOD, P_SUPPLIER, IN_SUM, P_COMPANY, ISDELETED
   </sql>
   
   <!-- 新增 -->
@@ -27,8 +27,8 @@
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
 				<choose><when test="inTime == ''">null</when><otherwise>#{inTime}</otherwise></choose>, 
-				<choose><when test="payMethhod == ''">null</when><otherwise>#{payMethhod}</otherwise></choose>, 
-				<choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>, 
+				<choose><when test="payMethhodLK == ''">null</when><otherwise>#{payMethhodLK}</otherwise></choose>, 
+				<choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>, 
 				<choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>, 
 				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
 				default, 
@@ -61,7 +61,7 @@
 		<include refid="where"/> <include refid="sort" />
 	</select>
 	<!-- 计数 -->
-	<select id="count" resultType="long">
+	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" />
 		<include refid="where" />
 	</select>
@@ -70,10 +70,10 @@
 	<sql id="set">
 		<trim suffixOverrides=",">
 			<if test="workOrderNo != null">IN_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
-			<if test="payMethhod != null">IN_PAY_METHOD = <choose><when test="payMethhod == ''">null</when><otherwise>#{payMethhod}</otherwise></choose>,</if>
+			<if test="payMethhodLK != null">IN_PAY_METHOD = <choose><when test="payMethhodLK == ''">null</when><otherwise>#{payMethhodLK}</otherwise></choose>,</if>
 			<if test="inTime != null">IN_TIME = <choose><when test="inTime == ''">null</when><otherwise>#{inTime}</otherwise></choose>,</if>
-			<if test="supplier != null">P_SUPPLIER = <choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>,</if>
-			<if test="sum != null">PIN_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
+			<if test="supplierLK != null">P_SUPPLIER = <choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>,</if>
+			<if test="sum != null">IN_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
 			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
@@ -83,11 +83,11 @@
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="workOrderNo != null">AND IN_WORKORDER_NO = #{workOrderNo}</if>
-			<if test="payMethhod != null">AND IN_PAY_METHOD = #{payMethhod}</if>
+			<if test="payMethhodLK != null">AND IN_PAY_METHOD = #{payMethhodLK}</if>
 			<if test="inTime != null">AND IN_TIME = #{inTime}</if>
-			<if test="supplier != null">AND P_SUPPLIER = #{supplier}</if>
+			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
 			<if test="company != null">AND P_COMPANY = #{company}</if>
-			<if test="sum != null">AND PIN_SUM = #{sum}</if>
+			<if test="sum != null">AND IN_SUM = #{sum}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
 	</sql>
@@ -105,21 +105,21 @@
 				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">IN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">IN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			
-				<if test="filter.payMethhod_eq != null">AND IN_PAY_METHOD = #{filter.payMethhod_eq}</if>
-				<if test="filter.payMethhod_ne != null">AND IN_PAY_METHOD != #{filter.payMethhod_ne}</if>
+				<if test="filter.payMethhodLK_eq != null">AND IN_PAY_METHOD = #{filter.payMethhodLK_eq}</if>
+				<if test="filter.payMethhodLK_ne != null">AND IN_PAY_METHOD != #{filter.payMethhodLK_ne}</if>
 				
-				<if test="filter.sum_gte != null">AND PIN_SUM &gt;= #{filter.sum_gte}</if>
-				<if test="filter.sum_lte != null">AND PIN_SUM &lt;= #{filter.sum_lte}</if>
-				<if test="filter.sum_gt != null">AND PIN_SUM &gt;= #{filter.sum_gt}</if>
-				<if test="filter.sum_lt != null">AND PIN_SUM &lt;= #{filter.sum_lt}</if>
-				<if test="filter.sum_eq != null">AND PIN_SUM = #{filter.sum_eq}</if>
-				<if test="filter.sum_ne != null">AND PIN_SUM != #{filter.sum_ne}</if>
+				<if test="filter.sum_gte != null">AND IN_SUM &gt;= #{filter.sum_gte}</if>
+				<if test="filter.sum_lte != null">AND IN_SUM &lt;= #{filter.sum_lte}</if>
+				<if test="filter.sum_gt != null">AND IN_SUM &gt;= #{filter.sum_gt}</if>
+				<if test="filter.sum_lt != null">AND IN_SUM &lt;= #{filter.sum_lt}</if>
+				<if test="filter.sum_eq != null">AND IN_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND IN_SUM != #{filter.sum_ne}</if>
 				
 				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
 				<if test="filter.company_like != null">AND lower(P_COMPANY) LIKE lower(#{filter.company_like})</if>
 				
-				<if test="filter.supplier_eq != null">AND P_SUPPLIER = #{filter.supplier_eq}</if>
-				<if test="filter.supplier_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplier_like})</if>
+				<if test="filter.supplierLK_eq != null">AND P_SUPPLIER = #{filter.supplierLK_eq}</if>
+				<if test="filter.supplierLK_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>

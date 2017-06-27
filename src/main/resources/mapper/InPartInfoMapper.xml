@@ -4,18 +4,18 @@
 
   <resultMap id="resultMap" type="com.xw.supercar.entity.InPartInfo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="IN_WORKORDER_NUM" jdbcType="VARCHAR" property="workOrderNo" />
+    <result column="IN_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
     <result column="P_ID" jdbcType="VARCHAR" property="partId" />
     <result column="IN_COUNT" jdbcType="INTEGER" property="count" />
     <result column="P_COST" jdbcType="DECIMAL" property="cost" />
-    <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplier" />
-    <result column="R_CODE" jdbcType="VARCHAR" property="repositoryCode" />
+    <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplierLK" />
+    <result column="R_CODE" jdbcType="VARCHAR" property="repositoryCodeLK" />
     <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
   
   <sql id="table">TB_IN_PART_INFO</sql>
   <sql id="columns">
-    ID, IN_WORKORDER_NUM, P_ID, IN_COUNT, P_COST, P_SUPPLIER, R_CODE, ISDELETED
+    ID, IN_WORKORDER_NO, P_ID, IN_COUNT, P_COST, P_SUPPLIER, R_CODE, ISDELETED
   </sql>
   
   	<!-- 新增 -->
@@ -29,8 +29,8 @@
 				<choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>, 
 				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
 				<choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>, 
-				<choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>, 
-				<choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>, 
+				<choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>, 
+				<choose><when test="repositoryCodeLK == ''">null</when><otherwise>#{repositoryCodeLK}</otherwise></choose>, 
 				default, 
 			</trim>
 		)
@@ -46,7 +46,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.workOrderNo},#{item.partId},#{item.count},#{item.cost},#{item.supplier},#{item.repositoryCode},default)
+			(#{item.id},#{item.workOrderNo},#{item.partId},#{item.count},#{item.cost},#{item.supplierLK},#{item.repositoryCodeLK},default)
 		</foreach>
 	</insert>  
 	
@@ -76,7 +76,7 @@
 		<include refid="where"/> <include refid="sort" />
 	</select>
 	<!-- 计数 -->
-	<select id="count" resultType="long">
+	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" />
 		<include refid="where" />
 	</select>
@@ -84,12 +84,12 @@
 	<!-- 修改时用的的set语句 -->
 	<sql id="set">
 		<trim suffixOverrides=",">
-			<if test="workOrderNo != null">PIN_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
+			<if test="workOrderNo != null">IN_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
 			<if test="partId != null">P_ID = <choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>,</if>
 			<if test="count != null">IN_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
 			<if test="cost != null">P_COST = <choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>,</if>
-			<if test="supplier != null">P_SUPPLIER = <choose><when test="supplier == ''">null</when><otherwise>#{supplier}</otherwise></choose>,</if>
-			<if test="repositoryCode != null">R_CODE = <choose><when test="repositoryCode == ''">null</when><otherwise>#{repositoryCode}</otherwise></choose>,</if>
+			<if test="supplierLK != null">P_SUPPLIER = <choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>,</if>
+			<if test="repositoryCodeLK != null">R_CODE = <choose><when test="repositoryCodeLK == ''">null</when><otherwise>#{repositoryCodeLK}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
 	</sql>
@@ -97,11 +97,11 @@
 	<sql id="whereEntity">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="id != null">AND ID = #{id}</if>
-			<if test="workOrderNo != null">AND PIN_WORKORDER_NO = #{workOrderNo}</if>
+			<if test="workOrderNo != null">AND IN_WORKORDER_NO = #{workOrderNo}</if>
 			<if test="count != null">AND IN_COUNT = #{count}</if>
 			<if test="partId != null">AND P_ID = #{partId}</if>
-			<if test="supplier != null">AND P_SUPPLIER = #{supplier}</if>
-			<if test="repositoryCode != null">AND R_CODE = #{repositoryCode}</if>
+			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
+			<if test="repositoryCodeLK != null">AND R_CODE = #{repositoryCodeLK}</if>
 			<if test="cost != null">AND P_COST = #{cost}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
@@ -115,10 +115,10 @@
 				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-				<if test="filter.workOrderNo_eq != null">AND PIN_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
-				<if test="filter.workOrderNo_ne != null">AND PIN_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
-				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">PIN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">PIN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_eq != null">AND IN_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND IN_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">IN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">IN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			
 				<if test="filter.count_eq != null">AND IN_COUNT = #{filter.count_eq}</if>
 				<if test="filter.count_ne != null">AND IN_COUNT != #{filter.count_ne}</if>
@@ -130,11 +130,11 @@
 				<if test="filter.cost_eq != null">AND P_COST = #{filter.cost_eq}</if>
 				<if test="filter.cost_ne != null">AND P_COST != #{filter.cost_ne}</if>
 				
-				<if test="filter.repositoryCode_eq != null">AND R_CODE = #{filter.repositoryCode_eq}</if>
-				<if test="filter.repositoryCode_like != null">AND lower(R_CODE) LIKE lower(#{filter.repositoryCode_like})</if>
+				<if test="filter.repositoryCodeLK_eq != null">AND R_CODE = #{filter.repositoryCodeLK_eq}</if>
+				<if test="filter.repositoryCodeLK_like != null">AND lower(R_CODE) LIKE lower(#{filter.repositoryCodeLK_like})</if>
 				
-				<if test="filter.supplier_eq != null">AND P_SUPPLIER = #{filter.supplier_eq}</if>
-				<if test="filter.supplier_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplier_like})</if>
+				<if test="filter.supplierLK_eq != null">AND P_SUPPLIER = #{filter.supplierLK_eq}</if>
+				<if test="filter.supplierLK_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>

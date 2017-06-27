@@ -6,13 +6,13 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="P_CODE" jdbcType="VARCHAR" property="code" />
     <result column="P_NAME" jdbcType="VARCHAR" property="name" />
-    <result column="P_UNIT" jdbcType="VARCHAR" property="unitLookup" />
+    <result column="P_UNIT" jdbcType="VARCHAR" property="unitLK" />
     <result column="P_SALE" jdbcType="DOUBLE" property="sale" />
     <result column="P_WHOLESALE" jdbcType="DOUBLE" property="wholeSale" />
     <result column="P_PRODUCE_AREA" jdbcType="VARCHAR" property="produceArea" />
-    <result column="P_SPECIFICATION" jdbcType="VARCHAR" property="specificationLookup" />
+    <result column="P_SPECIFICATION" jdbcType="VARCHAR" property="specificationLK" />
     <result column="P_CAR_MODEL" jdbcType="VARCHAR" property="carModel" />
-    <result column="P_CATEGORY" jdbcType="VARCHAR" property="pCategoryLookup" />
+    <result column="P_CATEGORY" jdbcType="VARCHAR" property="pCategoryLK" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
@@ -34,13 +34,13 @@
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>, 
 				<choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,
-				<choose><when test="unitLookup == ''">null</when><otherwise>#{unitLookup}</otherwise></choose>,
+				<choose><when test="unitLK == ''">null</when><otherwise>#{unitLK}</otherwise></choose>,
 				<choose><when test="sale == ''">null</when><otherwise>#{sale}</otherwise></choose>, 
 				<choose><when test="wholeSale == ''">null</when><otherwise>#{wholeSale}</otherwise></choose>, 
 				<choose><when test="produceArea == ''">null</when><otherwise>#{produceArea}</otherwise></choose>, 
-				<choose><when test="specificationLookup == ''">null</when><otherwise>#{specificationLookup}</otherwise></choose>, 
+				<choose><when test="specificationLK == ''">null</when><otherwise>#{specificationLK}</otherwise></choose>, 
 				<choose><when test="carModel == ''">null</when><otherwise>#{carModel}</otherwise></choose>,
-				<choose><when test="pCategoryLookup == ''">null</when><otherwise>#{pCategoryLookup}</otherwise></choose>, 
+				<choose><when test="pCategoryLK == ''">null</when><otherwise>#{pCategoryLK}</otherwise></choose>, 
 				default, 
 				default,
 				default, 
@@ -86,13 +86,13 @@
 		<trim suffixOverrides=",">
 			<if test="code != null">P_CODE = <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,</if>
 			<if test="name != null">P_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
-			<if test="unitLookup != null">P_UNIT = <choose><when test="unitLookup == ''">null</when><otherwise>#{unitLookup}</otherwise></choose>,</if>
+			<if test="unitLK != null">P_UNIT = <choose><when test="unitLK == ''">null</when><otherwise>#{unitLK}</otherwise></choose>,</if>
 			<if test="sale != null">P_SALE = <choose><when test="sale == ''">null</when><otherwise>#{sale}</otherwise></choose>,</if>
 			<if test="wholeSale != null">P_WHOLESALE = <choose><when test="wholeSale == ''">null</when><otherwise>#{wholeSale}</otherwise></choose>,</if>
 			<if test="produceArea != null">P_PRODUCE_AREA = <choose><when test="produceArea == ''">null</when><otherwise>#{produceArea}</otherwise></choose>,</if>
-			<if test="specificationLookup != null">P_SPECIFICATION = <choose><when test="specificationLookup == ''">null</when><otherwise>#{specificationLookup}</otherwise></choose>,</if>
+			<if test="specificationLK != null">P_SPECIFICATION = <choose><when test="specificationLK == ''">null</when><otherwise>#{specificationLK}</otherwise></choose>,</if>
 			<if test="carModel != null">P_CAR_MODEL = <choose><when test="carModel == ''">null</when><otherwise>#{carModel}</otherwise></choose>,</if>
-			<if test="pCategoryLookup != null">P_CATEGORY = <choose><when test="pCategoryLookup == ''">null</when><otherwise>#{pCategoryLookup}</otherwise></choose>,</if>
+			<if test="pCategoryLK != null">P_CATEGORY = <choose><when test="pCategoryLK == ''">null</when><otherwise>#{pCategoryLK}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 			<if test="isDisable != null">ISDISABLE = <choose><when test="isDisable == ''">0</when><otherwise>#{isDisable}</otherwise></choose>,</if>
 		</trim>
@@ -104,13 +104,13 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="code != null">AND P_CODE = #{code}</if>
 			<if test="name != null">AND P_NAME = #{name}</if>
-			<if test="unitLookup != null">AND P_UNIT = #{unitLookup}</if>
+			<if test="unitLK != null">AND P_UNIT = #{unitLK}</if>
 			<if test="sale != null">AND P_SALE = #{sale}</if>
 			<if test="wholeSale != null">AND P_WHOLESALE = #{wholeSale}</if>
 			<if test="produceArea != null">AND P_PRODUCE_AREA = #{produceArea}</if>
-			<if test="specificationLookup != null">AND P_SPECIFICATION = #{specificationLookup}</if>
+			<if test="specificationLK != null">AND P_SPECIFICATION = #{specificationLK}</if>
 			<if test="carModel != null">AND P_CAR_MODEL = #{carModel}</if>
-			<if test="pCategoryLookup != null">AND P_CATEGORY = #{pCategoryLookup}</if>
+			<if test="pCategoryLK != null">AND P_CATEGORY = #{pCategoryLK}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 			<if test="isDisable != null">AND ISDISABLE = #{isDisable}</if>
 		</trim>
@@ -136,8 +136,8 @@
 				<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">P_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">P_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 				
-				<if test="filter.unitLookup_eq != null">AND P_UNIT = #{filter.unitLookup_eq}</if>
-				<if test="filter.unitLookup_ne != null">AND P_UNIT != #{filter.unitLookup_ne}</if>
+				<if test="filter.unitLK_eq != null">AND P_UNIT = #{filter.unitLK_eq}</if>
+				<if test="filter.unitLK_ne != null">AND P_UNIT != #{filter.unitLK_ne}</if>
 				
 				<if test="filter.sale_eq != null">AND P_SALE = #{filter.sale_eq}</if>
 				<if test="filter.sale_ne != null">AND P_SALE != #{filter.sale_ne}</if>
@@ -148,13 +148,13 @@
 				<if test="filter.produceArea_eq != null">AND P_PRODUCE_AREA = #{filter.produceArea_eq}</if>
 				<if test="filter.produceArea_like != null">AND lower(P_PRODUCE_AREA) LIKE lower(#{filter.produceArea_like})</if>
 				
-				<if test="filter.specificationLookup_eq != null">AND P_SPECIFICATION = #{filter.specificationLookup_eq}</if>
+				<if test="filter.specificationLK_eq != null">AND P_SPECIFICATION = #{filter.specificationLK_eq}</if>
 				
 				<if test="filter.carModel_eq != null">AND P_CAR_MODEL = #{filter.carModel_eq}</if>
 				<if test="filter.carModel_ne != null">AND P_CAR_MODEL != #{filter.carModel_ne}</if>
 				
-				<if test="filter.pCategoryLookup_eq != null">AND P_CATEGORY = #{filter.pCategoryLookup_eq}</if>
-				<if test="filter.pCategoryLookup_ne != null">AND P_CATEGORY != #{filter.pCategoryLookup_ne}</if>
+				<if test="filter.pCategoryLK_eq != null">AND P_CATEGORY = #{filter.pCategoryLK_eq}</if>
+				<if test="filter.pCategoryLK_ne != null">AND P_CATEGORY != #{filter.pCategoryLK_ne}</if>
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>

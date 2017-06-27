@@ -175,6 +175,16 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	}
 	
 	/**
+	 * 条件批量删除
+	 * @author  wangsz 2017-06-13
+	 */
+	public long removeBy(Searchable searchable){
+		long rs = getDao().deleteBy(searchable);
+		
+		return rs;
+	}
+	
+	/**
 	 * 根据id软删除
 	 * @author  wangsz 2017-05-14
 	 */

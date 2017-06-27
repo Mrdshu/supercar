@@ -3,7 +3,9 @@ package com.xw.supercar.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,7 +13,9 @@ import lombok.ToString;
  * 客户信息实体类
  * @author wangsz 2017-06-01
  */
-@Setter @Getter @ToString
+@Setter
+@Getter
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class Client extends BaseDateEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

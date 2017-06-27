@@ -63,7 +63,7 @@
 		<include refid="where"/> <include refid="sort" />
 	</select>
 	<!-- 计数 -->
-	<select id="count" resultType="long">
+	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" />
 		<include refid="where" />
 	</select>

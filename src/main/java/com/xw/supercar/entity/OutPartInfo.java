@@ -1,10 +1,16 @@
 package com.xw.supercar.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
-@Getter
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Setter
+@Getter
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class OutPartInfo extends BaseEntity {
     /** 出库单号 */
     private String workOrderNo;

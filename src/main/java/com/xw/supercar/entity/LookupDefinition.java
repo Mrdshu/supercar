@@ -4,7 +4,9 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,7 +14,9 @@ import lombok.ToString;
  * 数据字典定义实体类
  * @author wangsz 2017-06-06
  */
-@Setter @Getter @ToString
+@Setter
+@Getter
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class LookupDefinition extends BaseEntity{
 	/**数据字典定义code*/
 	private String code;

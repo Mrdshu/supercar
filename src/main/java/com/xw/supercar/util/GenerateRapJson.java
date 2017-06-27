@@ -1,23 +1,47 @@
-package com.xw.supercar.rap;
+package com.xw.supercar.util;
+
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.junit.Test;
+
+import com.xw.supercar.entity.InPart;
+import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.Inventory;
-import com.xw.supercar.entity.Part;
 import com.xw.supercar.entity.ResponseResult;
-import com.xw.supercar.util.GsonUtil;
+import com.xw.supercar.entity.composite.InPartComposite;
 
 public class GenerateRapJson {
 	
-	public static void main(String[] args) {
-		Object object = getClassInstance(Inventory.class);
+	@Test
+	public void generateSingle() throws Exception {
+		Object object = getClassInstance(InPart.class);
 		getJsonAndKV(object);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));
 	}
 	
-	public static Object getClassInstance(Class<?> clazz){
-		Object object = null;
+	@Test
+	public void generateComplex() throws Exception {
+		InPart inPart = getClassInstance(InPart.class);
+		InPartInfo inPartInfo =  getClassInstance(InPartInfo.class);
+		InPartInfo inPartInfo2 = getClassInstance(InPartInfo.class);
+		List<InPartInfo> list = new ArrayList<>();
+		list.add(inPartInfo);
+		list.add(inPartInfo2);
+		
+		InPartComposite inPartComposite = new InPartComposite(inPart,list);
+		System.out.println("======================");
+		System.out.println(GsonUtil.transObjectToJson(inPartComposite));
+	}
+	
+	public static <E> E getClassInstance(Class<E> clazz){
+		E object = null;
 		try {
 			object = clazz.newInstance();
 			Field[] fields = clazz.getDeclaredFields();
@@ -26,7 +50,7 @@ public class GenerateRapJson {
 				if("data".equals(field.getName()))
 					continue;
 				field.setAccessible(true);
-				if(field.getName().contains("Lookup")){
+				if(field.getName().endsWith("LK")){
 					field.set(object, "1");
 				}
 				else if(field.getType() == String.class){

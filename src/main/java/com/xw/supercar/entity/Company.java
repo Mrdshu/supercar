@@ -2,14 +2,18 @@ package com.xw.supercar.entity;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 /**
  * 公司信息实体类
  * @author wsz 2017-06-09
  */
-@Setter @Getter @ToString
+@Setter
+@Getter
+@ToString @AllArgsConstructor @NoArgsConstructor
 public class Company extends BaseDateEntity{
 	/**公司名称*/
 	private String name;
