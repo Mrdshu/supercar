@@ -102,13 +102,13 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @author  wangsz 2017-05-14
 	 */
 	public E add(E entity){
-		beforeAdd(entity);
 		String id = entity.getId();
 		//如果id未被设置，则采用uuid自动生成的16位随机数
 		if(StringUtils.isEmpty(id)){
 			id = UUID.randomUUID().toString().replace("-", "").toUpperCase();
 			entity.setId(id);
 		}
+		beforeAdd(entity);
 		
 		baseDao.insert(entity);
 		

@@ -2,8 +2,6 @@ package com.xw.supercar.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,18 +20,18 @@ public class LookupDefinition extends BaseEntity{
 	private String code;
 	/**数据字典定义名称*/
 	private String name;
+	/**数据字典定义类型，0为普通，1为树结构*/
+	private String type;
 	/**数据字典定义描述*/
 	private String description;
 	/**创建时间*/
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")  
 	private Date createTime;
 	/**更新时间*/
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")  
 	private Date updateTime;
 	/**软删除标志*/
 	private Boolean isDeleted;
 	
 	public static enum DP{
-		id,code,name,description,createTime,updateTime,isDeleted
+		id,code,name,type,description,createTime,updateTime,isDeleted
 	}
 }

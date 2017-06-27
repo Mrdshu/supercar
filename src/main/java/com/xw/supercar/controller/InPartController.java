@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.InPart;
 import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.ResponseResult;
@@ -80,6 +79,10 @@ public class InPartController extends BaseController<InPart>{
 		return result;
 	}
 	
+	/**
+	 * 删除入库工单以及级联的入库配件
+	 * @author wsz 2017-06-27
+	 */
 	@RequestMapping(value = "/removeInPart",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	@Transactional
@@ -105,7 +108,7 @@ public class InPartController extends BaseController<InPart>{
 	}
 	
 	/**
-	 * 批量删除
+	 * 批量级联删除删除
 	 * @param entity
 	 * @return
 	 * @author  wangsz 2017-06-04
@@ -124,11 +127,7 @@ public class InPartController extends BaseController<InPart>{
 		//批量删除入库工单对应的入库配件信息
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(InPartInfo.DP.workOrderNo.name(), SearchOperator.in, idsList);
-		long deleteCount = SpringContextHolder.getBean(InPartInfoService.class).removeBy(searchable);
-		
-		if(deleteCount != ids.length){
-			return ResponseResult.generateErrorResponse("", "删除失败");
-		}
+		SpringContextHolder.getBean(InPartInfoService.class).removeBy(searchable);
 		
 		ResponseResult result = ResponseResult.generateResponse();
 		result.setErrorMsg("删除成功！");

@@ -6,6 +6,7 @@
 		<result property="id" column="ID" />
 		<result property="code" column="LKD_CODE" />
 		<result property="name" column="LKD_NAME" />
+		<result property="type" column="LKD_TYPE" />
 		<result property="description" column="LKD_DESCRIPTION" />
 		<result property="createTime" column="CREATE_TIME" />
 		<result property="updateTime" column="UPDATE_TIME" />
@@ -13,11 +14,13 @@
 	</resultMap>
 
 	<sql id="table">TB_LOOKUP_DF</sql>
-	<sql id="columns">ID,LKD_CODE,LKD_NAME,LKD_DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
+	<sql id="columns">ID,LKD_CODE,LKD_NAME,LKD_TYPE,LKD_DESCRIPTION,CREATE_TIME,UPDATE_TIME,ISDELETED</sql>
+	
 	<sql id="set">
 		<trim suffixOverrides=",">
 			<if test="code != null">LKD_CODE = #{code},</if>
 			<if test="name != null">LKD_NAME = #{name},</if>
+			<if test="type != null">LKD_TYPE = #{type},</if>
 			<if test="description != null">LKD_DESCRIPTION = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
@@ -27,6 +30,7 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="code != null">AND LKD_CODE = #{code}</if>
 			<if test="name != null">AND LKD_NAME = #{name}</if>
+			<if test="type != null">AND LKD_TYPE = #{type},</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
 	</sql>
@@ -40,6 +44,7 @@
 				<if test="filter.code_like != null">AND lower(LKD_CODE) LIKE lower(#{filter.code_like})</if>
 				<if test="filter.name_eq != null">AND LKD_NAME = #{filter.name_eq}</if>
 				<if test="filter.name_like != null">AND lower(LKD_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.type_eq != null">AND LKD_TYPE = #{filter.type_eq}</if>
 				<if test="filter.createTime_gte != null">AND CREATE_TIME &gt;= #{createTime,jdbcType=TIMESTAMP}</if>
 				<if test="filter.createTime_lte != null">AND CREATE_TIME &lt;= #{createTime,jdbcType=TIMESTAMP}</if>
 				<if test="filter.updateTime_gte != null">AND UPDATE_TIME &gt;= #{updateTime,jdbcType=TIMESTAMP}</if>
@@ -68,6 +73,7 @@
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>, 
 				<choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>, 
+				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
 				<choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>, 
 				default, 
 				default,
@@ -112,9 +118,6 @@
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">
 				<foreach collection="sort" index="key" item="val">
-					<if test="key == 'id'">ID ${val},</if>
-					<if test="key == 'code'">LKD_CODE ${val},</if>
-					<if test="key == 'name'">LKD_NAME ${val},</if>
 					<if test="key == 'createTime'">CREATE_TIME ${val},</if>
 					<if test="key == 'updateTime'">UPDATE_TIME ${val},</if>
 				</foreach>

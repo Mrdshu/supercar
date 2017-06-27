@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.InPart;
 import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.Inventory;
@@ -20,7 +21,7 @@ public class GenerateRapJson {
 	
 	@Test
 	public void generateSingle() throws Exception {
-		Object object = getClassInstance(InPart.class);
+		Object object = getClassInstance(Client.class);
 		getJsonAndKV(object);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));
