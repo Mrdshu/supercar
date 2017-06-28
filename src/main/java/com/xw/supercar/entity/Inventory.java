@@ -1,7 +1,5 @@
 package com.xw.supercar.entity;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class Inventory extends BaseEntity {
+public class Inventory extends BaseDateEntity {
     /** 配件id */
     private String partId;
 

@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -18,8 +19,10 @@ import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.entity.composite.InPartComposite;
 import com.xw.supercar.service.BaseService;
+import com.xw.supercar.service.CompanyService;
 import com.xw.supercar.service.InPartInfoService;
 import com.xw.supercar.service.InPartService;
+import com.xw.supercar.service.LookupService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
@@ -135,4 +138,12 @@ public class InPartController extends BaseController<InPart>{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void afterReturn(ResponseResult result) {
+		Map<String, Object> data = result.getData();
+		//将数据字典对应的实体放入data
+		addAttributesToData(data, new String[]{InPart.DP.supplierLK.name(),InPart.DP.payMethhodLK.name() ,InPart.DP.company.name()}
+		, new Class[]{LookupService.class,LookupService.class,CompanyService.class});
+	}
 }

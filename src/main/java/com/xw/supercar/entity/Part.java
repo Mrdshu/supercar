@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class Part extends BaseEntity {
+public class Part extends BaseDateEntity {
 	/** 配件编号 */
 	private String code;
 

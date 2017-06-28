@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class OutPart extends BaseEntity {
+public class OutPart extends BaseDateEntity {
 	/** 出库单号 */
 	private String workOrderNo;
 

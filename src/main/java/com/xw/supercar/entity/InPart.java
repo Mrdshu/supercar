@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class InPart extends BaseEntity {
+public class InPart extends BaseDateEntity {
 	/** 入库单号 */
 	private String workOrderNo;
 
@@ -27,7 +27,7 @@ public class InPart extends BaseEntity {
 	/** 合计金额 */
 	private Double sum;
 
-	/** 所属门店 */
+	/** 所属门店，外键 */
 	private String company;
 
 	/** 软删除标志 */

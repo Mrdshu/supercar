@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class InPartInfo extends BaseEntity {
+public class InPartInfo extends BaseDateEntity {
     /** 入库单号 */
     private String workOrderNo;
 
@@ -32,6 +32,6 @@ public class InPartInfo extends BaseEntity {
     private Boolean isDeleted;
     
     public static enum DP {
-		id, workOrderNo, partId, count, cost,supplier,repositoryCode,isDeleted;
+		id, workOrderNo, partId, count, cost,supplierLK,repositoryCodeLK,isDeleted;
 	}
 }
