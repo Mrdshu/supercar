@@ -17,6 +17,10 @@ import lombok.ToString;
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
 public class TreeNode {
+	/**主键*/
+	private String id;
+	/**code-name形式*/
 	private String label;
+	/**子节点集合*/
 	private List<TreeNode> children;
 }

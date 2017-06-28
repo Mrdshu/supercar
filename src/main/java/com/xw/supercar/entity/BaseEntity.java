@@ -10,5 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class BaseEntity {
+	/**主键*/
 	private String id;
 }

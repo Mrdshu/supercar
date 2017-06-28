@@ -34,4 +34,19 @@ public class LookupDefinition extends BaseEntity{
 	public static enum DP{
 		id,code,name,type,description,createTime,updateTime,isDeleted
 	}
+	
+	public static enum TypeValue{
+		normal("0"),tree("1");
+		
+		/**属性值*/
+		String value;
+		
+		private TypeValue(String value) {
+			this.value = value;
+		}
+		
+		public String getValue() {
+			return value;
+		}
+	}
 }

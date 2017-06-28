@@ -27,7 +27,7 @@ public class LookupDefinitionService extends BaseService<LookupDefinition>{
 	 * 根据code返回数据字典定义
 	 * @author  wangsz 2017-06-13
 	 */
-	public LookupDefinition searchByCode(String code){
+	public LookupDefinition getByCode(String code){
 		if(StringUtils.isEmpty(code))
 			throw new IllegalArgumentException("the LookupDefinition code can't be empty!");
 		

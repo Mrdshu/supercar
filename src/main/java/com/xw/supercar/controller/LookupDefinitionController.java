@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sun.security.ntlm.Client;
 import com.xw.supercar.entity.LookupDefinition;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.LookupDefinitionService;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-
+/**
+ * 数据字典定义controller逻辑类
+ * @author wsz 2017-06-28
+ */
 @Controller
 @RequestMapping("/lookup_definition")
 public class LookupDefinitionController extends BaseController<LookupDefinition>{

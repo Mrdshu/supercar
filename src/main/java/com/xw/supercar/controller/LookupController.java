@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xw.supercar.entity.Lookup;
 import com.xw.supercar.entity.ResponseResult;
+import com.xw.supercar.entity.composite.TreeNode;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.LookupService;
 import com.xw.supercar.sql.page.Page;
@@ -17,11 +18,11 @@ import com.xw.supercar.sql.page.Page;
 @RequestMapping("/lookup")
 public class LookupController extends BaseController<Lookup>{
 	@Autowired
-	private LookupService lookupService;
+	private LookupService service;
 	
 	@Override
 	protected BaseService<Lookup> getSevice() {
-		return lookupService;
+		return service;
 	}
 	
 	/**
@@ -34,7 +35,7 @@ public class LookupController extends BaseController<Lookup>{
 	@ResponseBody
 	public ResponseResult getByDefineCode(String lookupDefineCode){
 		
-		List<Lookup> lookups = lookupService.searchByDefineCode(lookupDefineCode);
+		List<Lookup> lookups = service.searchByDefineCode(lookupDefineCode);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("entitys", lookups);
@@ -45,20 +46,36 @@ public class LookupController extends BaseController<Lookup>{
 	}
 	
 	/**
-	 * 获取某一数据字典定义下的数据字典
-	 * @param searchable
-	 * @return
+	 * 分页显示某一数据字典定义下的数据字典
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/pageByDefineCode",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult pageByDefineCode(String lookupDefineCode, String pageNo, String pageSize){
-		Page<Lookup> page= lookupService.searchPageByDefineCode(lookupDefineCode, pageNo, pageSize);
+		Page<Lookup> page= service.searchPageByDefineCode(lookupDefineCode, pageNo, pageSize);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("page", page);
 		//进行后后处理
 		afterReturn(result);
+		
+		return result;
+	}
+	
+	/**
+	 * 返回某定义下数据字典的树状json
+	 * @author wsz 2017-06-28
+	 */
+	@RequestMapping(value = "/getTree",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult getTree(String lookupDefineCode){
+		ResponseResult result = ResponseResult.generateResponse();
+		
+		List<TreeNode> treeNodes = service.getTree(lookupDefineCode);
+		if(treeNodes == null || treeNodes.isEmpty())
+			return ResponseResult.generateErrorResponse("", "获取树状数据字典失败！");
+			
+		result.addAttribute("entitys", treeNodes);
 		
 		return result;
 	}

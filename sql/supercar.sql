@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-27 22:40:54
+Date: 2017-06-28 08:30:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -218,17 +218,17 @@ CREATE TABLE `tb_lookup` (
 -- Records of tb_lookup
 -- ----------------------------
 INSERT INTO `tb_lookup` VALUES ('1', '1', 'byd', '比亚迪', null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_lookup` VALUES ('12662744B75A48B8B58258E6F7DC8E78', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'level3', 'level3', null, null, '3', 'E008329ECEE041D3A69464C969E9286D', '1', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', '12662744B75A48B8B58258E6F7DC8E78', null, null, null);
-INSERT INTO `tb_lookup` VALUES ('192E16F8EA434E029E7911BF9770A504', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'level1', 'level1', null, null, '1', null, '0', '192E16F8EA434E029E7911BF9770A504', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('12662744B75A48B8B58258E6F7DC8E78', '88B2BCF91A124C119D9AFD47EC872E87', 'level3', 'level3', null, null, '3', 'E008329ECEE041D3A69464C969E9286D', '1', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', '12662744B75A48B8B58258E6F7DC8E78', null, null, null);
+INSERT INTO `tb_lookup` VALUES ('192E16F8EA434E029E7911BF9770A504', '88B2BCF91A124C119D9AFD47EC872E87', 'level1', 'level1', null, null, '1', null, '0', '192E16F8EA434E029E7911BF9770A504', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('2', '1', 'bc', '奔驰', null, 'AAA', null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('3', '2', 'normal', '普通用户', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('4', '2', 'silver', '银牌用户', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('5', '2', 'gold', '金牌用户', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('6', '1', 'lbjl', '兰博基尼', null, null, '0', null, '0', null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('700886ED4ECE4DAC8BBB908DF7553894', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'ee', 'ee', null, null, '1', null, '1', '700886ED4ECE4DAC8BBB908DF7553894', null, null, null, null, null);
-INSERT INTO `tb_lookup` VALUES ('9C37D098242D49268F305D2133DD7D65', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'level3_2', 'level3_2', null, null, '3', 'E008329ECEE041D3A69464C969E9286D', '1', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', '9C37D098242D49268F305D2133DD7D65', null, null, null);
+INSERT INTO `tb_lookup` VALUES ('9C37D098242D49268F305D2133DD7D65', '88B2BCF91A124C119D9AFD47EC872E87', 'level3_2', 'level3_2', null, null, '3', 'E008329ECEE041D3A69464C969E9286D', '1', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', '9C37D098242D49268F305D2133DD7D65', null, null, null);
 INSERT INTO `tb_lookup` VALUES ('A072D82A6AE14146B47A70E4C58AA28D', 'E3F9A726B2434B219EDEE2E23734EA4B', 'admin', '管理员', null, '最高权限的角色，可查看所有门店账号、客户、维修工单', null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_lookup` VALUES ('E008329ECEE041D3A69464C969E9286D', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'level2', 'level2', null, null, '2', '192E16F8EA434E029E7911BF9770A504', '0', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('E008329ECEE041D3A69464C969E9286D', '88B2BCF91A124C119D9AFD47EC872E87', 'level2', 'level2', null, null, '2', '192E16F8EA434E029E7911BF9770A504', '0', '192E16F8EA434E029E7911BF9770A504', 'E008329ECEE041D3A69464C969E9286D', null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('E2221CCC83404FAEB89A882D5E112E15', '1253114623E54642A38112E4142E0D5A', 'repair_shop', '快修门店', null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
@@ -255,7 +255,7 @@ INSERT INTO `tb_lookup_df` VALUES ('1', 'car_brand', '车辆品牌', null, null,
 INSERT INTO `tb_lookup_df` VALUES ('1253114623E54642A38112E4142E0D5A', 'company_type', '公司类型', null, null, '2017-06-18 14:24:56', '2017-06-18 14:26:06', '0');
 INSERT INTO `tb_lookup_df` VALUES ('2', 'client_level', '客户级别', null, '不同级别客户享受的优惠不一样', null, '2017-06-22 23:03:08', '0');
 INSERT INTO `tb_lookup_df` VALUES ('25CDFCA32AB14D2AB39A4764F5D93470', 'w', 'w', null, null, '2017-06-17 18:30:44', '2017-06-18 14:24:38', '1');
-INSERT INTO `tb_lookup_df` VALUES ('88B2BCF91A124C119D9AFD47EC872E87', 'part_type', '配件分类', null, '树结构', '2017-06-27 21:24:18', '2017-06-27 21:24:18', '0');
+INSERT INTO `tb_lookup_df` VALUES ('88B2BCF91A124C119D9AFD47EC872E87', 'part_type', '配件分类', '1', '树结构', '2017-06-27 21:24:18', '2017-06-28 08:21:16', '0');
 INSERT INTO `tb_lookup_df` VALUES ('91295F61D79A4CBC85558F65A946BFD1', 'test2', 'test2', null, null, '2017-06-17 10:19:33', '2017-06-17 10:23:07', '1');
 INSERT INTO `tb_lookup_df` VALUES ('D12E86A4F4054E5787404E8A9E75EA8D', 't', 't', null, 're', '2017-06-17 10:23:29', '2017-06-18 14:24:38', '1');
 INSERT INTO `tb_lookup_df` VALUES ('D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'client_type', '客户类型', null, null, '2017-06-25 09:38:38', '2017-06-25 09:38:38', '0');
