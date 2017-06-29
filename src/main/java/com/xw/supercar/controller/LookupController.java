@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,6 +15,8 @@ import com.xw.supercar.entity.composite.TreeNode;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.LookupService;
 import com.xw.supercar.sql.page.Page;
+import com.xw.supercar.sql.search.SearchOperator;
+import com.xw.supercar.sql.search.Searchable;
 @Controller
 @RequestMapping("/lookup")
 public class LookupController extends BaseController<Lookup>{
@@ -24,6 +27,20 @@ public class LookupController extends BaseController<Lookup>{
 	protected BaseService<Lookup> getSevice() {
 		return service;
 	}
+	
+	@Override
+	protected ResponseResult beforeNew(Lookup entity) {
+		
+		Searchable searchable = Searchable.newSearchable()
+				.addSearchFilter(Lookup.DP.definitionId.name(), SearchOperator.eq, entity.getDefinitionId())
+				.addSearchFilter(Lookup.DP.code.name(), SearchOperator.eq, entity.getCode());
+		List<Lookup> lookups = service.findBy(searchable, true);
+		if(lookups != null && lookups.size() > 0)
+			return ResponseResult.generateErrorResponse("", "代码重复，请重新输入");
+		
+		return ResponseResult.generateResponse();
+	}
+
 	
 	/**
 	 * 获取某一数据字典定义下的数据字典
@@ -60,6 +77,18 @@ public class LookupController extends BaseController<Lookup>{
 		afterReturn(result);
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/checkCodeRepeat",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult checkCodeRepeat(String definitionId, String lookupCode){
+		if(StringUtils.isEmpty(definitionId) || StringUtils.isEmpty(lookupCode))
+			return ResponseResult.generateErrorResponse("", "数据字典code以及定义id不能为空！");
+			
+		Lookup lookup = new Lookup();
+		lookup.setCode(lookupCode);
+		lookup.setDefinitionId(definitionId);
+		return beforeNew(lookup);
 	}
 	
 	/**

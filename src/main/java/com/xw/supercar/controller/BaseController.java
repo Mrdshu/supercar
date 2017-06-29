@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -365,6 +366,9 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
+		//如果该外键为空，返回
+		if(StringUtils.isEmpty(attributeId))
+			return ;
 		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
 		
 		object.getDate().put(attributeName, type);

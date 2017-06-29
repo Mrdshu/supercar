@@ -3,9 +3,12 @@ package com.xw.supercar.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.entity.Lookup;
 import com.xw.supercar.entity.LookupDefinition;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
@@ -25,6 +28,14 @@ public class LookupDefinitionController extends BaseController<LookupDefinition>
 	@Override
 	protected BaseService<LookupDefinition> getSevice() {
 		return lookupDefinitionService;
+	}
+	
+	@RequestMapping(value = "/checkCodeRepeat",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult checkCodeRepeat(String lookupDfCode){
+		LookupDefinition lookupDefinition = new LookupDefinition();
+		lookupDefinition.setCode(lookupDfCode);
+		return beforeNew(lookupDefinition);
 	}
 	
 	@Override

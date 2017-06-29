@@ -101,6 +101,8 @@ public class PasswordHash
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
         
         return rs;

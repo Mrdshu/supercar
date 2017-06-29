@@ -50,10 +50,10 @@ public class Part extends BaseDateEntity {
 	private Date updateTime;
 
 	/** 软删除标志 */
-	private Byte isDeleted;
+	private Boolean isDeleted;
 
 	/** 禁用标志 */
-	private Byte isDisable;
+	private Boolean isDisable;
 
 
 	public static enum DP {
