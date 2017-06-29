@@ -36,20 +36,15 @@
 	</context:component-scan>
 	
 	<!--设置默认的注解mapping和注解adapter -->
-	<mvc:annotation-driven />
-
-	<!--自定义参数注入 -->
 	<mvc:annotation-driven>
+		<!--自定义参数注入 -->
 		<mvc:argument-resolvers>
 			<bean
 				class="com.xw.supercar.spring.resolver.PageableMethodArgumentResolver" />
 			<bean
 				class="com.xw.supercar.spring.resolver.SearchableMethodArgumentResolver" />
 		</mvc:argument-resolvers>
-	</mvc:annotation-driven>
-	
-	<!--自定义jackson 序列化date数据格式-->
-	<mvc:annotation-driven>
+		<!--自定义jackson 序列化date数据格式-->
 		<mvc:message-converters>
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -57,6 +52,7 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
 	<bean id="customObjectMapper" class="com.xw.supercar.spring.util.CustomJsonDateMapper"></bean>
 
 	<!--aop设置 -->

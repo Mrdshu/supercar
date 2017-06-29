@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.annotation.SearchableDefaults;
 import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
@@ -101,7 +102,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/page",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult page(Searchable searchable){
+	public ResponseResult page(@SearchableDefaults Searchable searchable){
 		if(searchable == null)
 			searchable = Searchable.newSearchable()
 				.addPage(DaoConstant.DEFAULT_PAGE_NUMBER, DaoConstant.DEFAULT_PAGE_SIZE);
@@ -123,7 +124,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/list",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult list(Searchable searchable){
+	public ResponseResult list(@SearchableDefaults Searchable searchable){
 		List<E> entitys = getSevice().findBy(searchable, true);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
