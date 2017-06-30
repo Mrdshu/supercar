@@ -95,9 +95,6 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 分页查询
-	 * @param pageNo 第几页，为空时为默认值
-	 * @param pageSize 页大小，为空时为默认值
-	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/page",produces={MediaType.APPLICATION_JSON_VALUE})

@@ -43,6 +43,14 @@ public class InPartController extends BaseController<InPart>{
 		return service;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void afterReturn(ResponseResult result) {
+		Map<String, Object> data = result.getData();
+		//将数据字典对应的实体放入data
+		addAttributesToData(data, new String[]{InPart.DP.supplierLK.name(),InPart.DP.payMethhodLK.name() ,InPart.DP.company.name()}
+		, new Class[]{LookupService.class,LookupService.class,CompanyService.class});
+	}
 	/**
 	 * 新增入库工单以及入库配件
 	 * @author  wangsz 2017-06-04
@@ -138,12 +146,4 @@ public class InPartController extends BaseController<InPart>{
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void afterReturn(ResponseResult result) {
-		Map<String, Object> data = result.getData();
-		//将数据字典对应的实体放入data
-		addAttributesToData(data, new String[]{InPart.DP.supplierLK.name(),InPart.DP.payMethhodLK.name() ,InPart.DP.company.name()}
-		, new Class[]{LookupService.class,LookupService.class,CompanyService.class});
-	}
 }
