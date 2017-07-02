@@ -347,6 +347,8 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @author  wangsz 2017-06-04
 	 */
 	protected void addAttributesToData(BaseDateEntity object, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(object == null)
+			return ;
 		if(attributeNames.length != attributeServicesClazz.length)
 			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
 		
@@ -363,7 +365,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @author  wangsz 2017-06-04
 	 */
 	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
-		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
+ 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
 		//如果该外键为空，返回
 		if(StringUtils.isEmpty(attributeId))
 			return ;
