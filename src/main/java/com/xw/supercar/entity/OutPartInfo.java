@@ -13,19 +13,19 @@ public class OutPartInfo extends BaseDateEntity {
     /** 出库单号 */
     private String workOrderNo;
 
-    /** 库存配件id，外键 */
-    private String inventoryId;
+    /** 出库配件id，外键 */
+    private String partId;
 
     /** 配件出库数目 */
     private Integer count;
 
-    /**项目代码*/
-    private String itemCode;
+    /**维修工单号*/
+    private String repairWorkOrderNo;
     
     /** 软删除标志 */
     private Boolean isDeleted;
     
     public static enum DP {
-		id, workOrderNo, inventoryId, count, itemCode, isDeleted;
+		id, workOrderNo, partId, count, repairWorkOrderNo, isDeleted;
 	}
 }

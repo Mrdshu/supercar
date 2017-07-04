@@ -5,9 +5,9 @@
   <resultMap id="resultMap" type="com.xw.supercar.entity.OutPartInfo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="OUT_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
-    <result column="INVENTORY_ID" jdbcType="VARCHAR" property="inventoryId" />
+    <result column="P_ID" jdbcType="VARCHAR" property="partId" />
     <result column="OUT_COUNT" jdbcType="INTEGER" property="count" />
-    <result column="ITEM_CODE" jdbcType="VARCHAR" property="itemCode" />
+    <result column="REPAIR_WORKORDER_NO" jdbcType="VARCHAR" property="repairWorkOrderNo" />
     <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
     <result column="EXTEND1" jdbcType="VARCHAR" property="extend1" />
     <result column="EXTEND2" jdbcType="VARCHAR" property="extend2" />
@@ -16,7 +16,7 @@
   
   <sql id="table">TB_OUT_PART_INFO</sql>
   <sql id="columns">
-    ID, OUT_WORKORDER_NO, INVENTORY_ID, OUT_COUNT, ITEM_CODE,ISDELETED, EXTEND1, EXTEND2, EXTEND3
+    ID, OUT_WORKORDER_NO, P_ID, OUT_COUNT, REPAIR_WORKORDER_NO,ISDELETED, EXTEND1, EXTEND2, EXTEND3
   </sql>
   
   <!-- 新增 -->
@@ -27,9 +27,9 @@
 			<trim suffixOverrides=",">
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
-				<choose><when test="inventoryId == ''">null</when><otherwise>#{inventoryId}</otherwise></choose>, 
+				<choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>, 
 				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
-				<choose><when test="itemCode == ''">null</when><otherwise>#{itemCode}</otherwise></choose>, 
+				<choose><when test="repairWorkOrderNo == ''">null</when><otherwise>#{repairWorkOrderNo}</otherwise></choose>, 
 				default, 
 				<choose><when test="extend1 == ''">null</when><otherwise>#{extend1}</otherwise></choose>, 
 				<choose><when test="extend2 == ''">null</when><otherwise>#{extend2}</otherwise></choose>, 
@@ -73,8 +73,8 @@
 		<trim suffixOverrides=",">
 			<if test="workOrderNo != null">OUT_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
 			<if test="count != null">OUT_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
-			<if test="inventoryId != null">INVENTORY_ID = <choose><when test="inventoryId == ''">null</when><otherwise>#{inventoryId}</otherwise></choose>,</if>
-			<if test="itemCode != null">ITEM_CODE = <choose><when test="itemCode == ''">null</when><otherwise>#{itemCode}</otherwise></choose>,</if>
+			<if test="partId != null">P_ID = <choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>,</if>
+			<if test="repairWorkOrderNo != null">REPAIR_WORKORDER_NO = <choose><when test="repairWorkOrderNo == ''">null</when><otherwise>#{repairWorkOrderNo}</otherwise></choose>,</if>
 			<if test="extend1 != null">EXTEND1 = <choose><when test="extend1 == ''">null</when><otherwise>#{extend1}</otherwise></choose>,</if>
 			<if test="extend2 != null">EXTEND2 = <choose><when test="extend2 == ''">null</when><otherwise>#{extend2}</otherwise></choose>,</if>
 			<if test="extend3 != null">EXTEND3 = <choose><when test="extend3 == ''">null</when><otherwise>#{extend3}</otherwise></choose>,</if>
@@ -88,8 +88,8 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="workOrderNo != null">AND OUT_WORKORDER_NO = #{workOrderNo}</if>
 			<if test="count != null">AND OUT_COUNT = #{count}</if>
-			<if test="inventoryId != null">AND INVENTORY_ID = #{inventoryId}</if>
-			<if test="itemCode != null">AND ITEM_CODE = #{itemCode}</if>
+			<if test="partId != null">AND P_ID = #{partId}</if>
+			<if test="repairWorkOrderNo != null">AND REPAIR_WORKORDER_NO = #{repairWorkOrderNo}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 			<if test="extend1 != null">AND EXTEND1 = #{extend1}</if>
 			<if test="extend2 != null">AND EXTEND2 = #{extend2}</if>
@@ -124,16 +124,16 @@
 				<if test="filter.extend3_eq != null">AND EXTEND3 = #{filter.extend3_eq}</if>
 				<if test="filter.extend3_ne != null">AND EXTEND3 != #{filter.extend3_ne}</if>
 				
-				<if test="filter.itemCode_eq != null">AND ITEM_CODE = #{filter.itemCode_eq}</if>
-				<if test="filter.itemCode_like != null">AND lower(ITEM_CODE) LIKE lower(#{filter.itemCode_like})</if>
+				<if test="filter.repairWorkOrderNo_eq != null">AND REPAIR_WORKORDER_NO = #{filter.repairWorkOrderNo_eq}</if>
+				<if test="filter.repairWorkOrderNo_like != null">AND lower(REPAIR_WORKORDER_NO) LIKE lower(#{filter.repairWorkOrderNo_like})</if>
 				
 				<if test="filter.extend1_eq != null">AND EXTEND1 = #{filter.extend1_eq}</if>
 				<if test="filter.extend1_like != null">AND lower(EXTEND1) LIKE lower(#{filter.extend1_like})</if>
 				
-				<if test="filter.inventoryId_gte != null">AND INVENTORY_ID &gt;= #{filter.inventoryId_gte}</if>
-				<if test="filter.inventoryId_lte != null">AND INVENTORY_ID &lt;= #{filter.inventoryId_lte}</if>
-				<if test="filter.inventoryId_gt != null">AND INVENTORY_ID &gt;= #{filter.inventoryId_gt}</if>
-				<if test="filter.inventoryId_lt != null">AND INVENTORY_ID &lt;= #{filter.inventoryId_lt}</if>
+				<if test="filter.partId_gte != null">AND P_ID &gt;= #{filter.partId_gte}</if>
+				<if test="filter.partId_lte != null">AND P_ID &lt;= #{filter.partId_lte}</if>
+				<if test="filter.partId_gt != null">AND P_ID &gt;= #{filter.partId_gt}</if>
+				<if test="filter.partId_lt != null">AND P_ID &lt;= #{filter.partId_lt}</if>
 				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>

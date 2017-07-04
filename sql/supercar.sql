@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-30 08:50:33
+Date: 2017-07-04 08:44:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -316,16 +316,17 @@ DROP TABLE IF EXISTS `tb_out_part_info`;
 CREATE TABLE `tb_out_part_info` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(50) DEFAULT NULL COMMENT '出库单号',
-  `inventory_id` varchar(32) DEFAULT NULL COMMENT '库存配件id，外键',
+  `p_id` varchar(32) DEFAULT NULL COMMENT '配件id，外键',
+  `p_sale` decimal(10,0) DEFAULT NULL COMMENT '配件销售价',
   `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
-  `item_code` varchar(50) DEFAULT NULL,
+  `repair_workorder_no` varchar(50) DEFAULT NULL COMMENT '维修工单号',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `inventory_id_fk` (`inventory_id`),
-  CONSTRAINT `inventory_id_fk` FOREIGN KEY (`inventory_id`) REFERENCES `tb_inventory` (`id`)
+  KEY `inventory_id_fk` (`p_id`),
+  CONSTRAINT `inventory_id_fk` FOREIGN KEY (`p_id`) REFERENCES `tb_inventory` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -366,8 +367,8 @@ CREATE TABLE `tb_part` (
 -- Records of tb_part
 -- ----------------------------
 INSERT INTO `tb_part` VALUES ('2D953EE846DB4B2EA00B6A324BEB8450', 'NO000001', '机油', '349DBB62003E4CB7A29F7A0D19790682', '100', '100', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '奥迪、宝马、奔驰', '7E66A5AEF4BC46AA91D9174EE861DA12', '2017-06-29 16:00:01', '2017-06-29 20:40:24', '0', '0', null, null, null);
-INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '349DBB62003E4CB7A29F7A0D19790682', '120', '10', 'produceArea', '73C970D8567A4833B554D6EECE5BBFF5', 'carModel\r\n\r\n\r\n', '7FA179BA0BAF4CA4874DA57DD6393861', null, '2017-06-29 14:46:53', '1', '0', null, null, null);
-INSERT INTO `tb_part` VALUES ('475980DBF3FC4EC48B63C7C04156B5FC', 'NO000005', '润滑油1', '349DBB62003E4CB7A29F7A0D19790682', '10', '1', '佛山', '73C970D8567A4833B554D6EECE5BBFF5', '奔驰', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 12:50:53', '2017-06-29 17:46:31', '1', '1', null, null, null);
+INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '349DBB62003E4CB7A29F7A0D19790682', '120', '10', 'produceArea', '73C970D8567A4833B554D6EECE5BBFF5', 'carModel\r\n\r\n\r\n', '7FA179BA0BAF4CA4874DA57DD6393861', null, '2017-07-02 21:16:17', '0', '0', null, null, null);
+INSERT INTO `tb_part` VALUES ('475980DBF3FC4EC48B63C7C04156B5FC', 'NO000005', '润滑油1', '349DBB62003E4CB7A29F7A0D19790682', '10', '1', '佛山', '73C970D8567A4833B554D6EECE5BBFF5', '奔驰', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 12:50:53', '2017-07-02 21:16:19', '0', '1', null, null, null);
 INSERT INTO `tb_part` VALUES ('6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', 'NO000007', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '12', '1', '澳大利亚', '73C970D8567A4833B554D6EECE5BBFF5', '比亚迪', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 16:07:30', '2017-06-29 19:50:43', '0', '1', null, null, null);
 INSERT INTO `tb_part` VALUES ('8E65E1B022C84C15B902FA6F8997D414', 'NO000003', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '120', '120', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '宝马X5', 'E232A1884DCD4E668E29860C202F088A', '2017-06-29 11:30:01', '2017-06-29 20:26:34', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('A42125248E2141CCB4CACAF26479DB92', 'NO000006', '机油2', '349DBB62003E4CB7A29F7A0D19790682', '123', '12', '广东广州', '73C970D8567A4833B554D6EECE5BBFF5', '宝马、奔驰', '7FA179BA0BAF4CA4874DA57DD6393861', '2017-06-29 16:04:46', '2017-06-29 17:40:37', '1', '1', null, null, null);
@@ -380,11 +381,11 @@ INSERT INTO `tb_part` VALUES ('C4BCFA08FCD442DFB5FE4ECF12660146', 'NO000002', '�
 DROP TABLE IF EXISTS `tb_repair_item`;
 CREATE TABLE `tb_repair_item` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `ri_type` varchar(32) DEFAULT NULL COMMENT '项目类型',
+  `ri_type` varchar(32) DEFAULT NULL COMMENT '项目类型，数据字典外键',
   `ri_code` varchar(255) DEFAULT NULL COMMENT '项目代码',
   `ri_name` varchar(255) DEFAULT NULL COMMENT '项目名称',
   `ri_working_hour` double DEFAULT NULL COMMENT '工时数',
-  `ri_work_type` varchar(32) DEFAULT NULL COMMENT '工种',
+  `ri_work_type` varchar(32) DEFAULT NULL COMMENT '工种，数据字典外键',
   `ri_desc` varchar(255) DEFAULT NULL COMMENT '备注',
   `ri_sum` double DEFAULT NULL COMMENT '金额',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
@@ -395,6 +396,51 @@ CREATE TABLE `tb_repair_item` (
 
 -- ----------------------------
 -- Records of tb_repair_item
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_repair_workorder
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_repair_workorder`;
+CREATE TABLE `tb_repair_workorder` (
+  `ID` varchar(32) NOT NULL COMMENT 'id',
+  `rw_workorder_no` varchar(32) DEFAULT NULL COMMENT '维修工单号',
+  `rw_workorder_state` varchar(32) DEFAULT NULL COMMENT '工单状态',
+  `rw_repair_type` varchar(32) DEFAULT NULL COMMENT '修理性质',
+  `rw_sum` decimal(10,0) DEFAULT NULL COMMENT '结算金额',
+  `rw_clerk` varchar(32) DEFAULT NULL COMMENT '服务顾问',
+  `rw_client_id` varchar(32) DEFAULT NULL COMMENT '客户id，外键',
+  `rw_car_mileage` int(11) DEFAULT NULL COMMENT '车进店里程',
+  `rw_car_oilmeter` int(11) DEFAULT NULL COMMENT '车进店油表',
+  `rw_clent_remind` varchar(255) DEFAULT NULL COMMENT '客户提醒',
+  `rw_send_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '送修时间',
+  `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
+  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_repair_workorder
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_repair_workorder_item
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_repair_workorder_item`;
+CREATE TABLE `tb_repair_workorder_item` (
+  `ID` varchar(32) NOT NULL COMMENT 'id',
+  `rwi_workorder_id` varchar(32) DEFAULT NULL COMMENT '维修工单id，外键',
+  `rwi_item_id` varchar(32) DEFAULT NULL COMMENT '维修项目id，外键',
+  `rwi_mechanic` varchar(32) DEFAULT NULL COMMENT '维修工，外键',
+  `start_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始时间',
+  `end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束时间',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_repair_workorder_item
 -- ----------------------------
 
 -- ----------------------------
