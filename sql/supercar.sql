@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : test
+Source Server         : localhost_conn
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,10 +10,27 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-05 18:07:11
+Date: 2017-07-05 23:21:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sequence
+-- ----------------------------
+DROP TABLE IF EXISTS `sequence`;
+CREATE TABLE `sequence` (
+  `seq_name` varchar(50) NOT NULL,
+  `current_val` int(11) NOT NULL,
+  `increment_val` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`seq_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sequence
+-- ----------------------------
+INSERT INTO `sequence` VALUES ('in_workorder_no', '1', '1');
+INSERT INTO `sequence` VALUES ('out_workorder_no', '1', '1');
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -101,7 +118,7 @@ CREATE TABLE `tb_inventory` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `p_id` varchar(32) NOT NULL COMMENT '配件id',
   `p_count` int(11) DEFAULT '0' COMMENT '配件库存数目',
-  `p_cost` double DEFAULT NULL COMMENT '进货价',
+  `p_cost` decimal(10,0) DEFAULT NULL COMMENT '进货价',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
   `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
   `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
@@ -153,8 +170,11 @@ CREATE TABLE `tb_in_part` (
 -- ----------------------------
 -- Records of tb_in_part
 -- ----------------------------
-INSERT INTO `tb_in_part` VALUES ('1', '1', '2017-06-27 19:51:41', '1', null, '1', '1', '1', null, null, null);
-INSERT INTO `tb_in_part` VALUES ('2', '2', '2017-06-27 19:51:41', '1', '1', '1', '1', '1', '', '', '');
+INSERT INTO `tb_in_part` VALUES ('1', '7', '2017-06-27 19:51:41', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('2', '2', '2017-06-27 19:51:41', '1', '1', '1', '1', '0', '', '', '');
+INSERT INTO `tb_in_part` VALUES ('5', '8', '2017-07-05 23:14:32', null, null, '1', null, '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('6', '9', '2017-07-05 23:14:48', null, null, '1', null, '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('9', '1', '2017-07-05 23:16:56', null, null, '1', null, '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part_info
@@ -184,9 +204,9 @@ CREATE TABLE `tb_in_part_info` (
 -- ----------------------------
 -- Records of tb_in_part_info
 -- ----------------------------
-INSERT INTO `tb_in_part_info` VALUES ('3', '2', '3A9A0BE24BD14C5999C3F74533D8C769', '1', '1', '1', '1', '1', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('CAB55CE3EFD44BF0BE528C15A95D296C', '1', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '1', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('F9B02519D7444A599B1B20D303818CB8', '1', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '1', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('3', '2', '3A9A0BE24BD14C5999C3F74533D8C769', '1', '1', '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('CAB55CE3EFD44BF0BE528C15A95D296C', '1', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('F9B02519D7444A599B1B20D303818CB8', '1', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_lookup
@@ -306,6 +326,7 @@ CREATE TABLE `tb_out_part` (
 -- ----------------------------
 -- Records of tb_out_part
 -- ----------------------------
+INSERT INTO `tb_out_part` VALUES ('test', '1', null, null, null, null, null, null, null, null, null, '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_out_part_info
@@ -364,7 +385,7 @@ CREATE TABLE `tb_part` (
 -- Records of tb_part
 -- ----------------------------
 INSERT INTO `tb_part` VALUES ('2D953EE846DB4B2EA00B6A324BEB8450', 'NO000001', '机油', '349DBB62003E4CB7A29F7A0D19790682', '100', '100', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '奥迪、宝马、奔驰', '7E66A5AEF4BC46AA91D9174EE861DA12', '2017-06-29 16:00:01', '2017-06-29 20:40:24', '0', '0', null, null, null);
-INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '349DBB62003E4CB7A29F7A0D19790682', '120', '10', 'produceArea', '73C970D8567A4833B554D6EECE5BBFF5', 'carModel\r\n\r\n\r\n', '7FA179BA0BAF4CA4874DA57DD6393861', null, '2017-07-02 21:16:17', '0', '0', null, null, null);
+INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '349DBB62003E4CB7A29F7A0D19790682', '120', '10', 'produceArea', '73C970D8567A4833B554D6EECE5BBFF5', 'carmodel', '7FA179BA0BAF4CA4874DA57DD6393861', null, '2017-07-05 22:05:25', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('475980DBF3FC4EC48B63C7C04156B5FC', 'NO000005', '润滑油1', '349DBB62003E4CB7A29F7A0D19790682', '10', '1', '佛山', '73C970D8567A4833B554D6EECE5BBFF5', '奔驰', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 12:50:53', '2017-07-02 21:16:19', '0', '1', null, null, null);
 INSERT INTO `tb_part` VALUES ('6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', 'NO000007', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '12', '1', '澳大利亚', '73C970D8567A4833B554D6EECE5BBFF5', '比亚迪', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 16:07:30', '2017-06-29 19:50:43', '0', '1', null, null, null);
 INSERT INTO `tb_part` VALUES ('8E65E1B022C84C15B902FA6F8997D414', 'NO000003', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '120', '120', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '宝马X5', 'E232A1884DCD4E668E29860C202F088A', '2017-06-29 11:30:01', '2017-06-29 20:26:34', '0', '0', null, null, null);
@@ -471,3 +492,45 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` VALUES ('1', 'wsz', '王树政', 'e10adc3949ba59abbe56e057f20f883e', null, null, 'A072D82A6AE14146B47A70E4C58AA28D', '1', null, '2017-06-18 16:20:52', '2017-06-28 21:00:38', '0', '0');
 INSERT INTO `tb_user` VALUES ('DA67698177BB4118BBB23079A6CA9BFA', 'kim', '谢顶金', '123456', '1134771121@qq.com', '18378311282', 'A072D82A6AE14146B47A70E4C58AA28D', '1', '12341234324', '2017-06-28 21:01:52', '2017-06-28 21:01:52', '0', '0');
 INSERT INTO `tb_user` VALUES ('DC7A00CD45B0438AA38DED7223166FE1', 'username', 'fullname', 'password', 'email', 'mobile', '1', '1', 'description', '2017-06-25 21:25:08', '2017-06-25 21:25:08', '0', '0');
+
+-- ----------------------------
+-- Function structure for currval
+-- ----------------------------
+DROP FUNCTION IF EXISTS `currval`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `currval`(v_seq_name VARCHAR(50)) RETURNS int(11)
+begin     
+    declare value integer;       
+    set value = 0;       
+    select current_val into value  from sequence where seq_name = v_seq_name; 
+   return value; 
+end
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Function structure for nextval
+-- ----------------------------
+DROP FUNCTION IF EXISTS `nextval`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `nextval`(v_seq_name VARCHAR(50)) RETURNS int(11)
+begin
+    update sequence set current_val = current_val + increment_val  where seq_name = v_seq_name;
+    return currval(v_seq_name);
+end
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `workorderNo`;
+DELIMITER ;;
+CREATE TRIGGER `workorderNo` BEFORE INSERT ON `tb_in_part` FOR EACH ROW BEGIN
+set NEW.in_workorder_no = nextval('in_workorder_no');
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `out_workorder_no`;
+DELIMITER ;;
+CREATE TRIGGER `out_workorder_no` BEFORE INSERT ON `tb_out_part` FOR EACH ROW BEGIN
+set NEW.out_workorder_no = nextval('out_workorder_no');
+END
+;;
+DELIMITER ;

@@ -64,6 +64,10 @@ public class InPartController extends BaseController<InPart>{
 		List<InPartInfo> inPartInfos = inPartComposite.getInpartInfos();
 		//新增入库工单
 		entity = service.add(entity);
+		//关联入库配件的工单
+		for (InPartInfo inPartInfo : inPartInfos) {
+			inPartInfo.setWorkOrderNo(entity.getWorkOrderNo());
+		}
 		//新增入库配件集合
 		if(entity != null)
 			SpringContextHolder.getBean(InPartInfoService.class).add(inPartInfos);
@@ -85,7 +89,7 @@ public class InPartController extends BaseController<InPart>{
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(InPartInfo.DP.workOrderNo.name(), SearchOperator.eq, inWorkOrderNo);
 		
-		Page<InPartInfo> inPartInfos = SpringContextHolder.getBean(InPartInfoService.class).findPage(searchable, true);
+		Page<InPartInfo> inPartInfos = SpringContextHolder.getBean(InPartInfoService.class).extendFindPage(searchable, true);
 		result.addAttribute("page", inPartInfos);
 		return result;
 	}

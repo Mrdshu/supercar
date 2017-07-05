@@ -1,5 +1,7 @@
 package com.xw.supercar.entity;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ public class Inventory extends BaseDateEntity {
     private Integer count;
 
     /** 进货价 */
-    private Double cost;
+    private BigDecimal cost;
 
     /** 供应商，数据字典外键 */
     private String supplierLK;

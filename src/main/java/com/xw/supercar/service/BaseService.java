@@ -320,6 +320,18 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	}
 	
 	/**
+	 * 根据过滤条件查询，此查询会返回关联属性
+	 * @author  wangsz 2017-05-14
+	 */
+	public List<E> extendFindBy(Searchable searchable,boolean useDefaultFilters){
+		//TODO --过滤条件为空时，会把所有数据查出来。此处要做控制，超过500条时只返回前500条数据
+		List<E> entitys = baseDao.extendSelectBy(searchable, useDefaultFilters);
+		afterSearch(entitys);
+		
+		return entitys;
+	}
+	
+	/**
 	 * 分页查询
 	 * @author  wangsz 2017-05-16
 	 */
@@ -330,8 +342,19 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		afterSearch(entitys);
 		
 		return page;
-		
 	}
 	
-	
+	/**
+	 * 分页查询，，此查询会返回关联属性
+	 * 使用前请确认已添加自定义  关联查询sql语句
+	 * @author  wangsz 2017-05-16
+	 */
+	public Page<E> extendFindPage(Searchable searchable,boolean useDefaultFilters){
+		Page<E> page = baseDao.extendSelectPage(searchable, useDefaultFilters);
+		
+		List<E> entitys = page.getContent();
+		afterSearch(entitys);
+		
+		return page;
+	}
 }

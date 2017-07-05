@@ -19,6 +19,8 @@ public class DaoConstant {
 	public final static String NAME_ID = "id";
 	/**数据库表中软删除对应的字段名*/
 	public final static String NAME_IS_DELETED = "isDeleted";
+	/**实体的扩展集合字段名*/
+	public final static String NAME_ENTITY_DATE = "date";
 	
 	/**mapper文件中 '新增' 操作对应的statement*/
 	public final static String STMT_INSERT = ".insert";

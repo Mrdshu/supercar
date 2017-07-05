@@ -2,18 +2,19 @@ package com.xw.supercar.dao;
 
 import static com.xw.supercar.constant.DaoConstant.DEFAULT_PAGE_NUMBER;
 import static com.xw.supercar.constant.DaoConstant.DEFAULT_PAGE_SIZE;
+import static com.xw.supercar.constant.DaoConstant.NAME_ENTITY_DATE;
 import static com.xw.supercar.constant.DaoConstant.NAME_ID;
 import static com.xw.supercar.constant.DaoConstant.NAME_IS_DELETED;
 import static com.xw.supercar.constant.DaoConstant.STMT_COUNT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_DELETE;
 import static com.xw.supercar.constant.DaoConstant.STMT_DELETE_BY;
+import static com.xw.supercar.constant.DaoConstant.STMT_EXTEND_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_INSERT;
 import static com.xw.supercar.constant.DaoConstant.STMT_INSERT_LIST;
 import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE_BY;
 import static com.xw.supercar.constant.DaoConstant.whereSqlCustomKey;
-import static com.xw.supercar.constant.DaoConstant.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -360,12 +361,39 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	}
 	
 	/**
+	 * 关联条件查询
+	 * 注意！关联sql中关联表字段名必须为   fieldName_attributeName（关联字段名_关联实体字段名）
+	 * 
+	 * @author  wangsz 2017-05-16
+	 */
+	public List<E> extendSelectBy(Searchable searchable, boolean defaultFilters) {
+		Searchable defaultSearchable = defaultFilters ? this.getDefaultFiltersForSelect() : null;
+		
+		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultSearchable, searchable, null, null);
+		List<E> results = new ArrayList<E>();
+		//如果没有设置分页
+		List<Map<String, Object>> maps = null;
+		if(searchable == null || !searchable.hasPage()){
+			maps = getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters);
+		}
+		//如果设置了分页
+		else{
+			maps = this.getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters, 
+					new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
+		}
+		//将属性map集合转换为实体集合
+		results = transferMaps2Entitys(maps);
+		
+		return results;
+	}
+	
+	/**
 	 * 条件查询功能方法
 	 * @author  wangsz 2017-05-16
 	 */
 	private List<E> selectBy(String statement, Searchable searchable, E entity, boolean useDefaultFilters) {
-		Searchable defaultFilters = useDefaultFilters ? this.getDefaultFiltersForSelect() : null;
-		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultFilters, searchable, entity, null);
+		Searchable defaultSearchable = useDefaultFilters ? this.getDefaultFiltersForSelect() : null;
+		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultSearchable, searchable, entity, null);
 		List<E> results = new ArrayList<E>();
 		//如果没有设置分页
 		if(searchable == null || !searchable.hasPage()){
@@ -380,27 +408,6 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		return results;
 	}
 	
-	/**
-	 * 条件查询功能方法
-	 * @author  wangsz 2017-05-16
-	 */
-	private List<E> extendSelectBy(Searchable searchable, boolean useDefaultFilters) {
-		Searchable defaultFilters = useDefaultFilters ? this.getDefaultFiltersForSelect() : null;
-		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultFilters, searchable, null, null);
-		List<E> results = new ArrayList<E>();
-		//如果没有设置分页
-		List<Map<String, String>> maps = null;
-		if(searchable == null || !searchable.hasPage()){
-			maps = getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters);
-		}
-		//如果设置了分页
-		else{
-			maps = this.getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters, 
-					new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
-		}
-		
-		return results;
-	}
 	
 	/**
 	 * 分页查询-searchable
@@ -413,6 +420,28 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		return page(getSelectStatement(), getCountStatement(), searchable, null, defaultFilters);
 	}
 	
+	/**
+	 * 关联分页查询-searchable
+	 * 注意！关联sql中关联表字段名必须为   fieldName_attributeName（关联字段名_关联实体字段名）
+	 * 
+	 * @param searchable 过滤条件
+	 * @param defaultFilters 是否启用默认过滤条件
+	 * @author  wangsz 2017-05-16
+	 */
+	public Page<E> extendSelectPage(Searchable searchable, boolean defaultFilters){
+		//获取查询的实体总数目
+		Long totalCount = countBy(searchable, defaultFilters);
+		if(totalCount <= 0)
+			return new PageImpl<>(null, null, 0);
+		//如果没有设置分页的参数（起始页和页大小），采用默认参数
+		if (!searchable.hasPage())
+			searchable.addPage(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+		
+		List<E> results = extendSelectBy(searchable, defaultFilters);
+		if(results == null || results.size() == 0)
+			return new PageImpl<>(null, null, 0);
+		return new PageImpl<>(results, searchable.getPage(), totalCount);
+	}
 	/**
 	 * 分页查询-searchable和entity
 	 * 
@@ -450,6 +479,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		//封装数据，返回
 		return new PageImpl<>(results, searchable.getPage(), totalCount);
 	}
+	
 	
 	/**
 	 * 查询数目-searchable
@@ -648,9 +678,15 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		return getStatementForEntityClass(entityClass, STMT_COUNT_BY);
 	}
 	
-	private List<E> transferMaps2Entitys(List<Map<String, String>> maps){
+	/**
+	 * 将包含关联属性的maps转换为实体类集合
+	 * @param maps 属性map集合，map格式key-value： 类的成员变量名-变量对应的值
+	 * @return
+	 * @author  wangsz 2017-07-05
+	 */
+	private List<E> transferMaps2Entitys(List<Map<String, Object>> maps){
 		List<E> entities = new ArrayList<>();
-		for (Map<String, String> map : maps) {
+		for (Map<String, Object> map : maps) {
 			E entity = transferMap2Entity(map);
 			if(entity != null)
 				entities.add(entity);
@@ -665,7 +701,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 * @return
 	 * @author  wangsz 2017-07-05
 	 */
-	private E transferMap2Entity(Map<String, String> map){
+	private E transferMap2Entity(Map<String, Object> map){
 		E entity = null;
 		//实体类初始化
 		try {
@@ -674,11 +710,48 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 			ReflectUtil.handleReflectionException(e);
 			return entity;
 		}
-		//实体类将map中的属性注入
-		for (Entry<String, String> entry : map.entrySet()) {
+		//如果实体没有扩展date字段，直接返回
+		PropertyDescriptor dateProp = entityPropDescriptorMap.get(NAME_ENTITY_DATE);
+		if(dateProp == null)
+			return entity;
+		//实体类注入扩展空date字段
+		Map<String, Object> date = new HashMap<>();
+		ReflectUtil.setPropertyValue(entity, dateProp, date);
+		//实体类注入其余字段信息，并填充date字段
+		for (Entry<String, Object> entry : map.entrySet()) {
 			String propertyName = entry.getKey();
-			String propertyValue = entry.getValue();
-			ReflectUtil.setPropertyValue(entity, entityPropDescriptorMap.get(propertyName), propertyValue);
+			Object propertyValue = entry.getValue();
+			
+			PropertyDescriptor propertyDescriptor = entityPropDescriptorMap.get(propertyName);
+			if(propertyDescriptor != null){
+				//针对boolean类型做特殊的转换
+				if(propertyDescriptor.getPropertyType() == Boolean.class){
+					Integer booleanInt = (Integer) propertyValue;
+					propertyValue = booleanInt == 0 ? false : true;
+				}
+				
+				ReflectUtil.setPropertyValue(entity, propertyDescriptor, propertyValue);
+			}
+			else{
+				String[] extendInfo = propertyName.split("_");
+				//过滤不符合   fieldName_extendAttributeName的格式
+				if(extendInfo == null || extendInfo.length < 2)
+					continue;
+				
+				//实体中的扩展属性名称
+				String extendFieldName = extendInfo[0];
+				//扩展属性对应的关联实体的属性名称
+				String attributeName = extendInfo[1];
+				//往date中加入关联实体属性
+				@SuppressWarnings("unchecked")
+				Map<String, Object> attribute = (Map<String, Object>) date.get(extendFieldName);
+				if(attribute == null){
+					attribute = new HashMap<>();
+					date.put(extendFieldName, attribute);
+				}
+				attribute.put(attributeName, propertyValue);
+			}
+			
 		}
 		
 		return entity;

@@ -471,40 +471,93 @@ URL：`http://localhost:8090/supercar/inPart/getInPartInfos?inWorkOrderNo=1`
 说明：`GET`方式，传入库工单号，查看该工单的入库配件列表信息
 ```
 {
-  "success": true,
-  "errorNo": "",
-  "errorMsg": "",
-  "data": {
-    "page": {
-      "content": [{
-        "workOrderNo": "1",
-        "partId": "3A9A0BE24BD14C5999C3F74533D8C769",
-        "count": 1,
-        "cost": null,
-        "supplierLK": "1",
-        "repositoryCodeLK": "1",
-        "isDeleted": false,
-        "id": "CAB55CE3EFD44BF0BE528C15A95D296C"
-      }, {
-        "workOrderNo": "1",
-        "partId": "3A9A0BE24BD14C5999C3F74533D8C769",
-        "count": 1,
-        "cost": null,
-        "supplierLK": "1",
-        "repositoryCodeLK": "1",
-        "isDeleted": false,
-        "id": "F9B02519D7444A599B1B20D303818CB8"
-      }],
-      "number": 0,
-      "size": 10,
-      "sort": {},
-      "numberOfElements": 2,
-      "lastPage": true,
-      "totalPages": 1,
-      "totalElements": 2,
-      "firstPage": true
-    }
-  }
+	"success": true,
+	"errorNo": "",
+	"errorMsg": "",
+	"data": {
+		"page": {
+			"content": [{
+				"workOrderNo": "1",
+				"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
+				"count": 1,
+				"cost": null,
+				"supplierLK": "1",
+				"repositoryCodeLK": "1",
+				"isDeleted": false,
+				"id": "CAB55CE3EFD44BF0BE528C15A95D296C",
+				"date": {
+					"partId": {
+						"wholeSale": 10.0,
+						"sale": 120.0,
+						"code": "code",
+						"unitLK": "349DBB62003E4CB7A29F7A0D19790682",
+						"produceArea": "produceArea",
+						"name": "name",
+						"pCategoryLK": "7FA179BA0BAF4CA4874DA57DD6393861",
+						"specificationLK": "73C970D8567A4833B554D6EECE5BBFF5",
+						"carModel": "carmodel"
+					},
+					"unitLK": {
+						"code": "barrel",
+						"value": "桶"
+					},
+					"repositoryCodeLK": {
+						"code": "BYD",
+						"value": "比亚迪"
+					},
+					"supplierLK": {
+						"code": "BYD",
+						"value": "比亚迪"
+					}
+				}
+			},
+			{
+				"workOrderNo": "1",
+				"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
+				"count": 1,
+				"cost": null,
+				"supplierLK": "1",
+				"repositoryCodeLK": "1",
+				"isDeleted": false,
+				"id": "F9B02519D7444A599B1B20D303818CB8",
+				"date": {
+					"partId": {
+						"wholeSale": 10.0,
+						"sale": 120.0,
+						"code": "code",
+						"unitLK": "349DBB62003E4CB7A29F7A0D19790682",
+						"produceArea": "produceArea",
+						"name": "name",
+						"pCategoryLK": "7FA179BA0BAF4CA4874DA57DD6393861",
+						"specificationLK": "73C970D8567A4833B554D6EECE5BBFF5",
+						"carModel": "carmodel"
+					},
+					"unitLK": {
+						"code": "barrel",
+						"value": "桶"
+					},
+					"repositoryCodeLK": {
+						"code": "BYD",
+						"value": "比亚迪"
+					},
+					"supplierLK": {
+						"code": "BYD",
+						"value": "比亚迪"
+					}
+				}
+			}],
+			"number": 0,
+			"size": 10,
+			"sort": {
+
+			},
+			"numberOfElements": 2,
+			"totalPages": 1,
+			"totalElements": 2,
+			"lastPage": true,
+			"firstPage": true
+		}
+	}
 }
 ```
 
