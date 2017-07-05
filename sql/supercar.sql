@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-04 08:44:36
+Date: 2017-07-05 08:51:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -392,7 +392,7 @@ CREATE TABLE `tb_repair_item` (
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修服务项目';
 
 -- ----------------------------
 -- Records of tb_repair_item
@@ -419,7 +419,7 @@ CREATE TABLE `tb_repair_workorder` (
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修工单';
 
 -- ----------------------------
 -- Records of tb_repair_workorder
@@ -437,7 +437,7 @@ CREATE TABLE `tb_repair_workorder_item` (
   `start_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始时间',
   `end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束时间',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修工单-服务项目';
 
 -- ----------------------------
 -- Records of tb_repair_workorder_item
