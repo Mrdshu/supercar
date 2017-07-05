@@ -13,6 +13,7 @@ import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE_BY;
 import static com.xw.supercar.constant.DaoConstant.whereSqlCustomKey;
+import static com.xw.supercar.constant.DaoConstant.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -327,12 +328,10 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	public E selectById(String id,Boolean filter){
 		if(StringUtils.isEmpty(id))
 			throw new IllegalArgumentException("entity's id can't be empty");
-		//mapper文件中操作对应的声明
-		String statement = getSelectStatement();
 		//过滤条件map
 		Searchable defaultFilters = filter? this.getDefaultFiltersForSelect() : null;
 		Map<String, Object> parameter = convertToMap(entityClass, defaultFilters, null, null, id);
-		E result = getSqlSessionTemplate().selectOne(statement, parameter);
+		E result = getSqlSessionTemplate().selectOne(getSelectStatement(), parameter);
 		return result;
 	}
 	
@@ -375,6 +374,28 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		//如果设置了分页
 		else{
 			results = this.getSqlSessionTemplate().selectList(statement, filters, 
+					new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
+		}
+		
+		return results;
+	}
+	
+	/**
+	 * 条件查询功能方法
+	 * @author  wangsz 2017-05-16
+	 */
+	private List<E> extendSelectBy(Searchable searchable, boolean useDefaultFilters) {
+		Searchable defaultFilters = useDefaultFilters ? this.getDefaultFiltersForSelect() : null;
+		Map<String, Object> filters = this.convertToMap(this.entityClass, defaultFilters, searchable, null, null);
+		List<E> results = new ArrayList<E>();
+		//如果没有设置分页
+		List<Map<String, String>> maps = null;
+		if(searchable == null || !searchable.hasPage()){
+			maps = getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters);
+		}
+		//如果设置了分页
+		else{
+			maps = this.getSqlSessionTemplate().selectList(getExtendSelectStatement(), filters, 
 					new RowBounds(searchable.getPage().toOffset(), searchable.getPage().getSize()));
 		}
 		
@@ -612,13 +633,55 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	private String getSelectStatement() {
 		return getStatementForEntityClass(entityClass, STMT_SELECT_BY);
 	}
-	
+	/**
+	 * 返回关联查询操作在mapper文件中的statement
+	 * @author  wangsz 2017-05-11
+	 */
+	private String getExtendSelectStatement() {
+		return getStatementForEntityClass(entityClass, STMT_EXTEND_SELECT_BY);
+	}
 	/**
 	 * 返回计数操作在mapper文件中的statement
 	 * @author  wangsz 2017-05-11
 	 */
 	private String getCountStatement() {
 		return getStatementForEntityClass(entityClass, STMT_COUNT_BY);
+	}
+	
+	private List<E> transferMaps2Entitys(List<Map<String, String>> maps){
+		List<E> entities = new ArrayList<>();
+		for (Map<String, String> map : maps) {
+			E entity = transferMap2Entity(map);
+			if(entity != null)
+				entities.add(entity);
+		}
+		
+		return entities;
+	}
+	
+	/**
+	 * 将map转换为实体类
+	 * @param map key-value值： 类的成员变量名-变量对应的值
+	 * @return
+	 * @author  wangsz 2017-07-05
+	 */
+	private E transferMap2Entity(Map<String, String> map){
+		E entity = null;
+		//实体类初始化
+		try {
+			entity = entityClass.newInstance();
+		} catch (Exception e) {
+			ReflectUtil.handleReflectionException(e);
+			return entity;
+		}
+		//实体类将map中的属性注入
+		for (Entry<String, String> entry : map.entrySet()) {
+			String propertyName = entry.getKey();
+			String propertyValue = entry.getValue();
+			ReflectUtil.setPropertyValue(entity, entityPropDescriptorMap.get(propertyName), propertyValue);
+		}
+		
+		return entity;
 	}
 	
 }

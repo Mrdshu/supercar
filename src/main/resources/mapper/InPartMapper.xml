@@ -9,13 +9,13 @@
     <result column="IN_PAY_METHOD" jdbcType="VARCHAR" property="payMethhodLK" />
     <result column="P_SUPPLIER" jdbcType="VARCHAR" property="supplierLK" />
     <result column="IN_SUM" jdbcType="DOUBLE" property="sum" />
-    <result column="P_COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
     <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
   
   <sql id="table">TB_IN_PART</sql>
   <sql id="columns">
-    ID, IN_WORKORDER_NO, IN_TIME, IN_PAY_METHOD, P_SUPPLIER, IN_SUM, P_COMPANY, ISDELETED
+    ID, IN_WORKORDER_NO, IN_TIME, IN_PAY_METHOD, P_SUPPLIER, IN_SUM, COMPANY, ISDELETED
   </sql>
   
   <!-- 新增 -->
@@ -74,7 +74,7 @@
 			<if test="inTime != null">IN_TIME = <choose><when test="inTime == ''">null</when><otherwise>#{inTime}</otherwise></choose>,</if>
 			<if test="supplierLK != null">P_SUPPLIER = <choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>,</if>
 			<if test="sum != null">IN_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
-			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
+			<if test="company != null">COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
 		</trim>
 	</sql>
@@ -86,7 +86,7 @@
 			<if test="payMethhodLK != null">AND IN_PAY_METHOD = #{payMethhodLK}</if>
 			<if test="inTime != null">AND IN_TIME = #{inTime}</if>
 			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
-			<if test="company != null">AND P_COMPANY = #{company}</if>
+			<if test="company != null">AND COMPANY = #{company}</if>
 			<if test="sum != null">AND IN_SUM = #{sum}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
 		</trim>
@@ -115,8 +115,8 @@
 				<if test="filter.sum_eq != null">AND IN_SUM = #{filter.sum_eq}</if>
 				<if test="filter.sum_ne != null">AND IN_SUM != #{filter.sum_ne}</if>
 				
-				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
-				<if test="filter.company_like != null">AND lower(P_COMPANY) LIKE lower(#{filter.company_like})</if>
+				<if test="filter.company_eq != null">AND COMPANY = #{filter.company_eq}</if>
+				<if test="filter.company_like != null">AND lower(COMPANY) LIKE lower(#{filter.company_like})</if>
 				
 				<if test="filter.supplierLK_eq != null">AND P_SUPPLIER = #{filter.supplierLK_eq}</if>
 				<if test="filter.supplierLK_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>

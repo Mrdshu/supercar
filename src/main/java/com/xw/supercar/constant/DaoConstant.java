@@ -32,6 +32,8 @@ public class DaoConstant {
 	public final static String STMT_DELETE_BY = ".deleteBy";
 	/**mapper文件中 '条件查询' 操作对应的statement*/
 	public final static String STMT_SELECT_BY = ".selectBy";
+	/**mapper文件中 '关联条件查询' 操作对应的statement*/
+	public final static String STMT_EXTEND_SELECT_BY = ".extendSelectBy";
 	/**mapper文件中 '计数' 操作对应的statement*/
 	public final static String STMT_COUNT_BY = ".countBy";
 	/**mapper文件中 '条件修改' 操作对应的statement*/

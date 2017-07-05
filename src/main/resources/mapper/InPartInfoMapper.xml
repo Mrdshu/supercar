@@ -75,6 +75,24 @@
 		SELECT * from  <include refid="table" />
 		<include refid="where"/> <include refid="sort" />
 	</select>
+	<!-- 关联查询 -->
+	<select id="extendSelectBy" resultMap="java.util.HashMap">
+		SELECT
+		inpart.ID id, inpart.IN_WORKORDER_NO workOrderNo, inpart.P_ID partId, inpart.IN_COUNT count, inpart.P_COST cost, inpart.P_SUPPLIER supplierLK, inpart.R_CODE repositoryCodeLK, inpart.ISDELETED isDeleted,
+		part.P_CODE code, part.P_NAME name, part.P_UNIT unitLK, part.P_SALE sale, part.P_WHOLESALE wholeSale, part.P_PRODUCE_AREA produceArea, part.P_SPECIFICATION specificationLK, part.P_CAR_MODEL carModel, part.P_CATEGORY pCategoryLK,
+		supplier.LK_CODE p_supplier_code,
+		supplier.LK_VALUE p_supplier_value,
+		repository.LK_CODE repository_code,
+		repository.LK_VALUE repository_value,
+		unit.LK_CODE unit_code,
+		unit.LK_VALUE unit_value
+		FROM  <include refid="table" /> inpart
+		LEFT JOIN tb_part part ON (inpart.p_id = part.id)
+		LEFT JOIN tb_lookup supplier ON (supplier.id = inpart.p_supplier)
+		LEFT JOIN tb_lookup repository ON (repository.id = inpart.r_code)
+		LEFT JOIN tb_lookup unitt ON (unitt.id = part.P_UNIT)
+		<include refid="where"/> <include refid="sort" />
+	</select>
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" />

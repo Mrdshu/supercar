@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_conn
+Source Server         : test
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-05 08:51:37
+Date: 2017-07-05 18:07:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,11 +132,11 @@ DROP TABLE IF EXISTS `tb_in_part`;
 CREATE TABLE `tb_in_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `in_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
-  `in_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入库时间',
+  `in_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入库时间',
   `in_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
   `in_sum` double DEFAULT NULL COMMENT '合计金额',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
-  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
+  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，门店外键',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
@@ -144,9 +144,9 @@ CREATE TABLE `tb_in_part` (
   PRIMARY KEY (`id`),
   KEY `pin_pay_method_fk` (`in_pay_method`),
   KEY `in_p_supplier_fk` (`p_supplier`),
-  KEY `p_company_fk` (`p_company`),
+  KEY `p_company_fk` (`company`),
   CONSTRAINT `in_p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
-  CONSTRAINT `p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `p_company_fk` FOREIGN KEY (`company`) REFERENCES `tb_company` (`ID`),
   CONSTRAINT `pin_pay_method_fk` FOREIGN KEY (`in_pay_method`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -268,16 +268,11 @@ INSERT INTO `tb_lookup_df` VALUES ('0040694F322542C9B98A09712DC346D6', 'repCode'
 INSERT INTO `tb_lookup_df` VALUES ('1', 'car_brand', '车辆品牌', '0', null, '2017-06-28 21:25:51', '2017-06-28 21:28:28', '0');
 INSERT INTO `tb_lookup_df` VALUES ('1253114623E54642A38112E4142E0D5A', 'company_type', '公司类型', '0', null, '2017-06-18 14:24:56', '2017-06-28 21:28:30', '0');
 INSERT INTO `tb_lookup_df` VALUES ('2', 'client_level', '客户级别', '0', '不同级别客户享受的优惠不一样', null, '2017-06-28 21:28:31', '0');
-INSERT INTO `tb_lookup_df` VALUES ('25CDFCA32AB14D2AB39A4764F5D93470', 'w', 'w', '0', null, '2017-06-17 18:30:44', '2017-06-28 21:28:32', '1');
 INSERT INTO `tb_lookup_df` VALUES ('33B849B72D644304B7CC2B6CAEF6D0DE', 'part_specification', '商品规格', '0', null, '2017-06-29 10:16:18', '2017-06-29 10:16:18', '0');
 INSERT INTO `tb_lookup_df` VALUES ('35D65110D3164208B1F303842DAF661D', 'unit', '单位', '0', '测试数据', '2017-06-28 21:11:13', '2017-06-28 21:11:13', '0');
 INSERT INTO `tb_lookup_df` VALUES ('88B2BCF91A124C119D9AFD47EC872E87', 'part_type', '配件分类', '1', '树结构', '2017-06-27 21:24:18', '2017-06-28 08:21:16', '0');
-INSERT INTO `tb_lookup_df` VALUES ('91295F61D79A4CBC85558F65A946BFD1', 'test2', 'test2', '0', null, '2017-06-17 10:19:33', '2017-06-28 21:28:34', '1');
-INSERT INTO `tb_lookup_df` VALUES ('D12E86A4F4054E5787404E8A9E75EA8D', 't', 't', '0', 're', '2017-06-17 10:23:29', '2017-06-28 21:28:36', '1');
 INSERT INTO `tb_lookup_df` VALUES ('D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'client_type', '客户类型', '0', null, '2017-06-25 09:38:38', '2017-06-28 21:28:38', '0');
-INSERT INTO `tb_lookup_df` VALUES ('E2929F4F40FB45F1A3A8D59B4DEA4756', 'test', 'test', '0', '1', '2017-06-17 10:13:34', '2017-06-28 21:28:39', '1');
 INSERT INTO `tb_lookup_df` VALUES ('E3F9A726B2434B219EDEE2E23734EA4B', 'user_role', '账号角色', '0', '账号角色，不同角色权限不一', '2017-06-18 16:18:32', '2017-06-28 21:28:41', '0');
-INSERT INTO `tb_lookup_df` VALUES ('F6DF8162CE964F669C82BA9C6DA449F1', 'q', 'q', '0', null, '2017-06-17 18:25:02', '2017-06-28 21:28:45', '1');
 
 -- ----------------------------
 -- Table structure for tb_out_part
@@ -286,24 +281,27 @@ DROP TABLE IF EXISTS `tb_out_part`;
 CREATE TABLE `tb_out_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(32) DEFAULT NULL COMMENT '出库单号',
-  `out_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '出库时间',
   `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，数据字典外键',
   `out_client_name` varchar(50) DEFAULT NULL COMMENT '车主名称',
   `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，外键',
+  `out_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '出库时间',
   `out_sum` decimal(10,0) DEFAULT NULL COMMENT '合计金额',
-  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店，数据字典外键',
+  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，公司外键',
+  `department` varchar(32) DEFAULT NULL COMMENT '部门，数据字典外键。出库类型：配件内耗时使用',
+  `repair_workorder_no` varchar(50) DEFAULT NULL COMMENT '维修工单号。出库类型：维修领料时使用',
+  `car_no` varchar(32) DEFAULT NULL COMMENT '车牌号。出库类型：配件销售时使用',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `out_type_fk` (`out_type`),
-  KEY `out_p_company_fk` (`p_company`),
+  KEY `out_p_company_fk` (`company`),
   KEY `out_receiver_fk` (`out_receiver`),
-  CONSTRAINT `out_p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `out_p_company_fk` FOREIGN KEY (`company`) REFERENCES `tb_company` (`ID`),
   CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`),
   CONSTRAINT `out_type_fk` FOREIGN KEY (`out_type`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库工单';
 
 -- ----------------------------
 -- Records of tb_out_part
@@ -319,7 +317,6 @@ CREATE TABLE `tb_out_part_info` (
   `p_id` varchar(32) DEFAULT NULL COMMENT '配件id，外键',
   `p_sale` decimal(10,0) DEFAULT NULL COMMENT '配件销售价',
   `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
-  `repair_workorder_no` varchar(50) DEFAULT NULL COMMENT '维修工单号',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,

@@ -1,17 +1,27 @@
 package com.xw.supercar.dao;
 
 import org.springframework.stereotype.Repository;
-
-import com.xw.supercar.entity.OutPart;
-import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-@Repository
+import com.xw.supercar.sql.search.SearchOperator;
+import com.xw.supercar.entity.OutPart;
+
+/**
+ * <p>
+ * 出库工单dao层
+ * </p>
+ * 
+ * @author wangsz
+ * @date 2017-07-05 12:04:03
+ * @version
+ */
+ @Repository
 public class OutPartDao extends BaseDao<OutPart>{
 
-	@Override
+    @Override
 	public Searchable getDefaultFiltersForSelect() {
-		Searchable searchable = Searchable.newSearchable()
+				Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(OutPart.DP.isDeleted.name(), SearchOperator.eq, false);
+				
 		return searchable;
 	}
 

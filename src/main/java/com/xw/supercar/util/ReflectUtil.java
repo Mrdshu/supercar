@@ -207,6 +207,9 @@ public class ReflectUtil {
 		if (ex instanceof NoSuchMethodException) {
 			throw new IllegalStateException("Method not found: " + ex.getMessage());
 		}
+		if (ex instanceof InstantiationException) {
+			throw new IllegalStateException("Instantiation class fail: " + ex.getMessage());
+		}
 		if (ex instanceof IllegalAccessException) {
 			throw new IllegalStateException("Could not access method: " + ex.getMessage());
 		}

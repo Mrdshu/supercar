@@ -1,68 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xw.supercar.entity.OutPart">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-  <resultMap id="resultMap" type="com.xw.supercar.entity.OutPart">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="OUT_WORKORDER_NO" jdbcType="VARCHAR" property="workOrderNo" />
-    <result column="OUT_TIME" jdbcType="TIMESTAMP" property="outTime" />
-    <result column="OUT_TYPE" jdbcType="VARCHAR" property="type" />
-    <result column="OUT_CLIENT_NAME" jdbcType="VARCHAR" property="clientName" />
-    <result column="OUT_RECEIVER" jdbcType="VARCHAR" property="receiver" />
-    <result column="OUT_SUM" jdbcType="DECIMAL" property="sum" />
-    <result column="P_COMPANY" jdbcType="VARCHAR" property="company" />
-    <result column="ISDELETED" jdbcType="TINYINT" property="isDeleted" />
+<mapper namespace="mapper.OutPartMapper" >
+  <resultMap id="resultMap" type="com.xw.supercar.entity.OutPart" >
+	<id property="id" column="ID" />
+	<result column="OUT_WORKORDER_NO" property="workOrderNo" />
+	<result column="OUT_TYPE" property="type" />
+	<result column="OUT_CLIENT_NAME" property="clientName" />
+	<result column="OUT_RECEIVER" property="receiver" />
+	<result column="OUT_TIME" property="outTime" />
+	<result column="OUT_SUM" property="sum" />
+	<result column="COMPANY" property="company" />
+	<result column="DEPARTMENT" property="department" />
+	<result column="REPAIR_WORKORDER_NO" property="repairWorkorderNo" />
+	<result column="CAR_NO" property="carNo" />
+	<result column="ISDELETED" property="isDeleted" />
+	   	
   </resultMap>
   
-  <sql id="table">TB_OUT_PART</sql>
-  <sql id="columns">
-    ID, OUT_WORKORDER_NO, OUT_TIME, OUT_TYPE, OUT_CLIENT_NAME, OUT_RECEIVER, OUT_SUM, 
-    P_COMPANY, ISDELETED
-  </sql>
- 
- 	<!-- 新增 -->
+  <sql id="table">tb_out_part</sql>
+  <sql id="columns">ID, OUT_WORKORDER_NO, OUT_TYPE, OUT_CLIENT_NAME, OUT_RECEIVER, OUT_TIME, OUT_SUM, COMPANY, DEPARTMENT, REPAIR_WORKORDER_NO, CAR_NO, ISDELETED</sql>
+  
+  	<!-- 新增 -->
 	<insert id="insert">
 		INSERT INTO <include refid="table" /> (
 			<include refid="columns" />
 		) VALUES (
 			<trim suffixOverrides=",">
-				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
-				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
-				<choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>, 
-				<choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>, 
-				<choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>, 
-				<choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>, 
-				<choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>, 
-				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
-				default, 
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
+				 <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,
+				 <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,
+				 <choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>,
+				 <choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>,
+				 <choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>,
+				 <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,
+				 <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,
+				 <choose><when test="department == ''">null</when><otherwise>#{department}</otherwise></choose>,
+				 <choose><when test="repairWorkorderNo == ''">null</when><otherwise>#{repairWorkorderNo}</otherwise></choose>,
+				 <choose><when test="carNo == ''">null</when><otherwise>#{carNo}</otherwise></choose>,
+				default,
+												
 			</trim>
 		)
 	</insert>
+	
 	<!-- 修改 -->
 	<update id="update" >
 		UPDATE <include refid="table" /> SET <include refid="set" />
 		WHERE ID = #{id}
 	</update>
+	
 	<!-- 批量修改 -->
 	<update id="updateBy" >
 		UPDATE <include refid="table" /> SET <include refid="set" />
 		<include refid="whereFilter"/>
 	</update>
+	
 	<!-- 删除 -->
 	<delete id="delete">
 		DELETE FROM <include refid="table" /> 
 		WHERE ID = #{id}
 	</delete>
+	
 	<!-- 条件搜索删除 -->
 	<delete id="deleteBy">
 		DELETE FROM <include refid="table" /> 
 		<include refid="where"/>
 	</delete>
+	
 	<!-- 查询 -->
 	<select id="selectBy" resultMap="resultMap">
 		SELECT * from  <include refid="table" />
 		<include refid="where"/> <include refid="sort" />
 	</select>
+	
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" />
@@ -74,12 +85,16 @@
 		<trim suffixOverrides=",">
 			<if test="workOrderNo != null">OUT_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
 			<if test="type != null">OUT_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
-			<if test="outTime != null">OUT_TIME = <choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>,</if>
 			<if test="clientName != null">OUT_CLIENT_NAME = <choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>,</if>
 			<if test="receiver != null">OUT_RECEIVER = <choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>,</if>
+			<if test="outTime != null">OUT_TIME = <choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>,</if>
 			<if test="sum != null">OUT_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
-			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
-			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+			<if test="company != null">COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
+			<if test="department != null">DEPARTMENT = <choose><when test="department == ''">null</when><otherwise>#{department}</otherwise></choose>,</if>
+			<if test="repairWorkorderNo != null">REPAIR_WORKORDER_NO = <choose><when test="repairWorkorderNo == ''">null</when><otherwise>#{repairWorkorderNo}</otherwise></choose>,</if>
+			<if test="carNo != null">CAR_NO = <choose><when test="carNo == ''">null</when><otherwise>#{carNo}</otherwise></choose>,</if>
+			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">null</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
+
 		</trim>
 	</sql>
 	
@@ -89,54 +104,88 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="workOrderNo != null">AND OUT_WORKORDER_NO = #{workOrderNo}</if>
 			<if test="type != null">AND OUT_TYPE = #{type}</if>
-			<if test="outTime != null">AND OUT_TIME = #{outTime}</if>
 			<if test="clientName != null">AND OUT_CLIENT_NAME = #{clientName}</if>
-			<if test="company != null">AND P_COMPANY = #{company}</if>
+			<if test="receiver != null">AND OUT_RECEIVER = #{receiver}</if>
+			<if test="outTime != null">AND OUT_TIME = #{outTime}</if>
 			<if test="sum != null">AND OUT_SUM = #{sum}</if>
+			<if test="company != null">AND COMPANY = #{company}</if>
+			<if test="department != null">AND DEPARTMENT = #{department}</if>
+			<if test="repairWorkorderNo != null">AND REPAIR_WORKORDER_NO = #{repairWorkorderNo}</if>
+			<if test="carNo != null">AND CAR_NO = #{carNo}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+
 		</trim>
 	</sql>
-	
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="filter != null">
-				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
-				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
-				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workOrderNo_eq != null">AND OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+			<if test="filter.workOrderNo_ne != null">AND OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+			<if test="filter.workOrderNo_like != null">AND lower(OUT_WORKORDER_NO) LIKE lower(#{filter.workOrderNo_like})</if>
+			<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-				<if test="filter.workOrderNo_eq != null">AND OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
-				<if test="filter.workOrderNo_ne != null">AND OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
-				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			
-				<if test="filter.type_eq != null">AND OUT_TYPE = #{filter.type_eq}</if>
-				<if test="filter.type_ne != null">AND OUT_TYPE != #{filter.type_ne}</if>
+			<if test="filter.type_eq != null">AND OUT_TYPE = #{filter.type_eq}</if>
+			<if test="filter.type_ne != null">AND OUT_TYPE != #{filter.type_ne}</if>
+			<if test="filter.type_like != null">AND lower(OUT_TYPE) LIKE lower(#{filter.type_like})</if>
+			<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">OUT_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">OUT_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.clientName_eq != null">AND OUT_CLIENT_NAME = #{filter.clientName_eq}</if>
+			<if test="filter.clientName_ne != null">AND OUT_CLIENT_NAME != #{filter.clientName_ne}</if>
+			<if test="filter.clientName_like != null">AND lower(OUT_CLIENT_NAME) LIKE lower(#{filter.clientName_like})</if>
+			<if test="filter.clientName_in != null">AND <foreach item="ii" collection="filter.clientName_in" open="(" separator=" OR " close=")">OUT_CLIENT_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.clientName_notIn != null">AND <foreach item="ii" collection="filter.clientName_notIn" open="(" separator=" AND " close=")">OUT_CLIENT_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.receiver_eq != null">AND OUT_RECEIVER = #{filter.receiver_eq}</if>
+			<if test="filter.receiver_ne != null">AND OUT_RECEIVER != #{filter.receiver_ne}</if>
+			<if test="filter.receiver_like != null">AND lower(OUT_RECEIVER) LIKE lower(#{filter.receiver_like})</if>
+			<if test="filter.receiver_in != null">AND <foreach item="ii" collection="filter.receiver_in" open="(" separator=" OR " close=")">OUT_RECEIVER in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.receiver_notIn != null">AND <foreach item="ii" collection="filter.receiver_notIn" open="(" separator=" AND " close=")">OUT_RECEIVER not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.outTime_gte != null">AND OUT_TIME &gt;= #{filter.outTime_gte}</if>
+			<if test="filter.outTime_lte != null">AND OUT_TIME &lt;= #{filter.outTime_lte}</if>
+			<if test="filter.outTime_gt != null">AND OUT_TIME &gt;= #{filter.outTime_gt}</if>
+			<if test="filter.outTime_lt != null">AND OUT_TIME &lt;= #{filter.outTime_lt}</if>
+
+			<if test="filter.sum_eq != null">AND OUT_SUM = #{filter.sum_eq}</if>
+			<if test="filter.sum_ne != null">AND OUT_SUM != #{filter.sum_ne}</if>
+			<if test="filter.sum_like != null">AND lower(OUT_SUM) LIKE lower(#{filter.sum_like})</if>
+			<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">OUT_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">OUT_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.company_eq != null">AND COMPANY = #{filter.company_eq}</if>
+			<if test="filter.company_ne != null">AND COMPANY != #{filter.company_ne}</if>
+			<if test="filter.company_like != null">AND lower(COMPANY) LIKE lower(#{filter.company_like})</if>
+			<if test="filter.company_in != null">AND <foreach item="ii" collection="filter.company_in" open="(" separator=" OR " close=")">COMPANY in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.company_notIn != null">AND <foreach item="ii" collection="filter.company_notIn" open="(" separator=" AND " close=")">COMPANY not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.department_eq != null">AND DEPARTMENT = #{filter.department_eq}</if>
+			<if test="filter.department_ne != null">AND DEPARTMENT != #{filter.department_ne}</if>
+			<if test="filter.department_like != null">AND lower(DEPARTMENT) LIKE lower(#{filter.department_like})</if>
+			<if test="filter.department_in != null">AND <foreach item="ii" collection="filter.department_in" open="(" separator=" OR " close=")">DEPARTMENT in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.department_notIn != null">AND <foreach item="ii" collection="filter.department_notIn" open="(" separator=" AND " close=")">DEPARTMENT not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.repairWorkorderNo_eq != null">AND REPAIR_WORKORDER_NO = #{filter.repairWorkorderNo_eq}</if>
+			<if test="filter.repairWorkorderNo_ne != null">AND REPAIR_WORKORDER_NO != #{filter.repairWorkorderNo_ne}</if>
+			<if test="filter.repairWorkorderNo_like != null">AND lower(REPAIR_WORKORDER_NO) LIKE lower(#{filter.repairWorkorderNo_like})</if>
+			<if test="filter.repairWorkorderNo_in != null">AND <foreach item="ii" collection="filter.repairWorkorderNo_in" open="(" separator=" OR " close=")">REPAIR_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.repairWorkorderNo_notIn != null">AND <foreach item="ii" collection="filter.repairWorkorderNo_notIn" open="(" separator=" AND " close=")">REPAIR_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.carNo_eq != null">AND CAR_NO = #{filter.carNo_eq}</if>
+			<if test="filter.carNo_ne != null">AND CAR_NO != #{filter.carNo_ne}</if>
+			<if test="filter.carNo_like != null">AND lower(CAR_NO) LIKE lower(#{filter.carNo_like})</if>
+			<if test="filter.carNo_in != null">AND <foreach item="ii" collection="filter.carNo_in" open="(" separator=" OR " close=")">CAR_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.carNo_notIn != null">AND <foreach item="ii" collection="filter.carNo_notIn" open="(" separator=" AND " close=")">CAR_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
+			<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
+			<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+			<if test="filter.isDeleted_like != null">AND lower(ISDELETED) LIKE lower(#{filter.isDeleted_like})</if>
+			<if test="filter.isDeleted_in != null">AND <foreach item="ii" collection="filter.isDeleted_in" open="(" separator=" OR " close=")">ISDELETED in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.isDeleted_notIn != null">AND <foreach item="ii" collection="filter.isDeleted_notIn" open="(" separator=" AND " close=")">ISDELETED not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
 				
-				<if test="filter.sum_gte != null">AND OUT_SUM &gt;= #{filter.sum_gte}</if>
-				<if test="filter.sum_lte != null">AND OUT_SUM &lt;= #{filter.sum_lte}</if>
-				<if test="filter.sum_gt != null">AND OUT_SUM &gt;= #{filter.sum_gt}</if>
-				<if test="filter.sum_lt != null">AND OUT_SUM &lt;= #{filter.sum_lt}</if>
-				<if test="filter.sum_eq != null">AND OUT_SUM = #{filter.sum_eq}</if>
-				<if test="filter.sum_ne != null">AND OUT_SUM != #{filter.sum_ne}</if>
-				
-				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
-				<if test="filter.company_ne != null">AND P_COMPANY != #{filter.company_ne}</if>
-				
-				<if test="filter.clientName_eq != null">AND OUT_CLIENT_NAME = #{filter.clientName_eq}</if>
-				<if test="filter.clientName_like != null">AND lower(OUT_CLIENT_NAME) LIKE lower(#{filter.clientName_like})</if>
-				
-				<if test="filter.receiver_eq != null">AND OUT_RECEIVER = #{filter.receiver_eq}</if>
-				<if test="filter.receiver_like != null">AND lower(OUT_RECEIVER) LIKE lower(#{filter.receiver_like})</if>
-				
-				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
-				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
-				
-				<if test="filter.outTime_gte != null">AND OUT_TIME &gt;= #{filter.outTime_gte}</if>
-				<if test="filter.outTime_lte != null">AND OUT_TIME &lt;= #{filter.outTime_lte}</if>
-				<if test="filter.outTime_gt != null">AND OUT_TIME &gt;= #{filter.outTime_gt}</if>
-				<if test="filter.outTime_lt != null">AND OUT_TIME &lt;= #{filter.outTime_lt}</if>
 			</if>
 		</trim>
 	</sql>
@@ -156,13 +205,12 @@
 	<!-- sort排序语句-->
 	<sql id="sort">
 		<if test="sort == null" >
-			
-		</if>
+																																						</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">
-				
+				<foreach collection="sort" index="key" item="val">
+				</foreach>
 			</trim>
 		</if>
 	</sql>
-	
 </mapper>
