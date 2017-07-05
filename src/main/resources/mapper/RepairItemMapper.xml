@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mapper.RepairItemMapper" >
+  <resultMap id="resultMap" type="com.xw.supercar.entity.RepairItem" >
+	<result property="id" column="ID" />
+			<result column="RI_NAME" property="name" />
+				<result column="RI_DESC" property="desc" />
+				<result column="RI_TYPE" property="type" />
+				<result column="RI_CODE" property="code" />
+				<result column="RI_WORKING_HOUR" property="workingHour" />
+				<result column="RI_WORK_TYPE" property="workType" />
+				<result column="RI_SUM" property="sum" />
+		   	
+  </resultMap>
+  
+  <sql id="table">tb_repair_item</sql>
+  <sql id="columns">ID, RI_NAME, RI_DESC, RI_TYPE, RI_CODE, RI_WORKING_HOUR, RI_WORK_TYPE, RI_SUM</sql>
+  
+  	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
+				 <choose><when test="name== ''">null</when><otherwise>#{name}</otherwise></choose>,
+				 <choose><when test="desc== ''">null</when><otherwise>#{desc}</otherwise></choose>,
+				 <choose><when test="type== ''">null</when><otherwise>#{type}</otherwise></choose>,
+				 <choose><when test="code== ''">null</when><otherwise>#{code}</otherwise></choose>,
+				 <choose><when test="workingHour== ''">null</when><otherwise>#{workingHour}</otherwise></choose>,
+				 <choose><when test="workType== ''">null</when><otherwise>#{workType}</otherwise></choose>,
+				 <choose><when test="sum== ''">null</when><otherwise>#{sum}</otherwise></choose>,
+				</trim>
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+									<if test="name != null">RI_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
+												<if test="desc != null">RI_DESC = <choose><when test="desc == ''">null</when><otherwise>#{desc}</otherwise></choose>,</if>
+												<if test="type != null">RI_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
+												<if test="code != null">RI_CODE = <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,</if>
+												<if test="workingHour != null">RI_WORKING_HOUR = <choose><when test="workingHour == ''">null</when><otherwise>#{workingHour}</otherwise></choose>,</if>
+												<if test="workType != null">RI_WORK_TYPE = <choose><when test="workType == ''">null</when><otherwise>#{workType}</otherwise></choose>,</if>
+												<if test="sum != null">RI_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
+								</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+						<if test="name != null">AND RI_NAME = #{name}</if>
+						<if test="desc != null">AND RI_DESC = #{desc}</if>
+						<if test="type != null">AND RI_TYPE = #{type}</if>
+						<if test="code != null">AND RI_CODE = #{code}</if>
+						<if test="workingHour != null">AND RI_WORKING_HOUR = #{workingHour}</if>
+						<if test="workType != null">AND RI_WORK_TYPE = #{workType}</if>
+						<if test="sum != null">AND RI_SUM = #{sum}</if>
+			</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+								<if test="filter.name_eq != null">AND RI_NAME = #{filter.name_eq}</if>
+				<if test="filter.name_ne != null">AND RI_NAME != #{filter.name_ne}</if>
+				<if test="filter.name_like != null">AND lower(RI_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">RI_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">RI_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.desc_eq != null">AND RI_DESC = #{filter.desc_eq}</if>
+				<if test="filter.desc_ne != null">AND RI_DESC != #{filter.desc_ne}</if>
+				<if test="filter.desc_like != null">AND lower(RI_DESC) LIKE lower(#{filter.desc_like})</if>
+				<if test="filter.desc_in != null">AND <foreach item="ii" collection="filter.desc_in" open="(" separator=" OR " close=")">RI_DESC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.desc_notIn != null">AND <foreach item="ii" collection="filter.desc_notIn" open="(" separator=" AND " close=")">RI_DESC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.type_eq != null">AND RI_TYPE = #{filter.type_eq}</if>
+				<if test="filter.type_ne != null">AND RI_TYPE != #{filter.type_ne}</if>
+				<if test="filter.type_like != null">AND lower(RI_TYPE) LIKE lower(#{filter.type_like})</if>
+				<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">RI_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">RI_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.code_eq != null">AND RI_CODE = #{filter.code_eq}</if>
+				<if test="filter.code_ne != null">AND RI_CODE != #{filter.code_ne}</if>
+				<if test="filter.code_like != null">AND lower(RI_CODE) LIKE lower(#{filter.code_like})</if>
+				<if test="filter.code_in != null">AND <foreach item="ii" collection="filter.code_in" open="(" separator=" OR " close=")">RI_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.code_notIn != null">AND <foreach item="ii" collection="filter.code_notIn" open="(" separator=" AND " close=")">RI_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.workingHour_eq != null">AND RI_WORKING_HOUR = #{filter.workingHour_eq}</if>
+				<if test="filter.workingHour_ne != null">AND RI_WORKING_HOUR != #{filter.workingHour_ne}</if>
+				<if test="filter.workingHour_like != null">AND lower(RI_WORKING_HOUR) LIKE lower(#{filter.workingHour_like})</if>
+				<if test="filter.workingHour_in != null">AND <foreach item="ii" collection="filter.workingHour_in" open="(" separator=" OR " close=")">RI_WORKING_HOUR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workingHour_notIn != null">AND <foreach item="ii" collection="filter.workingHour_notIn" open="(" separator=" AND " close=")">RI_WORKING_HOUR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.workType_eq != null">AND RI_WORK_TYPE = #{filter.workType_eq}</if>
+				<if test="filter.workType_ne != null">AND RI_WORK_TYPE != #{filter.workType_ne}</if>
+				<if test="filter.workType_like != null">AND lower(RI_WORK_TYPE) LIKE lower(#{filter.workType_like})</if>
+				<if test="filter.workType_in != null">AND <foreach item="ii" collection="filter.workType_in" open="(" separator=" OR " close=")">RI_WORK_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workType_notIn != null">AND <foreach item="ii" collection="filter.workType_notIn" open="(" separator=" AND " close=")">RI_WORK_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.sum_eq != null">AND RI_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND RI_SUM != #{filter.sum_ne}</if>
+				<if test="filter.sum_like != null">AND lower(RI_SUM) LIKE lower(#{filter.sum_like})</if>
+				<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RI_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RI_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+					</if>
+</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+																										</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>

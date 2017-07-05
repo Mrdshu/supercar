@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mapper.RepairWorkorderMapper" >
+  <resultMap id="resultMap" type="com.xw.supercar.entity.RepairWorkorder" >
+	<result property="id" column="ID" />
+			<result column="RW_REPAIR_TYPE" property="repairType" />
+				<result column="RW_SEND_TIME" property="sendTime" />
+				<result column="RW_CAR_OILMETER" property="carOilmeter" />
+				<result column="RW_END_TIME" property="endTime" />
+				<result column="RW_SUM" property="sum" />
+				<result column="RW_WORKORDER_NO" property="workorderNo" />
+				<result column="RW_CLERK" property="clerk" />
+				<result column="RW_WORKORDER_STATE" property="workorderState" />
+				<result column="RW_CLIENT_ID" property="clientId" />
+				<result column="RW_CLENT_REMIND" property="clentRemind" />
+				<result column="RW_CAR_MILEAGE" property="carMileage" />
+		   	
+  </resultMap>
+  
+  <sql id="table">tb_repair_workorder</sql>
+  <sql id="columns">ID, RW_REPAIR_TYPE, RW_SEND_TIME, RW_CAR_OILMETER, RW_END_TIME, RW_SUM, RW_WORKORDER_NO, RW_CLERK, RW_WORKORDER_STATE, RW_CLIENT_ID, RW_CLENT_REMIND, RW_CAR_MILEAGE</sql>
+  
+  	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
+				 <choose><when test="repairType== ''">null</when><otherwise>#{repairType}</otherwise></choose>,
+				 <choose><when test="sendTime== ''">null</when><otherwise>#{sendTime}</otherwise></choose>,
+				 <choose><when test="carOilmeter== ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,
+				 <choose><when test="endTime== ''">null</when><otherwise>#{endTime}</otherwise></choose>,
+				 <choose><when test="sum== ''">null</when><otherwise>#{sum}</otherwise></choose>,
+				 <choose><when test="workorderNo== ''">null</when><otherwise>#{workorderNo}</otherwise></choose>,
+				 <choose><when test="clerk== ''">null</when><otherwise>#{clerk}</otherwise></choose>,
+				 <choose><when test="workorderState== ''">null</when><otherwise>#{workorderState}</otherwise></choose>,
+				 <choose><when test="clientId== ''">null</when><otherwise>#{clientId}</otherwise></choose>,
+				 <choose><when test="clentRemind== ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,
+				 <choose><when test="carMileage== ''">null</when><otherwise>#{carMileage}</otherwise></choose>,
+				</trim>
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+									<if test="repairType != null">RW_REPAIR_TYPE = <choose><when test="repairType == ''">null</when><otherwise>#{repairType}</otherwise></choose>,</if>
+												<if test="sendTime != null">RW_SEND_TIME = <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,</if>
+												<if test="carOilmeter != null">RW_CAR_OILMETER = <choose><when test="carOilmeter == ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,</if>
+												<if test="endTime != null">RW_END_TIME = <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,</if>
+												<if test="sum != null">RW_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
+												<if test="workorderNo != null">RW_WORKORDER_NO = <choose><when test="workorderNo == ''">null</when><otherwise>#{workorderNo}</otherwise></choose>,</if>
+												<if test="clerk != null">RW_CLERK = <choose><when test="clerk == ''">null</when><otherwise>#{clerk}</otherwise></choose>,</if>
+												<if test="workorderState != null">RW_WORKORDER_STATE = <choose><when test="workorderState == ''">null</when><otherwise>#{workorderState}</otherwise></choose>,</if>
+												<if test="clientId != null">RW_CLIENT_ID = <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,</if>
+												<if test="clentRemind != null">RW_CLENT_REMIND = <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,</if>
+												<if test="carMileage != null">RW_CAR_MILEAGE = <choose><when test="carMileage == ''">null</when><otherwise>#{carMileage}</otherwise></choose>,</if>
+								</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+						<if test="repairType != null">AND RW_REPAIR_TYPE = #{repairType}</if>
+						<if test="sendTime != null">AND RW_SEND_TIME = #{sendTime}</if>
+						<if test="carOilmeter != null">AND RW_CAR_OILMETER = #{carOilmeter}</if>
+						<if test="endTime != null">AND RW_END_TIME = #{endTime}</if>
+						<if test="sum != null">AND RW_SUM = #{sum}</if>
+						<if test="workorderNo != null">AND RW_WORKORDER_NO = #{workorderNo}</if>
+						<if test="clerk != null">AND RW_CLERK = #{clerk}</if>
+						<if test="workorderState != null">AND RW_WORKORDER_STATE = #{workorderState}</if>
+						<if test="clientId != null">AND RW_CLIENT_ID = #{clientId}</if>
+						<if test="clentRemind != null">AND RW_CLENT_REMIND = #{clentRemind}</if>
+						<if test="carMileage != null">AND RW_CAR_MILEAGE = #{carMileage}</if>
+			</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+								<if test="filter.repairType_eq != null">AND RW_REPAIR_TYPE = #{filter.repairType_eq}</if>
+				<if test="filter.repairType_ne != null">AND RW_REPAIR_TYPE != #{filter.repairType_ne}</if>
+				<if test="filter.repairType_like != null">AND lower(RW_REPAIR_TYPE) LIKE lower(#{filter.repairType_like})</if>
+				<if test="filter.repairType_in != null">AND <foreach item="ii" collection="filter.repairType_in" open="(" separator=" OR " close=")">RW_REPAIR_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.repairType_notIn != null">AND <foreach item="ii" collection="filter.repairType_notIn" open="(" separator=" AND " close=")">RW_REPAIR_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.sendTime_gte != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gte}</if>
+				<if test="filter.sendTime_lte != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lte}</if>
+				<if test="filter.sendTime_gt != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gt}</if>
+				<if test="filter.sendTime_lt != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lt}</if>
+												<if test="filter.carOilmeter_eq != null">AND RW_CAR_OILMETER = #{filter.carOilmeter_eq}</if>
+				<if test="filter.carOilmeter_ne != null">AND RW_CAR_OILMETER != #{filter.carOilmeter_ne}</if>
+				<if test="filter.carOilmeter_like != null">AND lower(RW_CAR_OILMETER) LIKE lower(#{filter.carOilmeter_like})</if>
+				<if test="filter.carOilmeter_in != null">AND <foreach item="ii" collection="filter.carOilmeter_in" open="(" separator=" OR " close=")">RW_CAR_OILMETER in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.carOilmeter_notIn != null">AND <foreach item="ii" collection="filter.carOilmeter_notIn" open="(" separator=" AND " close=")">RW_CAR_OILMETER not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.endTime_gte != null">AND RW_END_TIME &gt;= #{filter.endTime_gte}</if>
+				<if test="filter.endTime_lte != null">AND RW_END_TIME &lt;= #{filter.endTime_lte}</if>
+				<if test="filter.endTime_gt != null">AND RW_END_TIME &gt;= #{filter.endTime_gt}</if>
+				<if test="filter.endTime_lt != null">AND RW_END_TIME &lt;= #{filter.endTime_lt}</if>
+												<if test="filter.sum_eq != null">AND RW_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND RW_SUM != #{filter.sum_ne}</if>
+				<if test="filter.sum_like != null">AND lower(RW_SUM) LIKE lower(#{filter.sum_like})</if>
+				<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RW_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RW_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.workorderNo_eq != null">AND RW_WORKORDER_NO = #{filter.workorderNo_eq}</if>
+				<if test="filter.workorderNo_ne != null">AND RW_WORKORDER_NO != #{filter.workorderNo_ne}</if>
+				<if test="filter.workorderNo_like != null">AND lower(RW_WORKORDER_NO) LIKE lower(#{filter.workorderNo_like})</if>
+				<if test="filter.workorderNo_in != null">AND <foreach item="ii" collection="filter.workorderNo_in" open="(" separator=" OR " close=")">RW_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workorderNo_notIn != null">AND <foreach item="ii" collection="filter.workorderNo_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.clerk_eq != null">AND RW_CLERK = #{filter.clerk_eq}</if>
+				<if test="filter.clerk_ne != null">AND RW_CLERK != #{filter.clerk_ne}</if>
+				<if test="filter.clerk_like != null">AND lower(RW_CLERK) LIKE lower(#{filter.clerk_like})</if>
+				<if test="filter.clerk_in != null">AND <foreach item="ii" collection="filter.clerk_in" open="(" separator=" OR " close=")">RW_CLERK in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clerk_notIn != null">AND <foreach item="ii" collection="filter.clerk_notIn" open="(" separator=" AND " close=")">RW_CLERK not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.workorderState_eq != null">AND RW_WORKORDER_STATE = #{filter.workorderState_eq}</if>
+				<if test="filter.workorderState_ne != null">AND RW_WORKORDER_STATE != #{filter.workorderState_ne}</if>
+				<if test="filter.workorderState_like != null">AND lower(RW_WORKORDER_STATE) LIKE lower(#{filter.workorderState_like})</if>
+				<if test="filter.workorderState_in != null">AND <foreach item="ii" collection="filter.workorderState_in" open="(" separator=" OR " close=")">RW_WORKORDER_STATE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workorderState_notIn != null">AND <foreach item="ii" collection="filter.workorderState_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_STATE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.clientId_eq != null">AND RW_CLIENT_ID = #{filter.clientId_eq}</if>
+				<if test="filter.clientId_ne != null">AND RW_CLIENT_ID != #{filter.clientId_ne}</if>
+				<if test="filter.clientId_like != null">AND lower(RW_CLIENT_ID) LIKE lower(#{filter.clientId_like})</if>
+				<if test="filter.clientId_in != null">AND <foreach item="ii" collection="filter.clientId_in" open="(" separator=" OR " close=")">RW_CLIENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clientId_notIn != null">AND <foreach item="ii" collection="filter.clientId_notIn" open="(" separator=" AND " close=")">RW_CLIENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.clentRemind_eq != null">AND RW_CLENT_REMIND = #{filter.clentRemind_eq}</if>
+				<if test="filter.clentRemind_ne != null">AND RW_CLENT_REMIND != #{filter.clentRemind_ne}</if>
+				<if test="filter.clentRemind_like != null">AND lower(RW_CLENT_REMIND) LIKE lower(#{filter.clentRemind_like})</if>
+				<if test="filter.clentRemind_in != null">AND <foreach item="ii" collection="filter.clentRemind_in" open="(" separator=" OR " close=")">RW_CLENT_REMIND in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clentRemind_notIn != null">AND <foreach item="ii" collection="filter.clentRemind_notIn" open="(" separator=" AND " close=")">RW_CLENT_REMIND not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.carMileage_eq != null">AND RW_CAR_MILEAGE = #{filter.carMileage_eq}</if>
+				<if test="filter.carMileage_ne != null">AND RW_CAR_MILEAGE != #{filter.carMileage_ne}</if>
+				<if test="filter.carMileage_like != null">AND lower(RW_CAR_MILEAGE) LIKE lower(#{filter.carMileage_like})</if>
+				<if test="filter.carMileage_in != null">AND <foreach item="ii" collection="filter.carMileage_in" open="(" separator=" OR " close=")">RW_CAR_MILEAGE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.carMileage_notIn != null">AND <foreach item="ii" collection="filter.carMileage_notIn" open="(" separator=" AND " close=")">RW_CAR_MILEAGE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+					</if>
+</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+																																						</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>

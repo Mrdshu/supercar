@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mapper.RepairWorkorderItemMapper" >
+  <resultMap id="resultMap" type="com.xw.supercar.entity.RepairWorkorderItem" >
+	<result property="id" column="ID" />
+			<result column="RWI_WORKORDER_ID" property="workorderId" />
+				<result column="START_TIME" property="startTime" />
+				<result column="RWI_ITEM_ID" property="itemId" />
+				<result column="RWI_MECHANIC" property="mechanic" />
+				<result column="END_TIME" property="endTime" />
+		   	
+  </resultMap>
+  
+  <sql id="table">tb_repair_workorder_item</sql>
+  <sql id="columns">ID, RWI_WORKORDER_ID, START_TIME, RWI_ITEM_ID, RWI_MECHANIC, END_TIME</sql>
+  
+  	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
+				 <choose><when test="workorderId== ''">null</when><otherwise>#{workorderId}</otherwise></choose>,
+				 <choose><when test="startTime== ''">null</when><otherwise>#{startTime}</otherwise></choose>,
+				 <choose><when test="itemId== ''">null</when><otherwise>#{itemId}</otherwise></choose>,
+				 <choose><when test="mechanic== ''">null</when><otherwise>#{mechanic}</otherwise></choose>,
+				 <choose><when test="endTime== ''">null</when><otherwise>#{endTime}</otherwise></choose>,
+				</trim>
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+									<if test="workorderId != null">RWI_WORKORDER_ID = <choose><when test="workorderId == ''">null</when><otherwise>#{workorderId}</otherwise></choose>,</if>
+												<if test="startTime != null">START_TIME = <choose><when test="startTime == ''">null</when><otherwise>#{startTime}</otherwise></choose>,</if>
+												<if test="itemId != null">RWI_ITEM_ID = <choose><when test="itemId == ''">null</when><otherwise>#{itemId}</otherwise></choose>,</if>
+												<if test="mechanic != null">RWI_MECHANIC = <choose><when test="mechanic == ''">null</when><otherwise>#{mechanic}</otherwise></choose>,</if>
+												<if test="endTime != null">END_TIME = <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,</if>
+								</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+						<if test="workorderId != null">AND RWI_WORKORDER_ID = #{workorderId}</if>
+						<if test="startTime != null">AND START_TIME = #{startTime}</if>
+						<if test="itemId != null">AND RWI_ITEM_ID = #{itemId}</if>
+						<if test="mechanic != null">AND RWI_MECHANIC = #{mechanic}</if>
+						<if test="endTime != null">AND END_TIME = #{endTime}</if>
+			</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+								<if test="filter.workorderId_eq != null">AND RWI_WORKORDER_ID = #{filter.workorderId_eq}</if>
+				<if test="filter.workorderId_ne != null">AND RWI_WORKORDER_ID != #{filter.workorderId_ne}</if>
+				<if test="filter.workorderId_like != null">AND lower(RWI_WORKORDER_ID) LIKE lower(#{filter.workorderId_like})</if>
+				<if test="filter.workorderId_in != null">AND <foreach item="ii" collection="filter.workorderId_in" open="(" separator=" OR " close=")">RWI_WORKORDER_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workorderId_notIn != null">AND <foreach item="ii" collection="filter.workorderId_notIn" open="(" separator=" AND " close=")">RWI_WORKORDER_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.startTime_gte != null">AND START_TIME &gt;= #{filter.startTime_gte}</if>
+				<if test="filter.startTime_lte != null">AND START_TIME &lt;= #{filter.startTime_lte}</if>
+				<if test="filter.startTime_gt != null">AND START_TIME &gt;= #{filter.startTime_gt}</if>
+				<if test="filter.startTime_lt != null">AND START_TIME &lt;= #{filter.startTime_lt}</if>
+												<if test="filter.itemId_eq != null">AND RWI_ITEM_ID = #{filter.itemId_eq}</if>
+				<if test="filter.itemId_ne != null">AND RWI_ITEM_ID != #{filter.itemId_ne}</if>
+				<if test="filter.itemId_like != null">AND lower(RWI_ITEM_ID) LIKE lower(#{filter.itemId_like})</if>
+				<if test="filter.itemId_in != null">AND <foreach item="ii" collection="filter.itemId_in" open="(" separator=" OR " close=")">RWI_ITEM_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.itemId_notIn != null">AND <foreach item="ii" collection="filter.itemId_notIn" open="(" separator=" AND " close=")">RWI_ITEM_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.mechanic_eq != null">AND RWI_MECHANIC = #{filter.mechanic_eq}</if>
+				<if test="filter.mechanic_ne != null">AND RWI_MECHANIC != #{filter.mechanic_ne}</if>
+				<if test="filter.mechanic_like != null">AND lower(RWI_MECHANIC) LIKE lower(#{filter.mechanic_like})</if>
+				<if test="filter.mechanic_in != null">AND <foreach item="ii" collection="filter.mechanic_in" open="(" separator=" OR " close=")">RWI_MECHANIC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.mechanic_notIn != null">AND <foreach item="ii" collection="filter.mechanic_notIn" open="(" separator=" AND " close=")">RWI_MECHANIC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+								<if test="filter.endTime_gte != null">AND END_TIME &gt;= #{filter.endTime_gte}</if>
+				<if test="filter.endTime_lte != null">AND END_TIME &lt;= #{filter.endTime_lte}</if>
+				<if test="filter.endTime_gt != null">AND END_TIME &gt;= #{filter.endTime_gt}</if>
+				<if test="filter.endTime_lt != null">AND END_TIME &lt;= #{filter.endTime_lt}</if>
+									</if>
+</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+																				</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>
