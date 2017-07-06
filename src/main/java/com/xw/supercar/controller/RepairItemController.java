@@ -1,5 +1,7 @@
 package com.xw.supercar.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.xw.supercar.entity.RepairItem;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
+import com.xw.supercar.service.LookupService;
 import com.xw.supercar.service.RepairItemService;
 
 /**
@@ -15,7 +18,7 @@ import com.xw.supercar.service.RepairItemService;
  * </p>
  * 
  * @author wangsz
- * @date 2017-07-06 17:45:03
+ * @date 2017-07-06 22:14:07
  */
 @Controller
 @RequestMapping("/repairItem")
@@ -32,9 +35,10 @@ public class RepairItemController extends BaseController<RepairItem>{
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void afterReturn(ResponseResult result) {
-		
+		Map<String, Object> data = result.getData();
+		//将数据字典对应的实体放入data
+		addAttributesToData(data, new String[]{RepairItem.DP.typeLK.name(),RepairItem.DP.workTypeLK.name()}
+		, new Class[]{LookupService.class,LookupService.class});
 	}
 	
-
-
 }

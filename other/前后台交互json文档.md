@@ -33,6 +33,8 @@
 	* [批量删除出库工单](#批量删除出库工单)
 * [RepairItem 维修服务项目](#repairitem-维修服务项目)
 	* [字段定义](#字段定义-7)
+	* [新增测试成功json](#新增测试成功json-5)
+	* [分页查询返回json](#分页查询返回json-4)
 * [RepairWorkorder 维修工单](#repairworkorder-维修工单)
 	* [字段定义](#字段定义-8)
 * [RepairWorkorderItem 维修工单-服务项目](#repairworkorderitem-维修工单-服务项目)
@@ -956,63 +958,143 @@ URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
 # RepairItem 维修服务项目
 ## 字段定义
 ```
-			/** 项目名称 */
-    	private String name;
-
-	   	/** 备注 */
-    	private String desc;
-
-	   	/** 项目类型，数据字典外键 */
-    	private String type;
+			/** 项目类型，数据字典外键 */
+    	private String typeLK;
 
 	   	/** 项目代码 */
     	private String code;
 
+	   	/** 项目名称 */
+    	private String name;
+
 	   	/** 工时数 */
-    	private Double workingHour;
+    	private Double workHour;
 
 	   	/** 工种，数据字典外键 */
-    	private String workType;
+    	private String workTypeLK;
+
+	   	/** 备注 */
+    	private String description;
 
 	   	/** 金额 */
-    	private Double sum;
+    	private BigDecimal sum;
 ```
+
+## 新增测试成功json
+  ```
+{
+	"typeLK": "1",
+	"code": "code",
+	"name": "name",
+	"workTypeLK": "1",
+	"description": "description",
+	"sum": 11,
+}
+  ```
+  ## 分页查询返回json
+  ```
+{
+	"success": true,
+	"errorNo": "",
+	"errorMsg": "",
+	"data": {
+		"page": {
+			"content": [{
+				"typeLK": "1",
+				"code": "code",
+				"name": "name",
+				"workHour": null,
+				"workTypeLK": "1",
+				"description": "description",
+				"sum": 11,
+				"id": "331EC8A236D34F7AA5B8FDBB516937A0",
+				"date": {
+					"typeLK": {
+						"definitionId": "1",
+						"code": "BYD",
+						"value": "比亚迪",
+						"description": null,
+						"additional": null,
+						"parentId": null,
+						"zzLevel": null,
+						"zzIsLeaf": null,
+						"zzLevel1Id": null,
+						"zzLevel2Id": null,
+						"zzLevel3Id": null,
+						"zzLevel4Id": null,
+						"zzLevel5Id": null,
+						"zzLevel6Id": null,
+						"id": "1"
+					},
+					"workTypeLK": {
+						"definitionId": "1",
+						"code": "BYD",
+						"value": "比亚迪",
+						"description": null,
+						"additional": null,
+						"parentId": null,
+						"zzLevel": null,
+						"zzIsLeaf": null,
+						"zzLevel1Id": null,
+						"zzLevel2Id": null,
+						"zzLevel3Id": null,
+						"zzLevel4Id": null,
+						"zzLevel5Id": null,
+						"zzLevel6Id": null,
+						"id": "1"
+					}
+				}
+			}],
+			"number": 0,
+			"size": 10,
+			"sort": {
+
+			},
+			"numberOfElements": 1,
+			"lastPage": true,
+			"totalPages": 1,
+			"totalElements": 1,
+			"firstPage": true
+		}
+	}
+}
+  ```
 
 # RepairWorkorder 维修工单
 ## 字段定义
 ```
-			/** 修理性质 */
-    	private String repairType;
-
-	   	/** 送修时间 */
-    	private Date sendTime;
-
-	   	/** 车进店油表 */
-    	private Integer carOilmeter;
-
-	   	/** 交车时间 */
-    	private Date endTime;
-
-	   	/** 结算金额 */
-    	private BigDecimal sum;
-
-	   	/** 维修工单号 */
+			/** 维修工单号 */
     	private String workorderNo;
-
-	   	/** 服务顾问 */
-    	private String clerk;
 
 	   	/** 工单状态 */
     	private String workorderState;
 
+	   	/** 修理性质，数据字典外键 */
+    	private String repairTypeLK;
+
+	   	/** 结算金额 */
+    	private BigDecimal sum;
+
+	   	/** 服务顾问 */
+    	private String clerk;
+
 	   	/** 客户id，外键 */
     	private String clientId;
+
+	   	/** 车进店里程 */
+    	private Integer carMileage;
+
+	   	/** 车进店油表 */
+    	private Integer carOilmeter;
 
 	   	/** 客户提醒 */
     	private String clentRemind;
 
-	   	/** 车进店里程 */
-    	private Integer carMileage;
+	   	/** 送修时间 */
+    	private Date sendTime;
+
+	   	/** 交车时间 */
+    	private Date endTime;
 ```
 
 # RepairWorkorderItem 维修工单-服务项目
@@ -1020,7 +1102,6 @@ URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
 ```
 			/** 维修工单id，外键 */
     	private String workorderId;
-
 
 	   	/** 维修项目id，外键 */
     	private String itemId;

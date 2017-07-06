@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import com.xw.supercar.entity.OutPart;
 import com.xw.supercar.entity.OutPartInfo;
+import com.xw.supercar.entity.RepairItem;
 import com.xw.supercar.entity.ResponseResult;
-import com.xw.supercar.entity.composite.InPartComposite;
 import com.xw.supercar.entity.composite.OutPartComposite;
 import com.xw.supercar.util.GsonUtil;
 
@@ -18,7 +18,7 @@ public class GenerateRapJson {
 	
 	@Test
 	public void generateSingle() throws Exception {
-		Object object = getClassInstance(OutPart.class);
+		Object object = getClassInstance(RepairItem.class);
 		getJsonAndKV(object);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));

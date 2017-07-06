@@ -4,12 +4,12 @@
 <mapper namespace="com.xw.supercar.entity.RepairItem" >
   <resultMap id="resultMap" type="com.xw.supercar.entity.RepairItem" >
 	<id property="id" column="ID" />
-	<result column="RI_TYPE" property="type" />
+	<result column="RI_TYPE" property="typeLK" />
 	<result column="RI_CODE" property="code" />
 	<result column="RI_NAME" property="name" />
-	<result column="RI_WORKING_HOUR" property="workingHour" />
-	<result column="RI_WORK_TYPE" property="workType" />
-	<result column="RI_DESC" property="desc" />
+	<result column="RI_WORKING_HOUR" property="workHour" />
+	<result column="RI_WORK_TYPE" property="workTypeLK" />
+	<result column="RI_DESC" property="description" />
 	<result column="RI_SUM" property="sum" />
 	   	
   </resultMap>
@@ -24,12 +24,12 @@
 		) VALUES (
 			<trim suffixOverrides=",">
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
-				 <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,
+				 <choose><when test="typeLK == ''">null</when><otherwise>#{typeLK}</otherwise></choose>,
 				 <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,
 				 <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,
-				 <choose><when test="workingHour == ''">null</when><otherwise>#{workingHour}</otherwise></choose>,
-				 <choose><when test="workType == ''">null</when><otherwise>#{workType}</otherwise></choose>,
-				 <choose><when test="desc == ''">null</when><otherwise>#{desc}</otherwise></choose>,
+				 <choose><when test="workHour == ''">null</when><otherwise>#{workHour}</otherwise></choose>,
+				 <choose><when test="workTypeLK == ''">null</when><otherwise>#{workTypeLK}</otherwise></choose>,
+				 <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,
 				 <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,
 								
 			</trim>
@@ -46,7 +46,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id}, #{item.type}, #{item.code}, #{item.name}, #{item.workingHour}, #{item.workType}, #{item.desc}, #{item.sum})
+			(#{item.id}, #{item.typeLK}, #{item.code}, #{item.name}, #{item.workHour}, #{item.workTypeLK}, #{item.description}, #{item.sum})
 		</foreach>
 	</insert>
 	
@@ -89,12 +89,12 @@
 	<!-- 修改时用的的set语句 -->
 	<sql id="set">
 		<trim suffixOverrides=",">
-			<if test="type != null">RI_TYPE = <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,</if>
+			<if test="typeLK != null">RI_TYPE = <choose><when test="typeLK == ''">null</when><otherwise>#{typeLK}</otherwise></choose>,</if>
 			<if test="code != null">RI_CODE = <choose><when test="code == ''">null</when><otherwise>#{code}</otherwise></choose>,</if>
 			<if test="name != null">RI_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
-			<if test="workingHour != null">RI_WORKING_HOUR = <choose><when test="workingHour == ''">null</when><otherwise>#{workingHour}</otherwise></choose>,</if>
-			<if test="workType != null">RI_WORK_TYPE = <choose><when test="workType == ''">null</when><otherwise>#{workType}</otherwise></choose>,</if>
-			<if test="desc != null">RI_DESC = <choose><when test="desc == ''">null</when><otherwise>#{desc}</otherwise></choose>,</if>
+			<if test="workHour != null">RI_WORKING_HOUR = <choose><when test="workHour == ''">null</when><otherwise>#{workHour}</otherwise></choose>,</if>
+			<if test="workTypeLK != null">RI_WORK_TYPE = <choose><when test="workTypeLK == ''">null</when><otherwise>#{workTypeLK}</otherwise></choose>,</if>
+			<if test="description != null">RI_DESC = <choose><when test="description == ''">null</when><otherwise>#{description}</otherwise></choose>,</if>
 			<if test="sum != null">RI_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
 
 		</trim>
@@ -104,12 +104,12 @@
 	<sql id="whereEntity">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="id != null">AND ID = #{id}</if>
-			<if test="type != null">AND RI_TYPE = #{type}</if>
+			<if test="typeLK != null">AND RI_TYPE = #{typeLK}</if>
 			<if test="code != null">AND RI_CODE = #{code}</if>
 			<if test="name != null">AND RI_NAME = #{name}</if>
-			<if test="workingHour != null">AND RI_WORKING_HOUR = #{workingHour}</if>
-			<if test="workType != null">AND RI_WORK_TYPE = #{workType}</if>
-			<if test="desc != null">AND RI_DESC = #{desc}</if>
+			<if test="workHour != null">AND RI_WORKING_HOUR = #{workHour}</if>
+			<if test="workTypeLK != null">AND RI_WORK_TYPE = #{workTypeLK}</if>
+			<if test="description != null">AND RI_DESC = #{description}</if>
 			<if test="sum != null">AND RI_SUM = #{sum}</if>
 
 		</trim>
@@ -122,11 +122,11 @@
 			<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.type_eq != null">AND RI_TYPE = #{filter.type_eq}</if>
-			<if test="filter.type_ne != null">AND RI_TYPE != #{filter.type_ne}</if>
-			<if test="filter.type_like != null">AND lower(RI_TYPE) LIKE lower(#{filter.type_like})</if>
-			<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">RI_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">RI_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.typeLK_eq != null">AND RI_TYPE = #{filter.typeLK_eq}</if>
+			<if test="filter.typeLK_ne != null">AND RI_TYPE != #{filter.typeLK_ne}</if>
+			<if test="filter.typeLK_like != null">AND lower(RI_TYPE) LIKE lower(#{filter.typeLK_like})</if>
+			<if test="filter.typeLK_in != null">AND <foreach item="ii" collection="filter.typeLK_in" open="(" separator=" OR " close=")">RI_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.typeLK_notIn != null">AND <foreach item="ii" collection="filter.typeLK_notIn" open="(" separator=" AND " close=")">RI_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
 			<if test="filter.code_eq != null">AND RI_CODE = #{filter.code_eq}</if>
 			<if test="filter.code_ne != null">AND RI_CODE != #{filter.code_ne}</if>
@@ -140,23 +140,23 @@
 			<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">RI_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">RI_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.workingHour_eq != null">AND RI_WORKING_HOUR = #{filter.workingHour_eq}</if>
-			<if test="filter.workingHour_ne != null">AND RI_WORKING_HOUR != #{filter.workingHour_ne}</if>
-			<if test="filter.workingHour_like != null">AND lower(RI_WORKING_HOUR) LIKE lower(#{filter.workingHour_like})</if>
-			<if test="filter.workingHour_in != null">AND <foreach item="ii" collection="filter.workingHour_in" open="(" separator=" OR " close=")">RI_WORKING_HOUR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workingHour_notIn != null">AND <foreach item="ii" collection="filter.workingHour_notIn" open="(" separator=" AND " close=")">RI_WORKING_HOUR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workHour_eq != null">AND RI_WORKING_HOUR = #{filter.workHour_eq}</if>
+			<if test="filter.workHour_ne != null">AND RI_WORKING_HOUR != #{filter.workHour_ne}</if>
+			<if test="filter.workHour_like != null">AND lower(RI_WORKING_HOUR) LIKE lower(#{filter.workHour_like})</if>
+			<if test="filter.workHour_in != null">AND <foreach item="ii" collection="filter.workHour_in" open="(" separator=" OR " close=")">RI_WORKING_HOUR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workHour_notIn != null">AND <foreach item="ii" collection="filter.workHour_notIn" open="(" separator=" AND " close=")">RI_WORKING_HOUR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.workType_eq != null">AND RI_WORK_TYPE = #{filter.workType_eq}</if>
-			<if test="filter.workType_ne != null">AND RI_WORK_TYPE != #{filter.workType_ne}</if>
-			<if test="filter.workType_like != null">AND lower(RI_WORK_TYPE) LIKE lower(#{filter.workType_like})</if>
-			<if test="filter.workType_in != null">AND <foreach item="ii" collection="filter.workType_in" open="(" separator=" OR " close=")">RI_WORK_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workType_notIn != null">AND <foreach item="ii" collection="filter.workType_notIn" open="(" separator=" AND " close=")">RI_WORK_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workTypeLK_eq != null">AND RI_WORK_TYPE = #{filter.workTypeLK_eq}</if>
+			<if test="filter.workTypeLK_ne != null">AND RI_WORK_TYPE != #{filter.workTypeLK_ne}</if>
+			<if test="filter.workTypeLK_like != null">AND lower(RI_WORK_TYPE) LIKE lower(#{filter.workTypeLK_like})</if>
+			<if test="filter.workTypeLK_in != null">AND <foreach item="ii" collection="filter.workTypeLK_in" open="(" separator=" OR " close=")">RI_WORK_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.workTypeLK_notIn != null">AND <foreach item="ii" collection="filter.workTypeLK_notIn" open="(" separator=" AND " close=")">RI_WORK_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.desc_eq != null">AND RI_DESC = #{filter.desc_eq}</if>
-			<if test="filter.desc_ne != null">AND RI_DESC != #{filter.desc_ne}</if>
-			<if test="filter.desc_like != null">AND lower(RI_DESC) LIKE lower(#{filter.desc_like})</if>
-			<if test="filter.desc_in != null">AND <foreach item="ii" collection="filter.desc_in" open="(" separator=" OR " close=")">RI_DESC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.desc_notIn != null">AND <foreach item="ii" collection="filter.desc_notIn" open="(" separator=" AND " close=")">RI_DESC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.description_eq != null">AND RI_DESC = #{filter.description_eq}</if>
+			<if test="filter.description_ne != null">AND RI_DESC != #{filter.description_ne}</if>
+			<if test="filter.description_like != null">AND lower(RI_DESC) LIKE lower(#{filter.description_like})</if>
+			<if test="filter.description_in != null">AND <foreach item="ii" collection="filter.description_in" open="(" separator=" OR " close=")">RI_DESC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.description_notIn != null">AND <foreach item="ii" collection="filter.description_notIn" open="(" separator=" AND " close=")">RI_DESC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
 			<if test="filter.sum_eq != null">AND RI_SUM = #{filter.sum_eq}</if>
 			<if test="filter.sum_ne != null">AND RI_SUM != #{filter.sum_ne}</if>

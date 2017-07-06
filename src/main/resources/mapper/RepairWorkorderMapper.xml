@@ -6,7 +6,7 @@
 	<id property="id" column="ID" />
 	<result column="RW_WORKORDER_NO" property="workorderNo" />
 	<result column="RW_WORKORDER_STATE" property="workorderState" />
-	<result column="RW_REPAIR_TYPE" property="repairType" />
+	<result column="RW_REPAIR_TYPE" property="repairTypeLK" />
 	<result column="RW_SUM" property="sum" />
 	<result column="RW_CLERK" property="clerk" />
 	<result column="RW_CLIENT_ID" property="clientId" />
@@ -30,7 +30,7 @@
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
 				 <choose><when test="workorderNo == ''">null</when><otherwise>#{workorderNo}</otherwise></choose>,
 				 <choose><when test="workorderState == ''">null</when><otherwise>#{workorderState}</otherwise></choose>,
-				 <choose><when test="repairType == ''">null</when><otherwise>#{repairType}</otherwise></choose>,
+				 <choose><when test="repairTypeLK == ''">null</when><otherwise>#{repairTypeLK}</otherwise></choose>,
 				 <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,
 				 <choose><when test="clerk == ''">null</when><otherwise>#{clerk}</otherwise></choose>,
 				 <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,
@@ -54,7 +54,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairType}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendTime}, #{item.endTime})
+			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendTime}, #{item.endTime})
 		</foreach>
 	</insert>
 	
@@ -99,7 +99,7 @@
 		<trim suffixOverrides=",">
 			<if test="workorderNo != null">RW_WORKORDER_NO = <choose><when test="workorderNo == ''">null</when><otherwise>#{workorderNo}</otherwise></choose>,</if>
 			<if test="workorderState != null">RW_WORKORDER_STATE = <choose><when test="workorderState == ''">null</when><otherwise>#{workorderState}</otherwise></choose>,</if>
-			<if test="repairType != null">RW_REPAIR_TYPE = <choose><when test="repairType == ''">null</when><otherwise>#{repairType}</otherwise></choose>,</if>
+			<if test="repairTypeLK != null">RW_REPAIR_TYPE = <choose><when test="repairTypeLK == ''">null</when><otherwise>#{repairTypeLK}</otherwise></choose>,</if>
 			<if test="sum != null">RW_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
 			<if test="clerk != null">RW_CLERK = <choose><when test="clerk == ''">null</when><otherwise>#{clerk}</otherwise></choose>,</if>
 			<if test="clientId != null">RW_CLIENT_ID = <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,</if>
@@ -118,7 +118,7 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="workorderNo != null">AND RW_WORKORDER_NO = #{workorderNo}</if>
 			<if test="workorderState != null">AND RW_WORKORDER_STATE = #{workorderState}</if>
-			<if test="repairType != null">AND RW_REPAIR_TYPE = #{repairType}</if>
+			<if test="repairTypeLK != null">AND RW_REPAIR_TYPE = #{repairTypeLK}</if>
 			<if test="sum != null">AND RW_SUM = #{sum}</if>
 			<if test="clerk != null">AND RW_CLERK = #{clerk}</if>
 			<if test="clientId != null">AND RW_CLIENT_ID = #{clientId}</if>
@@ -150,11 +150,11 @@
 			<if test="filter.workorderState_in != null">AND <foreach item="ii" collection="filter.workorderState_in" open="(" separator=" OR " close=")">RW_WORKORDER_STATE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			<if test="filter.workorderState_notIn != null">AND <foreach item="ii" collection="filter.workorderState_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_STATE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.repairType_eq != null">AND RW_REPAIR_TYPE = #{filter.repairType_eq}</if>
-			<if test="filter.repairType_ne != null">AND RW_REPAIR_TYPE != #{filter.repairType_ne}</if>
-			<if test="filter.repairType_like != null">AND lower(RW_REPAIR_TYPE) LIKE lower(#{filter.repairType_like})</if>
-			<if test="filter.repairType_in != null">AND <foreach item="ii" collection="filter.repairType_in" open="(" separator=" OR " close=")">RW_REPAIR_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.repairType_notIn != null">AND <foreach item="ii" collection="filter.repairType_notIn" open="(" separator=" AND " close=")">RW_REPAIR_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.repairTypeLK_eq != null">AND RW_REPAIR_TYPE = #{filter.repairTypeLK_eq}</if>
+			<if test="filter.repairTypeLK_ne != null">AND RW_REPAIR_TYPE != #{filter.repairTypeLK_ne}</if>
+			<if test="filter.repairTypeLK_like != null">AND lower(RW_REPAIR_TYPE) LIKE lower(#{filter.repairTypeLK_like})</if>
+			<if test="filter.repairTypeLK_in != null">AND <foreach item="ii" collection="filter.repairTypeLK_in" open="(" separator=" OR " close=")">RW_REPAIR_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.repairTypeLK_notIn != null">AND <foreach item="ii" collection="filter.repairTypeLK_notIn" open="(" separator=" AND " close=")">RW_REPAIR_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
 			<if test="filter.sum_eq != null">AND RW_SUM = #{filter.sum_eq}</if>
 			<if test="filter.sum_ne != null">AND RW_SUM != #{filter.sum_ne}</if>

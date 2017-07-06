@@ -1,6 +1,7 @@
 package com.xw.supercar.entity;
 
 
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.ToString;
  * </p>
  * 
  * @author wangsz
- * @date 2017-07-06 17:45:03
+ * @date 2017-07-06 22:35:59
  */
 @Setter
 @Getter
@@ -22,7 +23,7 @@ import lombok.ToString;
 public class RepairItem extends BaseDateEntity {
 		
 	   	/** 项目类型，数据字典外键 */
-    	private String type;
+    	private String typeLK;
 		
 	   	/** 项目代码 */
     	private String code;
@@ -31,18 +32,18 @@ public class RepairItem extends BaseDateEntity {
     	private String name;
 		
 	   	/** 工时数 */
-    	private Double workingHour;
+    	private Double workHour;
 		
 	   	/** 工种，数据字典外键 */
-    	private String workType;
+    	private String workTypeLK;
 		
 	   	/** 备注 */
-    	private String desc;
+    	private String description;
 		
 	   	/** 金额 */
-    	private Double sum;
+    	private BigDecimal sum;
 		
 	public static enum DP {
-		id, type, code, name, workingHour, workType, desc, sum;	
+		id, typeLK, code, name, workHour, workTypeLK, description, sum;	
 	}
 }

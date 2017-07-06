@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : test
+Source Server         : localhost_conn
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-06 17:55:50
+Date: 2017-07-06 22:50:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -408,13 +408,13 @@ INSERT INTO `tb_part` VALUES ('C4BCFA08FCD442DFB5FE4ECF12660146', 'NO000002', '�
 DROP TABLE IF EXISTS `tb_repair_item`;
 CREATE TABLE `tb_repair_item` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `ri_type` varchar(32) DEFAULT NULL COMMENT '项目类型，数据字典外键',
-  `ri_code` varchar(255) DEFAULT NULL COMMENT '项目代码',
-  `ri_name` varchar(255) DEFAULT NULL COMMENT '项目名称',
+  `ri_type` varchar(32) NOT NULL COMMENT '项目类型，数据字典外键',
+  `ri_code` varchar(255) NOT NULL COMMENT '项目代码',
+  `ri_name` varchar(255) NOT NULL COMMENT '项目名称',
   `ri_working_hour` double DEFAULT NULL COMMENT '工时数',
   `ri_work_type` varchar(32) DEFAULT NULL COMMENT '工种，数据字典外键',
   `ri_desc` varchar(255) DEFAULT NULL COMMENT '备注',
-  `ri_sum` double DEFAULT NULL COMMENT '金额',
+  `ri_sum` decimal(10,0) NOT NULL COMMENT '金额',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
@@ -424,6 +424,7 @@ CREATE TABLE `tb_repair_item` (
 -- ----------------------------
 -- Records of tb_repair_item
 -- ----------------------------
+INSERT INTO `tb_repair_item` VALUES ('331EC8A236D34F7AA5B8FDBB516937A0', '1', 'code', 'name', null, '1', 'description', '11', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_repair_workorder
@@ -433,7 +434,7 @@ CREATE TABLE `tb_repair_workorder` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
   `rw_workorder_no` varchar(32) DEFAULT NULL COMMENT '维修工单号',
   `rw_workorder_state` varchar(32) DEFAULT NULL COMMENT '工单状态',
-  `rw_repair_type` varchar(32) DEFAULT NULL COMMENT '修理性质',
+  `rw_repair_type` varchar(32) DEFAULT NULL COMMENT '修理性质，数据字典外键',
   `rw_sum` decimal(10,0) DEFAULT NULL COMMENT '结算金额',
   `rw_clerk` varchar(32) DEFAULT NULL COMMENT '服务顾问',
   `rw_client_id` varchar(32) DEFAULT NULL COMMENT '客户id，外键',
