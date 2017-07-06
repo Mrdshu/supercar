@@ -26,7 +26,7 @@
 			<trim suffixOverrides=",">
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>, 
-				<choose><when test="inTime == ''">null</when><otherwise>#{inTime}</otherwise></choose>, 
+				default, 
 				<choose><when test="payMethhodLK == ''">null</when><otherwise>#{payMethhodLK}</otherwise></choose>, 
 				<choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>, 
 				<choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>, 
@@ -71,7 +71,6 @@
 		<trim suffixOverrides=",">
 			<if test="workOrderNo != null">IN_WORKORDER_NO = <choose><when test="workOrderNo == ''">null</when><otherwise>#{workOrderNo}</otherwise></choose>,</if>
 			<if test="payMethhodLK != null">IN_PAY_METHOD = <choose><when test="payMethhodLK == ''">null</when><otherwise>#{payMethhodLK}</otherwise></choose>,</if>
-			<if test="inTime != null">IN_TIME = <choose><when test="inTime == ''">null</when><otherwise>#{inTime}</otherwise></choose>,</if>
 			<if test="supplierLK != null">P_SUPPLIER = <choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>,</if>
 			<if test="sum != null">IN_SUM = <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,</if>
 			<if test="company != null">COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
@@ -84,7 +83,6 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="workOrderNo != null">AND IN_WORKORDER_NO = #{workOrderNo}</if>
 			<if test="payMethhodLK != null">AND IN_PAY_METHOD = #{payMethhodLK}</if>
-			<if test="inTime != null">AND IN_TIME = #{inTime}</if>
 			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
 			<if test="company != null">AND COMPANY = #{company}</if>
 			<if test="sum != null">AND IN_SUM = #{sum}</if>

@@ -76,6 +76,32 @@ public class InPartController extends BaseController<InPart>{
 	}
 	
 	/**
+	 * 修改入库工单以及入库配件
+	 * @author  wangsz 2017-06-04
+	 */
+	@RequestMapping(value = "/editInPart",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	@Transactional
+	public ResponseResult editEntity(@RequestBody InPartComposite inPartComposite){
+		ResponseResult result = ResponseResult.generateResponse();
+		InPart entity = inPartComposite.getInPart();
+		List<InPartInfo> inPartInfos = inPartComposite.getInpartInfos();
+		//修改入库工单
+		service.modify(entity);
+		//删除入库配件
+		SpringContextHolder.getBean(InPartInfoService.class).removeBy(inPartInfos);
+		//将入库配件id置为空
+		for (InPartInfo inPartInfo : inPartInfos) {
+			inPartInfo.setId(null);
+		}
+		//重新新增入库配件集合
+		if(entity != null)
+			SpringContextHolder.getBean(InPartInfoService.class).add(inPartInfos);
+		
+		return result;
+	}
+	
+	/**
 	 * 查看指定入库工单的配件信息
 	 * @param inWorkOrderNo
 	 * @return 指定入库工单的配件信息
