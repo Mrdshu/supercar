@@ -2,8 +2,8 @@ package com.xw.supercar.entity.composite;
 
 import java.util.List;
 
-import com.xw.supercar.entity.InPart;
-import com.xw.supercar.entity.InPartInfo;
+import com.xw.supercar.entity.OutPart;
+import com.xw.supercar.entity.OutPartInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,15 +12,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 入库工单组合类，用作Controller层方法形参
+ * 出库工单组合类，用作controller层方法形参
  * @author wsz 2017-06-26
  */
 @Setter
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
-public class InPartComposite {
+public class OutPartComposite {
 	
-	private InPart inPart;
+	private OutPart outPart;
 	
-	private List<InPartInfo> inpartInfos;
+	private List<OutPartInfo> outPartInfos;
 }

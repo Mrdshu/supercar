@@ -10,7 +10,7 @@ import com.xw.supercar.entity.RepairWorkorderItem;
  * </p>
  * 
  * @author wangsz
- * @date 2017-07-05 14:19:21
+ * @date 2017-07-06 17:45:03
  * @version
  */
  @Repository

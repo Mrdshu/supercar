@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_conn
+Source Server         : test
 Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : supercar
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-06 08:55:04
+Date: 2017-07-06 17:55:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,8 +29,8 @@ CREATE TABLE `sequence` (
 -- ----------------------------
 -- Records of sequence
 -- ----------------------------
-INSERT INTO `sequence` VALUES ('in_workorder_no', '3', '1');
-INSERT INTO `sequence` VALUES ('out_workorder_no', '1', '1');
+INSERT INTO `sequence` VALUES ('in_workorder_no', '5', '1');
+INSERT INTO `sequence` VALUES ('out_workorder_no', '4', '1');
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -140,7 +140,8 @@ CREATE TABLE `tb_inventory` (
 -- ----------------------------
 -- Records of tb_inventory
 -- ----------------------------
-INSERT INTO `tb_inventory` VALUES ('87c4ce9461e511e7a848704d7bbc2105', '3A9A0BE24BD14C5999C3F74533D8C769', '2', null, '1', '1', '1', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('87c4ce9461e511e7a848704d7bbc2105', '3A9A0BE24BD14C5999C3F74533D8C769', '10', null, '1', '1', '1', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('936c6b7a621d11e7b44d0c5b8f279a64', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '12', null, '1', '1', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part
@@ -148,7 +149,7 @@ INSERT INTO `tb_inventory` VALUES ('87c4ce9461e511e7a848704d7bbc2105', '3A9A0BE2
 DROP TABLE IF EXISTS `tb_in_part`;
 CREATE TABLE `tb_in_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
-  `in_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
+  `in_workorder_no` varchar(32) DEFAULT NULL COMMENT '入库单号',
   `in_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入库时间',
   `in_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
   `in_sum` double DEFAULT NULL COMMENT '合计金额',
@@ -172,7 +173,8 @@ CREATE TABLE `tb_in_part` (
 -- Records of tb_in_part
 -- ----------------------------
 INSERT INTO `tb_in_part` VALUES ('26C8896F698146A0A10FA37A8B3977C3', '3', '2017-07-06 08:52:58', '1', null, '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part` VALUES ('E615EFC17C2F43099BD0BB1F7889A337', '2', null, '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('509E155EA0954190AF5CDA1A5539BB14', '4', '2017-07-06 15:34:42', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('7995AD2F17C9490BBAA937C7F5364ADC', '5', '2017-07-06 15:36:06', '1', null, '1', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part_info
@@ -202,7 +204,11 @@ CREATE TABLE `tb_in_part_info` (
 -- ----------------------------
 -- Records of tb_in_part_info
 -- ----------------------------
+INSERT INTO `tb_in_part_info` VALUES ('3432182AEBFE490BA076C867F15C101C', '4', '3A9A0BE24BD14C5999C3F74533D8C769', '2', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('59E8C884A5F64459855C5491087F1253', '3', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('977179C80F0648DBB7D0CF30F87A3A68', '5', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '2', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('BA180EDB61454C17A765FC646DE81B13', '4', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '2', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('BC93EC86FA8E48239D957F16320C78AA', '5', '3A9A0BE24BD14C5999C3F74533D8C769', '2', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('DC88B8762AAA41CAA5D387FE59D7E5E0', '3', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
 
 -- ----------------------------
@@ -298,15 +304,15 @@ DROP TABLE IF EXISTS `tb_out_part`;
 CREATE TABLE `tb_out_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(32) DEFAULT NULL COMMENT '出库单号',
-  `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，数据字典外键',
-  `out_client_name` varchar(50) DEFAULT NULL COMMENT '车主名称',
-  `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，外键',
+  `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，0-维修领料，1-配件销售，2-配件内耗',
+  `out_client_name` varchar(50) DEFAULT NULL COMMENT '客户名称',
+  `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，用户外键',
   `out_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '出库时间',
   `out_sum` decimal(10,0) DEFAULT NULL COMMENT '合计金额',
-  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，公司外键',
-  `department` varchar(32) DEFAULT NULL COMMENT '部门，数据字典外键。出库类型：配件内耗时使用',
   `repair_workorder_no` varchar(50) DEFAULT NULL COMMENT '维修工单号。出库类型：维修领料时使用',
   `car_no` varchar(32) DEFAULT NULL COMMENT '车牌号。出库类型：配件销售时使用',
+  `department` varchar(32) DEFAULT NULL COMMENT '部门，数据字典外键。出库类型：配件内耗时使用',
+  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，公司外键',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
@@ -317,14 +323,15 @@ CREATE TABLE `tb_out_part` (
   KEY `out_p_company_fk` (`company`),
   KEY `out_receiver_fk` (`out_receiver`),
   CONSTRAINT `out_p_company_fk` FOREIGN KEY (`company`) REFERENCES `tb_company` (`ID`),
-  CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`),
-  CONSTRAINT `out_type_fk` FOREIGN KEY (`out_type`) REFERENCES `tb_lookup` (`id`)
+  CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库工单';
 
 -- ----------------------------
 -- Records of tb_out_part
 -- ----------------------------
-INSERT INTO `tb_out_part` VALUES ('test', '1', null, null, null, null, null, null, null, null, null, '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('213AB1D129944073A8160C33766FD0F7', '2', '0', 'clientName', '1', '2017-07-06 17:20:35', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('4E3AC9AA1B8C4C92A61B6994F256C78C', '4', '1', 'clientName', '1', '2017-07-06 17:43:06', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('A50C7514B3E54182BF0139DF0181B9B4', '3', '1', 'clientName', '1', '2017-07-06 17:43:06', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_out_part_info
@@ -333,7 +340,7 @@ DROP TABLE IF EXISTS `tb_out_part_info`;
 CREATE TABLE `tb_out_part_info` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(50) DEFAULT NULL COMMENT '出库单号',
-  `p_id` varchar(32) DEFAULT NULL COMMENT '配件id，外键',
+  `inventory_id` varchar(32) DEFAULT NULL COMMENT '库存配件id，外键',
   `p_sale` decimal(10,0) DEFAULT NULL COMMENT '配件销售价',
   `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
@@ -341,13 +348,17 @@ CREATE TABLE `tb_out_part_info` (
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `inventory_id_fk` (`p_id`),
-  CONSTRAINT `inventory_id_fk` FOREIGN KEY (`p_id`) REFERENCES `tb_inventory` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `inventory_id_fk` (`inventory_id`),
+  CONSTRAINT `inventory_id_fk` FOREIGN KEY (`inventory_id`) REFERENCES `tb_inventory` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库工单配件信息';
 
 -- ----------------------------
 -- Records of tb_out_part_info
 -- ----------------------------
+INSERT INTO `tb_out_part_info` VALUES ('065A88C84BEB414E86D425C43D47B801', '4', '936c6b7a621d11e7b44d0c5b8f279a64', '22', '3', '1', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('277008D1937147D789236FF1B802F2F8', '4', '87c4ce9461e511e7a848704d7bbc2105', '11', '2', '1', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('33840FE28DFE4E2792F115BF2A9C5DB3', '3', '87c4ce9461e511e7a848704d7bbc2105', '11', '2', '1', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('7784D0D7F3604BB9BDF53F0B46B31FAD', '3', '936c6b7a621d11e7b44d0c5b8f279a64', '22', '3', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_part
@@ -534,7 +545,7 @@ CREATE TRIGGER `insertInPartInfo` AFTER INSERT ON `tb_in_part_info` FOR EACH ROW
 				update tb_inventory set p_count = p_count + new.in_count where tb_inventory.p_id = new.p_id and tb_inventory.p_supplier = new.p_supplier;
 		 elseif @count <= 0 then
 				insert into tb_inventory(id,p_id,p_count,p_cost,p_supplier,p_company,r_code,isdeleted)
-				VALUES (  replace(uuid(),"-","") ,new.p_id,1,new.p_cost,new.p_supplier,@company,new.r_code,default);
+				VALUES (  replace(uuid(),"-","") ,new.p_id,new.in_count ,new.p_cost,new.p_supplier,@company,new.r_code,default);
 		 end if; 
 END
 ;;
@@ -552,6 +563,22 @@ DROP TRIGGER IF EXISTS `out_workorder_no`;
 DELIMITER ;;
 CREATE TRIGGER `out_workorder_no` BEFORE INSERT ON `tb_out_part` FOR EACH ROW BEGIN
 set NEW.out_workorder_no = nextval('out_workorder_no');
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `insertOutPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `insertOutPartInfo` AFTER INSERT ON `tb_out_part_info` FOR EACH ROW BEGIN
+		 update tb_inventory set p_count = p_count- new.out_count where tb_inventory.id = new.inventory_id;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `deleteOutPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `deleteOutPartInfo` AFTER UPDATE ON `tb_out_part_info` FOR EACH ROW BEGIN
+if (new.isdeleted = 1 && old.isdeleted = 0) then
+update tb_inventory set p_count = p_count + old.out_count where tb_inventory.id = old.inventory_id;
+end IF;
 END
 ;;
 DELIMITER ;

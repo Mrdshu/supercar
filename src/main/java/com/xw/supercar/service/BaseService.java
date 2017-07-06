@@ -91,7 +91,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * @param entity
 	 * @author  wangsz 2017-05-16
 	 */
-	protected void afterSearch(List<E> entitys){
+	protected void afterSelect(List<E> entitys){
 		for (E e : entitys) {
 			afterSelect(e);
 		}
@@ -314,7 +314,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	public List<E> findBy(Searchable searchable,boolean useDefaultFilters){
 		//TODO --过滤条件为空时，会把所有数据查出来。此处要做控制，超过500条时只返回前500条数据
 		List<E> entitys = baseDao.selectBy(searchable, useDefaultFilters);
-		afterSearch(entitys);
+		afterSelect(entitys);
 		
 		return entitys;
 	}
@@ -326,7 +326,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	public List<E> extendFindBy(Searchable searchable,boolean useDefaultFilters){
 		//TODO --过滤条件为空时，会把所有数据查出来。此处要做控制，超过500条时只返回前500条数据
 		List<E> entitys = baseDao.extendSelectBy(searchable, useDefaultFilters);
-		afterSearch(entitys);
+		afterSelect(entitys);
 		
 		return entitys;
 	}
@@ -339,7 +339,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		Page<E> page = baseDao.selectPage(searchable, useDefaultFilters);
 		
 		List<E> entitys = page.getContent();
-		afterSearch(entitys);
+		afterSelect(entitys);
 		
 		return page;
 	}
@@ -353,7 +353,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		Page<E> page = baseDao.extendSelectPage(searchable, useDefaultFilters);
 		
 		List<E> entitys = page.getContent();
-		afterSearch(entitys);
+		afterSelect(entitys);
 		
 		return page;
 	}

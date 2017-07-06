@@ -27,6 +27,7 @@ import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+import com.xw.supercar.util.CollectionUtils;
 
 /**
  * 入库工单controller层
@@ -74,32 +75,33 @@ public class InPartController extends BaseController<InPart>{
 		
 		return result;
 	}
-	
-	/**
-	 * 修改入库工单以及入库配件
-	 * @author  wangsz 2017-06-04
-	 */
-	@RequestMapping(value = "/editInPart",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
-	@ResponseBody
-	@Transactional
-	public ResponseResult editEntity(@RequestBody InPartComposite inPartComposite){
-		ResponseResult result = ResponseResult.generateResponse();
-		InPart entity = inPartComposite.getInPart();
-		List<InPartInfo> inPartInfos = inPartComposite.getInpartInfos();
-		//修改入库工单
-		service.modify(entity);
-		//删除入库配件
-		SpringContextHolder.getBean(InPartInfoService.class).removeBy(inPartInfos);
-		//将入库配件id置为空
-		for (InPartInfo inPartInfo : inPartInfos) {
-			inPartInfo.setId(null);
-		}
-		//重新新增入库配件集合
-		if(entity != null)
-			SpringContextHolder.getBean(InPartInfoService.class).add(inPartInfos);
-		
-		return result;
-	}
+
+//	入库工单填写后应该不能修改，故暂时注释
+//	/**
+//	 * 修改入库工单以及入库配件
+//	 * @author  wangsz 2017-06-04
+//	 */
+//	@RequestMapping(value = "/editInPart",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
+//	@ResponseBody
+//	@Transactional
+//	public ResponseResult editEntity(@RequestBody InPartComposite inPartComposite){
+//		ResponseResult result = ResponseResult.generateResponse();
+//		InPart entity = inPartComposite.getInPart();
+//		List<InPartInfo> inPartInfos = inPartComposite.getInpartInfos();
+//		//修改入库工单
+//		service.modify(entity);
+//		//删除入库配件
+//		SpringContextHolder.getBean(InPartInfoService.class).removeBy(inPartInfos);
+//		//将入库配件id置为空
+//		for (InPartInfo inPartInfo : inPartInfos) {
+//			inPartInfo.setId(null);
+//		}
+//		//重新新增入库配件集合
+//		if(entity != null)
+//			SpringContextHolder.getBean(InPartInfoService.class).add(inPartInfos);
+//		
+//		return result;
+//	}
 	
 	/**
 	 * 查看指定入库工单的配件信息
@@ -160,14 +162,16 @@ public class InPartController extends BaseController<InPart>{
 	public ResponseResult removeInParts(String[] ids){
 		//批量删除入库工单
 		List<String> idsList = Arrays.asList(ids);
-		long rs = getSevice().removeByIds(idsList);
+		List<InPart> inParts = service.getByIds(idsList);
+		long rs = getSevice().removeBy(inParts);
 		
 		if(rs != idsList.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");
 		
 		//批量删除入库工单对应的入库配件信息
+		List<String> workorders = CollectionUtils.extractToList(inParts, InPart.DP.workOrderNo.name(), true);
 		Searchable searchable = Searchable.newSearchable()
-				.addSearchFilter(InPartInfo.DP.workOrderNo.name(), SearchOperator.in, idsList);
+				.addSearchFilter(InPartInfo.DP.workOrderNo.name(), SearchOperator.in, workorders);
 		SpringContextHolder.getBean(InPartInfoService.class).removeBy(searchable);
 		
 		ResponseResult result = ResponseResult.generateResponse();

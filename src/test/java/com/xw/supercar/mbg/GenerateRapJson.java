@@ -1,27 +1,24 @@
-package com.xw.supercar.util;
-
-import static org.junit.Assert.*;
+package com.xw.supercar.mbg;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
-import com.xw.supercar.entity.Client;
-import com.xw.supercar.entity.InPart;
-import com.xw.supercar.entity.InPartInfo;
-import com.xw.supercar.entity.Inventory;
+import com.xw.supercar.entity.OutPart;
+import com.xw.supercar.entity.OutPartInfo;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.entity.composite.InPartComposite;
+import com.xw.supercar.entity.composite.OutPartComposite;
+import com.xw.supercar.util.GsonUtil;
 
 public class GenerateRapJson {
 	
 	@Test
 	public void generateSingle() throws Exception {
-		Object object = getClassInstance(Client.class);
+		Object object = getClassInstance(OutPart.class);
 		getJsonAndKV(object);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));
@@ -29,14 +26,14 @@ public class GenerateRapJson {
 	
 	@Test
 	public void generateComplex() throws Exception {
-		InPart inPart = getClassInstance(InPart.class);
-		InPartInfo inPartInfo =  getClassInstance(InPartInfo.class);
-		InPartInfo inPartInfo2 = getClassInstance(InPartInfo.class);
-		List<InPartInfo> list = new ArrayList<>();
-		list.add(inPartInfo);
-		list.add(inPartInfo2);
+		OutPart outPart = getClassInstance(OutPart.class);
+		OutPartInfo outPartInfo =  getClassInstance(OutPartInfo.class);
+		OutPartInfo outPartInfo2 = getClassInstance(OutPartInfo.class);
+		List<OutPartInfo> list = new ArrayList<>();
+		list.add(outPartInfo);
+		list.add(outPartInfo2);
 		
-		InPartComposite inPartComposite = new InPartComposite(inPart,list);
+		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
 		System.out.println("======================");
 		System.out.println(GsonUtil.transObjectToJson(inPartComposite));
 	}
@@ -62,6 +59,9 @@ public class GenerateRapJson {
 				}
 				else if(field.getType() == Integer.class){
 					field.set(object, 1);
+				}
+				else if(field.getType() == BigDecimal.class){
+					field.set(object, new BigDecimal(11));
 				}
 			}
 			

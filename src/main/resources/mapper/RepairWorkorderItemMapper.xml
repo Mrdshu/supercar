@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="mapper.RepairWorkorderItemMapper" >
+<mapper namespace="com.xw.supercar.entity.RepairWorkorderItem" >
   <resultMap id="resultMap" type="com.xw.supercar.entity.RepairWorkorderItem" >
 	<id property="id" column="ID" />
 	<result column="RWI_WORKORDER_ID" property="workorderId" />
@@ -30,6 +30,20 @@
 								
 			</trim>
 		)
+	</insert>
+	
+	<!-- 批量新增 -->
+	<insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id}, #{item.workorderId}, #{item.itemId}, #{item.mechanic}, #{item.startTime}, #{item.endTime})
+		</foreach>
 	</insert>
 	
 	<!-- 修改 -->
@@ -95,7 +109,11 @@
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="filter != null">
+			<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+			<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+			<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
 			<if test="filter.workorderId_eq != null">AND RWI_WORKORDER_ID = #{filter.workorderId_eq}</if>
 			<if test="filter.workorderId_ne != null">AND RWI_WORKORDER_ID != #{filter.workorderId_ne}</if>
 			<if test="filter.workorderId_like != null">AND lower(RWI_WORKORDER_ID) LIKE lower(#{filter.workorderId_like})</if>
@@ -125,7 +143,6 @@
 			<if test="filter.endTime_lt != null">AND END_TIME &lt;= #{filter.endTime_lt}</if>
 
 				
-			</if>
 		</trim>
 	</sql>
 	

@@ -26,6 +26,11 @@
 	* [批量删除入库工单](#批量删除入库工单)
 * [outPart 出库](#outpart-出库)
 	* [字段定义](#字段定义-6)
+	* [新增测试成功json](#新增测试成功json-4)
+	* [分页查询返回json](#分页查询返回json-3)
+	* [详细查询结果（即查询出库工单配件）](#详细查询结果即查询出库工单配件)
+	* [删除出库工单](#删除出库工单)
+	* [批量删除出库工单](#批量删除出库工单)
 * [RepairItem 维修服务项目](#repairitem-维修服务项目)
 	* [字段定义](#字段定义-7)
 * [RepairWorkorder 维修工单](#repairworkorder-维修工单)
@@ -36,7 +41,7 @@
 <!-- tocstop -->
 
 # Client 客户
-<font color = "red">考虑到开发的方便性，以及客户主要针对的是车这一主体。该模块已将原先的`Client`和`Car`合并。**前台请抓紧修改**</font>
+考虑到开发的方便性，以及客户主要针对的是车这一主体。该模块已将原先的`Client`和`Car`合并。
 ## 字段定义：
 ```
 	/**车牌号*/
@@ -113,7 +118,7 @@
 ```
 
 # LookupDefinition 数据字典定义
-<font color = "red">为区分普通数据字典定义和树状数据结构的数据字典定义，新增了`type`这一字段，具体信息在字段定义中</font>
+为区分普通数据字典定义和树状数据结构的数据字典定义，新增了`type`这一字段，具体信息在字段定义中
 ## 字段定义：
 ```
 	/**数据字典定义code*/
@@ -133,7 +138,7 @@
 ```
 
 # Lookup 数据字典
-<font color = "red">当新增的数据字典为树状类型时，需要额外填写“父节点”这一属性信息。父节点即为已经存在的该类型的数据字典</font>
+当新增的数据字典为树状类型时，需要额外填写“父节点”这一属性信息。父节点即为已经存在的该类型的数据字典
 ## 字段定义：
 ```
 	/**最大层级*/
@@ -404,7 +409,7 @@ URL:`http://localhost:8090/supercar/lookup/getTree?lookupDefineCode=part_type`
 
   ## 新增测试成功json
 URL：`baseurl/inPart/newInPart`
-说明：传一个组合对象，格式如下：
+说明：传一个组合对象，<font color="red">注意：此操作通过数据库触发器修改库存表对应配件的数目</font>。格式如下：
 
 ```
 {
@@ -563,65 +568,390 @@ URL：`http://localhost:8090/supercar/inPart/getInPartInfos?inWorkOrderNo=1`
 
 ## 删除入库工单
 URL：`http://localhost:8090/supercar/inPart/removeInPart?id=1`
-说明：`GET`方式，传入库工单id,将级联软删除工单配件
+说明：`GET`方式，传入库工单id。此操作将级联软删除工单配件，<font color="red">同时通过数据库触发器修改库存表对应配件的数目</font>
 
 ## 批量删除入库工单
 URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
-说明：`GET`方式，传入库工单ids,将级联软删除工单配件
+说明：`GET`方式，传入库工单ids。将级联软删除工单配件，<font color="red">同时通过数据库触发器修改库存表对应配件的数目</font>
 
 # outPart 出库
 ## 字段定义
 ```
-	/** 出库单号 */
-	private String workOrderNo;
+		/** 出库单号 */
+		private String workOrderNo;
 
-	/** 出库时间 */
-	private Date outTime;
+		/** 出库类型，0-维修领料，1-配件销售，2-配件内耗 */
+		private String type;
 
-	/** 出库类型，数据字典外键 */
-	private String type;
+		/** 客户名称 */
+		private String clientName;
 
-	/** 车主名称 */
-	private String clientName;
+		/** 领料人，用户外键 */
+		private String receiver;
 
-	/** 领料人，外键 */
-	private String receiver;
+		/** 出库时间 */
+		private Date outTime;
 
-	/** 合计金额 */
-	private Long sum;
+		/** 合计金额 */
+		private BigDecimal sum;
 
-	/** 所属门店，数据字典外键 */
-	private String company;
+		/** 维修工单号。出库类型：维修领料时使用 */
+		private String repairWorkorderNo;
 
-	/** 软删除标志 */
-	private Byte isDeleted;
+		/** 车牌号。出库类型：配件销售时使用 */
+		private String carNo;
+
+		/** 部门，数据字典外键。出库类型：配件内耗时使用 */
+		private String departmentLK;
+
+		/** 所属门店，公司外键 */
+		private String company;
+
+		/** 软删除标志 */
+		private Boolean isDeleted;
 
 	//=============出库配件OutPartInfo==================
-	/** 出库单号 */
-	private String workOrderNo;
+		/** 出库单号 */
+		private String workOrderNo;
 
-	/** 出库时间 */
-	private Date outTime;
+		/** 库存配件id，外键 */
+		private String inventoryId;
 
-	/** 出库类型，数据字典外键 */
-	private String type;
+		/** 配件销售价 */
+		private BigDecimal sale;
 
-	/** 车主名称 */
-	private String clientName;
+		/** 配件出库数目 */
+		private Integer count;
 
-	/** 领料人，外键 */
-	private String receiver;
-
-	/** 合计金额 */
-	private Long sum;
-
-	/** 所属门店，数据字典外键 */
-	private String company;
-
-	/** 软删除标志 */
-	private Byte isDeleted;
+		/** 软删除标志 */
+		private Boolean isDeleted;
 ```
 
+## 新增测试成功json
+URL：`baseurl/outPart/newOutPart`
+说明：传一个组合对象`OutPartComposite`，<font color="red">注意：此操作通过数据库触发器修改库存表对应配件的数目</font>。格式如下：
+
+```
+{
+	"outPart": {
+		"workOrderNo": "workOrderNo",
+		"type": "1",
+		"clientName": "clientName",
+		"receiver": "1",
+		"repairWorkorderNo": "repairWorkorderNo",
+		"carNo": "carNo",
+		"departmentLK": "1",
+		"company": "1",
+		"isDeleted": false,
+		"date": {}
+	},
+	"outPartInfos": [{
+			"workOrderNo": "workOrderNo",
+			"inventoryId": "87c4ce9461e511e7a848704d7bbc2105",
+			"count": 2,
+			"isDeleted": false,
+			"sale":11.1,
+			"date": {}
+		}, {
+			"workOrderNo": "workOrderNo",
+			"inventoryId": "936c6b7a621d11e7b44d0c5b8f279a64",
+			"count": 3,
+			"sale":22.2,
+			"isDeleted": false,
+			"date": {}
+		}
+	]
+}
+```
+
+
+## 分页查询返回json
+```
+{
+	"success": true,
+	"errorNo": "",
+	"errorMsg": "",
+	"data": {
+		"page": {
+			"content": [{
+					"workOrderNo": "2",
+					"type": "0",
+					"clientName": "clientName",
+					"receiver": "1",
+					"outTime": null,
+					"sum": null,
+					"repairWorkorderNo": "repairWorkorderNo",
+					"carNo": "carNo",
+					"departmentLK": "1",
+					"company": "1",
+					"isDeleted": false,
+					"id": "213AB1D129944073A8160C33766FD0F7",
+					"date": {
+						"receiver": {
+							"username": "wsz",
+							"fullname": "王树政",
+							"password": "e10adc3949ba59abbe56e057f20f883e",
+							"email": null,
+							"mobile": null,
+							"role": "A072D82A6AE14146B47A70E4C58AA28D",
+							"company": "1",
+							"description": null,
+							"createTime": "2017-06-18 16:20:52",
+							"updateTime": "2017-06-28 21:00:38",
+							"isDeleted": false,
+							"isDisable": false,
+							"id": "1",
+							"date": {}
+						},
+						"company": {
+							"name": "深圳门店",
+							"code": "shenzhen",
+							"brand": "辉门冠军",
+							"type": "E2221CCC83404FAEB89A882D5E112E15",
+							"mobile": "111",
+							"carNo": "深A",
+							"email": null,
+							"address": null,
+							"description": null,
+							"createTime": "2017-06-18 14:37:28",
+							"updateTime": "2017-06-18 14:37:28",
+							"isDeleted": false,
+							"id": "1",
+							"date": {}
+						},
+						"departmentLK": {
+							"definitionId": "1",
+							"code": "BYD",
+							"value": "比亚迪",
+							"description": null,
+							"additional": null,
+							"parentId": null,
+							"zzLevel": null,
+							"zzIsLeaf": null,
+							"zzLevel1Id": null,
+							"zzLevel2Id": null,
+							"zzLevel3Id": null,
+							"zzLevel4Id": null,
+							"zzLevel5Id": null,
+							"zzLevel6Id": null,
+							"id": "1"
+						}
+					}
+				}, {
+					"workOrderNo": "4",
+					"type": "1",
+					"clientName": "clientName",
+					"receiver": "1",
+					"outTime": null,
+					"sum": null,
+					"repairWorkorderNo": "repairWorkorderNo",
+					"carNo": "carNo",
+					"departmentLK": "1",
+					"company": "1",
+					"isDeleted": false,
+					"id": "4E3AC9AA1B8C4C92A61B6994F256C78C",
+					"date": {
+						"receiver": {
+							"username": "wsz",
+							"fullname": "王树政",
+							"password": "e10adc3949ba59abbe56e057f20f883e",
+							"email": null,
+							"mobile": null,
+							"role": "A072D82A6AE14146B47A70E4C58AA28D",
+							"company": "1",
+							"description": null,
+							"createTime": "2017-06-18 16:20:52",
+							"updateTime": "2017-06-28 21:00:38",
+							"isDeleted": false,
+							"isDisable": false,
+							"id": "1",
+							"date": {}
+						},
+						"company": {
+							"name": "深圳门店",
+							"code": "shenzhen",
+							"brand": "辉门冠军",
+							"type": "E2221CCC83404FAEB89A882D5E112E15",
+							"mobile": "111",
+							"carNo": "深A",
+							"email": null,
+							"address": null,
+							"description": null,
+							"createTime": "2017-06-18 14:37:28",
+							"updateTime": "2017-06-18 14:37:28",
+							"isDeleted": false,
+							"id": "1",
+							"date": {}
+						},
+						"departmentLK": {
+							"definitionId": "1",
+							"code": "BYD",
+							"value": "比亚迪",
+							"description": null,
+							"additional": null,
+							"parentId": null,
+							"zzLevel": null,
+							"zzIsLeaf": null,
+							"zzLevel1Id": null,
+							"zzLevel2Id": null,
+							"zzLevel3Id": null,
+							"zzLevel4Id": null,
+							"zzLevel5Id": null,
+							"zzLevel6Id": null,
+							"id": "1"
+						}
+					}
+				}, {
+					"workOrderNo": "3",
+					"type": "1",
+					"clientName": "clientName",
+					"receiver": "1",
+					"outTime": null,
+					"sum": null,
+					"repairWorkorderNo": "repairWorkorderNo",
+					"carNo": "carNo",
+					"departmentLK": "1",
+					"company": "1",
+					"isDeleted": false,
+					"id": "A50C7514B3E54182BF0139DF0181B9B4",
+					"date": {
+						"receiver": {
+							"username": "wsz",
+							"fullname": "王树政",
+							"password": "e10adc3949ba59abbe56e057f20f883e",
+							"email": null,
+							"mobile": null,
+							"role": "A072D82A6AE14146B47A70E4C58AA28D",
+							"company": "1",
+							"description": null,
+							"createTime": "2017-06-18 16:20:52",
+							"updateTime": "2017-06-28 21:00:38",
+							"isDeleted": false,
+							"isDisable": false,
+							"id": "1",
+							"date": {}
+						},
+						"company": {
+							"name": "深圳门店",
+							"code": "shenzhen",
+							"brand": "辉门冠军",
+							"type": "E2221CCC83404FAEB89A882D5E112E15",
+							"mobile": "111",
+							"carNo": "深A",
+							"email": null,
+							"address": null,
+							"description": null,
+							"createTime": "2017-06-18 14:37:28",
+							"updateTime": "2017-06-18 14:37:28",
+							"isDeleted": false,
+							"id": "1",
+							"date": {}
+						},
+						"departmentLK": {
+							"definitionId": "1",
+							"code": "BYD",
+							"value": "比亚迪",
+							"description": null,
+							"additional": null,
+							"parentId": null,
+							"zzLevel": null,
+							"zzIsLeaf": null,
+							"zzLevel1Id": null,
+							"zzLevel2Id": null,
+							"zzLevel3Id": null,
+							"zzLevel4Id": null,
+							"zzLevel5Id": null,
+							"zzLevel6Id": null,
+							"id": "1"
+						}
+					}
+				}
+			],
+			"number": 0,
+			"size": 10,
+			"sort": {},
+			"numberOfElements": 3,
+			"totalPages": 1,
+			"totalElements": 3,
+			"firstPage": true,
+			"lastPage": true
+		}
+	}
+}
+```
+
+## 详细查询结果（即查询出库工单配件）
+URL：`http://localhost:8090/supercar/outPart/getOutPartInfos?outWorkOrderNo=3`
+说明：`GET`方式，传出库工单号，查看该工单的出库配件列表信息
+```
+{
+	"success": true,
+	"errorNo": "",
+	"errorMsg": "",
+	"data": {
+		"page": {
+			"content": [{
+					"workOrderNo": "3",
+					"inventoryId": "87c4ce9461e511e7a848704d7bbc2105",
+					"sale": 11,
+					"count": 2,
+					"isDeleted": false,
+					"id": "33840FE28DFE4E2792F115BF2A9C5DB3",
+					"date": {
+						"inventoryId": {
+							"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
+							"count": 6,
+							"cost": null,
+							"supplierLK": "1",
+							"company": "1",
+							"repCodeLK": "1",
+							"isDeleted": false,
+							"id": "87c4ce9461e511e7a848704d7bbc2105",
+							"date": {}
+						}
+					}
+				}, {
+					"workOrderNo": "3",
+					"inventoryId": "936c6b7a621d11e7b44d0c5b8f279a64",
+					"sale": 22,
+					"count": 3,
+					"isDeleted": false,
+					"id": "7784D0D7F3604BB9BDF53F0B46B31FAD",
+					"date": {
+						"inventoryId": {
+							"partId": "6EE27FCCC34C4C86ABB2B6FAD3FA9BC9",
+							"count": 5,
+							"cost": null,
+							"supplierLK": "1",
+							"company": "1",
+							"repCodeLK": "1",
+							"isDeleted": false,
+							"id": "936c6b7a621d11e7b44d0c5b8f279a64",
+							"date": {}
+						}
+					}
+				}
+			],
+			"number": 0,
+			"size": 10,
+			"sort": {},
+			"numberOfElements": 2,
+			"totalPages": 1,
+			"totalElements": 2,
+			"firstPage": true,
+			"lastPage": true
+		}
+	}
+}
+```
+
+## 删除出库工单
+URL：`http://localhost:8090/supercar/inPart/removeInPart?id=1`
+说明：`GET`方式，传入库工单id。此操作将级联软删除工单配件，<font color="red">同时通过数据库触发器修改库存表对应配件的数目</font>
+
+## 批量删除出库工单
+URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
+说明：`GET`方式，传入库工单ids。将级联软删除工单配件，<font color="red">同时通过数据库触发器修改库存表对应配件的数目</font>
 
 # RepairItem 维修服务项目
 ## 字段定义
