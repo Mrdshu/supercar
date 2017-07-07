@@ -37,8 +37,9 @@
 	* [分页查询返回json](#分页查询返回json-4)
 * [RepairWorkorder 维修工单](#repairworkorder-维修工单)
 	* [字段定义](#字段定义-8)
-* [RepairWorkorderItem 维修工单-服务项目](#repairworkorderitem-维修工单-服务项目)
-	* [字段定义](#字段定义-9)
+	* [新增测试成功json](#新增测试成功json-6)
+	* [分页查询返回json](#分页查询返回json-5)
+	* [查询维修工单详细信息](#查询维修工单详细信息)
 
 <!-- tocstop -->
 
@@ -1097,20 +1098,337 @@ URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
     	private Date endTime;
 ```
 
-# RepairWorkorderItem 维修工单-服务项目
-## 字段定义
+## 新增测试成功json
+URL:`http://localhost:8090/supercar/repairWorkorder/newRepairWorkorder`
+说明：POST方式，需要传维修工单信息，维修工单绑定的维修项目，以及领料信息（即出库信息）
+  ```
+	{
+	"repairWorkorder": {
+		"workorderNo": "workorderNo",
+		"workorderState": "0",
+		"repairTypeLK": "1",
+		"sum": 11,
+		"clerk": "1",
+		"clientId": "1",
+		"carMileage": 1,
+		"carOilmeter": 1,
+		"clentRemind": "维修提醒"
+	},
+	"repairWorkorderItems": [{
+			"workorderId": "",
+			"itemId": "331EC8A236D34F7AA5B8FDBB516937A0",
+			"mechanic": "1"
+		}, {
+			"workorderId": "",
+			"itemId": "1",
+			"mechanic": "DA67698177BB4118BBB23079A6CA9BFA"
+		}
+	],
+	"outPartComposite": {
+		"outPart": {
+			"workOrderNo": "workOrderNo",
+			"type": "1",
+			"clientName": "clientName",
+			"receiver": "1",
+			"sum": 11,
+			"repairWorkorderNo": "repairWorkorderNo",
+			"carNo": "carNo",
+			"departmentLK": "1",
+			"company": "1",
+			"isDeleted": false
+		},
+		"outPartInfos": [{
+				"workOrderNo": "workOrderNo",
+				"inventoryId": "87c4ce9461e511e7a848704d7bbc2105",
+				"sale": 11,
+				"count": 1,
+				"isDeleted": false
+			}, {
+				"workOrderNo": "workOrderNo",
+				"inventoryId": "936c6b7a621d11e7b44d0c5b8f279a64",
+				"sale": 12.2,
+				"count": 3,
+				"isDeleted": false
+			}
+		]
+	}
+}
 ```
-			/** 维修工单id，外键 */
-    	private String workorderId;
 
-	   	/** 维修项目id，外键 */
-    	private String itemId;
+## 分页查询返回json
 
-	   	/** 维修工，外键 */
-    	private String mechanic;
+说明：维修工单列表信息
+```
+	{
+		"success": true,
+		"errorNo": "",
+		"errorMsg": "",
+		"data": {
+			"page": {
+				"content": [{
+						"workorderNo": "3",
+						"workorderState": "0",
+						"repairTypeLK": "1",
+						"sum": 11,
+						"clerk": "1",
+						"clientId": "1",
+						"carMileage": 1,
+						"carOilmeter": 1,
+						"clentRemind": "你好呀\r\n",
+						"sendTime": "2017-07-07 11:05:31",
+						"endTime": null,
+						"id": "F289A81A27B041A88040682644F0FA10",
+						"date": {
+							"clerk": {
+								"username": "wsz",
+								"fullname": "王树政",
+								"password": "e10adc3949ba59abbe56e057f20f883e",
+								"email": null,
+								"mobile": null,
+								"role": "A072D82A6AE14146B47A70E4C58AA28D",
+								"company": "1",
+								"description": null,
+								"createTime": "2017-06-18 16:20:52",
+								"updateTime": "2017-06-28 21:00:38",
+								"isDeleted": false,
+								"isDisable": false,
+								"id": "1",
+								"date": {}
+							},
+							"clientId": {
+								"carNo": "甘P82585",
+								"carBrand": "1",
+								"carModel": "99x",
+								"carVIN": "1111",
+								"carColor": "红",
+								"engineNo": "12312",
+								"insurer": "天天保险",
+								"insuranceEndtime": "2017-06-23 17:49:59",
+								"registrationDate": "2017-06-29 17:50:03",
+								"company": "1",
+								"name": "wsz",
+								"sex": true,
+								"idcard": "42102366262266",
+								"type": "5",
+								"level": "5713DCD00601409187CF0F975E92213C",
+								"email": "842803829@qq.com",
+								"mobile": "18782252525",
+								"address": "广发银行总部99楼",
+								"description": "此用户是大客户",
+								"createTime": "2017-06-17 17:51:41",
+								"updateTime": "2017-06-30 08:12:40",
+								"isDeleted": false,
+								"id": "1",
+								"date": {}
+							},
+							"repairTypeLK": {
+								"definitionId": "1",
+								"code": "BYD",
+								"value": "比亚迪",
+								"description": null,
+								"additional": null,
+								"parentId": null,
+								"zzLevel": null,
+								"zzIsLeaf": null,
+								"zzLevel1Id": null,
+								"zzLevel2Id": null,
+								"zzLevel3Id": null,
+								"zzLevel4Id": null,
+								"zzLevel5Id": null,
+								"zzLevel6Id": null,
+								"id": "1"
+							}
+						}
+					}, {
+						"workorderNo": "2",
+						"workorderState": "0",
+						"repairTypeLK": "1",
+						"sum": 11,
+						"clerk": "1",
+						"clientId": "1",
+						"carMileage": 1,
+						"carOilmeter": 1,
+						"clentRemind": "你好呀\r\n",
+						"sendTime": null,
+						"endTime": null,
+						"id": "FDA77040146847069EFD70CB5E0E4400",
+						"date": {
+							"clerk": {
+								"username": "wsz",
+								"fullname": "王树政",
+								"password": "e10adc3949ba59abbe56e057f20f883e",
+								"email": null,
+								"mobile": null,
+								"role": "A072D82A6AE14146B47A70E4C58AA28D",
+								"company": "1",
+								"description": null,
+								"createTime": "2017-06-18 16:20:52",
+								"updateTime": "2017-06-28 21:00:38",
+								"isDeleted": false,
+								"isDisable": false,
+								"id": "1",
+								"date": {}
+							},
+							"clientId": {
+								"carNo": "甘P82585",
+								"carBrand": "1",
+								"carModel": "99x",
+								"carVIN": "1111",
+								"carColor": "红",
+								"engineNo": "12312",
+								"insurer": "天天保险",
+								"insuranceEndtime": "2017-06-23 17:49:59",
+								"registrationDate": "2017-06-29 17:50:03",
+								"company": "1",
+								"name": "wsz",
+								"sex": true,
+								"idcard": "42102366262266",
+								"type": "5",
+								"level": "5713DCD00601409187CF0F975E92213C",
+								"email": "842803829@qq.com",
+								"mobile": "18782252525",
+								"address": "广发银行总部99楼",
+								"description": "此用户是大客户",
+								"createTime": "2017-06-17 17:51:41",
+								"updateTime": "2017-06-30 08:12:40",
+								"isDeleted": false,
+								"id": "1",
+								"date": {}
+							},
+							"repairTypeLK": {
+								"definitionId": "1",
+								"code": "BYD",
+								"value": "比亚迪",
+								"description": null,
+								"additional": null,
+								"parentId": null,
+								"zzLevel": null,
+								"zzIsLeaf": null,
+								"zzLevel1Id": null,
+								"zzLevel2Id": null,
+								"zzLevel3Id": null,
+								"zzLevel4Id": null,
+								"zzLevel5Id": null,
+								"zzLevel6Id": null,
+								"id": "1"
+							}
+						}
+					}
+				],
+				"number": 0,
+				"size": 10,
+				"sort": {},
+				"numberOfElements": 2,
+				"totalPages": 1,
+				"totalElements": 2,
+				"firstPage": true,
+				"lastPage": true
+			}
+		}
+	}
+```
 
-    	/** 开始时间 */
-    	private Date startTime;
-	   	/** 结束时间 */
-    	private Date endTime;
+## 查询维修工单详细信息
+URL:`http://localhost:8090/supercar/repairWorkorder/getItemsAndParts?repairWorkOrderNo=6`
+说明：分页返回维修工单绑定的维修项目和领料信息
+
+```
+{
+	"success": true,
+	"errorNo": "",
+	"errorMsg": "",
+	"data": {
+		"outPartComposite": {
+			"outPart": {
+				"workOrderNo": "9",
+				"type": "1",
+				"clientName": "clientName",
+				"receiver": "1",
+				"outTime": "2017-07-07 16:54:37",
+				"sum": 11,
+				"repairWorkorderNo": "6",
+				"carNo": "carNo",
+				"departmentLK": "1",
+				"company": "1",
+				"isDeleted": false,
+				"id": "1EE48C82837B4AE484839F3C10C394C2",
+				"date": {}
+			},
+			"outPartInfos": [{
+					"workOrderNo": "9",
+					"inventoryId": "87c4ce9461e511e7a848704d7bbc2105",
+					"sale": 11,
+					"count": 1,
+					"isDeleted": false,
+					"id": "3D432077FF9543B4BD2BF8203E0B03FD",
+					"date": {
+						"inventoryId": {
+							"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
+							"count": 3,
+							"cost": null,
+							"supplierLK": "1",
+							"company": "1",
+							"repCodeLK": "1",
+							"isDeleted": false,
+							"id": "87c4ce9461e511e7a848704d7bbc2105",
+							"date": {}
+						}
+					}
+				}, {
+					"workOrderNo": "9",
+					"inventoryId": "936c6b7a621d11e7b44d0c5b8f279a64",
+					"sale": 12,
+					"count": 3,
+					"isDeleted": false,
+					"id": "AA3D28F937054C2B9BF2FCCBAFCEA85C",
+					"date": {
+						"inventoryId": {
+							"partId": "6EE27FCCC34C4C86ABB2B6FAD3FA9BC9",
+							"count": -3,
+							"cost": null,
+							"supplierLK": "1",
+							"company": "1",
+							"repCodeLK": "1",
+							"isDeleted": false,
+							"id": "936c6b7a621d11e7b44d0c5b8f279a64",
+							"date": {}
+						}
+					}
+				}
+			]
+		},
+		"items": [{
+				"workorderId": "115712086D94407F96A11AE92382BB5E",
+				"itemId": "331EC8A236D34F7AA5B8FDBB516937A0",
+				"mechanic": "1",
+				"startTime": null,
+				"endTime": null,
+				"id": "064FEB0D3D1E44E4AF2D948BDBF63075",
+				"date": {
+					"itemId": {
+						"typeLK": "1",
+						"code": "code",
+						"name": "name",
+						"workHour": null,
+						"workTypeLK": "1",
+						"description": "description",
+						"sum": 11,
+						"id": "331EC8A236D34F7AA5B8FDBB516937A0",
+						"date": {}
+					}
+				}
+			}, {
+				"workorderId": "115712086D94407F96A11AE92382BB5E",
+				"itemId": "1",
+				"mechanic": "DA67698177BB4118BBB23079A6CA9BFA",
+				"startTime": null,
+				"endTime": null,
+				"id": "8C94DF2E4EAA4393B663945E5A0B34EC",
+				"date": {
+					"itemId": null
+				}
+			}
+		]
+	}
+}
 ```

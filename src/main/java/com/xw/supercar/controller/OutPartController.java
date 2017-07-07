@@ -82,7 +82,7 @@ public class OutPartController extends BaseController<OutPart>{
 	@RequestMapping(value = "/newOutPart",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	@Transactional
-	public ResponseResult newEntity(@RequestBody OutPartComposite outPartComposite){
+	public ResponseResult newOutPart(@RequestBody OutPartComposite outPartComposite){
 		ResponseResult result = ResponseResult.generateResponse();
 		OutPart entity = outPartComposite.getOutPart();
 		List<OutPartInfo> outPartInfos = outPartComposite.getOutPartInfos();
@@ -142,7 +142,7 @@ public class OutPartController extends BaseController<OutPart>{
 		//批量删除入库工单
 		List<String> idsList = Arrays.asList(ids);
 		List<OutPart> outparts = service.getByIds(idsList);
-		long rs = service.removeBy(outparts);
+		long rs = service.remove(outparts);
 		
 		if(rs != idsList.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");

@@ -35,7 +35,7 @@ public class RepairWorkorder extends BaseDateEntity {
 	   	/** 结算金额 */
     	private BigDecimal sum;
 		
-	   	/** 服务顾问 */
+	   	/** 服务顾问，user外键 */
     	private String clerk;
 		
 	   	/** 客户id，外键 */

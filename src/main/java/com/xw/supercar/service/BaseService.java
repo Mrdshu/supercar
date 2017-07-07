@@ -11,10 +11,13 @@ import org.springframework.util.StringUtils;
 
 import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.dao.BaseDao;
+import com.xw.supercar.entity.BaseDateEntity;
 import com.xw.supercar.entity.BaseEntity;
+import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+import com.xw.supercar.util.ReflectUtil;
 
 /**
  * Service层的基础类，实现了基础的增、删、改、查(add、remove、modify、find与get)方法。
@@ -156,7 +159,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * 批量删除
 	 * @author  wangsz 2017-06-13
 	 */
-	public long removeBy(List<E> entitys){
+	public long remove(List<E> entitys){
 		long rs = 0;
 		
 		List<String> ids = new ArrayList<>();
@@ -320,7 +323,8 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	}
 	
 	/**
-	 * 根据过滤条件查询，此查询会返回关联属性
+	 * 根据过滤条件查询，此查询会返回关联属性。
+	 * 注意！此方法使用要确定已在mapper文件写好 自定义关联查询sql
 	 * @author  wangsz 2017-05-14
 	 */
 	public List<E> extendFindBy(Searchable searchable,boolean useDefaultFilters){
@@ -346,7 +350,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	
 	/**
 	 * 分页查询，，此查询会返回关联属性
-	 * 使用前请确认已添加自定义  关联查询sql语句
+	 * 注意！此方法使用要确定已在mapper文件写好 自定义关联查询sql
 	 * @author  wangsz 2017-05-16
 	 */
 	public Page<E> extendFindPage(Searchable searchable,boolean useDefaultFilters){
@@ -356,5 +360,40 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		afterSelect(entitys);
 		
 		return page;
+	}
+	
+	/**
+	 * 将实体成员变量多个外键对应的对象放入Data中
+	 * @param object 实体类
+	 * @param attributeNames 外键名数组
+	 * @param attributeServicesClazz 外键对应的service的class数组
+	 * @author  wangsz 2017-06-04
+	 */
+	public void addAttributesToData(BaseDateEntity object, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(object == null)
+			return ;
+		if(attributeNames.length != attributeServicesClazz.length)
+			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
+		
+		for (int i = 0; i < attributeNames.length; i++) {
+			addAttributeToData(object, attributeNames[i], attributeServicesClazz[i]);
+		}
+	}
+	
+	/**
+	 * 将实体成员变量外键对应的对象放入Data中
+	 * @param object 实体类
+	 * @param attributeName 外键名
+	 * @param attributeService 外键对应的service的class
+	 * @author  wangsz 2017-06-04
+	 */
+	public void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
+ 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
+		//如果该外键为空，返回
+		if(StringUtils.isEmpty(attributeId))
+			return ;
+		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
+		
+		object.getDate().put(attributeName, type);
 	}
 }

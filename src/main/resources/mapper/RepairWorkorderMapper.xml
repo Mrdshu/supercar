@@ -37,7 +37,7 @@
 				 <choose><when test="carMileage == ''">null</when><otherwise>#{carMileage}</otherwise></choose>,
 				 <choose><when test="carOilmeter == ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,
 				 <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,
-				 <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,
+				 default,
 				 <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,
 								
 			</trim>

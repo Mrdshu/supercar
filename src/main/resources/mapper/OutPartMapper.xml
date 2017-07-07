@@ -32,14 +32,13 @@
 				 <choose><when test="type == ''">null</when><otherwise>#{type}</otherwise></choose>,
 				 <choose><when test="clientName == ''">null</when><otherwise>#{clientName}</otherwise></choose>,
 				 <choose><when test="receiver == ''">null</when><otherwise>#{receiver}</otherwise></choose>,
-				 <choose><when test="outTime == ''">null</when><otherwise>#{outTime}</otherwise></choose>,
+				 default,
 				 <choose><when test="sum == ''">null</when><otherwise>#{sum}</otherwise></choose>,
 				 <choose><when test="repairWorkorderNo == ''">null</when><otherwise>#{repairWorkorderNo}</otherwise></choose>,
 				 <choose><when test="carNo == ''">null</when><otherwise>#{carNo}</otherwise></choose>,
 				 <choose><when test="departmentLK == ''">null</when><otherwise>#{departmentLK}</otherwise></choose>,
 				 <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,
-				default,
-												
+				 default,
 			</trim>
 		)
 	</insert>

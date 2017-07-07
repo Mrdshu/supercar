@@ -201,7 +201,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	@RequestMapping(value = "/removes",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult removes(@RequestBody List<E> entitys){
-		long rs = getSevice().removeBy(entitys);
+		long rs = getSevice().remove(entitys);
 		
 		if(rs != entitys.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");
@@ -320,13 +320,13 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 		
 		if(data.containsKey("entity")){
 			BaseDateEntity entity = (BaseDateEntity) data.get("entity");
-			addAttributesToData(entity, attributeNames, attributeServicesClazz);
+			getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
 		}
 		else if(data.containsKey("entitys")){
 			@SuppressWarnings("unchecked")
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) data.get("entitys");
 			for (BaseDateEntity entity : entities) {
-				addAttributesToData(entity, attributeNames, attributeServicesClazz);
+				getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
 			}
 		}
 		else if(data.containsKey("page")){
@@ -334,44 +334,9 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 			Page<? extends BaseDateEntity> page = (Page<? extends BaseDateEntity>) data.get("page");
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) page.getContent();
 			for (BaseDateEntity entity : entities) {
-				addAttributesToData(entity, attributeNames, attributeServicesClazz);
+				getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
 			}
 		}
-	}
-	
-	/**
-	 * 将实体成员变量多个外键对应的对象放入Data中
-	 * @param object 实体类
-	 * @param attributeNames 外键名数组
-	 * @param attributeServicesClazz 外键对应的service的class数组
-	 * @author  wangsz 2017-06-04
-	 */
-	protected void addAttributesToData(BaseDateEntity object, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
-		if(object == null)
-			return ;
-		if(attributeNames.length != attributeServicesClazz.length)
-			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
-		
-		for (int i = 0; i < attributeNames.length; i++) {
-			addAttributeToData(object, attributeNames[i], attributeServicesClazz[i]);
-		}
-	}
-	
-	/**
-	 * 将实体成员变量外键对应的对象放入Data中
-	 * @param object 实体类
-	 * @param attributeName 外键名
-	 * @param attributeService 外键对应的service的class
-	 * @author  wangsz 2017-06-04
-	 */
-	protected void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
- 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
-		//如果该外键为空，返回
-		if(StringUtils.isEmpty(attributeId))
-			return ;
-		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
-		
-		object.getDate().put(attributeName, type);
 	}
 	
 }

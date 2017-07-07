@@ -10,15 +10,18 @@ import org.junit.Test;
 import com.xw.supercar.entity.OutPart;
 import com.xw.supercar.entity.OutPartInfo;
 import com.xw.supercar.entity.RepairItem;
+import com.xw.supercar.entity.RepairWorkorder;
+import com.xw.supercar.entity.RepairWorkorderItem;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.entity.composite.OutPartComposite;
+import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
 import com.xw.supercar.util.GsonUtil;
 
 public class GenerateRapJson {
 	
 	@Test
 	public void generateSingle() throws Exception {
-		Object object = getClassInstance(RepairItem.class);
+		Object object = getClassInstance(RepairWorkorder.class);
 		getJsonAndKV(object);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));
@@ -32,10 +35,27 @@ public class GenerateRapJson {
 		List<OutPartInfo> list = new ArrayList<>();
 		list.add(outPartInfo);
 		list.add(outPartInfo2);
+		OutPartComposite outPartComposite = new OutPartComposite(outPart,list);
 		
-		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
+		RepairWorkorder repairWorkorder = getClassInstance(RepairWorkorder.class);
+		
+		RepairWorkorderItem repairWorkorderItem = getClassInstance(RepairWorkorderItem.class);
+		repairWorkorderItem.setWorkorderId("1");
+		repairWorkorderItem.setItemId("1");
+		RepairWorkorderItem repairWorkorderItem2 = getClassInstance(RepairWorkorderItem.class);
+		repairWorkorderItem2.setWorkorderId("1");
+		repairWorkorderItem2.setItemId("1");
+		List<RepairWorkorderItem> items = new ArrayList<>();
+		items.add(repairWorkorderItem);
+		items.add(repairWorkorderItem2);
+		
+		RepairWorkOrderComposite repairWorkOrderComposite = new RepairWorkOrderComposite();
+		repairWorkOrderComposite.setOutPartComposite(outPartComposite);
+		repairWorkOrderComposite.setRepairWorkorder(repairWorkorder);
+		repairWorkOrderComposite.setRepairWorkorderItems(items);
+		
 		System.out.println("======================");
-		System.out.println(GsonUtil.transObjectToJson(inPartComposite));
+		System.out.println(GsonUtil.transObjectToJson(repairWorkOrderComposite));
 	}
 	
 	public static <E> E getClassInstance(Class<E> clazz){

@@ -16,7 +16,9 @@ public class OutPartInfoService extends BaseService<OutPartInfo>{
 	protected BaseDao<OutPartInfo> getDao() {
 		return dao;
 	}
-
+	
+	
+	
 	//暂时注释，代码中未解决多线程修改库存数目的问题，目前采用数据库触发器解决并发问题
 	//关于多线程同步问题，可用RabbitMQ,或事务悲观锁解决
 //	@Override

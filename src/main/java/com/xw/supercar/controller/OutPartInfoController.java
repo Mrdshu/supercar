@@ -11,7 +11,6 @@ import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.InventoryService;
 import com.xw.supercar.service.OutPartInfoService;
-import com.xw.supercar.service.PartService;
 
 @Controller
 @RequestMapping("/outPartInfo")

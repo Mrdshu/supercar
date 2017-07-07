@@ -163,7 +163,7 @@ public class InPartController extends BaseController<InPart>{
 		//批量删除入库工单
 		List<String> idsList = Arrays.asList(ids);
 		List<InPart> inParts = service.getByIds(idsList);
-		long rs = getSevice().removeBy(inParts);
+		long rs = getSevice().remove(inParts);
 		
 		if(rs != idsList.size())
 			return ResponseResult.generateErrorResponse("", "删除失败");
