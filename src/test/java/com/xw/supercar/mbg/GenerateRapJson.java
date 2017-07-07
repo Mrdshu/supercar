@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import com.xw.supercar.entity.OutPart;
 import com.xw.supercar.entity.OutPartInfo;
-import com.xw.supercar.entity.RepairItem;
 import com.xw.supercar.entity.RepairWorkorder;
 import com.xw.supercar.entity.RepairWorkorderItem;
 import com.xw.supercar.entity.ResponseResult;
+import com.xw.supercar.entity.composite.InPartComposite;
 import com.xw.supercar.entity.composite.OutPartComposite;
 import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
 import com.xw.supercar.util.GsonUtil;
@@ -35,6 +35,15 @@ public class GenerateRapJson {
 		List<OutPartInfo> list = new ArrayList<>();
 		list.add(outPartInfo);
 		list.add(outPartInfo2);
+//		
+//		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
+		
+//		InPart outPart = getClassInstance(InPart.class);
+//		InPartInfo outPartInfo =  getClassInstance(InPartInfo.class);
+//		InPartInfo outPartInfo2 = getClassInstance(InPartInfo.class);
+//		List<InPartInfo> list = new ArrayList<>();
+//		list.add(outPartInfo);
+//		list.add(outPartInfo2);
 		OutPartComposite outPartComposite = new OutPartComposite(outPart,list);
 		
 		RepairWorkorder repairWorkorder = getClassInstance(RepairWorkorder.class);

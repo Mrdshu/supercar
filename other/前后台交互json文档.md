@@ -38,6 +38,7 @@
 * [RepairWorkorder 维修工单](#repairworkorder-维修工单)
 	* [字段定义](#字段定义-8)
 	* [新增测试成功json](#新增测试成功json-6)
+	* [修改测试成功json](#修改测试成功json)
 	* [分页查询返回json](#分页查询返回json-5)
 	* [查询维修工单详细信息](#查询维修工单详细信息)
 
@@ -1152,6 +1153,36 @@ URL:`http://localhost:8090/supercar/repairWorkorder/newRepairWorkorder`
 			}
 		]
 	}
+}
+```
+
+## 修改测试成功json
+URL:`http://localhost:8090/supercar/repairWorkorder/newRepairWorkorder`
+说明：POST方式，需要传维修工单信息，维修工单绑定的维修项目。领料信息（出库信息）不用传，此部分应设计成不能修改
+```
+{
+	"repairWorkorder": {
+		"id":"115712086D94407F96A11AE92382BB5E",
+		"workorderNo": "6",
+		"workorderState": "1",
+		"repairTypeLK": "1",
+		"sum": 11,
+		"clerk": "1",
+		"clientId": "1",
+		"carMileage": 1,
+		"carOilmeter": 1,
+		"clentRemind": "维修提醒修改2"
+	},
+	"repairWorkorderItems": [{
+			"workorderId": "115712086D94407F96A11AE92382BB5E",
+			"itemId": "331EC8A236D34F7AA5B8FDBB516937A0",
+			"mechanic": "DA67698177BB4118BBB23079A6CA9BFA"
+		}, {
+			"workorderId": "",
+			"itemId": "1",
+			"mechanic": "DA67698177BB4118BBB23079A6CA9BFA"
+		}
+	]
 }
 ```
 
