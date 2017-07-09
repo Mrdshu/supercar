@@ -417,29 +417,31 @@ URL：`baseurl/inPart/newInPart`
 
 ```
 {
-	"inPart": {
-		"workOrderNo": "1",
-		"payMethhodLK": "1",
-		"supplierLK": "1",
-		"company": "1",
-		"isDeleted": false
-	},
-	"inpartInfos": [{
-		"workOrderNo": "1",
-		"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
-		"count": 1,
-		"supplierLK": "1",
-		"repositoryCodeLK": "1",
-		"isDeleted": false
-	},
-	{
-		"workOrderNo": "1",
-		"partId": "3A9A0BE24BD14C5999C3F74533D8C769",
-		"count": 1,
-		"supplierLK": "1",
-		"repositoryCodeLK": "1",
-		"isDeleted": false
-	}]
+    "inPart": {
+        "workOrderNo": "1",
+        "payMethhodLK": "1",
+        "supplierLK": "1",
+        "company": "1",
+        "isDeleted": false
+    },
+    "inpartInfos": [{
+        "workOrderNo": "1",
+        "partId": "3A9A0BE24BD14C5999C3F74533D8C769",
+        "count": 1,
+		"cost": 1.1,
+        "supplierLK": "1",
+        "repositoryCodeLK": "1",
+        "isDeleted": false
+    },
+    {
+        "workOrderNo": "1",
+        "partId": "475980DBF3FC4EC48B63C7C04156B5FC",
+        "count": 1,
+		"cost": 2.2,
+        "supplierLK": "1",
+        "repositoryCodeLK": "1",
+        "isDeleted": false
+    }]
 }
 ```
 

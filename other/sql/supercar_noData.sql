@@ -10,10 +10,21 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-06-28 08:30:56
+Date: 2017-07-09 16:13:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sequence
+-- ----------------------------
+DROP TABLE IF EXISTS `sequence`;
+CREATE TABLE `sequence` (
+  `seq_name` varchar(50) NOT NULL,
+  `current_val` int(11) NOT NULL,
+  `increment_val` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`seq_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -89,7 +100,7 @@ CREATE TABLE `tb_inventory` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `p_id` varchar(32) NOT NULL COMMENT '配件id',
   `p_count` int(11) DEFAULT '0' COMMENT '配件库存数目',
-  `p_cost` double DEFAULT NULL COMMENT '进货价',
+  `p_cost` decimal(10,2) DEFAULT NULL COMMENT '进货价',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
   `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
   `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
@@ -114,22 +125,23 @@ CREATE TABLE `tb_inventory` (
 DROP TABLE IF EXISTS `tb_in_part`;
 CREATE TABLE `tb_in_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
-  `in_workorder_no` varchar(32) NOT NULL COMMENT '入库单号',
-  `in_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入库时间',
+  `in_workorder_no` varchar(32) DEFAULT NULL COMMENT '入库单号',
+  `in_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `in_pay_method` varchar(32) DEFAULT NULL COMMENT '结算方式，数据字典',
   `in_sum` double DEFAULT NULL COMMENT '合计金额',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
-  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店',
+  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，门店外键',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `in_workorder_no` (`in_workorder_no`),
   KEY `pin_pay_method_fk` (`in_pay_method`),
   KEY `in_p_supplier_fk` (`p_supplier`),
-  KEY `p_company_fk` (`p_company`),
+  KEY `p_company_fk` (`company`),
   CONSTRAINT `in_p_supplier_fk` FOREIGN KEY (`p_supplier`) REFERENCES `tb_lookup` (`id`),
-  CONSTRAINT `p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `p_company_fk` FOREIGN KEY (`company`) REFERENCES `tb_company` (`ID`),
   CONSTRAINT `pin_pay_method_fk` FOREIGN KEY (`in_pay_method`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -142,7 +154,7 @@ CREATE TABLE `tb_in_part_info` (
   `in_workorder_no` varchar(32) DEFAULT NULL COMMENT '入库单号',
   `p_id` varchar(32) DEFAULT NULL COMMENT '配件id',
   `in_count` int(11) DEFAULT NULL COMMENT '配件入库数目',
-  `p_cost` decimal(10,0) DEFAULT NULL COMMENT '进货价',
+  `p_cost` decimal(10,2) DEFAULT NULL COMMENT '进货价',
   `p_supplier` varchar(32) NOT NULL COMMENT '供应商，数据字典外键',
   `r_code` varchar(32) DEFAULT NULL COMMENT '库位号code，数据字典外键',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
@@ -208,24 +220,27 @@ DROP TABLE IF EXISTS `tb_out_part`;
 CREATE TABLE `tb_out_part` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(32) DEFAULT NULL COMMENT '出库单号',
-  `out_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '出库时间',
-  `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，数据字典外键',
-  `out_client_name` varchar(50) DEFAULT NULL COMMENT '车主名称',
-  `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，外键',
-  `out_sum` decimal(10,0) DEFAULT NULL COMMENT '合计金额',
-  `p_company` varchar(32) DEFAULT NULL COMMENT '所属门店，数据字典外键',
+  `out_type` varchar(32) DEFAULT NULL COMMENT '出库类型，0-维修领料，1-配件销售，2-配件内耗',
+  `out_client_name` varchar(50) DEFAULT NULL COMMENT '客户名称',
+  `out_receiver` varchar(32) DEFAULT NULL COMMENT '领料人，用户外键',
+  `out_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `out_sum` decimal(10,2) DEFAULT NULL COMMENT '合计金额',
+  `repair_workorder_no` varchar(50) DEFAULT NULL COMMENT '维修工单号。出库类型：维修领料时使用',
+  `car_no` varchar(32) DEFAULT NULL COMMENT '车牌号。出库类型：配件销售时使用',
+  `department` varchar(32) DEFAULT NULL COMMENT '部门，数据字典外键。出库类型：配件内耗时使用',
+  `company` varchar(32) DEFAULT NULL COMMENT '所属门店，公司外键',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
   `extend3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `out_workorder_no` (`out_workorder_no`),
   KEY `out_type_fk` (`out_type`),
-  KEY `out_p_company_fk` (`p_company`),
+  KEY `out_p_company_fk` (`company`),
   KEY `out_receiver_fk` (`out_receiver`),
-  CONSTRAINT `out_p_company_fk` FOREIGN KEY (`p_company`) REFERENCES `tb_company` (`ID`),
-  CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`),
-  CONSTRAINT `out_type_fk` FOREIGN KEY (`out_type`) REFERENCES `tb_lookup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `out_p_company_fk` FOREIGN KEY (`company`) REFERENCES `tb_company` (`ID`),
+  CONSTRAINT `out_receiver_fk` FOREIGN KEY (`out_receiver`) REFERENCES `tb_user` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库工单';
 
 -- ----------------------------
 -- Table structure for tb_out_part_info
@@ -235,8 +250,8 @@ CREATE TABLE `tb_out_part_info` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `out_workorder_no` varchar(50) DEFAULT NULL COMMENT '出库单号',
   `inventory_id` varchar(32) DEFAULT NULL COMMENT '库存配件id，外键',
+  `p_sale` decimal(10,2) DEFAULT NULL COMMENT '配件销售价',
   `out_count` int(11) DEFAULT NULL COMMENT '配件出库数目',
-  `item_code` varchar(50) DEFAULT NULL,
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `extend1` varchar(255) DEFAULT NULL,
   `extend2` varchar(255) DEFAULT NULL,
@@ -244,7 +259,7 @@ CREATE TABLE `tb_out_part_info` (
   PRIMARY KEY (`id`),
   KEY `inventory_id_fk` (`inventory_id`),
   CONSTRAINT `inventory_id_fk` FOREIGN KEY (`inventory_id`) REFERENCES `tb_inventory` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库工单配件信息';
 
 -- ----------------------------
 -- Table structure for tb_part
@@ -255,14 +270,14 @@ CREATE TABLE `tb_part` (
   `p_code` varchar(32) NOT NULL COMMENT '配件编号',
   `p_name` varchar(50) NOT NULL COMMENT '配件名称',
   `p_unit` varchar(32) DEFAULT NULL COMMENT '单位',
-  `p_sale` double DEFAULT NULL COMMENT '销售价',
-  `p_wholesale` double DEFAULT NULL COMMENT '批发价',
+  `p_sale` decimal(10,2) DEFAULT NULL COMMENT '销售价',
+  `p_wholesale` decimal(10,2) DEFAULT NULL COMMENT '批发价',
   `p_produce_area` varchar(32) DEFAULT '' COMMENT '产地',
   `p_specification` varchar(32) DEFAULT NULL COMMENT '规格',
   `p_car_model` varchar(32) DEFAULT NULL COMMENT '适用车型',
   `p_category` varchar(32) DEFAULT NULL COMMENT '分类',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日期',
   `isdeleted` tinyint(4) DEFAULT '0' COMMENT '软删除标志',
   `isdisable` tinyint(4) DEFAULT '0' COMMENT '禁用标志',
   `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
@@ -275,6 +290,62 @@ CREATE TABLE `tb_part` (
   CONSTRAINT `p_category_fk` FOREIGN KEY (`p_category`) REFERENCES `tb_lookup` (`id`),
   CONSTRAINT `p_unit_fk` FOREIGN KEY (`p_unit`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配件';
+
+-- ----------------------------
+-- Table structure for tb_repair_item
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_repair_item`;
+CREATE TABLE `tb_repair_item` (
+  `ID` varchar(32) NOT NULL COMMENT 'id',
+  `ri_type` varchar(32) NOT NULL COMMENT '项目类型，数据字典外键',
+  `ri_code` varchar(255) NOT NULL COMMENT '项目代码',
+  `ri_name` varchar(255) NOT NULL COMMENT '项目名称',
+  `ri_working_hour` double DEFAULT NULL COMMENT '工时数',
+  `ri_work_type` varchar(32) DEFAULT NULL COMMENT '工种，数据字典外键',
+  `ri_desc` varchar(255) DEFAULT NULL COMMENT '备注',
+  `ri_sum` decimal(10,0) NOT NULL COMMENT '金额',
+  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修服务项目';
+
+-- ----------------------------
+-- Table structure for tb_repair_workorder
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_repair_workorder`;
+CREATE TABLE `tb_repair_workorder` (
+  `ID` varchar(32) NOT NULL COMMENT 'id',
+  `rw_workorder_no` varchar(32) DEFAULT NULL COMMENT '维修工单号',
+  `rw_workorder_state` varchar(32) DEFAULT NULL COMMENT '工单状态。0-待派工，1-已派工',
+  `rw_repair_type` varchar(32) DEFAULT NULL COMMENT '修理性质，数据字典外键',
+  `rw_sum` decimal(10,0) DEFAULT NULL COMMENT '结算金额',
+  `rw_clerk` varchar(32) DEFAULT NULL COMMENT '服务顾问，用户表外键',
+  `rw_client_id` varchar(32) DEFAULT NULL COMMENT '客户id，外键',
+  `rw_car_mileage` int(11) DEFAULT NULL COMMENT '车进店里程',
+  `rw_car_oilmeter` int(11) DEFAULT NULL COMMENT '车进店油表',
+  `rw_clent_remind` varchar(255) DEFAULT NULL COMMENT '客户提醒',
+  `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
+  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修工单';
+
+-- ----------------------------
+-- Table structure for tb_repair_workorder_item
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_repair_workorder_item`;
+CREATE TABLE `tb_repair_workorder_item` (
+  `ID` varchar(32) NOT NULL COMMENT 'id',
+  `rwi_workorder_id` varchar(32) DEFAULT NULL COMMENT '维修工单id，外键',
+  `rwi_item_id` varchar(32) DEFAULT NULL COMMENT '维修项目id，外键',
+  `rwi_mechanic` varchar(32) DEFAULT NULL COMMENT '维修工，外键',
+  `start_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始时间',
+  `end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束时间',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修工单-服务项目';
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -300,3 +371,91 @@ CREATE TABLE `tb_user` (
   CONSTRAINT `u_company_fk` FOREIGN KEY (`U_COMPANY`) REFERENCES `tb_company` (`ID`),
   CONSTRAINT `u_role_fk` FOREIGN KEY (`U_ROLE`) REFERENCES `tb_lookup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Function structure for currval
+-- ----------------------------
+DROP FUNCTION IF EXISTS `currval`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `currval`(v_seq_name VARCHAR(50)) RETURNS int(11)
+begin     
+    declare value integer;       
+    set value = 0;       
+    select current_val into value  from sequence where seq_name = v_seq_name; 
+   return value; 
+end
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Function structure for nextval
+-- ----------------------------
+DROP FUNCTION IF EXISTS `nextval`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `nextval`(v_seq_name VARCHAR(50)) RETURNS int(11)
+begin
+    update sequence set current_val = current_val + increment_val  where seq_name = v_seq_name;
+    return currval(v_seq_name);
+end
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `workorderNo`;
+DELIMITER ;;
+CREATE TRIGGER `workorderNo` BEFORE INSERT ON `tb_in_part` FOR EACH ROW BEGIN
+set NEW.in_workorder_no = nextval('in_workorder_no');
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `insertInPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `insertInPartInfo` AFTER INSERT ON `tb_in_part_info` FOR EACH ROW BEGIN
+		 set @count = (select count(*) from tb_inventory where p_id = new.p_id and p_supplier = new.p_supplier);
+		 set @company = (select company from tb_in_part where in_workorder_no = new.in_workorder_no);
+		 if @count > 0 then
+				update tb_inventory set p_count = p_count + new.in_count where tb_inventory.p_id = new.p_id and tb_inventory.p_supplier = new.p_supplier;
+		 elseif @count <= 0 then
+				insert into tb_inventory(id,p_id,p_count,p_cost,p_supplier,p_company,r_code,isdeleted)
+				VALUES (  replace(uuid(),"-","") ,new.p_id,new.in_count ,new.p_cost,new.p_supplier,@company,new.r_code,default);
+		 end if; 
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `deleteInPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `deleteInPartInfo` AFTER UPDATE ON `tb_in_part_info` FOR EACH ROW BEGIN
+		 if (new.isdeleted = 1 && old.isdeleted = 0) then
+		 update tb_inventory set p_count = p_count- old.in_count where tb_inventory.p_id = old.p_id and tb_inventory.p_supplier = old.p_supplier;
+		 end IF;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `out_workorder_no`;
+DELIMITER ;;
+CREATE TRIGGER `out_workorder_no` BEFORE INSERT ON `tb_out_part` FOR EACH ROW BEGIN
+set NEW.out_workorder_no = nextval('out_workorder_no');
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `insertOutPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `insertOutPartInfo` AFTER INSERT ON `tb_out_part_info` FOR EACH ROW BEGIN
+		 update tb_inventory set p_count = p_count- new.out_count where tb_inventory.id = new.inventory_id;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `deleteOutPartInfo`;
+DELIMITER ;;
+CREATE TRIGGER `deleteOutPartInfo` AFTER UPDATE ON `tb_out_part_info` FOR EACH ROW BEGIN
+if (new.isdeleted = 1 && old.isdeleted = 0) then
+update tb_inventory set p_count = p_count + old.out_count where tb_inventory.id = old.inventory_id;
+end IF;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `insertRepairWorkorder`;
+DELIMITER ;;
+CREATE TRIGGER `insertRepairWorkorder` BEFORE INSERT ON `tb_repair_workorder` FOR EACH ROW BEGIN
+		 set NEW.rw_workorder_no = nextval('repair_workorder');
+END
+;;
+DELIMITER ;

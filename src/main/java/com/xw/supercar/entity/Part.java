@@ -1,5 +1,6 @@
 package com.xw.supercar.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -26,10 +27,10 @@ public class Part extends BaseDateEntity {
 	private String unitLK;
 
 	/** 销售价 */
-	private Double sale;
+	private BigDecimal sale;
 
 	/** 批发价 */
-	private Double wholeSale;
+	private BigDecimal wholeSale;
 
 	/** 产地 */
 	private String produceArea;
