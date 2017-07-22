@@ -120,11 +120,22 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	public ResponseResult editRepairWorkOrder(@RequestBody RepairWorkOrderComposite repairWOComposite) {
 		ResponseResult result = ResponseResult.generateResponse();
 		
+		Client client = repairWOComposite.getClient();
 		RepairWorkorder repairWorkorder = repairWOComposite.getRepairWorkorder();
 		List<RepairWorkorderItem> repairWorkorderItems = repairWOComposite.getRepairWorkorderItems();
-		//修改维修工单信息
+		/*
+		 * 修改维修工单信息
+		 */
+		//修改客户信息
+		if(StringUtils.isEmpty(client.getId())){
+			return ResponseResult.generateErrorResponse("", "修改时客户id不能为空！");
+		}
+		SpringContextHolder.getBean(ClientService.class).modify(client);
 		SpringContextHolder.getBean(RepairWorkorderService.class).modify(repairWorkorder);
 		
+		/*
+		 * 修改维修工单-项目中间信息
+		 */
 		//删除维修工单原有绑定的维修项目
 		RepairWorkorderItemService rWOItemService = SpringContextHolder.getBean(RepairWorkorderItemService.class);
 		List<RepairWorkorderItem> deleteRWOItems = rWOItemService.getByRWOId(repairWorkorder.getId());
