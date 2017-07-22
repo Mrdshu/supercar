@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xw.supercar.entity.OutPartInfo;
+import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.RepairWorkorder;
 import com.xw.supercar.entity.RepairWorkorderItem;
 import com.xw.supercar.entity.ResponseResult;
@@ -69,29 +69,49 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	public ResponseResult newRepairWorkorder(@RequestBody RepairWorkOrderComposite repairWOComposite) {
 		ResponseResult result = ResponseResult.generateResponse();
 		
+		Client client = repairWOComposite.getClient();
 		RepairWorkorder repairWorkorder = repairWOComposite.getRepairWorkorder();
 		List<RepairWorkorderItem> repairWorkorderItems = repairWOComposite.getRepairWorkorderItems();
 		OutPartComposite outPartComposite = repairWOComposite.getOutPartComposite();
 		
-		//新增维修工单
+		/*
+		 * 新增维修工单
+		 */
+		//如果客户为已存在客户，则修改客户信息
+		if(!StringUtils.isEmpty(client.getId())){
+			SpringContextHolder.getBean(ClientService.class).modify(client);
+		}
+		//否则新增客户
+		else{
+			client = SpringContextHolder.getBean(ClientService.class).add(client);
+			repairWorkorder.setClientId(client.getId());
+		}
+		//新增维修工单信息
 		repairWorkorder = SpringContextHolder.getBean(RepairWorkorderService.class).add(repairWorkorder);
 		
+		/*
+		 * 新增维修工单-项目中间信息
+		 */
 		//设置维修工单-项目 中间表的工单id
 		for (RepairWorkorderItem repairWorkorderItem : repairWorkorderItems) {
 			repairWorkorderItem.setWorkorderId(repairWorkorder.getId());
 		}
-		//新增维修工单-项目中间信息
-		SpringContextHolder.getBean(RepairWorkorderItemService.class).add(repairWorkorderItems);
+		if(repairWorkorderItems != null && repairWorkorderItems.size() > 0)
+			SpringContextHolder.getBean(RepairWorkorderItemService.class).add(repairWorkorderItems);
 		
-		//新增出库工单以及对应的出库配件信息
-		outPartComposite.getOutPart().setRepairWorkorderNo(repairWorkorder.getWorkorderNo());
-		result = SpringContextHolder.getBean(OutPartController.class).newOutPart(outPartComposite);
+		/*
+		 * 新增出库工单以及对应的出库配件信息
+		 */
+		if(outPartComposite != null && outPartComposite.getOutPart() != null){
+			outPartComposite.getOutPart().setRepairWorkorderNo(repairWorkorder.getWorkorderNo());
+			result = SpringContextHolder.getBean(OutPartController.class).newOutPart(outPartComposite);
+		}
 		
 		return result;
 	}
 	
 	/**
-	 * 新增维修工单，包括绑定的维修项目和领料信息
+	 * 修改维修工单，包括绑定的维修项目和领料信息
 	 * @author  wangsz 2017-07-07
 	 */
 	@RequestMapping(value = "/editRepairWorkOrder",produces={MediaType.APPLICATION_JSON_VALUE})

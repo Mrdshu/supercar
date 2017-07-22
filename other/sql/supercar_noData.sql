@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-09 16:13:39
+Date: 2017-07-22 17:28:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -325,9 +325,9 @@ CREATE TABLE `tb_repair_workorder` (
   `rw_car_mileage` int(11) DEFAULT NULL COMMENT '车进店里程',
   `rw_car_oilmeter` int(11) DEFAULT NULL COMMENT '车进店油表',
   `rw_clent_remind` varchar(255) DEFAULT NULL COMMENT '客户提醒',
-  `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `rw_send_man` varchar(20) DEFAULT NULL COMMENT '送修人名称',
+  `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '送修时间',
   `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
-  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`ID`)

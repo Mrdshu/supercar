@@ -16,7 +16,7 @@ import lombok.ToString;
  * </p>
  * 
  * @author wangsz
- * @date 2017-07-06 22:35:59
+ * @date 2017-07-22 17:21:37
  */
 @Setter
 @Getter
@@ -26,7 +26,7 @@ public class RepairWorkorder extends BaseDateEntity {
 	   	/** 维修工单号 */
     	private String workorderNo;
 		
-	   	/** 工单状态 */
+	   	/** 工单状态。0-待派工，1-已派工 */
     	private String workorderState;
 		
 	   	/** 修理性质，数据字典外键 */
@@ -35,7 +35,7 @@ public class RepairWorkorder extends BaseDateEntity {
 	   	/** 结算金额 */
     	private BigDecimal sum;
 		
-	   	/** 服务顾问，user外键 */
+	   	/** 服务顾问，用户表外键 */
     	private String clerk;
 		
 	   	/** 客户id，外键 */
@@ -50,6 +50,9 @@ public class RepairWorkorder extends BaseDateEntity {
 	   	/** 客户提醒 */
     	private String clentRemind;
 		
+	   	/** 送修人名称 */
+    	private String sendMan;
+		
 	   	/** 送修时间 */
     	private Date sendTime;
 		
@@ -57,6 +60,6 @@ public class RepairWorkorder extends BaseDateEntity {
     	private Date endTime;
 		
 	public static enum DP {
-		id, workorderNo, workorderState, repairTypeLK, sum, clerk, clientId, carMileage, carOilmeter, clentRemind, sendTime, endTime;	
+		id, workorderNo, workorderState, repairTypeLK, sum, clerk, clientId, carMileage, carOilmeter, clentRemind, sendMan, sendTime, endTime;	
 	}
 }

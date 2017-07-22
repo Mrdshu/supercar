@@ -13,13 +13,14 @@
 	<result column="RW_CAR_MILEAGE" property="carMileage" />
 	<result column="RW_CAR_OILMETER" property="carOilmeter" />
 	<result column="RW_CLENT_REMIND" property="clentRemind" />
+	<result column="RW_SEND_MAN" property="sendMan" />
 	<result column="RW_SEND_TIME" property="sendTime" />
 	<result column="RW_END_TIME" property="endTime" />
 	   	
   </resultMap>
   
   <sql id="table">tb_repair_workorder</sql>
-  <sql id="columns">ID, RW_WORKORDER_NO, RW_WORKORDER_STATE, RW_REPAIR_TYPE, RW_SUM, RW_CLERK, RW_CLIENT_ID, RW_CAR_MILEAGE, RW_CAR_OILMETER, RW_CLENT_REMIND, RW_SEND_TIME, RW_END_TIME</sql>
+  <sql id="columns">ID, RW_WORKORDER_NO, RW_WORKORDER_STATE, RW_REPAIR_TYPE, RW_SUM, RW_CLERK, RW_CLIENT_ID, RW_CAR_MILEAGE, RW_CAR_OILMETER, RW_CLENT_REMIND, RW_SEND_MAN, RW_SEND_TIME, RW_END_TIME</sql>
   
   	<!-- 新增 -->
 	<insert id="insert">
@@ -37,7 +38,8 @@
 				 <choose><when test="carMileage == ''">null</when><otherwise>#{carMileage}</otherwise></choose>,
 				 <choose><when test="carOilmeter == ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,
 				 <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,
-				 default,
+				 <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,
+				 <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,
 				 <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,
 								
 			</trim>
@@ -54,7 +56,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendTime}, #{item.endTime})
+			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendMan}, #{item.sendTime}, #{item.endTime})
 		</foreach>
 	</insert>
 	
@@ -106,6 +108,7 @@
 			<if test="carMileage != null">RW_CAR_MILEAGE = <choose><when test="carMileage == ''">null</when><otherwise>#{carMileage}</otherwise></choose>,</if>
 			<if test="carOilmeter != null">RW_CAR_OILMETER = <choose><when test="carOilmeter == ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,</if>
 			<if test="clentRemind != null">RW_CLENT_REMIND = <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,</if>
+			<if test="sendMan != null">RW_SEND_MAN = <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,</if>
 			<if test="sendTime != null">RW_SEND_TIME = <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,</if>
 			<if test="endTime != null">RW_END_TIME = <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,</if>
 
@@ -125,6 +128,7 @@
 			<if test="carMileage != null">AND RW_CAR_MILEAGE = #{carMileage}</if>
 			<if test="carOilmeter != null">AND RW_CAR_OILMETER = #{carOilmeter}</if>
 			<if test="clentRemind != null">AND RW_CLENT_REMIND = #{clentRemind}</if>
+			<if test="sendMan != null">AND RW_SEND_MAN = #{sendMan}</if>
 			<if test="sendTime != null">AND RW_SEND_TIME = #{sendTime}</if>
 			<if test="endTime != null">AND RW_END_TIME = #{endTime}</if>
 
@@ -192,6 +196,12 @@
 			<if test="filter.clentRemind_in != null">AND <foreach item="ii" collection="filter.clentRemind_in" open="(" separator=" OR " close=")">RW_CLENT_REMIND in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			<if test="filter.clentRemind_notIn != null">AND <foreach item="ii" collection="filter.clentRemind_notIn" open="(" separator=" AND " close=")">RW_CLENT_REMIND not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
+			<if test="filter.sendMan_eq != null">AND RW_SEND_MAN = #{filter.sendMan_eq}</if>
+			<if test="filter.sendMan_ne != null">AND RW_SEND_MAN != #{filter.sendMan_ne}</if>
+			<if test="filter.sendMan_like != null">AND lower(RW_SEND_MAN) LIKE lower(#{filter.sendMan_like})</if>
+			<if test="filter.sendMan_in != null">AND <foreach item="ii" collection="filter.sendMan_in" open="(" separator=" OR " close=")">RW_SEND_MAN in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			<if test="filter.sendMan_notIn != null">AND <foreach item="ii" collection="filter.sendMan_notIn" open="(" separator=" AND " close=")">RW_SEND_MAN not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+
 			<if test="filter.sendTime_gte != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gte}</if>
 			<if test="filter.sendTime_lte != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lte}</if>
 			<if test="filter.sendTime_gt != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gt}</if>
@@ -221,7 +231,7 @@
 	<!-- sort排序语句-->
 	<sql id="sort">
 		<if test="sort == null" >
-																																						</if>
+																																									</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">
 				<foreach collection="sort" index="key" item="val">

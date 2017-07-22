@@ -1103,9 +1103,32 @@ URL：`http://localhost:8090/supercar/inPart/removeInPart?ids=1,2`
 
 ## 新增测试成功json
 URL:`http://localhost:8090/supercar/repairWorkorder/newRepairWorkorder`
-说明：POST方式，需要传维修工单信息，维修工单绑定的维修项目，以及领料信息（即出库信息）
+说明：POST方式，需要传客户信息，维修工单信息，维修工单绑定的维修项目，以及领料信息（即出库信息）
   ```
 	{
+		"client": {
+		"carNo": "11232",
+		"carBrand": "049C1B34F160472EB0712A6427292F14",
+		"carModel": "carModel",
+		"carVIN": "carVIN",
+		"carColor": "carColor",
+		"engineNo": "engineNo",
+		"insurer": "insurer",
+		"company": "1",
+		"name": "name",
+		"sex": false,
+		"idcard": "421023199203110010",
+		"type": "5713DCD00601409187CF0F975E92213C",
+		"level": "153B10CE80B14D7EBB7B8B48A9E22376",
+		"email": "email",
+		"mobile": "mobile",
+		"address": "address",
+		"description": "description",
+		"isDeleted": false,
+		"date": {
+
+		}
+	},
 	"repairWorkorder": {
 		"workorderNo": "workorderNo",
 		"workorderState": "0",
@@ -1115,6 +1138,7 @@ URL:`http://localhost:8090/supercar/repairWorkorder/newRepairWorkorder`
 		"clientId": "1",
 		"carMileage": 1,
 		"carOilmeter": 1,
+		"sendMan": "test",
 		"clentRemind": "维修提醒"
 	},
 	"repairWorkorderItems": [{

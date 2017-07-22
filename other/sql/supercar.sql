@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-07-09 16:13:31
+Date: 2017-07-22 17:28:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,9 +29,9 @@ CREATE TABLE `sequence` (
 -- ----------------------------
 -- Records of sequence
 -- ----------------------------
-INSERT INTO `sequence` VALUES ('in_workorder_no', '7', '1');
-INSERT INTO `sequence` VALUES ('out_workorder_no', '9', '1');
-INSERT INTO `sequence` VALUES ('repair_workorder', '6', '1');
+INSERT INTO `sequence` VALUES ('in_workorder_no', '9', '1');
+INSERT INTO `sequence` VALUES ('out_workorder_no', '12', '1');
+INSERT INTO `sequence` VALUES ('repair_workorder', '7', '1');
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -78,8 +78,10 @@ CREATE TABLE `tb_client` (
 -- ----------------------------
 -- Records of tb_client
 -- ----------------------------
-INSERT INTO `tb_client` VALUES ('1', 'wsz', '1', '42102366262266', '5713DCD00601409187CF0F975E92213C', '5', '842803829@qq.com', '18782252525', '广发银行总部99楼', '1', '此用户是大客户', '2017-06-17 17:51:41', '2017-06-30 08:12:40', '0', '甘P82585', '1', '99x', '1111', null, null, '红', '12312', '天天保险', '2017-06-23 17:49:59', '2017-06-29 17:50:03');
-INSERT INTO `tb_client` VALUES ('A69C44EAAB8A4967A2D139CA88C7DFD9', 'name', null, 'idcard', '700886ED4ECE4DAC8BBB908DF7553894', '3', 'email', 'mobile', 'address', '1', 'description', '2017-06-27 22:35:03', '2017-06-30 08:12:28', '1', 'carNo', '1', 'carModel', 'carVIN', null, null, 'carColor', 'engineNo', 'insurer', null, null);
+INSERT INTO `tb_client` VALUES ('1', 'wsz', '1', '42102366262266', '153B10CE80B14D7EBB7B8B48A9E22376', '5713DCD00601409187CF0F975E92213C', '842803829@qq.com', '18782252525', '广发银行总部99楼', '1', '此用户是大客户', '2017-06-17 17:51:41', '2017-07-12 09:20:14', '0', '甘P82585', '1', '99x', '1111', null, null, '红', '12312', '天天保险', '2017-06-23 17:49:59', '2017-06-29 17:50:03');
+INSERT INTO `tb_client` VALUES ('287E2C6DB859423F901B3762102A9C37', 'kim', '1', '1234567890098745678', '5713DCD00601409187CF0F975E92213C', 'B2D3F5DEDD204994BAD1425D2EFB1392', null, '18378311282', '广东深圳', null, '新增客户', '2017-07-12 09:25:15', '2017-07-12 09:25:15', '0', '粤BNB5201', '049C1B34F160472EB0712A6427292F14', 'A4L', '1241244324', null, null, '白色', '3243242433234', '平安保险', null, null);
+INSERT INTO `tb_client` VALUES ('77A24F759FF24B179AA16F12920D3FDF', 'king', null, '124423435351232132143', '700886ED4ECE4DAC8BBB908DF7553894', '153B10CE80B14D7EBB7B8B48A9E22376', '2133123@qq.com', '13213134325', '广东深圳南山前海', null, '32424', '2017-07-12 09:29:31', '2017-07-12 09:29:31', '0', '粤B213234', '049C1B34F160472EB0712A6427292F14', 'A6', '1232436456', null, null, '黑色', '233464532221', '太平洋保险', null, null);
+INSERT INTO `tb_client` VALUES ('D9F9F3C0A7FC471BBA163A067B9819E8', 'name', null, '421023199203110010', '153B10CE80B14D7EBB7B8B48A9E22376', '5713DCD00601409187CF0F975E92213C', 'email', 'mobile', 'address', '1', 'description', '2017-07-22 16:56:46', '2017-07-22 16:56:46', '0', '11232', '049C1B34F160472EB0712A6427292F14', 'carModel', 'carVIN', null, null, 'carColor', 'engineNo', 'insurer', null, null);
 
 -- ----------------------------
 -- Table structure for tb_company
@@ -141,9 +143,9 @@ CREATE TABLE `tb_inventory` (
 -- ----------------------------
 -- Records of tb_inventory
 -- ----------------------------
-INSERT INTO `tb_inventory` VALUES ('87c4ce9461e511e7a848704d7bbc2105', '3A9A0BE24BD14C5999C3F74533D8C769', '5', null, '1', '1', '1', '0', null, null, null);
-INSERT INTO `tb_inventory` VALUES ('936c6b7a621d11e7b44d0c5b8f279a64', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '-3', null, '1', '1', '1', '0', null, null, null);
-INSERT INTO `tb_inventory` VALUES ('ee9ee9f3646111e7a848704d7bbc2105', '475980DBF3FC4EC48B63C7C04156B5FC', '2', '2.00', '1', '1', '1', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('87c4ce9461e511e7a848704d7bbc2105', '3A9A0BE24BD14C5999C3F74533D8C769', '9', '100.00', '8A0FD4172EDA46A89FFE627852DE2516', '1', '287A959F16BC423BA27D1AC3D99BA752', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('936c6b7a621d11e7b44d0c5b8f279a64', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '-6', '10.00', '8A0FD4172EDA46A89FFE627852DE2516', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('ee9ee9f3646111e7a848704d7bbc2105', '475980DBF3FC4EC48B63C7C04156B5FC', '0', '2.00', '8A0FD4172EDA46A89FFE627852DE2516', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part
@@ -177,8 +179,10 @@ CREATE TABLE `tb_in_part` (
 INSERT INTO `tb_in_part` VALUES ('08F22782833749F9AB39B33DFC5C81C8', '7', '2017-07-09 12:51:10', '1', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('26C8896F698146A0A10FA37A8B3977C3', '3', '2017-07-06 08:52:58', '1', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('509E155EA0954190AF5CDA1A5539BB14', '4', '2017-07-06 15:34:42', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('524306EF78F14697AA8BAE86D44BAB53', '9', '2017-07-10 00:22:20', 'AF36EC2145004374BD147BE0561CF3C7', '666', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('6124ECF86A1145ACB74BE27357F2E8FF', '6', '2017-07-09 12:48:23', '1', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('7995AD2F17C9490BBAA937C7F5364ADC', '5', '2017-07-06 15:36:06', '1', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('C61BDBC8E8244A15930D4CDE57854079', '8', '2017-07-09 23:58:29', 'F2CA260B7AF34CA995F2E01A9701D8ED', '666', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part_info
@@ -208,15 +212,9 @@ CREATE TABLE `tb_in_part_info` (
 -- ----------------------------
 -- Records of tb_in_part_info
 -- ----------------------------
-INSERT INTO `tb_in_part_info` VALUES ('3432182AEBFE490BA076C867F15C101C', '4', '3A9A0BE24BD14C5999C3F74533D8C769', '2', null, '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('59E8C884A5F64459855C5491087F1253', '3', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('977179C80F0648DBB7D0CF30F87A3A68', '5', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '2', null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('049D26E63592427FBB4571D1995C286C', '9', '3A9A0BE24BD14C5999C3F74533D8C769', '5', '100.00', '8A0FD4172EDA46A89FFE627852DE2516', '287A959F16BC423BA27D1AC3D99BA752', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('6F4552E1451C4AAFB155B27DF7B9AB5E', '8', '475980DBF3FC4EC48B63C7C04156B5FC', '2', '2.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('979700FB9737428D8B5D3E322FCD7D50', '6', '475980DBF3FC4EC48B63C7C04156B5FC', '1', '2.00', '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('BA180EDB61454C17A765FC646DE81B13', '4', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '2', null, '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('BC93EC86FA8E48239D957F16320C78AA', '5', '3A9A0BE24BD14C5999C3F74533D8C769', '2', null, '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('C8DCAF92EA704C41BA14B8C47D0F10A7', '6', '3A9A0BE24BD14C5999C3F74533D8C769', '1', '1.00', '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('D453501ADA044E70B682E9647E9A2037', '7', '3A9A0BE24BD14C5999C3F74533D8C769', '1', '1.10', '1', '1', '0', null, null, null);
-INSERT INTO `tb_in_part_info` VALUES ('DC88B8762AAA41CAA5D387FE59D7E5E0', '3', '3A9A0BE24BD14C5999C3F74533D8C769', '1', null, '1', '1', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('F4A707BB702649C6B5948F07D1B3DE46', '7', '475980DBF3FC4EC48B63C7C04156B5FC', '1', '2.20', '1', '1', '0', null, null, null);
 
 -- ----------------------------
@@ -249,31 +247,51 @@ CREATE TABLE `tb_lookup` (
 -- Records of tb_lookup
 -- ----------------------------
 INSERT INTO `tb_lookup` VALUES ('049C1B34F160472EB0712A6427292F14', '1', 'AUTO', '奥迪', null, null, '1', null, '1', '049C1B34F160472EB0712A6427292F14', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('051212273B584A7DAC7D551D6D5CDA23', '16169ADEE9C54A998A20F06A8F5A0C3D', 'A01', '轮胎保养', null, null, '2', 'EDE9470B34474A5B883271F92368276F', '1', 'EDE9470B34474A5B883271F92368276F', '051212273B584A7DAC7D551D6D5CDA23', null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('0A764AB31DA746A7A89815F5958C20D0', '88B2BCF91A124C119D9AFD47EC872E87', '2000', '电器相关', null, null, '1', null, '0', '0A764AB31DA746A7A89815F5958C20D0', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('1', '1', 'BYD', '比亚迪', null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('134E48AE281C4376A70863421802769C', 'B918AA5914F14DB39777A0B5CF970FF9', 'examineQuality', '质检', null, null, '1', null, '1', '134E48AE281C4376A70863421802769C', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('153B10CE80B14D7EBB7B8B48A9E22376', 'FEDA8FE256C24391BFE56141737656DD', 'gold', '金牌客户', null, null, '1', null, '1', '153B10CE80B14D7EBB7B8B48A9E22376', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('192E16F8EA434E029E7911BF9770A504', '88B2BCF91A124C119D9AFD47EC872E87', '1000', '发动机相关', null, null, '1', null, '0', '192E16F8EA434E029E7911BF9770A504', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('1D7B120296A44602B0360A7922DA1659', 'B918AA5914F14DB39777A0B5CF970FF9', 'receivedCar', '接车', null, null, '1', null, '1', '1D7B120296A44602B0360A7922DA1659', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('2', '1', 'Ben-Z', '奔驰', null, 'AAA', null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('200A24BA0A0C4EF5B19E0244931BA954', '88B2BCF91A124C119D9AFD47EC872E87', '30001', '前悬架', null, null, '2', 'E232A1884DCD4E668E29860C202F088A', '1', 'E232A1884DCD4E668E29860C202F088A', '200A24BA0A0C4EF5B19E0244931BA954', null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('287A959F16BC423BA27D1AC3D99BA752', '0040694F322542C9B98A09712DC346D6', 'code002', '002', null, null, '1', null, '1', '287A959F16BC423BA27D1AC3D99BA752', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('3', '2', 'normal', '普通用户', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('349DBB62003E4CB7A29F7A0D19790682', '35D65110D3164208B1F303842DAF661D', 'barrel', '桶', null, null, '1', null, '1', '349DBB62003E4CB7A29F7A0D19790682', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('37BACFF568274226B66DC455664EE847', '0E3E848D87B04106BCDD8E67E1726D26', '0', '维修领料', null, null, '1', null, '1', '37BACFF568274226B66DC455664EE847', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('389FA81D83D849EBAFB21AC4C6E932EF', '88B2BCF91A124C119D9AFD47EC872E87', '00001', '发动机润滑油', null, '测试子节点1', '2', '7FA179BA0BAF4CA4874DA57DD6393861', '1', '7FA179BA0BAF4CA4874DA57DD6393861', '389FA81D83D849EBAFB21AC4C6E932EF', null, null, null, null);
-INSERT INTO `tb_lookup` VALUES ('4', '2', 'silver', '银牌用户', null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_lookup` VALUES ('5', '2', 'gold', '金牌用户', null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('3F1F1EFC9B2B46F38EB3E92C6259364C', 'FEDA8FE256C24391BFE56141737656DD', 'copper ', '铜牌客户', null, null, '1', null, '1', '3F1F1EFC9B2B46F38EB3E92C6259364C', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('53D57671F37F464F8D30734A53F2DEEC', '0040694F322542C9B98A09712DC346D6', 'code001', '001', null, null, '1', null, '1', '53D57671F37F464F8D30734A53F2DEEC', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('54E424D41AC14E6283FCAE735639D418', '0E3E848D87B04106BCDD8E67E1726D26', '2', '配件内耗', null, null, '1', null, '1', '54E424D41AC14E6283FCAE735639D418', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('5713DCD00601409187CF0F975E92213C', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'persion', '个人', null, null, '1', null, '1', '5713DCD00601409187CF0F975E92213C', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('6', '1', 'lbjl', '兰博基尼', null, null, '0', null, '0', null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('63518C625471443AA8DDB03BE0447BB5', '35D65110D3164208B1F303842DAF661D', 'individual', '个', null, null, '1', null, '1', '63518C625471443AA8DDB03BE0447BB5', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('64D72058ABC74813A517E3CE70005EBC', 'B918AA5914F14DB39777A0B5CF970FF9', 'wrot', '刨光', null, null, '1', null, '1', '64D72058ABC74813A517E3CE70005EBC', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('6A88275899B24969841940BCDBCD330F', '1FF3AF7C9D164290A4EAE8E11BA3ABC7', 'HUATIANLUNTAI', '华天轮胎', null, null, '1', null, '1', '6A88275899B24969841940BCDBCD330F', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('700886ED4ECE4DAC8BBB908DF7553894', 'D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'unit', '单位', null, null, '1', null, '1', '700886ED4ECE4DAC8BBB908DF7553894', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('73251BB95A2444AE9A65A758314B6E08', '1', 'BMW', '宝马', null, null, '1', null, '1', '73251BB95A2444AE9A65A758314B6E08', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('73C970D8567A4833B554D6EECE5BBFF5', '33B849B72D644304B7CC2B6CAEF6D0DE', 'buckets', '一整桶', null, null, '1', null, '1', '73C970D8567A4833B554D6EECE5BBFF5', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('7E66A5AEF4BC46AA91D9174EE861DA12', '88B2BCF91A124C119D9AFD47EC872E87', '10001', '发动机及附件', null, '测试子节点2', '2', '192E16F8EA434E029E7911BF9770A504', '1', '192E16F8EA434E029E7911BF9770A504', '7E66A5AEF4BC46AA91D9174EE861DA12', null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('7FA179BA0BAF4CA4874DA57DD6393861', '88B2BCF91A124C119D9AFD47EC872E87', '0000', '保养', null, null, '1', null, '0', '7FA179BA0BAF4CA4874DA57DD6393861', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('82B1E580FEDA4C8586DDD0C2830599D8', 'B918AA5914F14DB39777A0B5CF970FF9', 'repairGold', '钣金', null, null, '1', null, '1', '82B1E580FEDA4C8586DDD0C2830599D8', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('8A0FD4172EDA46A89FFE627852DE2516', '1FF3AF7C9D164290A4EAE8E11BA3ABC7', 'HKS', '广东好快省汽车服务有限公司', null, null, '1', null, '1', '8A0FD4172EDA46A89FFE627852DE2516', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('91E5B64F767448AA8D8737D458BB0B42', '16169ADEE9C54A998A20F06A8F5A0C3D', 'A10', '养护', null, null, null, 'undefined', null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('95A61B5B08EF41059742D30E8E71BE3E', '16169ADEE9C54A998A20F06A8F5A0C3D', 'B10', '底盘', null, null, null, 'undefined', null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('98F5FEDA96CD4C6C859559555D7E8027', 'FEDA8FE256C24391BFE56141737656DD', 'silver', '银牌客户', null, null, '1', null, '1', '98F5FEDA96CD4C6C859559555D7E8027', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('9FFEB1FF40144F4CAC515EDD52AD8DCD', 'CD14DF1BD1CD4C76AA2467B41297580B', 'alipay', '支付宝支付', null, null, '1', null, '1', '9FFEB1FF40144F4CAC515EDD52AD8DCD', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('A072D82A6AE14146B47A70E4C58AA28D', 'E3F9A726B2434B219EDEE2E23734EA4B', 'admin', '管理员', null, '最高权限的角色，可查看所有门店账号、客户、维修工单', null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('A6625ADC0E8B47AE8E253FBB9533DD0D', 'B918AA5914F14DB39777A0B5CF970FF9', 'electromechanical', '机电', null, null, '1', null, '1', 'A6625ADC0E8B47AE8E253FBB9533DD0D', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('ACA48F72F47A4F698699167FFA09FD5E', '35D65110D3164208B1F303842DAF661D', 'peace', '只', null, null, '1', null, '1', 'ACA48F72F47A4F698699167FFA09FD5E', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('AF36EC2145004374BD147BE0561CF3C7', 'CD14DF1BD1CD4C76AA2467B41297580B', 'wechatpay', '微信支付', null, null, '1', null, '1', 'AF36EC2145004374BD147BE0561CF3C7', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('B2D3F5DEDD204994BAD1425D2EFB1392', 'FEDA8FE256C24391BFE56141737656DD', 'diamond', '钻石客户', null, null, '1', null, '1', 'B2D3F5DEDD204994BAD1425D2EFB1392', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('BDCDC960C4A44D409ADFF763B78B383C', '16169ADEE9C54A998A20F06A8F5A0C3D', 'A15', '加装', null, null, null, 'undefined', null, null, null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('C025FEFDF89D4AB89E41B3027A0BB2F2', '0E3E848D87B04106BCDD8E67E1726D26', '1', '配件销售', null, null, '1', null, '1', 'C025FEFDF89D4AB89E41B3027A0BB2F2', null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('C1145C53367340D4969A0B682FD53AC8', '88B2BCF91A124C119D9AFD47EC872E87', '20001', '空调及暖风', null, null, '2', '0A764AB31DA746A7A89815F5958C20D0', '1', '0A764AB31DA746A7A89815F5958C20D0', 'C1145C53367340D4969A0B682FD53AC8', null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('E2221CCC83404FAEB89A882D5E112E15', '1253114623E54642A38112E4142E0D5A', 'repair_shop', '快修门店', null, null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_lookup` VALUES ('E232A1884DCD4E668E29860C202F088A', '88B2BCF91A124C119D9AFD47EC872E87', '3000', '底盘相关', null, null, '1', null, '0', 'E232A1884DCD4E668E29860C202F088A', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('EDE9470B34474A5B883271F92368276F', '16169ADEE9C54A998A20F06A8F5A0C3D', 'A00', '保养', null, null, '1', null, '0', 'EDE9470B34474A5B883271F92368276F', null, null, null, null, null);
+INSERT INTO `tb_lookup` VALUES ('F2CA260B7AF34CA995F2E01A9701D8ED', 'CD14DF1BD1CD4C76AA2467B41297580B', 'cash', '现金支付', null, null, '1', null, '1', 'F2CA260B7AF34CA995F2E01A9701D8ED', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_lookup_df
@@ -296,14 +314,20 @@ CREATE TABLE `tb_lookup_df` (
 -- Records of tb_lookup_df
 -- ----------------------------
 INSERT INTO `tb_lookup_df` VALUES ('0040694F322542C9B98A09712DC346D6', 'repCode', '库位号', '0', '测试库位号', '2017-06-29 09:43:03', '2017-06-29 09:43:03', '0');
+INSERT INTO `tb_lookup_df` VALUES ('0E3E848D87B04106BCDD8E67E1726D26', 'outpart_type', '出库类型', '0', null, '2017-07-11 20:53:31', '2017-07-11 20:53:31', '0');
 INSERT INTO `tb_lookup_df` VALUES ('1', 'car_brand', '车辆品牌', '0', null, '2017-06-28 21:25:51', '2017-06-28 21:28:28', '0');
 INSERT INTO `tb_lookup_df` VALUES ('1253114623E54642A38112E4142E0D5A', 'company_type', '公司类型', '0', null, '2017-06-18 14:24:56', '2017-06-28 21:28:30', '0');
-INSERT INTO `tb_lookup_df` VALUES ('2', 'client_level', '客户级别', '0', '不同级别客户享受的优惠不一样', null, '2017-06-28 21:28:31', '0');
+INSERT INTO `tb_lookup_df` VALUES ('16169ADEE9C54A998A20F06A8F5A0C3D', 'repair_type', '维修分类', '1', null, '2017-07-13 21:59:23', '2017-07-13 21:59:23', '0');
+INSERT INTO `tb_lookup_df` VALUES ('1FF3AF7C9D164290A4EAE8E11BA3ABC7', 'supplier', '供应商', '0', null, '2017-07-09 23:26:41', '2017-07-09 23:26:41', '0');
+INSERT INTO `tb_lookup_df` VALUES ('2', 'client', '客户级别', '0', '不同级别客户享受的优惠不一样', null, '2017-07-12 09:12:35', '1');
 INSERT INTO `tb_lookup_df` VALUES ('33B849B72D644304B7CC2B6CAEF6D0DE', 'part_specification', '商品规格', '0', null, '2017-06-29 10:16:18', '2017-06-29 10:16:18', '0');
 INSERT INTO `tb_lookup_df` VALUES ('35D65110D3164208B1F303842DAF661D', 'unit', '单位', '0', '测试数据', '2017-06-28 21:11:13', '2017-06-28 21:11:13', '0');
 INSERT INTO `tb_lookup_df` VALUES ('88B2BCF91A124C119D9AFD47EC872E87', 'part_type', '配件分类', '1', '树结构', '2017-06-27 21:24:18', '2017-06-28 08:21:16', '0');
+INSERT INTO `tb_lookup_df` VALUES ('B918AA5914F14DB39777A0B5CF970FF9', 'work_type', '维修工种', '0', null, '2017-07-13 22:07:41', '2017-07-13 22:07:41', '0');
+INSERT INTO `tb_lookup_df` VALUES ('CD14DF1BD1CD4C76AA2467B41297580B', 'pay_type', '支付方式', '0', null, '2017-07-09 19:51:32', '2017-07-09 19:51:32', '0');
 INSERT INTO `tb_lookup_df` VALUES ('D2D734CFEDFF4CEBA87AE954E8DE9AE3', 'client_type', '客户类型', '0', null, '2017-06-25 09:38:38', '2017-06-28 21:28:38', '0');
 INSERT INTO `tb_lookup_df` VALUES ('E3F9A726B2434B219EDEE2E23734EA4B', 'user_role', '账号角色', '0', '账号角色，不同角色权限不一', '2017-06-18 16:18:32', '2017-06-28 21:28:41', '0');
+INSERT INTO `tb_lookup_df` VALUES ('FEDA8FE256C24391BFE56141737656DD', 'client_level', '客户级别', '0', null, '2017-07-11 23:14:01', '2017-07-12 09:12:44', '0');
 
 -- ----------------------------
 -- Table structure for tb_out_part
@@ -340,7 +364,10 @@ CREATE TABLE `tb_out_part` (
 INSERT INTO `tb_out_part` VALUES ('1EE48C82837B4AE484839F3C10C394C2', '9', '1', 'clientName', '1', '2017-07-07 16:54:37', '11.00', '6', 'carNo', '1', '1', '0', null, null, null);
 INSERT INTO `tb_out_part` VALUES ('213AB1D129944073A8160C33766FD0F7', '2', '0', 'clientName', '1', '2017-07-06 17:20:35', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
 INSERT INTO `tb_out_part` VALUES ('4E3AC9AA1B8C4C92A61B6994F256C78C', '4', '1', 'clientName', '1', '2017-07-06 17:43:06', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('679E01C26C5849C6A41F1080B1F90741', '11', null, 'wsz', null, '2017-07-12 09:57:05', null, null, null, '1', '1', '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('8045CF2E0F3549CA8C221852C3D9E8DD', '10', null, null, null, '2017-07-12 09:56:55', null, null, null, null, '1', '0', null, null, null);
 INSERT INTO `tb_out_part` VALUES ('A50C7514B3E54182BF0139DF0181B9B4', '3', '1', 'clientName', '1', '2017-07-06 17:43:06', null, 'repairWorkorderNo', 'carNo', '1', '1', '1', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('F2224D29C0AE4A1D9EF0EF05411D3D1C', '12', '1', 'clientName', '1', '2017-07-22 16:56:53', '11.00', '7', 'carNo', '1', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_out_part_info
@@ -364,9 +391,12 @@ CREATE TABLE `tb_out_part_info` (
 -- ----------------------------
 -- Records of tb_out_part_info
 -- ----------------------------
+INSERT INTO `tb_out_part_info` VALUES ('04E080891CBB439CAF0B52C1F7561385', '11', 'ee9ee9f3646111e7a848704d7bbc2105', '10.00', '4', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('065A88C84BEB414E86D425C43D47B801', '4', '936c6b7a621d11e7b44d0c5b8f279a64', '22.00', '3', '1', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('121C04A4E8C64765A39FB99E2C2993E2', '7', '936c6b7a621d11e7b44d0c5b8f279a64', '22.00', '3', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('277008D1937147D789236FF1B802F2F8', '4', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '2', '1', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('2B9F166F47CB4067A62BF4623EA42017', '10', null, null, '10', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('2ED114BF384F4D359F62EA18CA720DCB', '12', '936c6b7a621d11e7b44d0c5b8f279a64', '12.20', '3', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('33840FE28DFE4E2792F115BF2A9C5DB3', '3', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '2', '1', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('3D432077FF9543B4BD2BF8203E0B03FD', '9', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '1', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('6001055E6CC149FB90B32E75CB0AA5B2', '8', '936c6b7a621d11e7b44d0c5b8f279a64', '12.00', '3', '0', null, null, null);
@@ -376,6 +406,7 @@ INSERT INTO `tb_out_part_info` VALUES ('9B059535B23A4C0E8726E1C7C1382BE3', '7', 
 INSERT INTO `tb_out_part_info` VALUES ('AA3D28F937054C2B9BF2FCCBAFCEA85C', '9', '936c6b7a621d11e7b44d0c5b8f279a64', '12.00', '3', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('B824E862DDB44E0E89B7AB498404195E', '6', '936c6b7a621d11e7b44d0c5b8f279a64', '22.00', '3', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('D976096EAAA6482A94D9B0072D3BC227', '8', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '1', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('E1B693C7E0FA499791AB0016928E683A', '12', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '1', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('EF8E4A1062114B4CB7BC76543B0ED0AA', '5', '87c4ce9461e511e7a848704d7bbc2105', '11.00', '1', '0', null, null, null);
 INSERT INTO `tb_out_part_info` VALUES ('FDFF0B2242E042C8AFB102141439E206', '5', '936c6b7a621d11e7b44d0c5b8f279a64', '12.00', '3', '0', null, null, null);
 
@@ -412,10 +443,10 @@ CREATE TABLE `tb_part` (
 -- ----------------------------
 -- Records of tb_part
 -- ----------------------------
-INSERT INTO `tb_part` VALUES ('2D953EE846DB4B2EA00B6A324BEB8450', 'NO000001', '机油', '349DBB62003E4CB7A29F7A0D19790682', '100.00', '100.00', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '奥迪、宝马、奔驰', '7E66A5AEF4BC46AA91D9174EE861DA12', '2017-06-29 16:00:01', '2017-06-29 20:40:24', '0', '0', null, null, null);
+INSERT INTO `tb_part` VALUES ('2D953EE846DB4B2EA00B6A324BEB8450', 'NO000001', '机油', '349DBB62003E4CB7A29F7A0D19790682', '100.00', '100.00', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '奥迪、宝马、奔驰', '7E66A5AEF4BC46AA91D9174EE861DA12', '2017-06-29 16:00:01', '2017-07-12 09:34:02', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('3A9A0BE24BD14C5999C3F74533D8C769', 'code', 'name', '349DBB62003E4CB7A29F7A0D19790682', '120.00', '10.00', 'produceArea', '73C970D8567A4833B554D6EECE5BBFF5', 'carmodel', '7FA179BA0BAF4CA4874DA57DD6393861', null, '2017-07-05 22:05:25', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('475980DBF3FC4EC48B63C7C04156B5FC', 'NO000005', '润滑油1', '349DBB62003E4CB7A29F7A0D19790682', '10.00', '1.00', '佛山', '73C970D8567A4833B554D6EECE5BBFF5', '奔驰', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 12:50:53', '2017-07-02 21:16:19', '0', '1', null, null, null);
-INSERT INTO `tb_part` VALUES ('6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', 'NO000007', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '12.00', '1.00', '澳大利亚', '73C970D8567A4833B554D6EECE5BBFF5', '比亚迪', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 16:07:30', '2017-06-29 19:50:43', '0', '1', null, null, null);
+INSERT INTO `tb_part` VALUES ('6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', 'NO000007', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '12.00', '1.00', '澳大利亚', '73C970D8567A4833B554D6EECE5BBFF5', '比亚迪', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 16:07:30', '2017-07-13 22:24:23', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('8E65E1B022C84C15B902FA6F8997D414', 'NO000003', '润滑油', '349DBB62003E4CB7A29F7A0D19790682', '120.00', '120.00', '美国', '73C970D8567A4833B554D6EECE5BBFF5', '宝马X5', 'E232A1884DCD4E668E29860C202F088A', '2017-06-29 11:30:01', '2017-06-29 20:26:34', '0', '0', null, null, null);
 INSERT INTO `tb_part` VALUES ('A42125248E2141CCB4CACAF26479DB92', 'NO000006', '机油2', '349DBB62003E4CB7A29F7A0D19790682', '123.00', '12.00', '广东广州', '73C970D8567A4833B554D6EECE5BBFF5', '宝马、奔驰', '7FA179BA0BAF4CA4874DA57DD6393861', '2017-06-29 16:04:46', '2017-06-29 17:40:37', '1', '1', null, null, null);
 INSERT INTO `tb_part` VALUES ('B68DCC061C654B688591EED2CD00FC97', 'NO000004', '润滑油2', '349DBB62003E4CB7A29F7A0D19790682', '100.00', '10.00', '广东', '73C970D8567A4833B554D6EECE5BBFF5', '奔驰', '389FA81D83D849EBAFB21AC4C6E932EF', '2017-06-29 12:48:43', '2017-06-29 14:50:21', '1', '0', null, null, null);
@@ -443,7 +474,8 @@ CREATE TABLE `tb_repair_item` (
 -- ----------------------------
 -- Records of tb_repair_item
 -- ----------------------------
-INSERT INTO `tb_repair_item` VALUES ('331EC8A236D34F7AA5B8FDBB516937A0', '1', 'code', 'name', null, '1', 'description', '11', null, null, null);
+INSERT INTO `tb_repair_item` VALUES ('5E22F21B629F4765BDA4C2753625EFEB', '91E5B64F767448AA8D8737D458BB0B42', 'code2', '项目测试2', '2', 'A6625ADC0E8B47AE8E253FBB9533DD0D', '23424', '200', null, null, null);
+INSERT INTO `tb_repair_item` VALUES ('62850B0963E4417D8C9077B2C65A22E8', '051212273B584A7DAC7D551D6D5CDA23', 'code1', '汽车轮胎保养', '1', '134E48AE281C4376A70863421802769C', '测试', '100', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_repair_workorder
@@ -460,9 +492,9 @@ CREATE TABLE `tb_repair_workorder` (
   `rw_car_mileage` int(11) DEFAULT NULL COMMENT '车进店里程',
   `rw_car_oilmeter` int(11) DEFAULT NULL COMMENT '车进店油表',
   `rw_clent_remind` varchar(255) DEFAULT NULL COMMENT '客户提醒',
-  `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `rw_send_man` varchar(20) DEFAULT NULL COMMENT '送修人名称',
+  `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '送修时间',
   `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
-  `extend1` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`ID`)
@@ -471,8 +503,9 @@ CREATE TABLE `tb_repair_workorder` (
 -- ----------------------------
 -- Records of tb_repair_workorder
 -- ----------------------------
-INSERT INTO `tb_repair_workorder` VALUES ('115712086D94407F96A11AE92382BB5E', '6', '1', '1', '11', '1', '1', '1', '1', '维修提醒修改2', '2017-07-07 16:54:37', '2017-07-07 20:46:35', null, null, null);
-INSERT INTO `tb_repair_workorder` VALUES ('F289A81A27B041A88040682644F0FA10', '3', '0', '1', '11', '1', '1', '1', '1', '你好呀\r\n', '2017-07-07 11:05:31', null, null, null, null);
+INSERT INTO `tb_repair_workorder` VALUES ('115712086D94407F96A11AE92382BB5E', '6', '1', '1', '11', '1', '1', '1', '1', '维修提醒修改2', null, '2017-07-07 16:54:37', '2017-07-07 20:46:35', null, null);
+INSERT INTO `tb_repair_workorder` VALUES ('3F94B29961A44657B896F32E453CBFEC', '7', '0', '1', '11', '1', 'D9F9F3C0A7FC471BBA163A067B9819E8', '1', '1', '维修提醒', null, '2017-07-22 16:56:47', null, null, null);
+INSERT INTO `tb_repair_workorder` VALUES ('F289A81A27B041A88040682644F0FA10', '3', '0', '1', '11', '1', '1', '1', '1', '你好呀\r\n', null, '2017-07-07 11:05:31', null, null, null);
 INSERT INTO `tb_repair_workorder` VALUES ('FDA77040146847069EFD70CB5E0E4400', '2', '0', '1', '11', '1', '1', '1', '1', '你好呀\r\n', null, null, null, null, null);
 
 -- ----------------------------
@@ -492,9 +525,11 @@ CREATE TABLE `tb_repair_workorder_item` (
 -- ----------------------------
 -- Records of tb_repair_workorder_item
 -- ----------------------------
+INSERT INTO `tb_repair_workorder_item` VALUES ('2ADC3D15B26041498211E32BDEC60BDA', '3F94B29961A44657B896F32E453CBFEC', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
 INSERT INTO `tb_repair_workorder_item` VALUES ('2F5E1A5627AE4E07A934AA91D47CB35D', '', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
 INSERT INTO `tb_repair_workorder_item` VALUES ('4328C4185B894A6B878B6DF150464315', '', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
 INSERT INTO `tb_repair_workorder_item` VALUES ('4A3514446E604268A416094F7CE2F4CD', '115712086D94407F96A11AE92382BB5E', '331EC8A236D34F7AA5B8FDBB516937A0', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
+INSERT INTO `tb_repair_workorder_item` VALUES ('B302B4953DBD4A57A03A5D0499978B1F', '3F94B29961A44657B896F32E453CBFEC', '331EC8A236D34F7AA5B8FDBB516937A0', '1', null, null);
 INSERT INTO `tb_repair_workorder_item` VALUES ('E7E3623CD47842ACBF53B19621168660', '', '331EC8A236D34F7AA5B8FDBB516937A0', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
 
 -- ----------------------------

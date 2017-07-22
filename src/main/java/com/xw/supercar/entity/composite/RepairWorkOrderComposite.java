@@ -2,6 +2,7 @@ package com.xw.supercar.entity.composite;
 
 import java.util.List;
 
+import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.RepairWorkorder;
 import com.xw.supercar.entity.RepairWorkorderItem;
 
@@ -19,6 +20,8 @@ import lombok.ToString;
 @Getter
 @ToString @AllArgsConstructor @NoArgsConstructor
 public class RepairWorkOrderComposite {
+	/**客户信息*/
+	private Client client;
 	/**维修工单*/
 	private RepairWorkorder repairWorkorder;
 	/**维修服务项目*/
