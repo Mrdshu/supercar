@@ -160,8 +160,8 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		if(StringUtils.isEmpty(repairWorkOrderNo))
 			return ResponseResult.generateErrorResponse("", "维修工单号不能为空！");
 		
-		//获取维修工单关联的维修服务项目
 		RepairWorkorder repairWorkorder = service.getByCode(repairWorkOrderNo);
+		//获取维修工单关联的维修服务项目
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(RepairWorkorderItem.DP.workorderId.name(), SearchOperator.eq, repairWorkorder.getId());
 		List<RepairWorkorderItem> items = SpringContextHolder.getBean(RepairWorkorderItemService.class).findBy(searchable, true);

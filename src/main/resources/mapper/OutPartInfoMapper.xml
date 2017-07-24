@@ -72,13 +72,52 @@
 	
 	<!-- 查询 -->
 	<select id="selectBy" resultMap="resultMap">
-		SELECT * from  <include refid="table" />
+		SELECT * from  <include refid="table" /> outPartInfo
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<!-- 关联查询 -->
+	<select id="extendSelectBy" resultType="java.util.HashMap">
+		SELECT
+		outPartInfo.ID id,
+		outPartInfo.OUT_WORKORDER_NO workOrderNo,
+		outPartInfo.INVENTORY_ID inventoryId,
+		outPartInfo.P_SALE sale,
+		outPartInfo.OUT_COUNT count,
+		outPartInfo.ISDELETED isDeleted,
+		inventory.P_ID inventoryId_partId,
+		inventory.P_COUNT inventoryId_count,
+		inventory.P_COST inventoryId_cost,
+		inventory.P_SUPPLIER inventoryId_supplierLK,
+		inventory.P_COMPANY inventoryId_company,
+		inventory.R_CODE inventoryId_repCodeLK,
+		part.P_CODE partId_code,
+		part.P_NAME partId_name,
+		part.P_UNIT partId_unitLK,
+		part.P_SALE partId_sale,
+		part.P_WHOLESALE partId_wholeSale,
+		part.P_PRODUCE_AREA partId_produceArea,
+		part.P_SPECIFICATION partId_specificationLK,
+		part.P_CAR_MODEL partId_carModel,
+		part.P_CATEGORY partId_pCategoryLK,
+		supplier.LK_CODE supplierLK_code,
+		supplier.LK_VALUE supplierLK_value,
+		repository.LK_CODE repositoryCodeLK_code,
+		repository.LK_VALUE repositoryCodeLK_value,
+		unit.LK_CODE unitLK_code,
+		unit.LK_VALUE unitLK_value
+		FROM  <include refid="table" /> outPartInfo
+		LEFT JOIN tb_inventory inventory ON (outPartInfo.inventory_id = inventory.id)
+		LEFT JOIN tb_part part ON (inventory.p_id = part.id)
+		LEFT JOIN tb_lookup supplier ON (supplier.id = inventory.p_supplier)
+		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
+		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
 		<include refid="where"/> <include refid="sort" />
 	</select>
 	
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
-		SELECT count(ID) FROM <include refid="table" />
+		SELECT count(ID) FROM <include refid="table" /> outPartInfo
 		<include refid="where" />
 	</select>
 	
@@ -102,7 +141,7 @@
 			<if test="inventoryId != null">AND INVENTORY_ID = #{inventoryId}</if>
 			<if test="sale != null">AND P_SALE = #{sale}</if>
 			<if test="count != null">AND OUT_COUNT = #{count}</if>
-			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+			<if test="isDeleted != null">AND outPartInfo.ISDELETED = #{isDeleted}</if>
 
 		</trim>
 	</sql>
@@ -134,8 +173,8 @@
 			<if test="filter.count_in != null">AND <foreach item="ii" collection="filter.count_in" open="(" separator=" OR " close=")">OUT_COUNT in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			<if test="filter.count_notIn != null">AND <foreach item="ii" collection="filter.count_notIn" open="(" separator=" AND " close=")">OUT_COUNT not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-			<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
-			<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
+			<if test="filter.isDeleted_eq != null">AND outPartInfo.ISDELETED = #{filter.isDeleted_eq}</if>
+			<if test="filter.isDeleted_ne != null">AND outPartInfo.ISDELETED != #{filter.isDeleted_ne}</if>
 				
 			</if>
 		</trim>

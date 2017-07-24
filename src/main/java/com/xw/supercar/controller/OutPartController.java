@@ -25,6 +25,7 @@ import com.xw.supercar.service.OutPartInfoService;
 import com.xw.supercar.service.OutPartService;
 import com.xw.supercar.service.UserService;
 import com.xw.supercar.spring.util.SpringContextHolder;
+import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.util.CollectionUtils;
@@ -68,10 +69,12 @@ public class OutPartController extends BaseController<OutPart>{
 	@RequestMapping(value = "/getOutPartInfos",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult getOutPartInfos(String outWorkOrderNo){
+		ResponseResult result = ResponseResult.generateResponse();
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(OutPartInfo.DP.workOrderNo.name(), SearchOperator.eq, outWorkOrderNo);
 		
-		ResponseResult result = SpringContextHolder.getBean(OutPartInfoController.class).page(searchable);
+		Page<OutPartInfo> outPartInfos = SpringContextHolder.getBean(OutPartInfoService.class).extendFindPage(searchable, true);
+		result.addAttribute("page", outPartInfos);
 		return result;
 	}
 	
