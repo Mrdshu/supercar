@@ -1,7 +1,11 @@
 package com.xw.supercar.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -360,6 +364,48 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		afterSelect(entitys);
 		
 		return page;
+	}
+	/**
+	 * 将实体多个成员变量外键对应的对象增加进扩展map中
+	 *
+	 * @author wsz 2017-07-27
+	 */
+	public void addAttributesToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<BaseEntity> entities, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		for (int i = 0; i < attributesName.length; i++) {
+			addAttributesToExtendInfo(extendInfo, entities, attributesName[i], attributeServicesClazz[i]);
+		}
+	}
+	
+	/**
+	 * 将实体成员变量外键对应的对象增加进扩展map中
+	 * 
+	 * @param extendInfo 扩展属性map集合， key 实体类外键成员变量名称； value id-id对应的实体 map集合
+	 * @param entities 实体集合
+	 * @param attributeName 实体外键变量的名称
+	 * @param attributeServiceClazz 实体外键对应的service的class
+	 *
+	 * @author wsz 2017-07-27
+	 */
+	public void addAttributesToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<BaseEntity> entities, String attributeName,Class<? extends BaseService<?>> attributeServiceClazz) {
+		Set<String> attributesId = new HashSet<>();
+		//获取实体集合对应成员变量的id集合
+		for (BaseEntity entity : entities) {
+			String attributeId = ReflectUtil.getPropertyValue(entity, attributeName);
+			attributesId.add(attributeId);
+		}
+		//如果extendInfo中不存在该成员变量对应的map，创建一个
+		Map<String, Object> attributeInfo = extendInfo.get(attributeName);
+		if(attributeInfo == null){
+			attributeInfo = new HashMap<>();
+			extendInfo.put(attributeName, attributeInfo);
+		}
+		//获取成员变量id对应的实体，放入map中
+		for (String attributeId : attributesId) {
+			if(attributeInfo.get(attributeId) != null) continue;
+			
+			Object attribute = SpringContextHolder.getBean(attributeServiceClazz).getById(attributeId);
+			attributeInfo.put(attributeId, attribute);
+		}
 	}
 	
 	/**

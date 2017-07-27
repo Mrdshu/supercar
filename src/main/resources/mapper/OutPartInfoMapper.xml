@@ -85,6 +85,9 @@
 		outPartInfo.P_SALE sale,
 		outPartInfo.OUT_COUNT count,
 		outPartInfo.ISDELETED isDeleted,
+		outPart.out_type workOrderNo_type,
+		outPart.out_receiver workOrderNo_receiver,
+		outPart.out_time workOrderNo_outTime,
 		inventory.P_ID inventoryId_partId,
 		inventory.P_COUNT inventoryId_count,
 		inventory.P_COST inventoryId_cost,
@@ -105,13 +108,16 @@
 		repository.LK_CODE repositoryCodeLK_code,
 		repository.LK_VALUE repositoryCodeLK_value,
 		unit.LK_CODE unitLK_code,
-		unit.LK_VALUE unitLK_value
+		unit.LK_VALUE unitLK_value,
+		userr.U_USERNAME receiver_username
 		FROM  <include refid="table" /> outPartInfo
+		LEFT JOIN tb_out_part outPart ON (outPart.out_workorder_no = outPartInfo.out_workorder_no)
 		LEFT JOIN tb_inventory inventory ON (outPartInfo.inventory_id = inventory.id)
 		LEFT JOIN tb_part part ON (inventory.p_id = part.id)
 		LEFT JOIN tb_lookup supplier ON (supplier.id = inventory.p_supplier)
 		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
 		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
+		LEFT JOIN tb_user userr ON (userr.id = outPart.out_receiver)
 		<include refid="where"/> <include refid="sort" />
 	</select>
 	

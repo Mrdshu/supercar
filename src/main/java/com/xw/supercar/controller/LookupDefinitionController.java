@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xw.supercar.entity.Lookup;
 import com.xw.supercar.entity.LookupDefinition;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;

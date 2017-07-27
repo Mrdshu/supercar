@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 import com.xw.supercar.dao.BaseDao;
 import com.xw.supercar.dao.InPartInfoDao;
 import com.xw.supercar.entity.InPartInfo;
-import com.xw.supercar.entity.Inventory;
-import com.xw.supercar.spring.util.SpringContextHolder;
-import com.xw.supercar.sql.search.SearchOperator;
-import com.xw.supercar.sql.search.Searchable;
 
 @Service
 public class InPartInfoService extends BaseService<InPartInfo>{

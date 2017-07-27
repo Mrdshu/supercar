@@ -80,13 +80,15 @@
 		SELECT
 		inPartInfo.ID id, inPartInfo.IN_WORKORDER_NO workOrderNo, inPartInfo.P_ID partId, inPartInfo.IN_COUNT count, inPartInfo.P_COST cost, inPartInfo.P_SUPPLIER supplierLK, inPartInfo.R_CODE repositoryCodeLK, inPartInfo.ISDELETED isDeleted,
 		part.P_CODE partId_code, part.P_NAME partId_name, part.P_UNIT partId_unitLK, part.P_SALE partId_sale, part.P_WHOLESALE partId_wholeSale, part.P_PRODUCE_AREA partId_produceArea, part.P_SPECIFICATION partId_specificationLK, part.P_CAR_MODEL partId_carModel, part.P_CATEGORY partId_pCategoryLK,
+		inPart.in_time workOrderNo_inTime,
 		supplier.LK_CODE supplierLK_code,
 		supplier.LK_VALUE supplierLK_value,
 		repository.LK_CODE repositoryCodeLK_code,
 		repository.LK_VALUE repositoryCodeLK_value,
 		unit.LK_CODE unitLK_code,
 		unit.LK_VALUE unitLK_value
-		FROM  <include refid="table" /> inPartInfo
+		FROM  tb_in_part_info inPartInfo
+		LEFT JOIN tb_in_part inPart ON (inPart.in_workorder_no = inPartInfo.in_workorder_no)
 		LEFT JOIN tb_part part ON (inPartInfo.p_id = part.id)
 		LEFT JOIN tb_lookup supplier ON (supplier.id = inPartInfo.p_supplier)
 		LEFT JOIN tb_lookup repository ON (repository.id = inPartInfo.r_code)

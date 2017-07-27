@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.annotation.SearchableDefaults;
 import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
@@ -40,12 +41,12 @@ public class InPartInfoController extends BaseController<InPartInfo>{
 	}
 	
 	/**
-	 * 关联查询，显示出扩展属性的多条数据
+	 * 关联查询，显示出扩展属性的多条分页数据
 	 * @author wsz 2017-06-26
 	 */
-	@RequestMapping(value = "/extendList",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/extendPage",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult extendList(Searchable searchable){
+	public ResponseResult extendPage(@SearchableDefaults Searchable searchable){
 		ResponseResult result = ResponseResult.generateResponse();
 		
 		Page<InPartInfo> inPartInfos = SpringContextHolder.getBean(InPartInfoService.class).extendFindPage(searchable, true);
