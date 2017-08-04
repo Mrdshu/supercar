@@ -152,6 +152,7 @@
 				
 				<if test="filter.carModel_eq != null">AND P_CAR_MODEL = #{filter.carModel_eq}</if>
 				<if test="filter.carModel_ne != null">AND P_CAR_MODEL != #{filter.carModel_ne}</if>
+				<if test="filter.carModel_like != null">AND lower(P_CAR_MODEL) LIKE lower(#{filter.carModel_like})</if>
 				
 				<if test="filter.pCategoryLK_eq != null">AND P_CATEGORY = #{filter.pCategoryLK_eq}</if>
 				<if test="filter.pCategoryLK_ne != null">AND P_CATEGORY != #{filter.pCategoryLK_ne}</if>

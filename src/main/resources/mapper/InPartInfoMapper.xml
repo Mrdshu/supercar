@@ -93,7 +93,7 @@
 		LEFT JOIN tb_lookup supplier ON (supplier.id = inPartInfo.p_supplier)
 		LEFT JOIN tb_lookup repository ON (repository.id = inPartInfo.r_code)
 		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
-		<include refid="where"/> <include refid="sort" />
+		<include refid="where"/> order by inPart.IN_WORKORDER_NO desc
 	</select>
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
@@ -116,53 +116,53 @@
 	<!-- where语句（对应entity中的属性）-->
 	<sql id="whereEntity">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="id != null">AND ID = #{id}</if>
-			<if test="workOrderNo != null">AND IN_WORKORDER_NO = #{workOrderNo}</if>
-			<if test="count != null">AND IN_COUNT = #{count}</if>
-			<if test="partId != null">AND P_ID = #{partId}</if>
-			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
-			<if test="repositoryCodeLK != null">AND R_CODE = #{repositoryCodeLK}</if>
-			<if test="cost != null">AND P_COST = #{cost}</if>
-			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
+			<if test="id != null">AND inPartInfo.ID = #{id}</if>
+			<if test="workOrderNo != null">AND inPartInfo.IN_WORKORDER_NO = #{workOrderNo}</if>
+			<if test="count != null">AND inPartInfo.IN_COUNT = #{count}</if>
+			<if test="partId != null">AND inPartInfo.P_ID = #{partId}</if>
+			<if test="supplierLK != null">AND inPartInfo.P_SUPPLIER = #{supplierLK}</if>
+			<if test="repositoryCodeLK != null">AND inPartInfo.R_CODE = #{repositoryCodeLK}</if>
+			<if test="cost != null">AND inPartInfo.P_COST = #{cost}</if>
+			<if test="isDeleted != null">AND inPartInfo.ISDELETED = #{isDeleted}</if>
 		</trim>
 	</sql>
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="filter != null">
-				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
-				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
-				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_eq != null">AND inPartInfo.ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND inPartInfo.ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">inPartInfo.ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">inPartInfo.ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
-				<if test="filter.workOrderNo_eq != null">AND IN_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
-				<if test="filter.workOrderNo_ne != null">AND IN_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
-				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">IN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">IN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_eq != null">AND inPartInfo.IN_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND inPartInfo.IN_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">inPartInfo.IN_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">inPartInfo.IN_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 			
-				<if test="filter.count_eq != null">AND IN_COUNT = #{filter.count_eq}</if>
-				<if test="filter.count_ne != null">AND IN_COUNT != #{filter.count_ne}</if>
+				<if test="filter.count_eq != null">AND inPartInfo.IN_COUNT = #{filter.count_eq}</if>
+				<if test="filter.count_ne != null">AND inPartInfo.IN_COUNT != #{filter.count_ne}</if>
 				
-				<if test="filter.cost_gte != null">AND P_COST &gt;= #{filter.cost_gte}</if>
-				<if test="filter.cost_lte != null">AND P_COST &lt;= #{filter.cost_lte}</if>
-				<if test="filter.cost_gt != null">AND P_COST &gt;= #{filter.cost_gt}</if>
-				<if test="filter.cost_lt != null">AND P_COST &lt;= #{filter.cost_lt}</if>
-				<if test="filter.cost_eq != null">AND P_COST = #{filter.cost_eq}</if>
-				<if test="filter.cost_ne != null">AND P_COST != #{filter.cost_ne}</if>
+				<if test="filter.cost_gte != null">AND inPartInfo.P_COST &gt;= #{filter.cost_gte}</if>
+				<if test="filter.cost_lte != null">AND inPartInfo.P_COST &lt;= #{filter.cost_lte}</if>
+				<if test="filter.cost_gt != null">AND inPartInfo.P_COST &gt;= #{filter.cost_gt}</if>
+				<if test="filter.cost_lt != null">AND inPartInfo.P_COST &lt;= #{filter.cost_lt}</if>
+				<if test="filter.cost_eq != null">AND inPartInfo.P_COST = #{filter.cost_eq}</if>
+				<if test="filter.cost_ne != null">AND inPartInfo.P_COST != #{filter.cost_ne}</if>
 				
-				<if test="filter.repositoryCodeLK_eq != null">AND R_CODE = #{filter.repositoryCodeLK_eq}</if>
-				<if test="filter.repositoryCodeLK_like != null">AND lower(R_CODE) LIKE lower(#{filter.repositoryCodeLK_like})</if>
+				<if test="filter.repositoryCodeLK_eq != null">AND inPartInfo.R_CODE = #{filter.repositoryCodeLK_eq}</if>
+				<if test="filter.repositoryCodeLK_like != null">AND lower(inPartInfo.R_CODE) LIKE lower(#{filter.repositoryCodeLK_like})</if>
 				
-				<if test="filter.supplierLK_eq != null">AND P_SUPPLIER = #{filter.supplierLK_eq}</if>
-				<if test="filter.supplierLK_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>
+				<if test="filter.supplierLK_eq != null">AND inPartInfo.P_SUPPLIER = #{filter.supplierLK_eq}</if>
+				<if test="filter.supplierLK_like != null">AND lower(inPartInfo.P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>
 				
 				<if test="filter.isDeleted_eq != null">AND inPartInfo.ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND inPartInfo.ISDELETED != #{filter.isDeleted_ne}</if>
 				
-				<if test="filter.partId_eq != null">AND P_ID = #{filter.partId_eq}</if>
-				<if test="filter.partId_ne != null">AND P_ID != #{filter.partId_ne}</if>
-				<if test="filter.partId_in != null">AND <foreach item="ii" collection="filter.partId_in" open="(" separator=" OR " close=")">P_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-				<if test="filter.partId_notIn != null">AND <foreach item="ii" collection="filter.partId_notIn" open="(" separator=" AND " close=")">P_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.partId_eq != null">AND inPartInfo.P_ID = #{filter.partId_eq}</if>
+				<if test="filter.partId_ne != null">AND inPartInfo.P_ID != #{filter.partId_ne}</if>
+				<if test="filter.partId_in != null">AND <foreach item="ii" collection="filter.partId_in" open="(" separator=" OR " close=")">inPartInfo.P_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.partId_notIn != null">AND <foreach item="ii" collection="filter.partId_notIn" open="(" separator=" AND " close=")">inPartInfo.P_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
 
 			</if>
 		</trim>
@@ -183,7 +183,7 @@
 	<!-- sort排序语句-->
 	<sql id="sort">
 		<if test="sort == null" >
-			
+			order by IN_WORKORDER_NO desc
 		</if>
 		<if test="sort != null" >
 			<trim prefix="ORDER BY " suffixOverrides=",">

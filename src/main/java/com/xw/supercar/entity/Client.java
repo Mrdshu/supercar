@@ -25,7 +25,7 @@ public class Client extends BaseDateEntity implements Serializable{
 	private String carBrand;
 	/**车型*/
 	private String carModel;
-	/**底盘号*/
+	/**车架号*/
 	private String carVIN;
 	/**车身颜色*/
 	private String carColor;

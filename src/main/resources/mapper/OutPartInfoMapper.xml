@@ -118,7 +118,7 @@
 		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
 		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
 		LEFT JOIN tb_user userr ON (userr.id = outPart.out_receiver)
-		<include refid="where"/> <include refid="sort" />
+		<include refid="where"/> order by outPartInfo.out_workorder_no desc
 	</select>
 	
 	<!-- 计数 -->

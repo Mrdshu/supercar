@@ -370,9 +370,9 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 *
 	 * @author wsz 2017-07-27
 	 */
-	public void addAttributesToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<BaseEntity> entities, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+	public void addAttributesToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<? extends BaseEntity> entities, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
 		for (int i = 0; i < attributesName.length; i++) {
-			addAttributesToExtendInfo(extendInfo, entities, attributesName[i], attributeServicesClazz[i]);
+			addAttributeToExtendInfo(extendInfo, entities, attributesName[i], attributeServicesClazz[i]);
 		}
 	}
 	
@@ -386,7 +386,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 *
 	 * @author wsz 2017-07-27
 	 */
-	public void addAttributesToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<BaseEntity> entities, String attributeName,Class<? extends BaseService<?>> attributeServiceClazz) {
+	public void addAttributeToExtendInfo(Map<String, Map<String, Object>> extendInfo, List<? extends BaseEntity> entities, String attributeName,Class<? extends BaseService<?>> attributeServiceClazz) {
 		Set<String> attributesId = new HashSet<>();
 		//获取实体集合对应成员变量的id集合
 		for (BaseEntity entity : entities) {

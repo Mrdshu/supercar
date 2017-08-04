@@ -69,7 +69,7 @@ public class InPartController extends BaseController<InPart>{
 		for (InPartInfo inPartInfo : inPartInfos) {
 			inPartInfo.setWorkOrderNo(entity.getWorkOrderNo());
 		}
-		//新增入库配件集合
+		//新增入库配件集合,数据库触发器会自动增加库存
 		if(entity != null)
 			SpringContextHolder.getBean(InPartInfoService.class).add(inPartInfos);
 		

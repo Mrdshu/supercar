@@ -20,6 +20,8 @@ public class ResponseResult {
 	private String errorMsg;
 	/**返回的数据*/
 	private Map<String, Object> data = new HashMap<>();
+	/**数据中id字段对应的信息*/
+	Map<String, Map<String, Object>> extendInfo = new HashMap<>();
 	
 	public static ResponseResult generateResponse(){
 		ResponseResult responseEntity = new ResponseResult(true, "", "");

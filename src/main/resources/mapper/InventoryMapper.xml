@@ -6,8 +6,6 @@
     <id column="ID"  property="id" />
     <result column="P_ID"  property="partId" />
     <result column="P_COUNT"  property="count" />
-    <result column="P_COST"  property="cost" />
-    <result column="P_SUPPLIER"  property="supplierLK" />
     <result column="P_COMPANY"  property="company" />
     <result column="R_CODE"  property="repCodeLK" />
     <result column="ISDELETED" property="isDeleted" />
@@ -15,7 +13,7 @@
   
   <sql id="table">TB_INVENTORY</sql>
   <sql id="columns">
-    ID, P_ID, P_COUNT, P_COST, P_SUPPLIER, P_COMPANY, R_CODE, ISDELETED
+    ID, P_ID, P_COUNT, P_COMPANY, R_CODE, ISDELETED
   </sql>
   
   <!-- 新增 -->
@@ -27,8 +25,6 @@
 				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>, 
 				<choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>, 
 				<choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>, 
-				<choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>, 
-				<choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>, 
 				<choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>, 
 				<choose><when test="repCodeLK == ''">null</when><otherwise>#{repCodeLK}</otherwise></choose>, 
 				default, 
@@ -71,8 +67,6 @@
 		<trim suffixOverrides=",">
 			<if test="partId != null">P_ID = <choose><when test="partId == ''">null</when><otherwise>#{partId}</otherwise></choose>,</if>
 			<if test="count != null">P_COUNT = <choose><when test="count == ''">null</when><otherwise>#{count}</otherwise></choose>,</if>
-			<if test="cost != null">P_COST = <choose><when test="cost == ''">null</when><otherwise>#{cost}</otherwise></choose>,</if>
-			<if test="supplierLK != null">P_SUPPLIER = <choose><when test="supplierLK == ''">null</when><otherwise>#{supplierLK}</otherwise></choose>,</if>
 			<if test="company != null">P_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 			<if test="repCodeLK != null">R_CODE = <choose><when test="repCodeLK == ''">null</when><otherwise>#{repCodeLK}</otherwise></choose>,</if>
 			<if test="isDeleted != null">ISDELETED = <choose><when test="isDeleted == ''">0</when><otherwise>#{isDeleted}</otherwise></choose>,</if>
@@ -84,8 +78,6 @@
 			<if test="id != null">AND ID = #{id}</if>
 			<if test="partId != null">AND P_ID = #{partId}</if>
 			<if test="count != null">AND P_COUNT = #{count}</if>
-			<if test="cost != null">AND P_COST = #{cost}</if>
-			<if test="supplierLK != null">AND P_SUPPLIER = #{supplierLK}</if>
 			<if test="company != null">AND P_COMPANY = #{company}</if>
 			<if test="repCodeLK != null">AND R_CODE = #{repCodeLK}</if>
 			<if test="isDeleted != null">AND ISDELETED = #{isDeleted}</if>
@@ -116,18 +108,8 @@
 				<if test="filter.company_eq != null">AND P_COMPANY = #{filter.company_eq}</if>
 				<if test="filter.company_like != null">AND lower(P_COMPANY) LIKE lower(#{filter.company_like})</if>
 				
-				<if test="filter.supplierLK_eq != null">AND P_SUPPLIER = #{filter.supplierLK_eq}</if>
-				<if test="filter.supplierLK_like != null">AND lower(P_SUPPLIER) LIKE lower(#{filter.supplierLK_like})</if>
-				
 				<if test="filter.isDeleted_eq != null">AND ISDELETED = #{filter.isDeleted_eq}</if>
 				<if test="filter.isDeleted_ne != null">AND ISDELETED != #{filter.isDeleted_ne}</if>
-				
-				<if test="filter.cost_gte != null">AND P_COST &gt;= #{filter.cost_gte}</if>
-				<if test="filter.cost_lte != null">AND P_COST &lt;= #{filter.cost_lte}</if>
-				<if test="filter.cost_gt != null">AND P_COST &gt;= #{filter.cost_gt}</if>
-				<if test="filter.cost_lt != null">AND P_COST &lt;= #{filter.cost_lt}</if>
-				<if test="filter.cost_eq != null">AND P_COST = #{filter.cost_eq}</if>
-				<if test="filter.cost_ne != null">AND P_COST != #{filter.cost_ne}</if>
 			</if>
 		</trim>
 	</sql>

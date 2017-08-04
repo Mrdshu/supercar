@@ -1,6 +1,8 @@
 package com.xw.supercar.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -303,27 +305,28 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected ResponseResult beforeNew(E entity) {
 		return ResponseResult.generateResponse();
-	}	
+	}
+	
 	/**
 	 * 将data数组中实体成员类的变量多个外键对应的对象放入Data中
 	 * @param data map集合，实体类存放其中
-	 * @param attributeNames 外键名数组
+	 * @param attributesName 外键名数组
 	 * @param attributeServicesClazz 外键对应的service的class数组
 	 * @author  wangsz 2017-06-04
 	 */
-	protected void addAttributesToData(Map<String, Object> data, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
-		if(attributeNames.length != attributeServicesClazz.length)
+	protected void addAttributesToData(Map<String, Object> data, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(attributesName.length != attributeServicesClazz.length)
 			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
 		
 		if(data.containsKey("entity")){
 			BaseDateEntity entity = (BaseDateEntity) data.get("entity");
-			getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
+			getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
 		}
 		else if(data.containsKey("entitys")){
 			@SuppressWarnings("unchecked")
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) data.get("entitys");
 			for (BaseDateEntity entity : entities) {
-				getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
+				getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
 			}
 		}
 		else if(data.containsKey("page")){
@@ -331,9 +334,47 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 			Page<? extends BaseDateEntity> page = (Page<? extends BaseDateEntity>) data.get("page");
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) page.getContent();
 			for (BaseDateEntity entity : entities) {
-				getSevice().addAttributesToData(entity, attributeNames, attributeServicesClazz);
+				getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
 			}
 		}
 	}
 	
+	/**
+	 * 将data数组中实体成员类的变量多个外键对应的对象放入Data中
+	 * @param data map集合，实体类存放其中
+	 * @param attributeNames 外键名数组
+	 * @param attributeServicesClazz 外键对应的service的class数组
+	 * @author  wangsz 2017-06-04
+	 */
+	protected void addAttributesToExtendInfo(ResponseResult result, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(attributesName.length != attributeServicesClazz.length)
+			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
+		
+		Map<String, Object> data = result.getData();
+		Map<String, Map<String, Object>> extendInfo = result.getExtendInfo();
+		if(extendInfo == null) {
+			extendInfo = new HashMap<>();
+			result.setExtendInfo(extendInfo);
+		}
+		
+		if(data.containsKey("entity")){
+			BaseEntity entity = (BaseEntity) data.get("entity");
+			List<BaseEntity> entities = new ArrayList<>();
+			entities.add(entity);
+			
+			getSevice().addAttributesToExtendInfo(extendInfo, entities, attributesName, attributeServicesClazz);
+		}
+		else if(data.containsKey("entitys")){
+			@SuppressWarnings("unchecked")
+			List<? extends BaseEntity> entities = (List<? extends BaseEntity>) data.get("entitys");
+			getSevice().addAttributesToExtendInfo(extendInfo, entities, attributesName, attributeServicesClazz);
+			
+		}
+		else if(data.containsKey("page")){
+			@SuppressWarnings("unchecked")
+			Page<? extends BaseEntity> page = (Page<? extends BaseEntity>) data.get("page");
+			List<? extends BaseEntity> entities = (List<? extends BaseEntity>) page.getContent();
+			getSevice().addAttributesToExtendInfo(extendInfo, entities, attributesName, attributeServicesClazz);
+		}
+	}
 }

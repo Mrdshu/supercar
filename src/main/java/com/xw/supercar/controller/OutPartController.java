@@ -134,7 +134,7 @@ public class OutPartController extends BaseController<OutPart>{
 					transactionManager.rollback(status);
 					return ResponseResult.generateErrorResponse("", "库存商品【"+part.getName()+"】库存不足，无法出库");
 				}
-				//如果商品出库后，库存等于0，删除书屋
+				//如果商品出库后，库存等于0，删除该商品的库存信息
 				else if(inventory.getCount() == 0){
 					SpringContextHolder.getBean(InventoryService.class).remove(inventory);
 				}
