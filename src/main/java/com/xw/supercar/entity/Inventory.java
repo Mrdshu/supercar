@@ -16,12 +16,6 @@ public class Inventory extends BaseDateEntity {
     /** 配件库存数目 */
     private Integer count;
 
-//    /** 进货价 */
-//    private BigDecimal cost;
-//
-//    /** 供应商，数据字典外键 */
-//    private String supplierLK;
-
     /** 所属门店,外键 */
     private String company;
 

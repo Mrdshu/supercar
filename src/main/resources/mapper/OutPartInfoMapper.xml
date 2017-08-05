@@ -90,8 +90,6 @@
 		outPart.out_time workOrderNo_outTime,
 		inventory.P_ID inventoryId_partId,
 		inventory.P_COUNT inventoryId_count,
-		inventory.P_COST inventoryId_cost,
-		inventory.P_SUPPLIER inventoryId_supplierLK,
 		inventory.P_COMPANY inventoryId_company,
 		inventory.R_CODE inventoryId_repCodeLK,
 		part.P_CODE partId_code,
@@ -103,8 +101,6 @@
 		part.P_SPECIFICATION partId_specificationLK,
 		part.P_CAR_MODEL partId_carModel,
 		part.P_CATEGORY partId_pCategoryLK,
-		supplier.LK_CODE supplierLK_code,
-		supplier.LK_VALUE supplierLK_value,
 		repository.LK_CODE repositoryCodeLK_code,
 		repository.LK_VALUE repositoryCodeLK_value,
 		unit.LK_CODE unitLK_code,
@@ -114,7 +110,6 @@
 		LEFT JOIN tb_out_part outPart ON (outPart.out_workorder_no = outPartInfo.out_workorder_no)
 		LEFT JOIN tb_inventory inventory ON (outPartInfo.inventory_id = inventory.id)
 		LEFT JOIN tb_part part ON (inventory.p_id = part.id)
-		LEFT JOIN tb_lookup supplier ON (supplier.id = inventory.p_supplier)
 		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
 		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
 		LEFT JOIN tb_user userr ON (userr.id = outPart.out_receiver)

@@ -46,9 +46,9 @@ public class Client extends BaseDateEntity implements Serializable{
 	private Boolean sex;
 	/**身份证*/
 	private String idcard;
-	/**客户类别，数据字典*/
+	/**客户类别，个人用户还是其余用户，数据字典*/
 	private String type;
-	/**客户级别，数据字典*/
+	/**客户级别，铜银金级别，折扣不一样，数据字典*/
 	private String level;
 	/**邮箱*/
 	private String email;
