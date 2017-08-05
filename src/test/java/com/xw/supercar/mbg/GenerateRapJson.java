@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.xw.supercar.entity.Client;
+import com.xw.supercar.entity.InPart;
+import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.OutPart;
 import com.xw.supercar.entity.OutPartInfo;
 import com.xw.supercar.entity.RepairWorkorder;
@@ -39,6 +41,15 @@ public class GenerateRapJson {
 //		
 //		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
 		
+		InPart inPart = getClassInstance(InPart.class);
+		InPartInfo inPartInfo =  getClassInstance(InPartInfo.class);
+		InPartInfo inPartInfo2 = getClassInstance(InPartInfo.class);
+		List<InPartInfo> li2st = new ArrayList<>();
+		li2st.add(inPartInfo);
+		li2st.add(inPartInfo2);
+//		
+//		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
+		
 //		InPart outPart = getClassInstance(InPart.class);
 //		InPartInfo outPartInfo =  getClassInstance(InPartInfo.class);
 //		InPartInfo outPartInfo2 = getClassInstance(InPartInfo.class);
@@ -65,6 +76,7 @@ public class GenerateRapJson {
 		repairWorkOrderComposite.setRepairWorkorder(repairWorkorder);
 		repairWorkOrderComposite.setRepairWorkorderItems(items);
 		repairWorkOrderComposite.setClient(client);
+		InPartComposite inPartComposite = new InPartComposite(inPart,li2st);
 		System.out.println("======================");
 		System.out.println(GsonUtil.transObjectToJson(repairWorkOrderComposite));
 	}
