@@ -39,7 +39,7 @@
 				 <choose><when test="carOilmeter == ''">null</when><otherwise>#{carOilmeter}</otherwise></choose>,
 				 <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,
 				 <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,
-				 <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,
+				 default,
 				 <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,
 								
 			</trim>
@@ -56,7 +56,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendMan}, #{item.sendTime}, #{item.endTime})
+			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendMan}, default, #{item.endTime})
 		</foreach>
 	</insert>
 	

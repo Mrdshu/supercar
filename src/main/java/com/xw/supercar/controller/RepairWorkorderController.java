@@ -84,9 +84,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		//否则新增客户
 		else{
 			client = SpringContextHolder.getBean(ClientService.class).add(client);
-			repairWorkorder.setClientId(client.getId());
 		}
 		//新增维修工单信息
+		repairWorkorder.setClientId(client.getId());
 		repairWorkorder = SpringContextHolder.getBean(RepairWorkorderService.class).add(repairWorkorder);
 		
 		/*

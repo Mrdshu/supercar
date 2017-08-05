@@ -143,6 +143,7 @@ public class OutPartController extends BaseController<OutPart>{
 			//最后提交事务
 			transactionManager.commit(status);
 		} catch (Exception e) {
+			e.printStackTrace();
 			transactionManager.rollback(status);
 			return ResponseResult.generateErrorResponse("", "出库失败，请重新提交");
 		}
