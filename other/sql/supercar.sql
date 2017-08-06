@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-08-04 19:37:05
+Date: 2017-08-05 22:11:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,9 +29,9 @@ CREATE TABLE `sequence` (
 -- ----------------------------
 -- Records of sequence
 -- ----------------------------
-INSERT INTO `sequence` VALUES ('in_workorder_no', '27', '1');
-INSERT INTO `sequence` VALUES ('out_workorder_no', '13', '1');
-INSERT INTO `sequence` VALUES ('repair_workorder', '7', '1');
+INSERT INTO `sequence` VALUES ('in_workorder_no', '28', '1');
+INSERT INTO `sequence` VALUES ('out_workorder_no', '18', '1');
+INSERT INTO `sequence` VALUES ('repair_workorder', '10', '1');
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -82,6 +82,7 @@ INSERT INTO `tb_client` VALUES ('1', 'wsz', '1', '42102366262266', '153B10CE80B1
 INSERT INTO `tb_client` VALUES ('287E2C6DB859423F901B3762102A9C37', 'kim', '1', '1234567890098745678', '5713DCD00601409187CF0F975E92213C', 'B2D3F5DEDD204994BAD1425D2EFB1392', null, '18378311282', '广东深圳', null, '新增客户', '2017-07-12 09:25:15', '2017-07-12 09:25:15', '0', '粤BNB5201', '049C1B34F160472EB0712A6427292F14', 'A4L', '1241244324', null, null, '白色', '3243242433234', '平安保险', null, null);
 INSERT INTO `tb_client` VALUES ('77A24F759FF24B179AA16F12920D3FDF', 'king', null, '124423435351232132143', '700886ED4ECE4DAC8BBB908DF7553894', '153B10CE80B14D7EBB7B8B48A9E22376', '2133123@qq.com', '13213134325', '广东深圳南山前海', null, '32424', '2017-07-12 09:29:31', '2017-07-12 09:29:31', '0', '粤B213234', '049C1B34F160472EB0712A6427292F14', 'A6', '1232436456', null, null, '黑色', '233464532221', '太平洋保险', null, null);
 INSERT INTO `tb_client` VALUES ('D9F9F3C0A7FC471BBA163A067B9819E8', 'name', null, '421023199203110010', '153B10CE80B14D7EBB7B8B48A9E22376', '5713DCD00601409187CF0F975E92213C', 'email', 'mobile', 'address', '1', 'description', '2017-07-22 16:56:46', '2017-07-22 16:56:46', '0', '11232', '049C1B34F160472EB0712A6427292F14', 'carModel', 'carVIN', null, null, 'carColor', 'engineNo', 'insurer', null, null);
+INSERT INTO `tb_client` VALUES ('DB9B331E02594C20955BFA5AD10FD294', '111', null, null, 'B2D3F5DEDD204994BAD1425D2EFB1392', '5713DCD00601409187CF0F975E92213C', null, '1111', null, null, null, '2017-08-05 18:25:17', '2017-08-05 18:25:17', '0', '啊哎哎1111', '2', '11', null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_company
@@ -139,9 +140,10 @@ CREATE TABLE `tb_inventory` (
 -- ----------------------------
 -- Records of tb_inventory
 -- ----------------------------
-INSERT INTO `tb_inventory` VALUES ('5764e79f75e011e7b2a0704d7bbc2105', '49EA5A80F78A4711982DD710D919098A', '3', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
-INSERT INTO `tb_inventory` VALUES ('5764ee7d75e011e7b2a0704d7bbc2105', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '3', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
-INSERT INTO `tb_inventory` VALUES ('5766820e75e011e7b2a0704d7bbc2105', '2D953EE846DB4B2EA00B6A324BEB8450', '3', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('345f0e1279e411e7a457704d7bbc2105', '8E65E1B022C84C15B902FA6F8997D414', '4', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('5764e79f75e011e7b2a0704d7bbc2105', '49EA5A80F78A4711982DD710D919098A', '5', '1', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('5764ee7d75e011e7b2a0704d7bbc2105', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '0', '1', '53D57671F37F464F8D30734A53F2DEEC', '1', null, null, null);
+INSERT INTO `tb_inventory` VALUES ('5766820e75e011e7b2a0704d7bbc2105', '2D953EE846DB4B2EA00B6A324BEB8450', '0', '1', '53D57671F37F464F8D30734A53F2DEEC', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_in_part
@@ -177,6 +179,7 @@ INSERT INTO `tb_in_part` VALUES ('0E09BFD9CA6540C39E8B434CCDDEFBE4', '16', '2017
 INSERT INTO `tb_in_part` VALUES ('1FEC0CDC818646C791FC1C19E87015B1', '24', '2017-07-31 19:01:37', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('34B082885A434C55AFE14A8CF3221523', '22', '2017-07-31 18:59:57', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('45BEDCFF6B894FF59C009793EFB84DEB', '17', '2017-07-31 18:17:11', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
+INSERT INTO `tb_in_part` VALUES ('7761293E4E8A416A9C2F8CA6BF99EA95', '28', '2017-08-05 21:44:28', '9FFEB1FF40144F4CAC515EDD52AD8DCD', '170', '6A88275899B24969841940BCDBCD330F', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('80EC40CE649248CE9DFD6B776E9D07AA', '14', '2017-07-31 18:14:30', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('8E442E8407944004B0688C2DB9B520C3', '18', '2017-07-31 18:21:55', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
 INSERT INTO `tb_in_part` VALUES ('CB8E67A70145416F80D13C912C746CA5', '19', '2017-07-31 18:50:45', 'F2CA260B7AF34CA995F2E01A9701D8ED', '12', '8A0FD4172EDA46A89FFE627852DE2516', '1', '0', null, null, null);
@@ -218,6 +221,8 @@ CREATE TABLE `tb_in_part_info` (
 INSERT INTO `tb_in_part_info` VALUES ('0876FD3A7BF2435D88DBD04A3A293605', '27', '49EA5A80F78A4711982DD710D919098A', '2', '1.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('0B4B5CD37ED044B0AF9021ECB7F08794', '26', '2D953EE846DB4B2EA00B6A324BEB8450', '3', '3.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('6C6371E55FA3496AA2BB7506A012EF34', '26', '49EA5A80F78A4711982DD710D919098A', '1', '1.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('A99DD35CF8C64F0EA146FC72B3A20E44', '28', '49EA5A80F78A4711982DD710D919098A', '5', '10.00', '6A88275899B24969841940BCDBCD330F', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
+INSERT INTO `tb_in_part_info` VALUES ('C96045085E97411EB347AB77E378FC96', '28', '8E65E1B022C84C15B902FA6F8997D414', '6', '20.00', '6A88275899B24969841940BCDBCD330F', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('DA48B65D46A34C5A868597994C8F4217', '27', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '2', '3.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 INSERT INTO `tb_in_part_info` VALUES ('E5F65B88C62646EA99FFB54D0134FC3B', '26', '6EE27FCCC34C4C86ABB2B6FAD3FA9BC9', '1', '2.00', '8A0FD4172EDA46A89FFE627852DE2516', '53D57671F37F464F8D30734A53F2DEEC', '0', null, null, null);
 
@@ -365,6 +370,11 @@ CREATE TABLE `tb_out_part` (
 -- ----------------------------
 -- Records of tb_out_part
 -- ----------------------------
+INSERT INTO `tb_out_part` VALUES ('50C7FD603076464AB3DFBA5205C3802F', '18', '37BACFF568274226B66DC455664EE847', null, null, '2017-08-05 21:47:35', '24.00', '10', null, null, '1', '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('5319660F1A54464680BF34BF6F93E2BE', '14', '37BACFF568274226B66DC455664EE847', 'wsz', 'DA67698177BB4118BBB23079A6CA9BFA', '2017-08-05 16:27:58', '132.00', null, null, null, '1', '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('C58184F9332647FC95591E2EFE1125FF', '16', '37BACFF568274226B66DC455664EE847', null, null, '2017-08-05 18:22:02', '24.00', '8', null, null, '1', '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('E927A0488ACE4F8C98A355B74D79EBD6', '17', '37BACFF568274226B66DC455664EE847', null, null, '2017-08-05 18:25:17', '200.00', '9', null, null, '1', '0', null, null, null);
+INSERT INTO `tb_out_part` VALUES ('FC33A65935F34B4D95EDBCF194B8745F', '15', '37BACFF568274226B66DC455664EE847', 'wsz', 'DA67698177BB4118BBB23079A6CA9BFA', '2017-08-05 17:58:15', '40.00', null, null, null, '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_out_part_info
@@ -388,6 +398,13 @@ CREATE TABLE `tb_out_part_info` (
 -- ----------------------------
 -- Records of tb_out_part_info
 -- ----------------------------
+INSERT INTO `tb_out_part_info` VALUES ('2661D910591147BBBC6350291C324A40', '14', '5764e79f75e011e7b2a0704d7bbc2105', '20.00', '1', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('27F7E275BC7D436C96D170C60E759FC0', '18', '345f0e1279e411e7a457704d7bbc2105', '12.00', '2', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('39E21884C1CC4EE9997201AD9A9EC0FB', '15', '5764e79f75e011e7b2a0704d7bbc2105', '20.00', '2', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('654865C3166B48389E902EE5F8C4B3B8', '17', '5766820e75e011e7b2a0704d7bbc2105', '100.00', '2', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('88DFAEE1870C4116ADE5886F7C895AC0', '16', '5764ee7d75e011e7b2a0704d7bbc2105', '12.00', '2', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('8E7EBCF254804C3683A40B25524C675E', '14', '5766820e75e011e7b2a0704d7bbc2105', '100.00', '1', '0', null, null, null);
+INSERT INTO `tb_out_part_info` VALUES ('EA492493CF4949378FA126353480234D', '14', '5764ee7d75e011e7b2a0704d7bbc2105', '12.00', '1', '0', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_part
@@ -477,16 +494,15 @@ CREATE TABLE `tb_repair_workorder` (
   `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
   `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `rw_client_fk` (`rw_client_id`),
+  CONSTRAINT `rw_client_fk` FOREIGN KEY (`rw_client_id`) REFERENCES `tb_client` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='维修工单';
 
 -- ----------------------------
 -- Records of tb_repair_workorder
 -- ----------------------------
-INSERT INTO `tb_repair_workorder` VALUES ('115712086D94407F96A11AE92382BB5E', '6', '1', '1', '11', '1', '1', '1', '1', '维修提醒修改2', null, '2017-07-07 16:54:37', '2017-07-07 20:46:35', null, null);
-INSERT INTO `tb_repair_workorder` VALUES ('3F94B29961A44657B896F32E453CBFEC', '7', '0', '1', '11', '1', 'D9F9F3C0A7FC471BBA163A067B9819E8', '1', '1', '维修提醒', null, '2017-07-22 16:56:47', null, null, null);
-INSERT INTO `tb_repair_workorder` VALUES ('F289A81A27B041A88040682644F0FA10', '3', '0', '1', '11', '1', '1', '1', '1', '你好呀\r\n', null, '2017-07-07 11:05:31', null, null, null);
-INSERT INTO `tb_repair_workorder` VALUES ('FDA77040146847069EFD70CB5E0E4400', '2', '0', '1', '11', '1', '1', '1', '1', '你好呀\r\n', null, null, null, null, null);
+INSERT INTO `tb_repair_workorder` VALUES ('3041CBD00D2845318E14EE382FDFCDA0', '10', null, '134E48AE281C4376A70863421802769C', '424', '1', '1', '1', '2', null, '1', '2017-08-05 21:47:30', '2017-08-05 21:52:31', null, null);
 
 -- ----------------------------
 -- Table structure for tb_repair_workorder_item
@@ -505,12 +521,7 @@ CREATE TABLE `tb_repair_workorder_item` (
 -- ----------------------------
 -- Records of tb_repair_workorder_item
 -- ----------------------------
-INSERT INTO `tb_repair_workorder_item` VALUES ('2ADC3D15B26041498211E32BDEC60BDA', '3F94B29961A44657B896F32E453CBFEC', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
-INSERT INTO `tb_repair_workorder_item` VALUES ('2F5E1A5627AE4E07A934AA91D47CB35D', '', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
-INSERT INTO `tb_repair_workorder_item` VALUES ('4328C4185B894A6B878B6DF150464315', '', '1', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
-INSERT INTO `tb_repair_workorder_item` VALUES ('4A3514446E604268A416094F7CE2F4CD', '115712086D94407F96A11AE92382BB5E', '331EC8A236D34F7AA5B8FDBB516937A0', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
-INSERT INTO `tb_repair_workorder_item` VALUES ('B302B4953DBD4A57A03A5D0499978B1F', '3F94B29961A44657B896F32E453CBFEC', '331EC8A236D34F7AA5B8FDBB516937A0', '1', null, null);
-INSERT INTO `tb_repair_workorder_item` VALUES ('E7E3623CD47842ACBF53B19621168660', '', '331EC8A236D34F7AA5B8FDBB516937A0', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
+INSERT INTO `tb_repair_workorder_item` VALUES ('B7EC07892DF84CB89AE88E1E2EF5F045', '3041CBD00D2845318E14EE382FDFCDA0', '5E22F21B629F4765BDA4C2753625EFEB', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -585,7 +596,7 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS `insertInPartInfo`;
 DELIMITER ;;
 CREATE TRIGGER `insertInPartInfo` AFTER INSERT ON `tb_in_part_info` FOR EACH ROW BEGIN
-		 set @count = (select count(*) from tb_inventory where p_id = new.p_id and r_code= new.r_code);
+		 set @count = (select count(*) from tb_inventory where p_id = new.p_id and r_code= new.r_code and isdeleted=0);
 		 set @company = (select company from tb_in_part where in_workorder_no = new.in_workorder_no);
 		 if @count > 0 then
 				update tb_inventory set p_count = p_count + new.in_count where tb_inventory.p_id = new.p_id and tb_inventory.r_code = new.r_code;

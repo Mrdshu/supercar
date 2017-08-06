@@ -100,6 +100,13 @@ public class UserController extends BaseController<User>{
 	public ResponseResult register(User user){
 		ResponseResult result = ResponseResult.generateResponse();
 		
+		//验证用户名是否重复
+		String username = user.getUsername();
+		Searchable searchable = Searchable.newSearchable().addSearchFilter(User.DP.username.name(), SearchOperator.eq,username);
+		User usernameUser = service.getBy(searchable, true, false);
+		if(usernameUser != null)
+			return ResponseResult.generateErrorResponse("", "用户名已经存在，请重新输入");
+		
 		//=====加盐哈希加密算法暂时弃用，直接存入前台传来的md5加密密码====
 //		String password = user.getPassword();
 //				
