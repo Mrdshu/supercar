@@ -95,6 +95,19 @@
 		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
 		<include refid="where"/> order by inPart.IN_WORKORDER_NO desc
 	</select>
+	
+	<!-- 关联查询计数 -->
+	<select id="extendCountBy" resultType="long">
+		SELECT count(inPartInfo.ID)
+		FROM  tb_in_part_info inPartInfo
+		LEFT JOIN tb_in_part inPart ON (inPart.in_workorder_no = inPartInfo.in_workorder_no)
+		LEFT JOIN tb_part part ON (inPartInfo.p_id = part.id)
+		LEFT JOIN tb_lookup supplier ON (supplier.id = inPartInfo.p_supplier)
+		LEFT JOIN tb_lookup repository ON (repository.id = inPartInfo.r_code)
+		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
+		<include refid="where"/>
+	</select>
+	
 	<!-- 计数 -->
 	<select id="countBy" resultType="long">
 		SELECT count(ID) FROM <include refid="table" /> inPartInfo

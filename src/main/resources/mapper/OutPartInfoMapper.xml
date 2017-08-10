@@ -122,6 +122,19 @@
 		<include refid="where" />
 	</select>
 	
+	<!-- 关联查询计数 -->
+	<select id="extendCountBy" resultType="long">
+		SELECT count(outPartInfo.ID)
+		FROM  <include refid="table" /> outPartInfo
+		LEFT JOIN tb_out_part outPart ON (outPart.out_workorder_no = outPartInfo.out_workorder_no)
+		LEFT JOIN tb_inventory inventory ON (outPartInfo.inventory_id = inventory.id)
+		LEFT JOIN tb_part part ON (inventory.p_id = part.id)
+		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
+		LEFT JOIN tb_lookup unit ON (unit.id = part.P_UNIT)
+		LEFT JOIN tb_user userr ON (userr.id = outPart.out_receiver)
+		<include refid="where"/>
+	</select>
+	
 	<!-- 修改时用的的set语句 -->
 	<sql id="set">
 		<trim suffixOverrides=",">

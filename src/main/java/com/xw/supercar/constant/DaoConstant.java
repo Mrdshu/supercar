@@ -38,6 +38,8 @@ public class DaoConstant {
 	public final static String STMT_EXTEND_SELECT_BY = ".extendSelectBy";
 	/**mapper文件中 '计数' 操作对应的statement*/
 	public final static String STMT_COUNT_BY = ".countBy";
+	/**mapper文件中 '关联条件计数' 操作对应的statement*/
+	public final static String STMT_EXTEND_COUNT_BY = ".extendCountBy";
 	/**mapper文件中 '条件修改' 操作对应的statement*/
 	public final static String STMT_UPDATE_BY = ".updateBy";
 

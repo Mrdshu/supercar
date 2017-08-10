@@ -15,6 +15,7 @@ import static com.xw.supercar.constant.DaoConstant.STMT_SELECT_BY;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE;
 import static com.xw.supercar.constant.DaoConstant.STMT_UPDATE_BY;
 import static com.xw.supercar.constant.DaoConstant.whereSqlCustomKey;
+import static com.xw.supercar.constant.DaoConstant.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -430,7 +431,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 */
 	public Page<E> extendSelectPage(Searchable searchable, boolean defaultFilters){
 		//获取查询的实体总数目
-		Long totalCount = countBy(searchable, defaultFilters);
+		Long totalCount = extendCountBy(searchable, null, defaultFilters);
 		if(totalCount <= 0)
 			return new PageImpl<>(null, null, 0);
 		//如果没有设置分页的参数（起始页和页大小），采用默认参数
@@ -480,6 +481,17 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		return new PageImpl<>(results, searchable.getPage(), totalCount);
 	}
 	
+	/**
+	 * 关联查询数目-searchable和entity
+	 * @author  wangsz 2017-05-16
+	 */
+	public long extendCountBy(Searchable searchable, E entity, boolean defaultFilters){
+		Searchable defaultSearchable = defaultFilters ? getDefaultFiltersForSelect() : null;
+		String id = getId(entity);
+		Map<String, Object> filter = convertToMap(entityClass, defaultSearchable, searchable, entity, id);
+		
+		return getSqlSessionTemplate().selectOne(getExtendCountStatement(),filter);
+	}
 	
 	/**
 	 * 查询数目-searchable
@@ -676,6 +688,14 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 	 */
 	private String getCountStatement() {
 		return getStatementForEntityClass(entityClass, STMT_COUNT_BY);
+	}
+	
+	/**
+	 * 返回关联查询计数操作在mapper文件中的statement
+	 * @author  wangsz 2017-05-11
+	 */
+	private String getExtendCountStatement() {
+		return getStatementForEntityClass(entityClass, STMT_EXTEND_COUNT_BY);
 	}
 	
 	/**
