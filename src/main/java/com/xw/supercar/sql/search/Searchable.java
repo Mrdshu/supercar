@@ -81,7 +81,7 @@ public class Searchable implements Cloneable, Serializable {
 	
 	public void setPage(Pageable page) {
 		if (page == null) {
-			this.page.setNumber(0+1);
+			this.page.setNumber(0);
 			this.page.setSize(0);
 			this.page.setSort(null);
 		} else {
