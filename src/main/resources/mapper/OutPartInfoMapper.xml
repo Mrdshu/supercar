@@ -107,7 +107,7 @@
 		unit.LK_VALUE unitLK_value,
 		userr.U_USERNAME receiver_username
 		FROM  <include refid="table" /> outPartInfo
-		LEFT JOIN tb_out_part outPart ON (outPart.out_workorder_no = outPartInfo.out_workorder_no)
+		LEFT JOIN tb_out_part outPart ON (outPart.out_workorder_no = outPartInfo.OUT_WORKORDER_NO)
 		LEFT JOIN tb_inventory inventory ON (outPartInfo.inventory_id = inventory.id)
 		LEFT JOIN tb_part part ON (inventory.p_id = part.id)
 		LEFT JOIN tb_lookup repository ON (repository.id = inventory.r_code)
@@ -163,39 +163,45 @@
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="filter != null">
-			<if test="filter.workOrderNo_eq != null">AND OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
-			<if test="filter.workOrderNo_ne != null">AND OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
-			<if test="filter.workOrderNo_like != null">AND lower(OUT_WORKORDER_NO) LIKE lower(#{filter.workOrderNo_like})</if>
-			<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.inventoryId_eq != null">AND INVENTORY_ID = #{filter.inventoryId_eq}</if>
-			<if test="filter.inventoryId_ne != null">AND INVENTORY_ID != #{filter.inventoryId_ne}</if>
-			<if test="filter.inventoryId_like != null">AND lower(INVENTORY_ID) LIKE lower(#{filter.inventoryId_like})</if>
-			<if test="filter.inventoryId_in != null">AND <foreach item="ii" collection="filter.inventoryId_in" open="(" separator=" OR " close=")">INVENTORY_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.inventoryId_notIn != null">AND <foreach item="ii" collection="filter.inventoryId_notIn" open="(" separator=" AND " close=")">INVENTORY_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.sale_eq != null">AND P_SALE = #{filter.sale_eq}</if>
-			<if test="filter.sale_ne != null">AND P_SALE != #{filter.sale_ne}</if>
-			<if test="filter.sale_like != null">AND lower(P_SALE) LIKE lower(#{filter.sale_like})</if>
-			<if test="filter.sale_in != null">AND <foreach item="ii" collection="filter.sale_in" open="(" separator=" OR " close=")">P_SALE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.sale_notIn != null">AND <foreach item="ii" collection="filter.sale_notIn" open="(" separator=" AND " close=")">P_SALE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.count_eq != null">AND OUT_COUNT = #{filter.count_eq}</if>
-			<if test="filter.count_ne != null">AND OUT_COUNT != #{filter.count_ne}</if>
-			<if test="filter.count_like != null">AND lower(OUT_COUNT) LIKE lower(#{filter.count_like})</if>
-			<if test="filter.count_in != null">AND <foreach item="ii" collection="filter.count_in" open="(" separator=" OR " close=")">OUT_COUNT in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.count_notIn != null">AND <foreach item="ii" collection="filter.count_notIn" open="(" separator=" AND " close=")">OUT_COUNT not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.isDeleted_eq != null">AND outPartInfo.ISDELETED = #{filter.isDeleted_eq}</if>
-			<if test="filter.isDeleted_ne != null">AND outPartInfo.ISDELETED != #{filter.isDeleted_ne}</if>
-			
-			<!-- 外键约束的搜索条件 -->
-			<if test="filter.company_eq != null">AND outPart.COMPANY = #{filter.company_eq}</if>
-			<if test="filter.company_ne != null">AND outPart.COMPANY != #{filter.company_ne}</if>
-			<if test="filter.company_in != null">AND <foreach item="ii" collection="filter.company_in" open="(" separator=" OR " close=")">outPart.COMPANY in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.company_notIn != null">AND <foreach item="ii" collection="filter.company_notIn" open="(" separator=" AND " close=")">outPart.COMPANY not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_eq != null">AND outPartInfo.OUT_WORKORDER_NO = #{filter.workOrderNo_eq}</if>
+				<if test="filter.workOrderNo_ne != null">AND outPartInfo.OUT_WORKORDER_NO != #{filter.workOrderNo_ne}</if>
+				<if test="filter.workOrderNo_like != null">AND lower(outPartInfo.OUT_WORKORDER_NO) LIKE lower(#{filter.workOrderNo_like})</if>
+				<if test="filter.workOrderNo_in != null">AND <foreach item="ii" collection="filter.workOrderNo_in" open="(" separator=" OR " close=")">outPartInfo.OUT_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workOrderNo_notIn != null">AND <foreach item="ii" collection="filter.workOrderNo_notIn" open="(" separator=" AND " close=")">outPartInfo.OUT_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.inventoryId_eq != null">AND INVENTORY_ID = #{filter.inventoryId_eq}</if>
+				<if test="filter.inventoryId_ne != null">AND INVENTORY_ID != #{filter.inventoryId_ne}</if>
+				<if test="filter.inventoryId_like != null">AND lower(INVENTORY_ID) LIKE lower(#{filter.inventoryId_like})</if>
+				<if test="filter.inventoryId_in != null">AND <foreach item="ii" collection="filter.inventoryId_in" open="(" separator=" OR " close=")">INVENTORY_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.inventoryId_notIn != null">AND <foreach item="ii" collection="filter.inventoryId_notIn" open="(" separator=" AND " close=")">INVENTORY_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.sale_eq != null">AND P_SALE = #{filter.sale_eq}</if>
+				<if test="filter.sale_ne != null">AND P_SALE != #{filter.sale_ne}</if>
+				<if test="filter.sale_like != null">AND lower(P_SALE) LIKE lower(#{filter.sale_like})</if>
+				<if test="filter.sale_in != null">AND <foreach item="ii" collection="filter.sale_in" open="(" separator=" OR " close=")">P_SALE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sale_notIn != null">AND <foreach item="ii" collection="filter.sale_notIn" open="(" separator=" AND " close=")">P_SALE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.count_eq != null">AND OUT_COUNT = #{filter.count_eq}</if>
+				<if test="filter.count_ne != null">AND OUT_COUNT != #{filter.count_ne}</if>
+				<if test="filter.count_like != null">AND lower(OUT_COUNT) LIKE lower(#{filter.count_like})</if>
+				<if test="filter.count_in != null">AND <foreach item="ii" collection="filter.count_in" open="(" separator=" OR " close=")">OUT_COUNT in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.count_notIn != null">AND <foreach item="ii" collection="filter.count_notIn" open="(" separator=" AND " close=")">OUT_COUNT not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.isDeleted_eq != null">AND outPartInfo.ISDELETED = #{filter.isDeleted_eq}</if>
+				<if test="filter.isDeleted_ne != null">AND outPartInfo.ISDELETED != #{filter.isDeleted_ne}</if>
 				
+				<!-- 外键约束的搜索条件 -->
+				<if test="filter.company_eq != null">AND outPart.COMPANY = #{filter.company_eq}</if>
+				<if test="filter.company_ne != null">AND outPart.COMPANY != #{filter.company_ne}</if>
+				<if test="filter.company_in != null">AND <foreach item="ii" collection="filter.company_in" open="(" separator=" OR " close=")">outPart.COMPANY in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.company_notIn != null">AND <foreach item="ii" collection="filter.company_notIn" open="(" separator=" AND " close=")">outPart.COMPANY not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				
+				<!-- 外键约束的搜索条件 -->
+				<if test="filter.type_eq != null">AND outPart.out_type = #{filter.type_eq}</if>
+				<if test="filter.type_ne != null">AND outPart.out_type != #{filter.type_ne}</if>
+				<if test="filter.type_in != null">AND <foreach item="ii" collection="filter.type_in" open="(" separator=" OR " close=")">outPart.out_type in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.type_notIn != null">AND <foreach item="ii" collection="filter.type_notIn" open="(" separator=" AND " close=")">outPart.out_type not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+					
 			</if>
 		</trim>
 	</sql>

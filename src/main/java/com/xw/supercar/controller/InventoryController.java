@@ -41,16 +41,16 @@ public class InventoryController extends BaseController<Inventory>{
 	 */
 	@RequestMapping(value = "/listInventory",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult listInventory(String partName, String partCode, String carModel){
+	public ResponseResult listInventory(Searchable searchable,String partName, String partCode, String carModel){
 		ResponseResult result = ResponseResult.generateResponse();
 		Map<String, Map<String, Object>>  extendInfo = result.getExtendInfo();
 		
 		//获取搜索条件对应的配件集合
-		Searchable searchable = Searchable.newSearchable()
+		Searchable newsearchable = Searchable.newSearchable()
 				.addSearchFilter(Part.DP.name.name(), SearchOperator.eq, partName)
 				.addSearchFilter(Part.DP.code.name(), SearchOperator.eq, partCode)
 				.addSearchFilter(Part.DP.carModel.name(), SearchOperator.like, carModel);
-		List<Part> parts = SpringContextHolder.getBean(PartService.class).findBy(searchable, true);
+		List<Part> parts = SpringContextHolder.getBean(PartService.class).findBy(newsearchable, true);
 		
 		//获取配件集合的id,同时将配件信息放入扩展属性
 		List<String> partsId = new ArrayList<>();
@@ -64,7 +64,7 @@ public class InventoryController extends BaseController<Inventory>{
 		if(partsId == null || partsId.size() == 0)
 			return ResponseResult.generateErrorResponse("", "没有符合条件的数据");
 		//根据配件id，搜索出对应的库存信息
-		searchable = Searchable.newSearchable().addSearchFilter(Inventory.DP.partId.name(), SearchOperator.in, partsId);
+		searchable = Searchable.newSearchable(searchable).addSearchFilter(Inventory.DP.partId.name(), SearchOperator.in, partsId);
 		List<Inventory> entitys = getSevice().findBy(searchable, true);
 		//生成返回实体类
 		result.addAttribute("entitys", entitys);
