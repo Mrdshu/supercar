@@ -16,11 +16,11 @@
 	<result column="RW_SEND_MAN" property="sendMan" />
 	<result column="RW_SEND_TIME" property="sendTime" />
 	<result column="RW_END_TIME" property="endTime" />
-	   	
+	<result column="RW_COMPANY" property="company" />
   </resultMap>
   
   <sql id="table">tb_repair_workorder</sql>
-  <sql id="columns">ID, RW_WORKORDER_NO, RW_WORKORDER_STATE, RW_REPAIR_TYPE, RW_SUM, RW_CLERK, RW_CLIENT_ID, RW_CAR_MILEAGE, RW_CAR_OILMETER, RW_CLENT_REMIND, RW_SEND_MAN, RW_SEND_TIME, RW_END_TIME</sql>
+  <sql id="columns">ID, RW_WORKORDER_NO, RW_WORKORDER_STATE, RW_REPAIR_TYPE, RW_SUM, RW_CLERK, RW_CLIENT_ID, RW_CAR_MILEAGE, RW_CAR_OILMETER, RW_CLENT_REMIND, RW_SEND_MAN, RW_SEND_TIME, RW_END_TIME, RW_COMPANY</sql>
   
   	<!-- 新增 -->
 	<insert id="insert">
@@ -41,7 +41,7 @@
 				 <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,
 				 default,
 				 <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,
-								
+				 <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,			
 			</trim>
 		)
 	</insert>
@@ -56,7 +56,7 @@
 			<include refid="columns" />
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendMan}, default, #{item.endTime})
+			(#{item.id}, #{item.workorderNo}, #{item.workorderState}, #{item.repairTypeLK}, #{item.sum}, #{item.clerk}, #{item.clientId}, #{item.carMileage}, #{item.carOilmeter}, #{item.clentRemind}, #{item.sendMan}, default, #{item.endTime}, #{company})
 		</foreach>
 	</insert>
 	
@@ -111,7 +111,7 @@
 			<if test="sendMan != null">RW_SEND_MAN = <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,</if>
 			<if test="sendTime != null">RW_SEND_TIME = <choose><when test="sendTime == ''">null</when><otherwise>#{sendTime}</otherwise></choose>,</if>
 			<if test="endTime != null">RW_END_TIME = <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,</if>
-
+			<if test="company != null">RW_COMPANY = <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,</if>
 		</trim>
 	</sql>
 	
@@ -131,7 +131,7 @@
 			<if test="sendMan != null">AND RW_SEND_MAN = #{sendMan}</if>
 			<if test="sendTime != null">AND RW_SEND_TIME = #{sendTime}</if>
 			<if test="endTime != null">AND RW_END_TIME = #{endTime}</if>
-
+			<if test="company != null">AND RW_COMPANY = #{company}</if>
 		</trim>
 	</sql>
 	<!-- where语句（对应Searchable）-->
@@ -211,7 +211,8 @@
 			<if test="filter.endTime_lte != null">AND RW_END_TIME &lt;= #{filter.endTime_lte}</if>
 			<if test="filter.endTime_gt != null">AND RW_END_TIME &gt;= #{filter.endTime_gt}</if>
 			<if test="filter.endTime_lt != null">AND RW_END_TIME &lt;= #{filter.endTime_lt}</if>
-
+			
+			<if test="filter.company_eq != null">AND RW_COMPANY = #{filter.company_eq}</if>
 				
 		</trim>
 	</sql>

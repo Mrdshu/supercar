@@ -1,6 +1,5 @@
 package com.xw.supercar.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ctc.wstx.util.StringUtil;
 import com.xw.supercar.entity.Client;
+import com.xw.supercar.entity.Company;
 import com.xw.supercar.entity.Inventory;
 import com.xw.supercar.entity.Lookup;
+import com.xw.supercar.entity.OutPartInfo;
 import com.xw.supercar.entity.Part;
 import com.xw.supercar.entity.RepairWorkorder;
 import com.xw.supercar.entity.RepairWorkorderItem;
@@ -27,8 +29,11 @@ import com.xw.supercar.entity.composite.OutPartComposite;
 import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.ClientService;
+import com.xw.supercar.service.CompanyService;
+import com.xw.supercar.service.InventoryService;
 import com.xw.supercar.service.LookupService;
 import com.xw.supercar.service.OutPartService;
+import com.xw.supercar.service.PartService;
 import com.xw.supercar.service.RepairWorkorderItemService;
 import com.xw.supercar.service.RepairWorkorderService;
 import com.xw.supercar.service.UserService;
@@ -61,8 +66,8 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	protected void afterReturn(ResponseResult result) {
 		Map<String, Object> data = result.getData();
 		//将外键对应的实体放入data
-		addAttributesToData(data, new String[]{RepairWorkorder.DP.workorderState.name(),RepairWorkorder.DP.repairTypeLK.name(),RepairWorkorder.DP.clientId.name(),RepairWorkorder.DP.clerk.name()}
-		, new Class[]{LookupService.class,LookupService.class,ClientService.class,UserService.class});
+		addAttributesToData(data, new String[]{RepairWorkorder.DP.company.name(),RepairWorkorder.DP.workorderState.name(),RepairWorkorder.DP.repairTypeLK.name(),RepairWorkorder.DP.clientId.name(),RepairWorkorder.DP.clerk.name()}
+		, new Class[]{CompanyService.class,LookupService.class,LookupService.class,ClientService.class,UserService.class});
 	}
 	
 	/**
@@ -191,16 +196,28 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		Map<String, Object> repairTypeLKExtendInfo = new HashMap<>();
 		Map<String, Object> mechanicExtendInfo = new HashMap<>();
 		Map<String, Object> clerkExtendInfo = new HashMap<>();
+		Map<String, Object> companyExtendInfo = new HashMap<>();
+		
 		for (RepairWorkorderItem item : items) {
 			mechanicExtendInfo = getAccountById(mechanicExtendInfo,item.getMechanic());
 		}
+		
+		if(outPartComposite != null){
+			Map<String, Object> partExtendInfo = new HashMap<>();
+			for (OutPartInfo outPartInfo : outPartComposite.getOutPartInfos()) {
+				Inventory inventory = SpringContextHolder.getBean(InventoryService.class).getById(outPartInfo.getInventoryId());
+				partExtendInfo = getPartById(partExtendInfo,inventory.getPartId());
+			}
+			extendInfo.put(Inventory.DP.partId.name(), partExtendInfo);
+		}
+		
 		extendInfo.put(Client.DP.type.name(), getByLookUp(carBrandExtendInfo,client.getCarBrand()));
 		extendInfo.put(Client.DP.level.name(), getByLookUp(clientLevelExtendInfo,client.getLevel()));
 		extendInfo.put(RepairWorkorder.DP.workorderState.name(), getByLookUp(repairWorkorderExtendInfo,repairWorkorder.getWorkorderState()));
 		extendInfo.put(RepairWorkorder.DP.repairTypeLK.name(), getByLookUp(repairTypeLKExtendInfo,repairWorkorder.getRepairTypeLK()));
 		extendInfo.put(RepairWorkorder.DP.clerk.name(), getByLookUp(clerkExtendInfo,repairWorkorder.getClerk()));
 		extendInfo.put(RepairWorkorderItem.DP.mechanic.name(), mechanicExtendInfo);
-		
+		extendInfo.put(RepairWorkorder.DP.company.name(),getCompanyById(companyExtendInfo,repairWorkorder.getCompany()));
 		result.addAttribute("repairWorkorder", repairWorkorder);
 		result.addAttribute("client", client);
 		result.addAttribute("items", items);
@@ -228,6 +245,28 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 				.addSearchFilter(User.DP.id.name(), SearchOperator.eq, userId);
 		User user = SpringContextHolder.getBean(UserService.class).getBy(searchable, true, true);
 		itemExtendInfo.put(userId, user);
+		return itemExtendInfo;
+	}
+	
+	//根据扩展字段查询对应账号的数据
+	public Map<String, Object> getPartById(Map<String, Object> itemExtendInfo,String partId){
+		if(itemExtendInfo == null)
+			itemExtendInfo = new HashMap<>();
+		Searchable searchable = Searchable.newSearchable()
+				.addSearchFilter(Part.DP.id.name(), SearchOperator.eq, partId);
+		Part part = SpringContextHolder.getBean(PartService.class).getBy(searchable, true, true);
+		itemExtendInfo.put(partId, part);
+		return itemExtendInfo;
+	}
+	
+	//根据扩展字段查询对应账号的数据
+	public Map<String, Object> getCompanyById(Map<String, Object> itemExtendInfo,String companyId){
+		if(itemExtendInfo == null)
+			itemExtendInfo = new HashMap<>();
+		Searchable searchable = Searchable.newSearchable()
+				.addSearchFilter(Company.DP.id.name(), SearchOperator.eq, companyId);
+		Company part = SpringContextHolder.getBean(CompanyService.class).getBy(searchable, true, true);
+		itemExtendInfo.put(companyId, part);
 		return itemExtendInfo;
 	}
 	

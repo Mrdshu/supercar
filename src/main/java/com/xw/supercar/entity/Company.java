@@ -16,6 +16,8 @@ import lombok.ToString;
 @ToString @AllArgsConstructor @NoArgsConstructor
 public class Company extends BaseDateEntity{
 	/**公司名称*/
+	private String id;
+	/**公司名称*/
 	private String name;
 	/**公司code*/
 	private String code;
@@ -41,6 +43,6 @@ public class Company extends BaseDateEntity{
 	private Boolean isDeleted;
 	
 	public static enum DP{
-		name,code,brand,type,mobile,carNo,email,address,description,createTime,updateTime,isDeleted
+		id,name,code,brand,type,mobile,carNo,email,address,description,createTime,updateTime,isDeleted
 	}
 }
