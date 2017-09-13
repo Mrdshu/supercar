@@ -14,8 +14,8 @@
 	<result column="RW_CAR_OILMETER" property="carOilmeter" />
 	<result column="RW_CLENT_REMIND" property="clentRemind" />
 	<result column="RW_SEND_MAN" property="sendMan" />
-	<result column="RW_SEND_TIME" property="sendTime" />
-	<result column="RW_END_TIME" property="endTime" />
+	<result column="RW_SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+	<result column="RW_END_TIME" property="endTime" jdbcType="TIMESTAMP" />
 	<result column="RW_COMPANY" property="company" />
   </resultMap>
   
@@ -40,7 +40,7 @@
 				 <choose><when test="clentRemind == ''">null</when><otherwise>#{clentRemind}</otherwise></choose>,
 				 <choose><when test="sendMan == ''">null</when><otherwise>#{sendMan}</otherwise></choose>,
 				 default,
-				 <choose><when test="endTime == ''">null</when><otherwise>#{endTime}</otherwise></choose>,
+				 <choose><when test="endTime == null">null</when><otherwise>date(#{endTime,jdbcType=TIMESTAMP})</otherwise></choose>,
 				 <choose><when test="company == ''">null</when><otherwise>#{company}</otherwise></choose>,			
 			</trim>
 		)
