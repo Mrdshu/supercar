@@ -117,53 +117,54 @@
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
-			<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
-			<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.typeLK_eq != null">AND RI_TYPE = #{filter.typeLK_eq}</if>
-			<if test="filter.typeLK_ne != null">AND RI_TYPE != #{filter.typeLK_ne}</if>
-			<if test="filter.typeLK_like != null">AND lower(RI_TYPE) LIKE lower(#{filter.typeLK_like})</if>
-			<if test="filter.typeLK_in != null">AND <foreach item="ii" collection="filter.typeLK_in" open="(" separator=" OR " close=")">RI_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.typeLK_notIn != null">AND <foreach item="ii" collection="filter.typeLK_notIn" open="(" separator=" AND " close=")">RI_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.code_eq != null">AND RI_CODE = #{filter.code_eq}</if>
-			<if test="filter.code_ne != null">AND RI_CODE != #{filter.code_ne}</if>
-			<if test="filter.code_like != null">AND lower(RI_CODE) LIKE lower(#{filter.code_like})</if>
-			<if test="filter.code_in != null">AND <foreach item="ii" collection="filter.code_in" open="(" separator=" OR " close=")">RI_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.code_notIn != null">AND <foreach item="ii" collection="filter.code_notIn" open="(" separator=" AND " close=")">RI_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.name_eq != null">AND RI_NAME = #{filter.name_eq}</if>
-			<if test="filter.name_ne != null">AND RI_NAME != #{filter.name_ne}</if>
-			<if test="filter.name_like != null">AND lower(RI_NAME) LIKE lower(#{filter.name_like})</if>
-			<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">RI_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">RI_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.workHour_eq != null">AND RI_WORKING_HOUR = #{filter.workHour_eq}</if>
-			<if test="filter.workHour_ne != null">AND RI_WORKING_HOUR != #{filter.workHour_ne}</if>
-			<if test="filter.workHour_like != null">AND lower(RI_WORKING_HOUR) LIKE lower(#{filter.workHour_like})</if>
-			<if test="filter.workHour_in != null">AND <foreach item="ii" collection="filter.workHour_in" open="(" separator=" OR " close=")">RI_WORKING_HOUR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workHour_notIn != null">AND <foreach item="ii" collection="filter.workHour_notIn" open="(" separator=" AND " close=")">RI_WORKING_HOUR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.workTypeLK_eq != null">AND RI_WORK_TYPE = #{filter.workTypeLK_eq}</if>
-			<if test="filter.workTypeLK_ne != null">AND RI_WORK_TYPE != #{filter.workTypeLK_ne}</if>
-			<if test="filter.workTypeLK_like != null">AND lower(RI_WORK_TYPE) LIKE lower(#{filter.workTypeLK_like})</if>
-			<if test="filter.workTypeLK_in != null">AND <foreach item="ii" collection="filter.workTypeLK_in" open="(" separator=" OR " close=")">RI_WORK_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workTypeLK_notIn != null">AND <foreach item="ii" collection="filter.workTypeLK_notIn" open="(" separator=" AND " close=")">RI_WORK_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.description_eq != null">AND RI_DESC = #{filter.description_eq}</if>
-			<if test="filter.description_ne != null">AND RI_DESC != #{filter.description_ne}</if>
-			<if test="filter.description_like != null">AND lower(RI_DESC) LIKE lower(#{filter.description_like})</if>
-			<if test="filter.description_in != null">AND <foreach item="ii" collection="filter.description_in" open="(" separator=" OR " close=")">RI_DESC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.description_notIn != null">AND <foreach item="ii" collection="filter.description_notIn" open="(" separator=" AND " close=")">RI_DESC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.sum_eq != null">AND RI_SUM = #{filter.sum_eq}</if>
-			<if test="filter.sum_ne != null">AND RI_SUM != #{filter.sum_ne}</if>
-			<if test="filter.sum_like != null">AND lower(RI_SUM) LIKE lower(#{filter.sum_like})</if>
-			<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RI_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RI_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.typeLK_eq != null">AND RI_TYPE = #{filter.typeLK_eq}</if>
+				<if test="filter.typeLK_ne != null">AND RI_TYPE != #{filter.typeLK_ne}</if>
+				<if test="filter.typeLK_like != null">AND lower(RI_TYPE) LIKE lower(#{filter.typeLK_like})</if>
+				<if test="filter.typeLK_in != null">AND <foreach item="ii" collection="filter.typeLK_in" open="(" separator=" OR " close=")">RI_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.typeLK_notIn != null">AND <foreach item="ii" collection="filter.typeLK_notIn" open="(" separator=" AND " close=")">RI_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.code_eq != null">AND RI_CODE = #{filter.code_eq}</if>
+				<if test="filter.code_ne != null">AND RI_CODE != #{filter.code_ne}</if>
+				<if test="filter.code_like != null">AND lower(RI_CODE) LIKE lower(#{filter.code_like})</if>
+				<if test="filter.code_in != null">AND <foreach item="ii" collection="filter.code_in" open="(" separator=" OR " close=")">RI_CODE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.code_notIn != null">AND <foreach item="ii" collection="filter.code_notIn" open="(" separator=" AND " close=")">RI_CODE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.name_eq != null">AND RI_NAME = #{filter.name_eq}</if>
+				<if test="filter.name_ne != null">AND RI_NAME != #{filter.name_ne}</if>
+				<if test="filter.name_like != null">AND lower(RI_NAME) LIKE lower(#{filter.name_like})</if>
+				<if test="filter.name_in != null">AND <foreach item="ii" collection="filter.name_in" open="(" separator=" OR " close=")">RI_NAME in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.name_notIn != null">AND <foreach item="ii" collection="filter.name_notIn" open="(" separator=" AND " close=")">RI_NAME not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.workHour_eq != null">AND RI_WORKING_HOUR = #{filter.workHour_eq}</if>
+				<if test="filter.workHour_ne != null">AND RI_WORKING_HOUR != #{filter.workHour_ne}</if>
+				<if test="filter.workHour_like != null">AND lower(RI_WORKING_HOUR) LIKE lower(#{filter.workHour_like})</if>
+				<if test="filter.workHour_in != null">AND <foreach item="ii" collection="filter.workHour_in" open="(" separator=" OR " close=")">RI_WORKING_HOUR in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workHour_notIn != null">AND <foreach item="ii" collection="filter.workHour_notIn" open="(" separator=" AND " close=")">RI_WORKING_HOUR not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.workTypeLK_eq != null">AND RI_WORK_TYPE = #{filter.workTypeLK_eq}</if>
+				<if test="filter.workTypeLK_ne != null">AND RI_WORK_TYPE != #{filter.workTypeLK_ne}</if>
+				<if test="filter.workTypeLK_like != null">AND lower(RI_WORK_TYPE) LIKE lower(#{filter.workTypeLK_like})</if>
+				<if test="filter.workTypeLK_in != null">AND <foreach item="ii" collection="filter.workTypeLK_in" open="(" separator=" OR " close=")">RI_WORK_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workTypeLK_notIn != null">AND <foreach item="ii" collection="filter.workTypeLK_notIn" open="(" separator=" AND " close=")">RI_WORK_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.description_eq != null">AND RI_DESC = #{filter.description_eq}</if>
+				<if test="filter.description_ne != null">AND RI_DESC != #{filter.description_ne}</if>
+				<if test="filter.description_like != null">AND lower(RI_DESC) LIKE lower(#{filter.description_like})</if>
+				<if test="filter.description_in != null">AND <foreach item="ii" collection="filter.description_in" open="(" separator=" OR " close=")">RI_DESC in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.description_notIn != null">AND <foreach item="ii" collection="filter.description_notIn" open="(" separator=" AND " close=")">RI_DESC not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.sum_eq != null">AND RI_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND RI_SUM != #{filter.sum_ne}</if>
+				<if test="filter.sum_like != null">AND lower(RI_SUM) LIKE lower(#{filter.sum_like})</if>
+				<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RI_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RI_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+			</if>
 				
 		</trim>
 	</sql>

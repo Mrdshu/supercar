@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.xw.supercar.entity.ClientCoupon" >
+  <resultMap id="resultMap" type="com.xw.supercar.entity.ClientCoupon" >
+	<id property="id" column="ID" />
+	<result column="CC_CLIENT_ID" property="clientId" />
+	<result column="CC_COUPON_ID" property="couponId" />
+	<result column="CC_NUM" property="num" />
+	   	
+  </resultMap>
+  
+  <sql id="table">tb_client_coupon</sql>
+  <sql id="columns">ID, CC_CLIENT_ID, CC_COUPON_ID, CC_NUM</sql>
+  
+  	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES (
+			<trim suffixOverrides=",">
+				<choose><when test="id == ''">null</when><otherwise>#{id}</otherwise></choose>,
+				 <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,
+				 <choose><when test="couponId == ''">null</when><otherwise>#{couponId}</otherwise></choose>,
+				 <choose><when test="num == ''">null</when><otherwise>#{num}</otherwise></choose>,
+								
+			</trim>
+		)
+	</insert>
+	
+	<!-- 批量新增 -->
+	<insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id}, #{item.clientId}, #{item.couponId}, #{item.num})
+		</foreach>
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 批量修改 -->
+	<update id="updateBy" >
+		UPDATE <include refid="table" /> SET <include refid="set" />
+		<include refid="whereFilter"/>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete">
+		DELETE FROM <include refid="table" /> 
+		WHERE ID = #{id}
+	</delete>
+	
+	<!-- 条件搜索删除 -->
+	<delete id="deleteBy">
+		DELETE FROM <include refid="table" /> 
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="selectBy" resultMap="resultMap">
+		SELECT * from  <include refid="table" />
+		<include refid="where"/> <include refid="sort" />
+	</select>
+	
+	<!-- 计数 -->
+	<select id="countBy" resultType="long">
+		SELECT count(ID) FROM <include refid="table" />
+		<include refid="where" />
+	</select>
+	
+	<!-- 修改时用的的set语句 -->
+	<sql id="set">
+		<trim suffixOverrides=",">
+			<if test="clientId != null">CC_CLIENT_ID = <choose><when test="clientId == ''">null</when><otherwise>#{clientId}</otherwise></choose>,</if>
+			<if test="couponId != null">CC_COUPON_ID = <choose><when test="couponId == ''">null</when><otherwise>#{couponId}</otherwise></choose>,</if>
+			<if test="num != null">CC_NUM = <choose><when test="num == ''">null</when><otherwise>#{num}</otherwise></choose>,</if>
+
+		</trim>
+	</sql>
+	
+	<!-- where语句（对应entity中的属性）-->
+	<sql id="whereEntity">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null">AND ID = #{id}</if>
+			<if test="clientId != null">AND CC_CLIENT_ID = #{clientId}</if>
+			<if test="couponId != null">AND CC_COUPON_ID = #{couponId}</if>
+			<if test="num != null">AND CC_NUM = #{num}</if>
+
+		</trim>
+	</sql>
+	<!-- where语句（对应Searchable）-->
+	<sql id="whereFilter">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.clientId_eq != null">AND CC_CLIENT_ID = #{filter.clientId_eq}</if>
+				<if test="filter.clientId_ne != null">AND CC_CLIENT_ID != #{filter.clientId_ne}</if>
+				<if test="filter.clientId_like != null">AND lower(CC_CLIENT_ID) LIKE lower(#{filter.clientId_like})</if>
+				<if test="filter.clientId_in != null">AND <foreach item="ii" collection="filter.clientId_in" open="(" separator=" OR " close=")">CC_CLIENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clientId_notIn != null">AND <foreach item="ii" collection="filter.clientId_notIn" open="(" separator=" AND " close=")">CC_CLIENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.couponId_eq != null">AND CC_COUPON_ID = #{filter.couponId_eq}</if>
+				<if test="filter.couponId_ne != null">AND CC_COUPON_ID != #{filter.couponId_ne}</if>
+				<if test="filter.couponId_like != null">AND lower(CC_COUPON_ID) LIKE lower(#{filter.couponId_like})</if>
+				<if test="filter.couponId_in != null">AND <foreach item="ii" collection="filter.couponId_in" open="(" separator=" OR " close=")">CC_COUPON_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.couponId_notIn != null">AND <foreach item="ii" collection="filter.couponId_notIn" open="(" separator=" AND " close=")">CC_COUPON_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.num_eq != null">AND CC_NUM = #{filter.num_eq}</if>
+				<if test="filter.num_ne != null">AND CC_NUM != #{filter.num_ne}</if>
+				<if test="filter.num_like != null">AND lower(CC_NUM) LIKE lower(#{filter.num_like})</if>
+				<if test="filter.num_in != null">AND <foreach item="ii" collection="filter.num_in" open="(" separator=" OR " close=")">CC_NUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.num_notIn != null">AND <foreach item="ii" collection="filter.num_notIn" open="(" separator=" AND " close=")">CC_NUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	</if>
+				
+		</trim>
+	</sql>
+	
+	<!-- where语句-->
+	<sql id="where">
+		<trim prefix="WHERE " prefixOverrides="AND |OR ">
+			<trim prefixOverrides="WHERE ">
+				<include refid="whereEntity" />
+			</trim>
+			<trim prefix="AND " prefixOverrides="WHERE ">
+				<include refid="whereFilter" />
+			</trim>
+		</trim>
+	</sql>
+	
+	<!-- sort排序语句-->
+	<sql id="sort">
+		<if test="sort == null" >
+														</if>
+		<if test="sort != null" >
+			<trim prefix="ORDER BY " suffixOverrides=",">
+				<foreach collection="sort" index="key" item="val">
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>

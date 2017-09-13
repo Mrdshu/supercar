@@ -63,10 +63,9 @@
 		</dependency> 
 
 		<!-- 注解式get、set方法 -->
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok-maven-plugin</artifactId>
+			<artifactId>lombok-maven</artifactId>
 			<version>1.16.18.0</version>
 		</dependency>
 

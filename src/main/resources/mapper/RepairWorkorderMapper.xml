@@ -137,83 +137,84 @@
 	<!-- where语句（对应Searchable）-->
 	<sql id="whereFilter">
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
-			<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
-			<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.workorderNo_eq != null">AND RW_WORKORDER_NO = #{filter.workorderNo_eq}</if>
-			<if test="filter.workorderNo_ne != null">AND RW_WORKORDER_NO != #{filter.workorderNo_ne}</if>
-			<if test="filter.workorderNo_like != null">AND lower(RW_WORKORDER_NO) LIKE lower(#{filter.workorderNo_like})</if>
-			<if test="filter.workorderNo_in != null">AND <foreach item="ii" collection="filter.workorderNo_in" open="(" separator=" OR " close=")">RW_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workorderNo_notIn != null">AND <foreach item="ii" collection="filter.workorderNo_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.workorderState_eq != null">AND RW_WORKORDER_STATE = #{filter.workorderState_eq}</if>
-			<if test="filter.workorderState_ne != null">AND RW_WORKORDER_STATE != #{filter.workorderState_ne}</if>
-			<if test="filter.workorderState_like != null">AND lower(RW_WORKORDER_STATE) LIKE lower(#{filter.workorderState_like})</if>
-			<if test="filter.workorderState_in != null">AND <foreach item="ii" collection="filter.workorderState_in" open="(" separator=" OR " close=")">RW_WORKORDER_STATE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.workorderState_notIn != null">AND <foreach item="ii" collection="filter.workorderState_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_STATE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.repairTypeLK_eq != null">AND RW_REPAIR_TYPE = #{filter.repairTypeLK_eq}</if>
-			<if test="filter.repairTypeLK_ne != null">AND RW_REPAIR_TYPE != #{filter.repairTypeLK_ne}</if>
-			<if test="filter.repairTypeLK_like != null">AND lower(RW_REPAIR_TYPE) LIKE lower(#{filter.repairTypeLK_like})</if>
-			<if test="filter.repairTypeLK_in != null">AND <foreach item="ii" collection="filter.repairTypeLK_in" open="(" separator=" OR " close=")">RW_REPAIR_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.repairTypeLK_notIn != null">AND <foreach item="ii" collection="filter.repairTypeLK_notIn" open="(" separator=" AND " close=")">RW_REPAIR_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.sum_eq != null">AND RW_SUM = #{filter.sum_eq}</if>
-			<if test="filter.sum_ne != null">AND RW_SUM != #{filter.sum_ne}</if>
-			<if test="filter.sum_like != null">AND lower(RW_SUM) LIKE lower(#{filter.sum_like})</if>
-			<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RW_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RW_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.clerk_eq != null">AND RW_CLERK = #{filter.clerk_eq}</if>
-			<if test="filter.clerk_ne != null">AND RW_CLERK != #{filter.clerk_ne}</if>
-			<if test="filter.clerk_like != null">AND lower(RW_CLERK) LIKE lower(#{filter.clerk_like})</if>
-			<if test="filter.clerk_in != null">AND <foreach item="ii" collection="filter.clerk_in" open="(" separator=" OR " close=")">RW_CLERK in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.clerk_notIn != null">AND <foreach item="ii" collection="filter.clerk_notIn" open="(" separator=" AND " close=")">RW_CLERK not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.clientId_eq != null">AND RW_CLIENT_ID = #{filter.clientId_eq}</if>
-			<if test="filter.clientId_ne != null">AND RW_CLIENT_ID != #{filter.clientId_ne}</if>
-			<if test="filter.clientId_like != null">AND lower(RW_CLIENT_ID) LIKE lower(#{filter.clientId_like})</if>
-			<if test="filter.clientId_in != null">AND <foreach item="ii" collection="filter.clientId_in" open="(" separator=" OR " close=")">RW_CLIENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.clientId_notIn != null">AND <foreach item="ii" collection="filter.clientId_notIn" open="(" separator=" AND " close=")">RW_CLIENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.carMileage_eq != null">AND RW_CAR_MILEAGE = #{filter.carMileage_eq}</if>
-			<if test="filter.carMileage_ne != null">AND RW_CAR_MILEAGE != #{filter.carMileage_ne}</if>
-			<if test="filter.carMileage_like != null">AND lower(RW_CAR_MILEAGE) LIKE lower(#{filter.carMileage_like})</if>
-			<if test="filter.carMileage_in != null">AND <foreach item="ii" collection="filter.carMileage_in" open="(" separator=" OR " close=")">RW_CAR_MILEAGE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.carMileage_notIn != null">AND <foreach item="ii" collection="filter.carMileage_notIn" open="(" separator=" AND " close=")">RW_CAR_MILEAGE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.carOilmeter_eq != null">AND RW_CAR_OILMETER = #{filter.carOilmeter_eq}</if>
-			<if test="filter.carOilmeter_ne != null">AND RW_CAR_OILMETER != #{filter.carOilmeter_ne}</if>
-			<if test="filter.carOilmeter_like != null">AND lower(RW_CAR_OILMETER) LIKE lower(#{filter.carOilmeter_like})</if>
-			<if test="filter.carOilmeter_in != null">AND <foreach item="ii" collection="filter.carOilmeter_in" open="(" separator=" OR " close=")">RW_CAR_OILMETER in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.carOilmeter_notIn != null">AND <foreach item="ii" collection="filter.carOilmeter_notIn" open="(" separator=" AND " close=")">RW_CAR_OILMETER not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.clentRemind_eq != null">AND RW_CLENT_REMIND = #{filter.clentRemind_eq}</if>
-			<if test="filter.clentRemind_ne != null">AND RW_CLENT_REMIND != #{filter.clentRemind_ne}</if>
-			<if test="filter.clentRemind_like != null">AND lower(RW_CLENT_REMIND) LIKE lower(#{filter.clentRemind_like})</if>
-			<if test="filter.clentRemind_in != null">AND <foreach item="ii" collection="filter.clentRemind_in" open="(" separator=" OR " close=")">RW_CLENT_REMIND in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.clentRemind_notIn != null">AND <foreach item="ii" collection="filter.clentRemind_notIn" open="(" separator=" AND " close=")">RW_CLENT_REMIND not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.sendMan_eq != null">AND RW_SEND_MAN = #{filter.sendMan_eq}</if>
-			<if test="filter.sendMan_ne != null">AND RW_SEND_MAN != #{filter.sendMan_ne}</if>
-			<if test="filter.sendMan_like != null">AND lower(RW_SEND_MAN) LIKE lower(#{filter.sendMan_like})</if>
-			<if test="filter.sendMan_in != null">AND <foreach item="ii" collection="filter.sendMan_in" open="(" separator=" OR " close=")">RW_SEND_MAN in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-			<if test="filter.sendMan_notIn != null">AND <foreach item="ii" collection="filter.sendMan_notIn" open="(" separator=" AND " close=")">RW_SEND_MAN not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
-
-			<if test="filter.sendTime_gte != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gte}</if>
-			<if test="filter.sendTime_lte != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lte}</if>
-			<if test="filter.sendTime_gt != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gt}</if>
-			<if test="filter.sendTime_lt != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lt}</if>
-
-			<if test="filter.endTime_gte != null">AND RW_END_TIME &gt;= #{filter.endTime_gte}</if>
-			<if test="filter.endTime_lte != null">AND RW_END_TIME &lt;= #{filter.endTime_lte}</if>
-			<if test="filter.endTime_gt != null">AND RW_END_TIME &gt;= #{filter.endTime_gt}</if>
-			<if test="filter.endTime_lt != null">AND RW_END_TIME &lt;= #{filter.endTime_lt}</if>
-			
-			<if test="filter.company_eq != null">AND RW_COMPANY = #{filter.company_eq}</if>
+			<if test="filter != null">
+				<if test="filter.id_eq != null">AND ID = #{filter.id_eq}</if>
+				<if test="filter.id_ne != null">AND ID != #{filter.id_ne}</if>
+				<if test="filter.id_in != null">AND <foreach item="ii" collection="filter.id_in" open="(" separator=" OR " close=")">ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.id_notIn != null">AND <foreach item="ii" collection="filter.id_notIn" open="(" separator=" AND " close=")">ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.workorderNo_eq != null">AND RW_WORKORDER_NO = #{filter.workorderNo_eq}</if>
+				<if test="filter.workorderNo_ne != null">AND RW_WORKORDER_NO != #{filter.workorderNo_ne}</if>
+				<if test="filter.workorderNo_like != null">AND lower(RW_WORKORDER_NO) LIKE lower(#{filter.workorderNo_like})</if>
+				<if test="filter.workorderNo_in != null">AND <foreach item="ii" collection="filter.workorderNo_in" open="(" separator=" OR " close=")">RW_WORKORDER_NO in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workorderNo_notIn != null">AND <foreach item="ii" collection="filter.workorderNo_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_NO not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.workorderState_eq != null">AND RW_WORKORDER_STATE = #{filter.workorderState_eq}</if>
+				<if test="filter.workorderState_ne != null">AND RW_WORKORDER_STATE != #{filter.workorderState_ne}</if>
+				<if test="filter.workorderState_like != null">AND lower(RW_WORKORDER_STATE) LIKE lower(#{filter.workorderState_like})</if>
+				<if test="filter.workorderState_in != null">AND <foreach item="ii" collection="filter.workorderState_in" open="(" separator=" OR " close=")">RW_WORKORDER_STATE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.workorderState_notIn != null">AND <foreach item="ii" collection="filter.workorderState_notIn" open="(" separator=" AND " close=")">RW_WORKORDER_STATE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.repairTypeLK_eq != null">AND RW_REPAIR_TYPE = #{filter.repairTypeLK_eq}</if>
+				<if test="filter.repairTypeLK_ne != null">AND RW_REPAIR_TYPE != #{filter.repairTypeLK_ne}</if>
+				<if test="filter.repairTypeLK_like != null">AND lower(RW_REPAIR_TYPE) LIKE lower(#{filter.repairTypeLK_like})</if>
+				<if test="filter.repairTypeLK_in != null">AND <foreach item="ii" collection="filter.repairTypeLK_in" open="(" separator=" OR " close=")">RW_REPAIR_TYPE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.repairTypeLK_notIn != null">AND <foreach item="ii" collection="filter.repairTypeLK_notIn" open="(" separator=" AND " close=")">RW_REPAIR_TYPE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.sum_eq != null">AND RW_SUM = #{filter.sum_eq}</if>
+				<if test="filter.sum_ne != null">AND RW_SUM != #{filter.sum_ne}</if>
+				<if test="filter.sum_like != null">AND lower(RW_SUM) LIKE lower(#{filter.sum_like})</if>
+				<if test="filter.sum_in != null">AND <foreach item="ii" collection="filter.sum_in" open="(" separator=" OR " close=")">RW_SUM in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sum_notIn != null">AND <foreach item="ii" collection="filter.sum_notIn" open="(" separator=" AND " close=")">RW_SUM not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.clerk_eq != null">AND RW_CLERK = #{filter.clerk_eq}</if>
+				<if test="filter.clerk_ne != null">AND RW_CLERK != #{filter.clerk_ne}</if>
+				<if test="filter.clerk_like != null">AND lower(RW_CLERK) LIKE lower(#{filter.clerk_like})</if>
+				<if test="filter.clerk_in != null">AND <foreach item="ii" collection="filter.clerk_in" open="(" separator=" OR " close=")">RW_CLERK in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clerk_notIn != null">AND <foreach item="ii" collection="filter.clerk_notIn" open="(" separator=" AND " close=")">RW_CLERK not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.clientId_eq != null">AND RW_CLIENT_ID = #{filter.clientId_eq}</if>
+				<if test="filter.clientId_ne != null">AND RW_CLIENT_ID != #{filter.clientId_ne}</if>
+				<if test="filter.clientId_like != null">AND lower(RW_CLIENT_ID) LIKE lower(#{filter.clientId_like})</if>
+				<if test="filter.clientId_in != null">AND <foreach item="ii" collection="filter.clientId_in" open="(" separator=" OR " close=")">RW_CLIENT_ID in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clientId_notIn != null">AND <foreach item="ii" collection="filter.clientId_notIn" open="(" separator=" AND " close=")">RW_CLIENT_ID not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.carMileage_eq != null">AND RW_CAR_MILEAGE = #{filter.carMileage_eq}</if>
+				<if test="filter.carMileage_ne != null">AND RW_CAR_MILEAGE != #{filter.carMileage_ne}</if>
+				<if test="filter.carMileage_like != null">AND lower(RW_CAR_MILEAGE) LIKE lower(#{filter.carMileage_like})</if>
+				<if test="filter.carMileage_in != null">AND <foreach item="ii" collection="filter.carMileage_in" open="(" separator=" OR " close=")">RW_CAR_MILEAGE in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.carMileage_notIn != null">AND <foreach item="ii" collection="filter.carMileage_notIn" open="(" separator=" AND " close=")">RW_CAR_MILEAGE not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.carOilmeter_eq != null">AND RW_CAR_OILMETER = #{filter.carOilmeter_eq}</if>
+				<if test="filter.carOilmeter_ne != null">AND RW_CAR_OILMETER != #{filter.carOilmeter_ne}</if>
+				<if test="filter.carOilmeter_like != null">AND lower(RW_CAR_OILMETER) LIKE lower(#{filter.carOilmeter_like})</if>
+				<if test="filter.carOilmeter_in != null">AND <foreach item="ii" collection="filter.carOilmeter_in" open="(" separator=" OR " close=")">RW_CAR_OILMETER in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.carOilmeter_notIn != null">AND <foreach item="ii" collection="filter.carOilmeter_notIn" open="(" separator=" AND " close=")">RW_CAR_OILMETER not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.clentRemind_eq != null">AND RW_CLENT_REMIND = #{filter.clentRemind_eq}</if>
+				<if test="filter.clentRemind_ne != null">AND RW_CLENT_REMIND != #{filter.clentRemind_ne}</if>
+				<if test="filter.clentRemind_like != null">AND lower(RW_CLENT_REMIND) LIKE lower(#{filter.clentRemind_like})</if>
+				<if test="filter.clentRemind_in != null">AND <foreach item="ii" collection="filter.clentRemind_in" open="(" separator=" OR " close=")">RW_CLENT_REMIND in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.clentRemind_notIn != null">AND <foreach item="ii" collection="filter.clentRemind_notIn" open="(" separator=" AND " close=")">RW_CLENT_REMIND not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.sendMan_eq != null">AND RW_SEND_MAN = #{filter.sendMan_eq}</if>
+				<if test="filter.sendMan_ne != null">AND RW_SEND_MAN != #{filter.sendMan_ne}</if>
+				<if test="filter.sendMan_like != null">AND lower(RW_SEND_MAN) LIKE lower(#{filter.sendMan_like})</if>
+				<if test="filter.sendMan_in != null">AND <foreach item="ii" collection="filter.sendMan_in" open="(" separator=" OR " close=")">RW_SEND_MAN in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+				<if test="filter.sendMan_notIn != null">AND <foreach item="ii" collection="filter.sendMan_notIn" open="(" separator=" AND " close=")">RW_SEND_MAN not in <foreach item="i" collection="ii" open="(" separator="," close=")">#{i}</foreach></foreach></if>
+	
+				<if test="filter.sendTime_gte != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gte}</if>
+				<if test="filter.sendTime_lte != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lte}</if>
+				<if test="filter.sendTime_gt != null">AND RW_SEND_TIME &gt;= #{filter.sendTime_gt}</if>
+				<if test="filter.sendTime_lt != null">AND RW_SEND_TIME &lt;= #{filter.sendTime_lt}</if>
+	
+				<if test="filter.endTime_gte != null">AND RW_END_TIME &gt;= #{filter.endTime_gte}</if>
+				<if test="filter.endTime_lte != null">AND RW_END_TIME &lt;= #{filter.endTime_lte}</if>
+				<if test="filter.endTime_gt != null">AND RW_END_TIME &gt;= #{filter.endTime_gt}</if>
+				<if test="filter.endTime_lt != null">AND RW_END_TIME &lt;= #{filter.endTime_lt}</if>
 				
+				<if test="filter.company_eq != null">AND RW_COMPANY = #{filter.company_eq}</if>
+			</if>	
 		</trim>
 	</sql>
 	
