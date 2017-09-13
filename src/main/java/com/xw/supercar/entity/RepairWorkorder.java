@@ -58,8 +58,11 @@ public class RepairWorkorder extends BaseDateEntity {
 		
 	   	/** 交车时间 */
     	private Date endTime;
+    	
+    	/** 公司id */
+    	private String company;
 		
 	public static enum DP {
-		id, workorderNo, workorderState, repairTypeLK, sum, clerk, clientId, carMileage, carOilmeter, clentRemind, sendMan, sendTime, endTime;	
+		id, workorderNo, workorderState, repairTypeLK, sum, clerk, clientId, carMileage, carOilmeter, clentRemind, sendMan, sendTime, endTime, company;	
 	}
 }

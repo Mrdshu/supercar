@@ -48,7 +48,6 @@ public class OutPartInfoController extends BaseController<OutPartInfo>{
 	@ResponseBody
 	public ResponseResult extendPage(@SearchableDefaults Searchable searchable){
 		ResponseResult result = ResponseResult.generateResponse();
-		
 		Page<OutPartInfo> outPartInfos = SpringContextHolder.getBean(OutPartInfoService.class).extendFindPage(searchable, true);
 		result.addAttribute("page", outPartInfos);
 		return result;

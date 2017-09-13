@@ -371,7 +371,7 @@ public class Searchable implements Cloneable, Serializable {
 		int pageSizeInt = DaoConstant.DEFAULT_PAGE_SIZE;
 		
 		if(!StringUtils.isEmpty(pageNumber))
-			pageNumberInt = Integer.valueOf(pageNumber);
+			pageNumberInt = Integer.valueOf(pageNumber)-1;
 		if(!StringUtils.isEmpty(pageSize))
 			pageSizeInt = Integer.valueOf(pageSize);
 		

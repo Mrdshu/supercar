@@ -3,10 +3,12 @@ package com.xw.supercar.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -52,18 +54,18 @@ public class UserController extends BaseController<User>{
 		//查询出指定用户名、公司的用户
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(User.DP.username.name(), SearchOperator.eq, username)
+				.addSearchFilter(User.DP.isDeleted.name(), SearchOperator.eq, false)
 				.addSearchFilter(User.DP.company.name(), SearchOperator.eq, company);
-		User user = getSevice().getBy(searchable, true, true);
-	
-		//=====加盐哈希加密算法暂时弃用，直接比较前台传来的密码与数据库的密码====
-//		if(user == null || !PasswordHash.validatePassword(password, user.getPassword())){
-//			result = ResponseResult.generateErrorResponse("", "账号或密码错误");
-//		}
 		
-		if(user == null || !password.equals(user.getPassword())){
-			result = ResponseResult.generateErrorResponse("", "账号或密码错误");
-		}
-		else{
+		User user = getSevice().getBy(searchable, false, true);
+		
+		if(user == null){
+			result = ResponseResult.generateErrorResponse("", "该账号不存在！");
+		}else if(!password.equals(user.getPassword())){
+			result = ResponseResult.generateErrorResponse("", "输入的密码有误！");
+		}else if(user.getIsDisable() == true){
+			result = ResponseResult.generateErrorResponse("", "该账号已被禁用！");
+		}else{
 			//在用户第一次登录时，将用户放入session
 			session.setAttribute("loginUser", user);
 			result.addAttribute("entity", user);
