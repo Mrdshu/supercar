@@ -138,23 +138,28 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		 * 修改维修工单信息
 		 */
 		//修改客户信息
-		if(StringUtils.isEmpty(client.getId())){
-			return ResponseResult.generateErrorResponse("", "修改时客户id不能为空！");
+		if(!StringUtils.isEmpty(client)){
+			SpringContextHolder.getBean(ClientService.class).modify(client);
 		}
-		SpringContextHolder.getBean(ClientService.class).modify(client);
-		SpringContextHolder.getBean(RepairWorkorderService.class).modify(repairWorkorder);
+		
+		//修改工单信息		
+		if(!StringUtils.isEmpty(repairWorkorder)){
+			SpringContextHolder.getBean(RepairWorkorderService.class).modify(repairWorkorder);
+		}
 		
 		/*
 		 * 修改维修工单-项目中间信息
 		 */
 		//删除维修工单原有绑定的维修项目
-		RepairWorkorderItemService rWOItemService = SpringContextHolder.getBean(RepairWorkorderItemService.class);
-		List<RepairWorkorderItem> deleteRWOItems = rWOItemService.getByRWOId(repairWorkorder.getId());
-		rWOItemService.remove(deleteRWOItems);
-		//重新添加维修工单的维修项目
-		rWOItemService.add(repairWorkorderItems);
+		if(!StringUtils.isEmpty(repairWorkorderItems)){
+			RepairWorkorderItemService rWOItemService = SpringContextHolder.getBean(RepairWorkorderItemService.class);
+			List<RepairWorkorderItem> deleteRWOItems = rWOItemService.getByRWOId(repairWorkorder.getId());
+			rWOItemService.remove(deleteRWOItems);
+			//重新添加维修工单的维修项目
+			rWOItemService.add(repairWorkorderItems);
+		}
 		
-		result.addAttribute("", "修改成功！");
+		result.addAttribute("errorMsg", "修改成功！");
 		return result;
 	}
 	
@@ -192,7 +197,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		//获取维修项目集合的id,同时将维修项目信息放入扩展属性
 		Map<String, Object> carBrandExtendInfo = new HashMap<>();
 		Map<String, Object> clientLevelExtendInfo = new HashMap<>();
-		Map<String, Object> repairWorkorderExtendInfo = new HashMap<>();
+		//Map<String, Object> repairWorkorderExtendInfo = new HashMap<>();
 		Map<String, Object> repairTypeLKExtendInfo = new HashMap<>();
 		Map<String, Object> mechanicExtendInfo = new HashMap<>();
 		Map<String, Object> clerkExtendInfo = new HashMap<>();
@@ -213,7 +218,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		
 		extendInfo.put(Client.DP.type.name(), getByLookUp(carBrandExtendInfo,client.getCarBrand()));
 		extendInfo.put(Client.DP.level.name(), getByLookUp(clientLevelExtendInfo,client.getLevel()));
-		extendInfo.put(RepairWorkorder.DP.workorderState.name(), getByLookUp(repairWorkorderExtendInfo,repairWorkorder.getWorkorderState()));
+		//extendInfo.put(RepairWorkorder.DP.workorderState.name(), getByLookUp(repairWorkorderExtendInfo,repairWorkorder.getWorkorderState()));
 		extendInfo.put(RepairWorkorder.DP.repairTypeLK.name(), getByLookUp(repairTypeLKExtendInfo,repairWorkorder.getRepairTypeLK()));
 		extendInfo.put(RepairWorkorder.DP.clerk.name(), getByLookUp(clerkExtendInfo,repairWorkorder.getClerk()));
 		extendInfo.put(RepairWorkorderItem.DP.mechanic.name(), mechanicExtendInfo);
