@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.xw.supercar.entity.Client;
+import com.xw.supercar.entity.ClientCoupon;
 import com.xw.supercar.entity.InPart;
 import com.xw.supercar.entity.InPartInfo;
 import com.xw.supercar.entity.OutPart;
@@ -21,65 +22,71 @@ import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
 import com.xw.supercar.util.GsonUtil;
 
 public class GenerateRapJson {
-	Object object = getClassInstance(Client.class);
+	Object object = getClassInstance(ClientCoupon.class);
 	
 	@Test
 	public void generateSingle() throws Exception {
-		getJsonAndKV(object);
+		ClientCoupon clientCoupon = getClassInstance(ClientCoupon.class);
+		ClientCoupon clientCoupon2 = getClassInstance(ClientCoupon.class);
+		List<ClientCoupon> clientCoupons = new ArrayList<>();
+		clientCoupons.add(clientCoupon);
+		clientCoupons.add(clientCoupon2);
+		
+		getJsonAndKV(clientCoupons);
 		System.out.println("返回报文：");
 		System.out.println(GsonUtil.transObjectToJson(ResponseResult.generateResponse()));
 	}
 	
-	@Test
-	public void generateComplex() throws Exception {
-		OutPart outPart = getClassInstance(OutPart.class);
-		OutPartInfo outPartInfo =  getClassInstance(OutPartInfo.class);
-		OutPartInfo outPartInfo2 = getClassInstance(OutPartInfo.class);
-		List<OutPartInfo> list = new ArrayList<>();
-		list.add(outPartInfo);
-		list.add(outPartInfo2);
-//		
-//		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
-		
-		InPart inPart = getClassInstance(InPart.class);
-		InPartInfo inPartInfo =  getClassInstance(InPartInfo.class);
-		InPartInfo inPartInfo2 = getClassInstance(InPartInfo.class);
-		List<InPartInfo> li2st = new ArrayList<>();
-		li2st.add(inPartInfo);
-		li2st.add(inPartInfo2);
-//		
-//		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
-		
-//		InPart outPart = getClassInstance(InPart.class);
-//		InPartInfo outPartInfo =  getClassInstance(InPartInfo.class);
-//		InPartInfo outPartInfo2 = getClassInstance(InPartInfo.class);
-//		List<InPartInfo> list = new ArrayList<>();
+//	@Test
+//	public void generateComplex() throws Exception {
+//		OutPart outPart = getClassInstance(OutPart.class);
+//		OutPartInfo outPartInfo =  getClassInstance(OutPartInfo.class);
+//		OutPartInfo outPartInfo2 = getClassInstance(OutPartInfo.class);
+//		List<OutPartInfo> list = new ArrayList<>();
 //		list.add(outPartInfo);
 //		list.add(outPartInfo2);
-		OutPartComposite outPartComposite = new OutPartComposite(outPart,list);
-		Client client = (Client) object;
-		
-		RepairWorkorder repairWorkorder = getClassInstance(RepairWorkorder.class);
-		
-		RepairWorkorderItem repairWorkorderItem = getClassInstance(RepairWorkorderItem.class);
-		repairWorkorderItem.setWorkorderId("1");
-		repairWorkorderItem.setItemId("1");
-		RepairWorkorderItem repairWorkorderItem2 = getClassInstance(RepairWorkorderItem.class);
-		repairWorkorderItem2.setWorkorderId("1");
-		repairWorkorderItem2.setItemId("1");
-		List<RepairWorkorderItem> items = new ArrayList<>();
-		items.add(repairWorkorderItem);
-		items.add(repairWorkorderItem2);
-		
-		RepairWorkOrderComposite repairWorkOrderComposite = new RepairWorkOrderComposite();
-		repairWorkOrderComposite.setOutPartComposite(outPartComposite);
-		repairWorkOrderComposite.setRepairWorkorder(repairWorkorder);
-		repairWorkOrderComposite.setRepairWorkorderItems(items);
-		repairWorkOrderComposite.setClient(client);
-		InPartComposite inPartComposite = new InPartComposite(inPart,li2st);
-		System.out.println("======================");
-		System.out.println(GsonUtil.transObjectToJson(repairWorkOrderComposite));
-	}
+////		
+////		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
+//		
+//		InPart inPart = getClassInstance(InPart.class);
+//		InPartInfo inPartInfo =  getClassInstance(InPartInfo.class);
+//		InPartInfo inPartInfo2 = getClassInstance(InPartInfo.class);
+//		List<InPartInfo> li2st = new ArrayList<>();
+//		li2st.add(inPartInfo);
+//		li2st.add(inPartInfo2);
+////		
+////		OutPartComposite inPartComposite = new OutPartComposite(outPart,list);
+//		
+////		InPart outPart = getClassInstance(InPart.class);
+////		InPartInfo outPartInfo =  getClassInstance(InPartInfo.class);
+////		InPartInfo outPartInfo2 = getClassInstance(InPartInfo.class);
+////		List<InPartInfo> list = new ArrayList<>();
+////		list.add(outPartInfo);
+////		list.add(outPartInfo2);
+//		OutPartComposite outPartComposite = new OutPartComposite(outPart,list);
+//		Client client = (Client) object;
+//		
+//		RepairWorkorder repairWorkorder = getClassInstance(RepairWorkorder.class);
+//		
+//		RepairWorkorderItem repairWorkorderItem = getClassInstance(RepairWorkorderItem.class);
+//		repairWorkorderItem.setWorkorderId("1");
+//		repairWorkorderItem.setItemId("1");
+//		RepairWorkorderItem repairWorkorderItem2 = getClassInstance(RepairWorkorderItem.class);
+//		repairWorkorderItem2.setWorkorderId("1");
+//		repairWorkorderItem2.setItemId("1");
+//		List<RepairWorkorderItem> items = new ArrayList<>();
+//		items.add(repairWorkorderItem);
+//		items.add(repairWorkorderItem2);
+//		
+//		RepairWorkOrderComposite repairWorkOrderComposite = new RepairWorkOrderComposite();
+//		repairWorkOrderComposite.setOutPartComposite(outPartComposite);
+//		repairWorkOrderComposite.setRepairWorkorder(repairWorkorder);
+//		repairWorkOrderComposite.setRepairWorkorderItems(items);
+//		repairWorkOrderComposite.setClient(client);
+//		InPartComposite inPartComposite = new InPartComposite(inPart,li2st);
+//		System.out.println("======================");
+//		System.out.println(GsonUtil.transObjectToJson(repairWorkOrderComposite));
+//	}
 	
 	public static <E> E getClassInstance(Class<E> clazz){
 		E object = null;
