@@ -45,7 +45,7 @@ public class RepairWorkorder extends BaseDateEntity {
     	private Integer carMileage;
 		
 	   	/** 车进店油表 */
-    	private Integer carOilmeter;
+    	private String carOilmeter;
 		
 	   	/** 客户提醒 */
     	private String clentRemind;
