@@ -27,7 +27,7 @@ import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-import com.xw.supercar.util.CollectionUtils;
+import com.xw.supercar.util.CollectionUtil;
 
 /**
  * 入库工单controller层
@@ -169,7 +169,7 @@ public class InPartController extends BaseController<InPart>{
 			return ResponseResult.generateErrorResponse("", "删除失败");
 		
 		//批量删除入库工单对应的入库配件信息
-		List<String> workorders = CollectionUtils.extractToList(inParts, InPart.DP.workOrderNo.name(), true);
+		List<String> workorders = CollectionUtil.extractToList(inParts, InPart.DP.workOrderNo.name(), true);
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(InPartInfo.DP.workOrderNo.name(), SearchOperator.in, workorders);
 		SpringContextHolder.getBean(InPartInfoService.class).removeBy(searchable);

@@ -1,25 +1,31 @@
 package com.xw.supercar.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.annotation.SearchableDefaults;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.entity.User;
+import com.xw.supercar.excel.exports.UserExport;
+import com.xw.supercar.excel.imports.UserImport;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.CompanyService;
 import com.xw.supercar.service.LookupService;
 import com.xw.supercar.service.UserService;
+import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController<User>{
@@ -125,6 +131,59 @@ public class UserController extends BaseController<User>{
 		//进行后后处理
 		afterReturn(result);
 		
+		return result;
+	}
+	
+	/**
+	 * 用所有用户信息导出为excel
+	 * 
+	 * @param searchable 筛选用户的过滤条件
+	 * @param exportFilePath 导出路径
+	 *
+	 * @author wsz 2017-09-20
+	 */
+	@RequestMapping(value = "/export",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult export(@SearchableDefaults(needPage = false) Searchable searchable, String exportFilePath) {
+		ResponseResult result = ResponseResult.generateResponse();
+		//校验导出路径地址是否正确合法
+		try {
+			File file = new File(exportFilePath);
+			if(!file.exists()) file.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseResult.generateErrorResponse("导出路径【"+exportFilePath+"】错误，无法正常导出", "");
+		}
+		//获取数据库用户表中所有的用户
+		List<User> users = SpringContextHolder.getBean(UserService.class).findBy(Searchable.newSearchable(), true);
+		UserExport userExport = new UserExport();
+		userExport.setPoiList(users);
+		
+		//将所有用户导出成excel
+		Boolean exportRs = userExport.export(exportFilePath, null);
+		if(!exportRs)
+			return ResponseResult.generateErrorResponse("导出失败！", "");
+		return result;
+	}
+	
+	/**
+	 * 将excel表中数据导入。
+	 * 
+	 * @param importFilePath　导入文件路径
+	 * @return
+	 *
+	 * @author wsz 2017-09-20
+	 */
+	@RequestMapping(value = "/imports",produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseResult imports(String importFilePath) {
+		ResponseResult result = ResponseResult.generateResponse();
+		
+		UserImport userImport = new UserImport();
+		Boolean importRs = userImport.imports(importFilePath);
+		
+		if(!importRs)
+			return ResponseResult.generateErrorResponse("导入失败！", "");
 		return result;
 	}
 	

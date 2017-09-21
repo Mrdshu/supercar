@@ -52,7 +52,7 @@ public class LookupController extends BaseController<Lookup>{
 	@ResponseBody
 	public ResponseResult getByDefineCode(String lookupDefineCode){
 		
-		List<Lookup> lookups = service.searchByDefineCode(lookupDefineCode);
+		List<Lookup> lookups = service.searchByDefineCode(lookupDefineCode,null);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
 		result.addAttribute("entitys", lookups);

@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ import com.xw.supercar.service.UserService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+import com.xw.supercar.util.CommonUtil;
 
 /**
  * <p>
@@ -97,7 +99,10 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 			client = SpringContextHolder.getBean(ClientService.class).add(client);
 		}
 		//新增维修工单信息
+		String workOrderNo = CommonUtil.getTimeStampRandom();
+		repairWorkorder.setWorkorderNo(workOrderNo);
 		repairWorkorder.setClientId(client.getId());
+		
 		repairWorkorder = SpringContextHolder.getBean(RepairWorkorderService.class).add(repairWorkorder);
 		
 		/*
@@ -116,6 +121,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		if(outPartComposite != null && outPartComposite.getOutPart() != null){
 			outPartComposite.getOutPart().setRepairWorkorderNo(repairWorkorder.getWorkorderNo());
 			result = SpringContextHolder.getBean(OutPartController.class).newOutPart(outPartComposite);
+			//出库操作为嵌套事务，若出库不成功则父事务也回滚
+			if(!result.getSuccess())
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 		
 		return result;

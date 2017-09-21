@@ -11,7 +11,7 @@ import java.util.Map;
  * 集合工具类
  * @author wangsz 2017-07-06
  */
-public class CollectionUtils  {
+public class CollectionUtil  {
 
 	/**
 	 * 提取集合中的对象的属性(通过Getter函数), 组合成Map.
@@ -99,6 +99,36 @@ public class CollectionUtils  {
 		if(rs.length() > 0 )
 			return rs.substring(0, rs.length()-1);
 		return rs.toString();
+	}
+	
+	/**
+	 * 比较两个集合，获取增加的元素集合以及删除的元素集合
+	 * @param oldElements 被比较的集合
+	 * @param newElements 比较的集合
+	 * @param addElements  比较后增加的元素集合
+	 * @param deleteElements  比较后删除的元素集合
+	 *
+	 * @author wangsz  Mar 29, 2017 4:23:32 PM
+	 */
+	public void compareList(List<String> oldElements,List<String> newElements,List<String> addElements,List<String> deleteElements) {
+		if(oldElements == null || newElements == null || addElements == null || deleteElements == null)
+			return ;
+		
+		Map<String, String> olElementsMap = new HashMap<String, String>();
+		List<String> oldCopyElements = new ArrayList<String>(oldElements);
+		//将oldElements转换为Map
+		for (String oldElement : oldElements) {
+			olElementsMap.put(oldElement, "");
+		}
+		//迭代newElements，若oldElements没有的元素则放入增量集合
+		for (String newElement : newElements) {
+			if(olElementsMap.get(newElement) == null)
+				addElements.add(newElement);
+			else 
+				oldCopyElements.remove(newElement);
+		}
+		
+		deleteElements.addAll(oldCopyElements);
 	}
 
 }

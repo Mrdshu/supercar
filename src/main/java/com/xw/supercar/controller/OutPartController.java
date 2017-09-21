@@ -36,7 +36,7 @@ import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
-import com.xw.supercar.util.CollectionUtils;
+import com.xw.supercar.util.CollectionUtil;
 
 /**
  * <p>
@@ -100,8 +100,9 @@ public class OutPartController extends BaseController<OutPart>{
 		OutPart entity = outPartComposite.getOutPart();
 		List<OutPartInfo> outPartInfos = outPartComposite.getOutPartInfos();
 		
-		//定义一个默认事务，事务隔离、传播等都是默认
-		TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+		//定义一个默认事务，事务隔离等都是默认,传播是嵌套级别（这样子事务回滚不会影响父事务，而父事务回滚会影响子事务回滚）
+		DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+		transactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED );
 		TransactionStatus status = transactionManager.getTransaction(transactionDefinition);
 		
 		try {
@@ -128,16 +129,16 @@ public class OutPartController extends BaseController<OutPart>{
 			for (OutPartInfo outPartInfo : outPartInfos) {
 				String inventoryId = outPartInfo.getInventoryId();
 				Inventory inventory = SpringContextHolder.getBean(InventoryService.class).getById(inventoryId);
-				Part part = SpringContextHolder.getBean(PartService.class).getById(inventory.getPartId());
 				//如果商品出库后，库存小于0，事务回滚
-				if(inventory.getCount() < 0){
+				if(inventory == null || inventory.getCount() < 0){
 					transactionManager.rollback(status);
-					return ResponseResult.generateErrorResponse("", "库存商品【"+part.getName()+"】库存不足，无法出库");
+					return ResponseResult.generateErrorResponse("", "库存商品库存不足，无法出库");
 				}
 				//如果商品出库后，库存等于0，删除该商品的库存信息
 				else if(inventory.getCount() == 0){
 					SpringContextHolder.getBean(InventoryService.class).remove(inventory);
 				}
+				
 			}
 			
 			//最后提交事务
@@ -198,7 +199,7 @@ public class OutPartController extends BaseController<OutPart>{
 			return ResponseResult.generateErrorResponse("", "删除失败");
 		
 		//批量删除入库工单对应的入库配件信息
-		List<String> workorders = CollectionUtils.extractToList(outparts, OutPart.DP.workOrderNo.name(), true);
+		List<String> workorders = CollectionUtil.extractToList(outparts, OutPart.DP.workOrderNo.name(), true);
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(OutPartInfo.DP.workOrderNo.name(), SearchOperator.in, workorders);
 		SpringContextHolder.getBean(OutPartInfoService.class).removeBy(searchable);

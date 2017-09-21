@@ -17,7 +17,7 @@ import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 
-public class UserImport extends IExcelImport{
+public class ClientImport extends IExcelImport{
 
 	@Override
 	protected Boolean importData(Sheet sheet) {

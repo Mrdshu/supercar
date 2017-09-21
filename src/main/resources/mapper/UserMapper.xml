@@ -43,6 +43,22 @@
 			</trim>
 		)
 	</insert>
+	
+	<!-- 批量新增 -->
+	<insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO <include refid="table" /> (
+			<include refid="columns" />
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id}, #{item.username}, #{item.fullname}, #{item.password}, #{item.email}, #{item.mobile}
+			, #{item.role}, #{item.company}, #{item.description},default, default,default, default)
+		</foreach>
+	</insert>
+	
 	<!-- 修改 -->
 	<update id="update" >
 		UPDATE <include refid="table" /> SET <include refid="set" />

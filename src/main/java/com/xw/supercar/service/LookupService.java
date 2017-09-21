@@ -104,16 +104,21 @@ public class LookupService extends BaseService<Lookup> {
 	}
 	
 	/**
-	 * 根据数据字段定义code，查询数据字典
-	 * @author  wangsz 2017-06-13
+	 * 根据数据字典定义code，查询数据字典
+	 * 
+	 * @param lookupDefineCode 数据字典定义code
+	 * @param searchable 数据字典的查询过滤条件
+	 * @return
+	 *
+	 * @author wsz 2017-09-20
 	 */
-	public List<Lookup> searchByDefineCode(String lookupDefineCode) {
+	public List<Lookup> searchByDefineCode(String lookupDefineCode, Searchable searchable) {
 		List<Lookup> lookups = new ArrayList<>();
 
 		LookupDefinition lookupDefinition = SpringContextHolder.getBean(LookupDefinitionService.class)
 				.getByCode(lookupDefineCode);
 		if (lookupDefinition != null) {
-			lookups = searchByDefineId(lookupDefinition.getId());
+			lookups = searchByDefineId(lookupDefinition.getId(),searchable);
 		}
 
 		return lookups;
@@ -123,11 +128,13 @@ public class LookupService extends BaseService<Lookup> {
 	 * 根据数据字段定义id，查询数据字典
 	 * @author  wangsz 2017-06-13
 	 */
-	public List<Lookup> searchByDefineId(String lookupDefineId) {
+	public List<Lookup> searchByDefineId(String lookupDefineId, Searchable searchable) {
 		List<Lookup> lookups = new ArrayList<>();
 		
+		if(searchable == null)
+			searchable = Searchable.newSearchable();
 		if (!StringUtils.isEmpty(lookupDefineId)) {
-			Searchable searchable = Searchable.newSearchable().addSearchFilter(Lookup.DP.definitionId.name(),
+			searchable.addSearchFilter(Lookup.DP.definitionId.name(),
 					SearchOperator.eq, lookupDefineId);
 			lookups = findBy(searchable, true);
 		}

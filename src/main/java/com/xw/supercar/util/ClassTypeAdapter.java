@@ -9,6 +9,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * 自定义gson序列化配置
+ *
+ * @author wsz 2017-09-20
+ */
 public class ClassTypeAdapter extends TypeAdapter<Class<?>> {
 	
 	public void write(JsonWriter jsonWriter, Class<?> clazz) throws IOException {

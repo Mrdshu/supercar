@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *  公共工具类
@@ -79,6 +80,21 @@ public class CommonUtil {
 	}
 	
 	/**
+	 * 获取时间戳+随机数的 16位有规律数字
+	 * @return
+	 *
+	 * @author wsz 2017-09-18
+	 */
+	public static String getTimeStampRandom() {
+		String format = "yyyyMMddHHmmss";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		String time = dateFormat.format(new Date());
+		time = time + genRandomPwd(2);
+				
+		return time;
+	}
+	
+	/**
 	 * 生成指定长度的随机数
 	 * @param length 随机数长度
 	 * 
@@ -90,6 +106,30 @@ public class CommonUtil {
 			a *= 10;
 		}
 		return (int)(Math.random()*a) + "";
+	}
+	
+	/**
+	 * 生成固定长度的随机密码（由字符串，数字以及特殊字符构成）
+	 * @author wangsz
+	 */
+	public static String genRandomPwd(int pwd_len) {
+		final int maxNum = 58;
+		int i; // 生成的随机数
+		int count = 0; // 生成的密码的长度
+		char[] str = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+				'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+				'x', 'y', 'z','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+				'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+				'X', 'Y', 'Z' , '1', '2', '3', '4', '5', '6', '7', '8', '9' ,'@','#','.'};
+		StringBuffer pwd = new StringBuffer("");
+		Random r = new Random();
+		while (count < pwd_len) {
+			// 生成随机数，取绝对值，防止生成负数，
+			i = Math.abs(r.nextInt(maxNum))%57; // 生成的数最大为58-1
+			pwd.append(str[i]);
+			count++;
+		}
+		return pwd.toString();
 	}
 	
 	/**
@@ -119,34 +159,8 @@ public class CommonUtil {
 		return md5StrBuff.toString().toUpperCase();
 	}
 	
-	/**
-	 * 比较两个集合，获取增加的元素集合以及删除的元素集合
-	 * @param oldElements 被比较的集合
-	 * @param newElements 比较的集合
-	 * @param addElements  比较后增加的元素集合
-	 * @param deleteElements  比较后删除的元素集合
-	 *
-	 * @author wangsz  Mar 29, 2017 4:23:32 PM
-	 */
-	public void compareList(List<String> oldElements,List<String> newElements,List<String> addElements,List<String> deleteElements) {
-		if(oldElements == null || newElements == null || addElements == null || deleteElements == null)
-			return ;
-		
-		Map<String, String> olElementsMap = new HashMap<String, String>();
-		List<String> oldCopyElements = new ArrayList<String>(oldElements);
-		//将oldElements转换为Map
-		for (String oldElement : oldElements) {
-			olElementsMap.put(oldElement, "");
-		}
-		//迭代newElements，若oldElements没有的元素则放入增量集合
-		for (String newElement : newElements) {
-			if(olElementsMap.get(newElement) == null)
-				addElements.add(newElement);
-			else 
-				oldCopyElements.remove(newElement);
-		}
-		
-		deleteElements.addAll(oldCopyElements);
+	public static void main(String[] args) {
+		System.out.println(getTimeStampRandom());
 	}
 	
 }
