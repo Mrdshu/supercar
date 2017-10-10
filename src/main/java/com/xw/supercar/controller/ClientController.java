@@ -28,8 +28,8 @@ public class ClientController extends BaseController<Client>{
 	protected void afterReturn(ResponseResult result) {
 		Map<String, Object> data = result.getData();
 		//将数据字典对应的实体放入data
-		addAttributesToData(data, new String[]{Client.DP.level.name(),Client.DP.carBrand.name()}
-		, new Class[]{LookupService.class,LookupService.class});
+		addAttributesToData(data, new String[]{Client.DP.level.name(),Client.DP.carBrand.name(),Client.DP.type.name()}
+		, new Class[]{LookupService.class,LookupService.class,LookupService.class});
 	}
 	
 }

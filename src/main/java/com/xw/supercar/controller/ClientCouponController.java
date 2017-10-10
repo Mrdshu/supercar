@@ -1,6 +1,7 @@
 package com.xw.supercar.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xw.supercar.entity.Client;
 import com.xw.supercar.entity.ClientCoupon;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.service.ClientCouponService;
+import com.xw.supercar.service.ClientService;
+import com.xw.supercar.service.LookupService;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 
@@ -47,7 +51,10 @@ public class ClientCouponController extends BaseController<ClientCoupon>{
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void afterReturn(ResponseResult result) {
-		
+		Map<String, Object> data = result.getData();
+		//将数据字典对应的实体放入data
+		addAttributesToData(data, new String[]{ClientCoupon.DP.clientId.name(),ClientCoupon.DP.couponId.name()}
+		, new Class[]{ClientService.class,LookupService.class});
 	}
 	
 	/**
