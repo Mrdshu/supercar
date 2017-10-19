@@ -11,8 +11,8 @@
 		<result property="carColor" column="CAR_COLOR" />
 		<result property="engineNo" column="CAR_ENGINE" />
 		<result property="insurer" column="CAR_INSURER" />
-		<result property="insuranceEndtime" column="CAR_INSURANCE_ENDTIME" />
-		<result property="registrationDate" column="CAR_REGISTRATION_TIME" />
+		<result property="insuranceEndtime" column="CAR_INSURANCE_ENDTIME" jdbcType="TIMESTAMP"/>
+		<result property="registrationDate" column="CAR_REGISTRATION_TIME" jdbcType="TIMESTAMP"/>
 		
 		<result property="name" column="C_NAME" />
 		<result property="sex" column="C_SEX" />
