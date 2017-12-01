@@ -65,8 +65,9 @@
 		<!-- 注解式get、set方法 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok-maven</artifactId>
-			<version>1.16.18.0</version>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- log4j -->

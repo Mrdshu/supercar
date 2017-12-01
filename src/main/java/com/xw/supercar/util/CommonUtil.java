@@ -8,13 +8,17 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.security.MessageDigest;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  *  公共工具类
@@ -158,6 +162,61 @@ public class CommonUtil {
 
 		return md5StrBuff.toString().toUpperCase();
 	}
+	
+	
+	/**
+	 * 计算两个日期(字符串)之间相差的天数 
+     * @param startTime 较小的时间 (字符串)
+     * @param endTime  较大的时间 (字符串)
+     * @param format  字符串日期格式，默认为yyyy-MM-dd
+     * @return 相差天数   -1为获取失败
+     * @throws ParseException
+	 * @autohr shuzheng_wang  2017-11-23 14:55
+	 */
+	public static int daysBetween(String startTime,String endTime,String format){
+		if(StringUtils.isEmpty(format))
+			format = "yyyy-MM-dd";
+		SimpleDateFormat sdf=new SimpleDateFormat(format);  
+		Date sdate = null;
+		Date edate = null;
+		try {
+			sdate = sdf.parse(startTime);
+			edate=sdf.parse(endTime);  
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return -1;
+		}  
+        
+        return daysBetween(sdate, edate);
+	}
+	
+	/**
+     * 计算两个日期之间相差的天数  
+     * @param startTime 较小的时间 
+     * @param endTime  较大的时间 
+     * @return 相差天数  -1为获取失败
+     * @throws ParseException
+     * @autohr shuzheng_wang  2017-11-23 13:45
+     */
+    public static int daysBetween(Date startTime,Date endTime)  
+    {    
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+        try {
+			startTime=sdf.parse(sdf.format(startTime));
+			endTime=sdf.parse(sdf.format(endTime));  
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return -1;
+		}  
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(startTime);    
+        long time1 = cal.getTimeInMillis();                 
+        cal.setTime(endTime);    
+        long time2 = cal.getTimeInMillis();         
+        long between_days=(time2-time1)/(1000*3600*24);  
+            
+       return Integer.parseInt(String.valueOf(between_days));           
+    }
 	
 	public static void main(String[] args) {
 		System.out.println(getTimeStampRandom());
