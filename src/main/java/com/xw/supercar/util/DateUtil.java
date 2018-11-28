@@ -1,12 +1,13 @@
 package com.xw.supercar.util;
 
+import org.springframework.util.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.apache.commons.lang.StringUtils;
 public class DateUtil {
 
 	final static String[] weeks_1 = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四",
@@ -67,9 +68,10 @@ public class DateUtil {
      * @return
      */
     public static int getTimeDifferDays(String d1, String d2,String format) {
-    	if(StringUtils.isEmpty(format))
-			format = "yyyy-MM-dd";
-		SimpleDateFormat sdf=new SimpleDateFormat(format);  
+    	if(StringUtils.isEmpty(format)){
+            format = "yyyy-MM-dd";
+        }
+		SimpleDateFormat sdf=new SimpleDateFormat(format);
 		Date sdate = null;
 		Date edate = null;
 		try {
@@ -361,7 +363,6 @@ public class DateUtil {
     }
     
     /**
-     * @param 把毫秒级的long转换成String
      * @return 返回由long转换成String格式的yyyy-MM-dd HH:mm:ss:SSS
      */
     public static String getDateTimeMillislongToString(long datetime) {
@@ -585,8 +586,9 @@ public class DateUtil {
             Calendar cal2 = Calendar.getInstance();
             cal1.setTime(date1);
             cal2.setTime(date2);
-            if (cal2.equals(cal1))
+            if (cal2.equals(cal1)){
                 return 0;
+            }
 
             int yearDiff = (cal2.get(Calendar.YEAR) - cal1.get(Calendar.YEAR)) * 12;
             iMonth = yearDiff + cal2.get(Calendar.MONTH) - cal1.get(Calendar.MONTH);
@@ -758,7 +760,7 @@ public class DateUtil {
      * @return
      */
     public static boolean isValidDate(String dateStr, String formatStr) {
-    	if(StringUtils.isBlank(formatStr)){
+    	if(StringUtils.isEmpty(formatStr)){
     		formatStr = "yyyy-MM-dd";//默认格式
     	}
         boolean convertSuccess=true;
