@@ -1,24 +1,16 @@
 package com.xw.supercar.util;
 
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import org.springframework.util.StringUtils;
+
+import java.io.*;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  *  公共工具类

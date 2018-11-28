@@ -1,29 +1,18 @@
 package com.xw.supercar.mbg;
 
+import com.xw.supercar.entity.ClientCoupon;
+import com.xw.supercar.entity.ResponseResult;
+import com.xw.supercar.util.GsonUtil;
+import org.junit.Test;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.xw.supercar.entity.Client;
-import com.xw.supercar.entity.ClientCoupon;
-import com.xw.supercar.entity.InPart;
-import com.xw.supercar.entity.InPartInfo;
-import com.xw.supercar.entity.OutPart;
-import com.xw.supercar.entity.OutPartInfo;
-import com.xw.supercar.entity.RepairWorkorder;
-import com.xw.supercar.entity.RepairWorkorderItem;
-import com.xw.supercar.entity.ResponseResult;
-import com.xw.supercar.entity.composite.InPartComposite;
-import com.xw.supercar.entity.composite.OutPartComposite;
-import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
-import com.xw.supercar.util.GsonUtil;
-
 public class GenerateRapJson {
 	Object object = getClassInstance(ClientCoupon.class);
-	
+
 	@Test
 	public void generateSingle() throws Exception {
 		ClientCoupon clientCoupon = getClassInstance(ClientCoupon.class);

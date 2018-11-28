@@ -8,7 +8,8 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
@@ -32,7 +33,7 @@ import com.xw.supercar.sql.search.Searchable;
  * @author wangsz 2017-05-14
  */
 public abstract class BaseController<E extends BaseEntity> implements InitializingBean {
-	protected final Logger log = Logger.getLogger(this.getClass());
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	/**
 	 * 获取controller层对应的service层对象
@@ -40,6 +41,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	protected abstract BaseService<E> getSevice();
 	
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		
 	}

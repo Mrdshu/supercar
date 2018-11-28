@@ -62,7 +62,7 @@ public class ClientController extends BaseController<Client>{
 			File file = new File(exportFilePath);
 			if(!file.exists()) file.createNewFile();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("用户信息导出为excel-export() exception...", e);
 			return ResponseResult.generateErrorResponse("导出路径【"+exportFilePath+"】错误，无法正常导出", "");
 		}
 		//获取数据库用户表中所有的用户

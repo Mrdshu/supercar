@@ -44,14 +44,13 @@ public class LookupController extends BaseController<Lookup>{
 	
 	/**
 	 * 获取某一数据字典定义下的数据字典
-	 * @param searchable
+	 * @param lookupDefineCode
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/getByDefineCode",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ResponseResult getByDefineCode(String lookupDefineCode){
-		
 		List<Lookup> lookups = service.searchByDefineCode(lookupDefineCode,null);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();
