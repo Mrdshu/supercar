@@ -10,14 +10,16 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.LoggerFactory;
 
 /**
  * Excel 导入接口
  * @author wsz 2017-07-30
  */
 public abstract class IExcelImport {
-	protected final Logger log = Logger.getLogger(this.getClass());
-	 /**
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	/**
 	 * 导入方法
 	 * @author wsz 2017-07-30
 	 */
@@ -32,8 +34,8 @@ public abstract class IExcelImport {
 			InputStream in = new FileInputStream(importFilePath); 
 			workBook = new HSSFWorkbook(in);
 		} catch (IOException e) {
-			e.printStackTrace();
-			log.error("导入路径【" + importFilePath + "】错误，文件不存在！");
+			logger.error("excel导入-imports() 导入路径【" + importFilePath + "】错误，文件不存在！ exception...", e);
+			logger.error("");
 			rs = false;
 			return rs;
 		}  

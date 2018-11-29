@@ -51,7 +51,7 @@
 	
 	<!--log4j全局变量-->
 	<context-param>     
-      	<param-name>log4jConfigLocation</param-name>     
+      	<param-name>log4jConfigLocation</param-name>
       	<param-value>classpath:config/log4j-spring.properties</param-value>     
    	</context-param>  
    	<context-param>     

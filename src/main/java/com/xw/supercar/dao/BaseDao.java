@@ -30,6 +30,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -50,7 +52,7 @@ import com.xw.supercar.util.ReflectUtil;
  * @author wangsz 2017-05-11
  */
 public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
-	protected final Log log = LogFactory.getLog(this.getClass());
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	/**mybatis的sqlSession模板类，由spring管理，自动打开和关闭资源*/
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
@@ -167,10 +169,8 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 				Object value = setParam.getValue();
 				ReflectUtil.setPropertyValue(newEntity, paramName, value);
 			}
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("批量修改 BaseDao.updateBy() exception...", e);
 		}
 		//如果没有修改到实体类，直接返回
 		if(!isUpdate)
@@ -210,10 +210,8 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 			ReflectUtil.setPropertyValue(newEntity, NAME_IS_DELETED, true);
 			ReflectUtil.setPropertyValue(newEntity, NAME_ID, id);
 			result = update(newEntity);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("软删除 BaseDao.delete() exception...", e);
 		}
 		
 		return result;
@@ -581,7 +579,7 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 			if (sort != null && !sort.isEmpty()) filters.put("sort", sort);
 		}
 		if (id != null && !"".equals(id)) filters.put(NAME_ID, id);
-		this.log.trace("filters=" + filters);
+		logger.info("将entity和Searchable转换为过滤条件的map, filters={}", filters);
 		return filters;
 	}
 	

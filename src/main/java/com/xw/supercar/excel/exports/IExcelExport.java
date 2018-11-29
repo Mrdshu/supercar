@@ -1,10 +1,14 @@
 package com.xw.supercar.excel.exports;
 
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -14,21 +18,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.springframework.util.StringUtils;
-
 public abstract class IExcelExport<T> {
-	protected final Logger log = Logger.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 获取Excel的Header
      *
@@ -228,27 +220,15 @@ public abstract class IExcelExport<T> {
                             cell.setCellValue(richString);
                         }
                     }
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                    rs = false;
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                    rs = false;
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                    rs = false;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    rs = false;
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("excel导出-export() exception...", e);
                     rs = false;
                 } finally {
                     // 清理资源
                 	try {
 						workbook.close();
 					} catch (IOException e) {
-						e.printStackTrace();
+                        logger.error("excel导出-export() io流关闭失败 exception...", e);
 					}
                 }
             }
@@ -256,9 +236,9 @@ public abstract class IExcelExport<T> {
         try {
         	OutputStream out = new FileOutputStream(exportFilePath);
             workbook.write(out);
-            log.info("excel 导出成功！");
+            logger.info("excel 导出成功！");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("excel导出-export() exception...", e);
         }
         
         return rs;

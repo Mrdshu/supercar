@@ -72,7 +72,7 @@ public class OutPartController extends BaseController<OutPart>{
 	
 	/**
 	 * 查看指定出库工单的配件信息
-	 * @param inWorkOrderNo
+	 * @param outWorkOrderNo
 	 * @return 指定入库工单的配件信息
 	 *
 	 * @author wsz 2017-06-26
@@ -144,7 +144,7 @@ public class OutPartController extends BaseController<OutPart>{
 			//最后提交事务
 			transactionManager.commit(status);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("新增出库工单以及出库配件 exception...", e);
 			transactionManager.rollback(status);
 			return ResponseResult.generateErrorResponse("", "出库失败，请重新提交");
 		}

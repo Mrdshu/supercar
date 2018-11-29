@@ -1,5 +1,8 @@
 package com.xw.supercar.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,9 +15,10 @@ import java.util.Map;
  * @author wangsz 2017-07-06
  */
 public class CollectionUtil  {
+	private static final Logger logger = LoggerFactory.getLogger(CollectionUtil.class);
 
 	/**
-	 * 提取集合中的对象的属性(通过Getter函数), 组合成Map.
+	 * 提取集合中的对象的属性(通过Getter函数), 组合成Map
 	 * 
 	 * @param collection 来源集合.
 	 * @param keyPropertyName 要提取为Map中的Key值的属性名.
@@ -28,7 +32,7 @@ public class CollectionUtil  {
 						ReflectUtil.getPropertyValue(obj, valuePropertyName));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("提取集合中的对象的属性(通过Getter函数), 组合成Map-extractToMap() exception...", e);
 		}
 		return map;
 	}
@@ -75,7 +79,7 @@ public class CollectionUtil  {
 				list.add(ReflectUtil.getPropertyValue(obj, propertyName));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("提取集合中的对象的属性(通过Getter函数), 组合成List-extractToList() exception...", e);
 		}
 
 		return list;

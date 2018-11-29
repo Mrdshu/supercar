@@ -2,6 +2,8 @@ package com.xw.supercar.util;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -17,7 +19,7 @@ import java.util.Random;
  *  @author wangsz
  */
 public class CommonUtil {
-	
+	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 	/**
 	 * 获取异常的详细信息，转换为字符串
 	 * @author wangsz  Jan 16, 2017 2:14:57 PM
@@ -25,7 +27,6 @@ public class CommonUtil {
 	public static String getExceptionInfo(Throwable e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw, true);
-		e.printStackTrace(pw);
 		pw.flush();
 		sw.flush();
 		// 关闭存在优化，以后再写
@@ -56,7 +57,7 @@ public class CommonUtil {
 			if(out != null)
 				out.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("关闭io流-closeIO() exception...", e);
 		}
 	}
 	
@@ -129,6 +130,7 @@ public class CommonUtil {
 	}
 	
 	/**
+	 * 获取md5编码后的字符串
 	 * @param message cannot be null
 	 * @return MD5 encoded string with all capital letters.
 	 */
@@ -148,7 +150,7 @@ public class CommonUtil {
 					md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("获取md5编码后的字符串-getMD5() exception...", e);
 			throw new RuntimeException(e);
 		}
 
@@ -175,7 +177,7 @@ public class CommonUtil {
 			sdate = sdf.parse(startTime);
 			edate=sdf.parse(endTime);  
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error("计算两个日期(字符串)之间相差的天数 -daysBetween() exception...", e);
 			return -1;
 		}  
         
@@ -197,7 +199,7 @@ public class CommonUtil {
 			startTime=sdf.parse(sdf.format(startTime));
 			endTime=sdf.parse(sdf.format(endTime));  
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error("计算两个日期之间相差的天数-daysBetween() exception...", e);
 			return -1;
 		}  
         Calendar cal = Calendar.getInstance();    

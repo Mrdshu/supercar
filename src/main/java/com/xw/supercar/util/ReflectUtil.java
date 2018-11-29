@@ -12,6 +12,8 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.xw.supercar.dao.BaseDao;
@@ -23,7 +25,8 @@ import com.xw.supercar.entity.Client;
  * @author wangsz 2017-05-10
  */
 public class ReflectUtil {
-	
+	private static final Logger logger = LoggerFactory.getLogger(ReflectUtil.class);
+
 	/**
 	 * 获取指定class的泛型class(单个)
 	 * @author  wangsz 2017-05-10
@@ -57,7 +60,7 @@ public class ReflectUtil {
 			Method method = objClass.getMethod(methodName, parameterTypes);
 			rs = method.invoke(objClass.newInstance(), parameters);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("通过反射执行指定class的指定方法-exeMethodOfClass() exception...", e);
 		}
 		return rs;
 	}
@@ -73,7 +76,7 @@ public class ReflectUtil {
 			Method method = object.getClass().getMethod(methodName, parameterTypes);
 			rs = method.invoke(object, parameters);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("通过反射执行指定对象的指定方法-exeMethodOfObj() exception...", e);
 		}
 		return rs;
 	}
@@ -115,9 +118,9 @@ public class ReflectUtil {
 	/**
 	 * 通过反射，获取实体中指定属性的值
 	 * @param object 实体对象
-	 * @param propertyDescriptor 属性描述
-	 * 
+	 * @param propertyName
 	 * @author  wangsz 2017-05-11
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T, V> V getPropertyValue(T object, String propertyName) {
@@ -129,13 +132,13 @@ public class ReflectUtil {
 			field.setAccessible(true);
 			propertyValue = (V) field.get(object);
 		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+			logger.error("通过反射，获取实体中指定属性的值-getPropertyValue() 没有发现指定域 exception...", e);
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			logger.error("通过反射，获取实体中指定属性的值-getPropertyValue() exception...", e);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			logger.error("通过反射，获取实体中指定属性的值-getPropertyValue() exception...", e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			logger.error("通过反射，获取实体中指定属性的值-getPropertyValue() exception...", e);
 		}
 		
 		return propertyValue;
@@ -194,7 +197,7 @@ public class ReflectUtil {
 				newDescriptorList.add(descriptor);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("返回指定bean中的属性数组-getPropertyDescriptors() exception...", e);
 		}
 		return newDescriptorList.toArray(new PropertyDescriptor[] {});
 	}

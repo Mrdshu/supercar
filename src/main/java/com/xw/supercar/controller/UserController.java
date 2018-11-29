@@ -135,7 +135,7 @@ public class UserController extends BaseController<User>{
 	}
 	
 	/**
-	 * 用所有用户信息导出为excel
+	 * 所有用户信息导出为excel
 	 * 
 	 * @param searchable 筛选用户的过滤条件
 	 * @param exportFilePath 导出路径
@@ -151,7 +151,7 @@ public class UserController extends BaseController<User>{
 			File file = new File(exportFilePath);
 			if(!file.exists()) file.createNewFile();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("所有用户信息导出为excel exception...", e);
 			return ResponseResult.generateErrorResponse("导出路径【"+exportFilePath+"】错误，无法正常导出", "");
 		}
 		//获取数据库用户表中所有的用户
