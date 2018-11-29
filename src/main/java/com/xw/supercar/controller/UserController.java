@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ import com.xw.supercar.sql.search.Searchable;
 
 @Controller
 @RequestMapping("/user")
+@Api(tags = "用户相关操作")
 public class UserController extends BaseController<User>{
 	@Autowired
 	private UserService service;

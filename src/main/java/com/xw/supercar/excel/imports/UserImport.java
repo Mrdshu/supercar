@@ -27,7 +27,7 @@ public class UserImport extends IExcelImport{
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
         	//集合超过５００条，则先导入一批数据后清空集合
             if (i % 500 == 0) {
-            	log.info("Excel解析出 size:" + users.size() + "开始导入……" );
+            	logger.info("Excel解析出 size:" + users.size() + "开始导入……" );
             	//导入excel中的数据
                 if (users != null && users.size() > 0) {
                 	SpringContextHolder.getBean(UserService.class).add(users);
@@ -69,7 +69,7 @@ public class UserImport extends IExcelImport{
             
         }
         
-        log.info("Excel解析出 size:" + users.size() + "开始导入……" );
+        logger.info("Excel解析出 size:" + users.size() + "开始导入……" );
     	//导入excel中的数据
         if (users != null && users.size() > 0) {
         	SpringContextHolder.getBean(UserService.class).add(users);

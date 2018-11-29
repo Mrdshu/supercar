@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author wsz 2017-07-30
  */
 public abstract class IExcelImport {
-	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 导入方法

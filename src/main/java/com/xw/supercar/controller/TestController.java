@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,7 @@ import com.xw.supercar.sql.search.Searchable;
 
 @Controller
 @RequestMapping("/hello")
+@Api(tags = "测试接口")
 public class TestController {
 	
 	@RequestMapping("/test")

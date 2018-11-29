@@ -3,6 +3,7 @@ package com.xw.supercar.controller;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ import com.xw.supercar.sql.search.Searchable;
  */
 @Controller
 @RequestMapping("/clientCoupon")
+@Api(tags = "客户优惠券相关操作")
 public class ClientCouponController extends BaseController<ClientCoupon>{
 
 	@Autowired

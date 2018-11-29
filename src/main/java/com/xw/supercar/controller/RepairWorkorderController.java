@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,7 @@ import com.xw.supercar.util.CommonUtil;
  */
 @Controller
 @RequestMapping("/repairWorkorder")
+@Api(tags = "维修工单相关操作")
 public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 
 	@Autowired

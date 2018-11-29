@@ -52,8 +52,10 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
-	<bean id="customObjectMapper" class="com.xw.supercar.spring.util.CustomJsonDateMapper"></bean>
+
+	<mvc:default-servlet-handler />
+
+	<bean id="customObjectMapper" class="com.xw.supercar.spring.util.CustomJsonDateMapper" />
 
 	<!--aop设置 -->
 	<aop:aspectj-autoproxy proxy-target-class="true"

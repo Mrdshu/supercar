@@ -1,23 +1,5 @@
 package com.xw.supercar.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xw.supercar.annotation.SearchableDefaults;
 import com.xw.supercar.constant.DaoConstant;
 import com.xw.supercar.entity.BaseDateEntity;
@@ -26,6 +8,18 @@ import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.service.BaseService;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.Searchable;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.constraints.NotNull;
+import java.util.*;
 /**
  * Controller层的基础类，实现了基础的增、删、改、查(new、remove、edit、list(get) )方法。
  * 继承即可使用（需指定泛型为对应实体）
@@ -46,60 +40,13 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 		
 	}
 
-	//================注释内容为controller转发请求用的，现在前后端分离，故此项目不需要=================
-//	/**controller的url前缀*/
-//	protected String viewPrefix;
-//	protected String parentPath = "";
-//	
-
-//	
-//	/**
-//	 * 当前模块 视图的前缀
-//	 * 默认
-//	 * 1、获取当前类头上的@RequestMapping中的value作为前缀
-//	 * 2、如果没有就使用当前模型小写的简单类名
-//	 */
-//	public void setViewPrefix(String viewPrefix) {
-//		if(!viewPrefix.startsWith("/")) {
-//			viewPrefix = "/" + viewPrefix;
-//		}
-//		this.viewPrefix = viewPrefix;
-//	}
-//
-//	public String getViewPrefix() {
-//		return viewPrefix;
-//	}
-//	
-//	@Override
-//	public void afterPropertiesSet() throws Exception {
-//		this.setViewPrefix(this.getDefaultViewPrefix());
-//		RequestMapping requestMapping = AnnotationUtils.findAnnotation(this.getClass(), RequestMapping.class);
-//		if (requestMapping != null && requestMapping.value().length > 0) {
-//			this.parentPath = requestMapping.value()[0];
-//		}
-//	}
-//
-	protected String getDefaultViewPrefix() {
-		String currentViewPrefix = "";
-		RequestMapping requestMapping = AnnotationUtils.findAnnotation(getClass(), RequestMapping.class);
-		if (requestMapping != null && requestMapping.value().length > 0) {
-			currentViewPrefix = requestMapping.value()[0];
-		}
-		if (currentViewPrefix == null || "".equals(currentViewPrefix)) {
-			currentViewPrefix = this.getClass().getSimpleName().toLowerCase();
-			if (currentViewPrefix.endsWith("controller")) currentViewPrefix = currentViewPrefix.substring(0, currentViewPrefix.length() - "controller".length());
-		}
-		if (!currentViewPrefix.startsWith("/")) currentViewPrefix = "/" + currentViewPrefix;
-
-		return currentViewPrefix;
-	}
-	
 	/**
 	 * 分页查询
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/page",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "分页查询")
 	public ResponseResult page(@SearchableDefaults Searchable searchable){
 		if(searchable == null)
 			searchable = Searchable.newSearchable()
@@ -122,6 +69,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/list",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "查询多条数据")
 	public ResponseResult list(@SearchableDefaults Searchable searchable){
 		List<E> entitys = getSevice().findBy(searchable, true);
 		//生成返回实体类
@@ -135,12 +83,13 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 根据id查询数据
-	 * @param searchable
+	 * @param id
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/getById",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "POST", value = "根据id查询数据")
 	public ResponseResult getById(@NotNull String id){
 		E entity = getSevice().getById(id);
 		//生成返回实体类
@@ -158,6 +107,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/new",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "POST", value = "新增")
 	public ResponseResult newEntity(E entity){
 		ResponseResult result = beforeNew(entity);
 		if(!result.getSuccess())
@@ -181,6 +131,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/remove",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "POST", value = "删除")
 	public ResponseResult remove(E entity){
 		Boolean rs = getSevice().remove(entity);
 		
@@ -195,12 +146,13 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 批量删除
-	 * @param entity
+	 * @param entitys
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/removes",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "批量删除")
 	public ResponseResult removes(@RequestBody List<E> entitys){
 		long rs = getSevice().remove(entitys);
 		
@@ -221,6 +173,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/removeById",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "根据id删除")
 	public ResponseResult removeById(String id){
 		Boolean rs = getSevice().removeById(id);
 		
@@ -255,12 +208,13 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 根据id集合批量删除
-	 * @param id
+	 * @param ids
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/removeByIds",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "根据id集合批量删除")
 	public ResponseResult removeByIds(String[] ids){
 		List<String> idsList = Arrays.asList(ids);
 		long rs = getSevice().removeByIds(idsList);
@@ -282,6 +236,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 */
 	@RequestMapping(value = "/edit",method = RequestMethod.POST,produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(httpMethod = "POST", value = "修改")
 	public ResponseResult edit(E entity){
 		E afterModifyEntity = getSevice().modify(entity);
 		
@@ -343,8 +298,8 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	
 	/**
 	 * 将data数组中实体成员类的变量多个外键对应的对象放入Data中
-	 * @param data map集合，实体类存放其中
-	 * @param attributeNames 外键名数组
+	 * @param result map集合，实体类存放其中
+	 * @param attributesName 外键名数组
 	 * @param attributeServicesClazz 外键对应的service的class数组
 	 * @author  wangsz 2017-06-04
 	 */

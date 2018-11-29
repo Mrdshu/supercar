@@ -1,14 +1,5 @@
 package com.xw.supercar.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xw.supercar.entity.Lookup;
 import com.xw.supercar.entity.ResponseResult;
 import com.xw.supercar.entity.composite.TreeNode;
@@ -17,8 +8,20 @@ import com.xw.supercar.service.LookupService;
 import com.xw.supercar.sql.page.Page;
 import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 @Controller
 @RequestMapping("/lookup")
+@Api(tags = "数据字典相关操作")
 public class LookupController extends BaseController<Lookup>{
 	@Autowired
 	private LookupService service;
@@ -44,12 +47,14 @@ public class LookupController extends BaseController<Lookup>{
 	
 	/**
 	 * 获取某一数据字典定义下的数据字典
-	 * @param lookupDefineCode
+	 * @param lookupDefineCode 数据字典定义code
 	 * @return
 	 * @author  wangsz 2017-06-04
 	 */
 	@RequestMapping(value = "/getByDefineCode",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+	@ApiOperation(value = "获取某一数据字典定义下的数据字典", httpMethod = "GET")
+	@ApiImplicitParam(name = "lookupDefineCode", value = "数据字典定义code", required = true, dataType = "String")
 	public ResponseResult getByDefineCode(String lookupDefineCode){
 		List<Lookup> lookups = service.searchByDefineCode(lookupDefineCode,null);
 		//生成返回实体类

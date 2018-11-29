@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.Map;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.xw.supercar.service.CompanyService;
 import com.xw.supercar.service.LookupService;
 @Controller
 @RequestMapping("/company")
+@Api(tags = "公司相关操作")
 public class CompanyController extends BaseController<Company>{
 	@Autowired
 	private CompanyService service;

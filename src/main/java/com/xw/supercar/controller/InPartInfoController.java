@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.Map;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.xw.supercar.sql.search.Searchable;
 
 @Controller
 @RequestMapping("/inPartInfo")
+@Api(tags = "入库工单详细条目相关操作")
 public class InPartInfoController extends BaseController<InPartInfo>{
 	@Autowired
 	private InPartInfoService service;

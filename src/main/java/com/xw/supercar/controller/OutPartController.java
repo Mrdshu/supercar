@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ import com.xw.supercar.util.CollectionUtil;
  */
 @Controller
 @RequestMapping("/outPart")
+@Api(tags = "出库工单相关操作")
 public class OutPartController extends BaseController<OutPart>{
 	/**手动事务管理对象*/
 	@Autowired

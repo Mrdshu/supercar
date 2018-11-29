@@ -10,6 +10,9 @@ import com.xw.supercar.service.ClientService;
 import com.xw.supercar.service.LookupService;
 import com.xw.supercar.spring.util.SpringContextHolder;
 import com.xw.supercar.sql.search.Searchable;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,12 +23,17 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 客户相关操作controller
+ * @author wsz
+ */
 @Controller
 @RequestMapping("/client")
+@Api(tags = "客户相关操作")
 public class ClientController extends BaseController<Client>{
 	@Autowired
 	private ClientService baseService;
-	
+
 	@Override
 	protected BaseService<Client> getSevice() {
 		return baseService;
@@ -41,7 +49,7 @@ public class ClientController extends BaseController<Client>{
 	}
 
 	/**
-	 * 用所有用户信息导出为excel
+	 * 将所有用户信息导出为excel
 	 * 
 	 * @param searchable 筛选用户的过滤条件
 	 * @param exportFilePath 导出路径
@@ -50,7 +58,9 @@ public class ClientController extends BaseController<Client>{
 	 */
 	@RequestMapping(value = "/export",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult export(@SearchableDefaults(needPage = false) Searchable searchable, String exportFilePath) {
+    @ApiOperation(httpMethod = "POST", value = "将所有用户信息导出为excel" ,notes = "根据学生的name，查询学生对象的信息。")
+    @ApiImplicitParam(name = "searchable", value = "搜索对象", dataType = "Searchable")
+    public ResponseResult export(@SearchableDefaults(needPage = false) Searchable searchable, String exportFilePath) {
 		ResponseResult result = ResponseResult.generateResponse();
 		//校验导出路径地址是否正确合法
 		try {
@@ -82,6 +92,7 @@ public class ClientController extends BaseController<Client>{
 	 */
 	@RequestMapping(value = "/imports",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
+    @ApiOperation(httpMethod = "GET", value = "将excel表中数据导入")
 	public ResponseResult imports(String importFilePath) {
 		ResponseResult result = ResponseResult.generateResponse();
 		

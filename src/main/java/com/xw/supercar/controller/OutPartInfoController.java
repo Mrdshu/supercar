@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.Map;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import com.xw.supercar.sql.search.Searchable;
 
 @Controller
 @RequestMapping("/outPartInfo")
+@Api(tags = "出库工单详细相关操作")
 public class OutPartInfoController extends BaseController<OutPartInfo>{
 	@Autowired
 	private OutPartInfoService service;

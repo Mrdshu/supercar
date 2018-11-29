@@ -2,6 +2,7 @@ package com.xw.supercar.controller;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import com.xw.supercar.sql.search.Searchable;
  */
 @Controller
 @RequestMapping("/lookup_definition")
+@Api(tags = "数据字典定义相关操作")
 public class LookupDefinitionController extends BaseController<LookupDefinition>{
 	@Autowired
 	private LookupDefinitionService lookupDefinitionService;

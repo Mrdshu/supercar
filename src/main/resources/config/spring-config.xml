@@ -30,4 +30,5 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>
+
 </beans>
