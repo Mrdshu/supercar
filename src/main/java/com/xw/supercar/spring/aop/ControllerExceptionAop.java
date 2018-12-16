@@ -6,6 +6,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.xw.supercar.entity.ResponseResult;
@@ -18,7 +20,7 @@ import com.xw.supercar.util.CommonUtil;
 @Aspect
 @Component
 public class ControllerExceptionAop{
-	protected final Log log = LogFactory.getLog(this.getClass());
+	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	/**
 	 * 当controller层方法出现异常时，组装失败报文返回给页面
@@ -31,7 +33,7 @@ public class ControllerExceptionAop{
 		try {
 			rs = pjp.proceed();
 		} catch (Throwable e) {
-			log.error("======method【"+getMethodPath(pjp)+"】出现异常======\n"+CommonUtil.getExceptionInfo(e));
+			log.error("======method【"+getMethodPath(pjp)+"】出现异常======", e);
 			rs = ResponseResult.generateErrorResponse("1111", "系统错误，请联系管理员");
 		}
 		
