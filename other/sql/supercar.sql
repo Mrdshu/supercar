@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2018-12-16 17:25:13
+Date: 2018-12-16 18:42:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `sequence` (
 -- ----------------------------
 INSERT INTO `sequence` VALUES ('in_workorder_no', '31', '1');
 INSERT INTO `sequence` VALUES ('out_workorder_no', '18', '1');
-INSERT INTO `sequence` VALUES ('repair_workorder', '10', '1');
+INSERT INTO `sequence` VALUES ('repair_workorder', '12', '1');
 
 -- ----------------------------
 -- Table structure for tb_client
@@ -81,8 +81,7 @@ CREATE TABLE `tb_client` (
 INSERT INTO `tb_client` VALUES ('1', 'wsz', '1', '42102366262266', '153B10CE80B14D7EBB7B8B48A9E22376', '5713DCD00601409187CF0F975E92213C', '842803829@qq.com', '18782252525', '广发银行总部99楼', '1', '此用户是大客户', '2017-06-17 17:51:41', '2017-07-12 09:20:14', '0', '甘P82585', '1', '99x', '1111', null, null, '红', '12312', '天天保险', '2017-06-23 17:49:59', '2017-06-29 17:50:03');
 INSERT INTO `tb_client` VALUES ('287E2C6DB859423F901B3762102A9C37', 'kim', '1', '1234567890098745678', 'B2D3F5DEDD204994BAD1425D2EFB1392', '5713DCD00601409187CF0F975E92213C', null, '18378311282', '广东深圳', '1', '新增客户', '2017-07-12 09:25:15', '2018-12-16 14:04:30', '0', '粤BNB5201', '049C1B34F160472EB0712A6427292F14', 'A4L', '1241244324', null, null, '白色', '3243242433234', '平安保险', null, null);
 INSERT INTO `tb_client` VALUES ('77A24F759FF24B179AA16F12920D3FDF', 'king', null, '124423435351232132143', '3F1F1EFC9B2B46F38EB3E92C6259364C', '5713DCD00601409187CF0F975E92213C', '2133123@qq.com', '13213134325', '广东深圳南山前海', '1', '32424', '2017-07-12 09:29:31', '2018-12-16 14:04:41', '0', '粤B213234', '049C1B34F160472EB0712A6427292F14', 'A6', '1232436456', null, null, '黑色', '233464532221', '太平洋保险', null, null);
-INSERT INTO `tb_client` VALUES ('D9F9F3C0A7FC471BBA163A067B9819E8', 'name', null, '421023199203110010', '153B10CE80B14D7EBB7B8B48A9E22376', '5713DCD00601409187CF0F975E92213C', 'email', 'mobile', 'address', '1', 'description', '2017-07-22 16:56:46', '2017-07-22 16:56:46', '0', '11232', '049C1B34F160472EB0712A6427292F14', 'carModel', 'carVIN', null, null, 'carColor', 'engineNo', 'insurer', null, null);
-INSERT INTO `tb_client` VALUES ('DB9B331E02594C20955BFA5AD10FD294', '111', null, null, 'B2D3F5DEDD204994BAD1425D2EFB1392', '5713DCD00601409187CF0F975E92213C', null, '1111', null, null, null, '2017-08-05 18:25:17', '2017-08-05 18:25:17', '0', '啊哎哎1111', '2', '11', null, null, null, null, null, null, null, null);
+INSERT INTO `tb_client` VALUES ('F7022766E9F74D1F93E473E8B42D7079', 'string', '1', 'string', '1', '1', 'string', '1', 'string', '1', 'string', '2018-12-16 18:41:48', '2018-12-16 18:41:48', '0', 'string', '1', 'string', 'string', null, null, 'string', 'string', 'string', '2018-12-16 00:00:00', '2018-12-16 00:00:00');
 
 -- ----------------------------
 -- Table structure for tb_client_coupon
@@ -536,7 +535,7 @@ CREATE TABLE `tb_repair_workorder` (
 -- ----------------------------
 -- Records of tb_repair_workorder
 -- ----------------------------
-INSERT INTO `tb_repair_workorder` VALUES ('3041CBD00D2845318E14EE382FDFCDA0', '10', null, '134E48AE281C4376A70863421802769C', '424', '1', '1', '1', '2', null, '1', '2017-08-05 21:47:30', '2017-08-05 21:52:31', null, null);
+INSERT INTO `tb_repair_workorder` VALUES ('string', '20181216184148uA', 'string', 'string', null, 'string', 'F7022766E9F74D1F93E473E8B42D7079', null, 'string', 'string', 'string', '2018-12-16 18:41:52', '2018-12-16 00:00:00', 'string', null);
 
 -- ----------------------------
 -- Table structure for tb_repair_workorder_item
@@ -556,6 +555,7 @@ CREATE TABLE `tb_repair_workorder_item` (
 -- Records of tb_repair_workorder_item
 -- ----------------------------
 INSERT INTO `tb_repair_workorder_item` VALUES ('B7EC07892DF84CB89AE88E1E2EF5F045', '3041CBD00D2845318E14EE382FDFCDA0', '5E22F21B629F4765BDA4C2753625EFEB', 'DA67698177BB4118BBB23079A6CA9BFA', null, null);
+INSERT INTO `tb_repair_workorder_item` VALUES ('string', 'string', 'string', 'string', '2018-12-16 18:19:55', '2018-12-16 18:19:55');
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -671,13 +671,6 @@ CREATE TRIGGER `deleteOutPartInfo` AFTER UPDATE ON `tb_out_part_info` FOR EACH R
 if (new.isdeleted = 1 && old.isdeleted = 0) then
 update tb_inventory set p_count = p_count + old.out_count where tb_inventory.id = old.inventory_id;
 end IF;
-END
-;;
-DELIMITER ;
-DROP TRIGGER IF EXISTS `insertRepairWorkorder`;
-DELIMITER ;;
-CREATE TRIGGER `insertRepairWorkorder` BEFORE INSERT ON `tb_repair_workorder` FOR EACH ROW BEGIN
-		 set NEW.rw_workorder_no = nextval('repair_workorder');
 END
 ;;
 DELIMITER ;

@@ -33,7 +33,7 @@ public class ControllerExceptionAop{
 		try {
 			rs = pjp.proceed();
 		} catch (Throwable e) {
-			log.error("======method【"+getMethodPath(pjp)+"】出现异常======", CommonUtil.getExceptionInfo(e));
+			log.error("======method【"+getMethodPath(pjp)+"】出现异常======", e);
 			rs = ResponseResult.generateErrorResponse("1111", "系统错误，请联系管理员");
 		}
 		
