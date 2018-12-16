@@ -492,7 +492,7 @@ CREATE TABLE `tb_repair_workorder` (
   `rw_send_man` varchar(20) DEFAULT NULL COMMENT '送修人名称',
   `rw_send_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '送修时间',
   `rw_end_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '交车时间',
-  `extend2` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
+  `rw_company` varchar(20) DEFAULT NULL COMMENT '公司',
   `extend3` varchar(20) DEFAULT NULL COMMENT '预留拓展字段',
   PRIMARY KEY (`ID`),
   KEY `rw_client_fk` (`rw_client_id`),
