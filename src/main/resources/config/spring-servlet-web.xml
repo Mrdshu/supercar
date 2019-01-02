@@ -63,4 +63,8 @@
 	<!--aop的拦截配置类 -->
 	<bean class="com.xw.supercar.spring.aop.ControllerExceptionAop" lazy-init="false" />
 
+	<!--跨域设置-->
+	<!--<mvc:cors>
+		<mvc:mapping path="/**"/>
+	</mvc:cors>-->
 </beans>

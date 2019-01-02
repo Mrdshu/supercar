@@ -13,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -26,6 +23,7 @@ import java.util.*;
  * 
  * @author wangsz 2017-05-14
  */
+@CrossOrigin
 public abstract class BaseController<E extends BaseEntity> implements InitializingBean {
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
