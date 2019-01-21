@@ -125,9 +125,10 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 		boolean result = false;
 		//更新时id不能为空
 		String id = getId(entity);
-		if (id == null || "".equals(id)) 
+		if (id == null || "".equals(id)) {
 			throw new IllegalArgumentException("'entity.id' must be not empty");
-		
+		}
+
 		result = getSqlSessionTemplate().update(getUpdateStatement(), entity) == 1;
 		return result;
 	}

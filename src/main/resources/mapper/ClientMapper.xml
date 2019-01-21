@@ -124,9 +124,8 @@
 			<if test="carColor != null">CAR_COLOR = <choose><when test="carColor == ''">null</when><otherwise>#{carColor}</otherwise></choose>,</if>
 			<if test="engineNo != null">CAR_ENGINE = <choose><when test="engineNo == ''">null</when><otherwise>#{engineNo}</otherwise></choose>,</if>
 			<if test="insurer != null">CAR_INSURER = <choose><when test="insurer == ''">null</when><otherwise>#{insurer}</otherwise></choose>,</if>
-			<if test="insuranceEndtime != null">CAR_INSURANCE_ENDTIME = <choose><when test="insuranceEndtime == ''">null</when><otherwise>#{insuranceEndtime}</otherwise></choose>,</if>
-			<if test="registrationDate != null">CAR_INSURANCE_ENDTIME = <choose><when test="registrationDate == ''">null</when><otherwise>#{registrationDate}</otherwise></choose>,</if>
-			
+			<if test="insuranceEndtime != null">CAR_INSURANCE_ENDTIME = #{insuranceEndtime},</if>
+			<if test="registrationDate != null">CAR_INSURANCE_ENDTIME = #{registrationDate},</if>
 			<if test="name != null">C_NAME = <choose><when test="name == ''">null</when><otherwise>#{name}</otherwise></choose>,</if>
 			<if test="sex != null">C_SEX = <choose><when test="sex == ''">null</when><otherwise>#{sex}</otherwise></choose>,</if>
 			<if test="idcard != null">C_IDCARD = <choose><when test="idcard == ''">null</when><otherwise>#{idcard}</otherwise></choose>,</if>

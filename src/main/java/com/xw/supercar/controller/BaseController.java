@@ -238,8 +238,9 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	public ResponseResult edit(E entity){
 		E afterModifyEntity = getSevice().modify(entity);
 		
-		if(afterModifyEntity == null)
+		if(afterModifyEntity == null) {
 			return ResponseResult.generateErrorResponse("", "修改失败");
+		}
 		
 		ResponseResult result = ResponseResult.generateResponse();
 		result.setErrorMsg("修改成功！");

@@ -46,8 +46,7 @@
 		</mvc:argument-resolvers>
 		<!--自定义jackson 序列化date数据格式-->
 		<mvc:message-converters>
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="objectMapper" ref="customObjectMapper"></property>
 			</bean>
 		</mvc:message-converters>

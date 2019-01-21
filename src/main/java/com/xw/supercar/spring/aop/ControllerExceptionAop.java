@@ -1,7 +1,6 @@
 package com.xw.supercar.spring.aop;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.xw.supercar.entity.ResponseResult;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,9 +8,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.xw.supercar.entity.ResponseResult;
-import com.xw.supercar.util.CommonUtil;
 
 /**
  * 控制层异常拦截类
@@ -31,7 +27,10 @@ public class ControllerExceptionAop{
 	public Object aroundOfController(ProceedingJoinPoint pjp) throws Throwable {
 		Object rs = null;
 		try {
+			long start = System.currentTimeMillis();
 			rs = pjp.proceed();
+			long end = System.currentTimeMillis();
+			log.info("======method【{}】耗时：{}======", getMethodPath(pjp), end-start);
 		} catch (Throwable e) {
 			log.error("======method【"+getMethodPath(pjp)+"】出现异常======", e);
 			rs = ResponseResult.generateErrorResponse("1111", "系统错误，请联系管理员");
@@ -45,8 +44,10 @@ public class ControllerExceptionAop{
 	 * @author wangsz
 	 */
 	public  String getMethodPath(ProceedingJoinPoint pjp){
-		String tclassName = pjp.getTarget().getClass().getName(); // 切面方法所在类名
-		String tMethodName = ((MethodSignature) pjp.getSignature()).getName();	 // 切面方法名
+		// 切面方法所在类名
+		String tclassName = pjp.getTarget().getClass().getName();
+		// 切面方法名
+		String tMethodName = ((MethodSignature) pjp.getSignature()).getName();
 		String methodPath=tclassName + "." + tMethodName;
 		
 		return methodPath;

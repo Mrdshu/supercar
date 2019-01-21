@@ -3,11 +3,13 @@ package com.xw.supercar.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 客户信息实体类
@@ -34,8 +36,10 @@ public class Client extends BaseDateEntity implements Serializable{
 	/**保险公司*/
 	private String insurer;
 	/**保险到期时间*/
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date insuranceEndtime;
 	/**上牌日期*/
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date registrationDate;
 	/**所属门店*/
 	private String company;
@@ -59,10 +63,8 @@ public class Client extends BaseDateEntity implements Serializable{
 	/**备注*/
 	private String description;
 	/**创建时间*/
-	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")  //若已设置全局json解析date格式配置，则不需要该注解
 	private Date createTime;
 	/**更新时间*/
-	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 	/**软删除标志*/
 	private Boolean isDeleted;

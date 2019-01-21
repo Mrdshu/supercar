@@ -256,9 +256,10 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	public E modify(E entity) {
 		beforeModify(entity);
 		boolean rs = baseDao.update(entity);
-		if(!rs)
-			throw new IllegalArgumentException("modify entity【"+entity.toString()+"】 fail");
-		
+		if(!rs){
+			log.error("modify entity【"+entity.toString()+"】 fail");
+		}
+
 		entity = getById(entity.getId());
 		afterModify(entity);
 		return entity;
@@ -430,7 +431,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 * 将实体成员变量外键对应的对象放入Data中
 	 * @param object 实体类
 	 * @param attributeName 外键名
-	 * @param attributeService 外键对应的service的class
+	 * @param attributeServiceClass
 	 * @author  wangsz 2017-06-04
 	 */
 	public void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
