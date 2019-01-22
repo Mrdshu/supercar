@@ -46,9 +46,10 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	@ResponseBody
 	@ApiOperation(httpMethod = "GET", value = "分页查询")
 	public ResponseResult page(@SearchableDefaults Searchable searchable){
-		if(searchable == null)
+		if(searchable == null){
 			searchable = Searchable.newSearchable()
-				.addPage(DaoConstant.DEFAULT_PAGE_NUMBER, DaoConstant.DEFAULT_PAGE_SIZE);
+					.addPage(DaoConstant.DEFAULT_PAGE_NUMBER, DaoConstant.DEFAULT_PAGE_SIZE);
+		}
 		Page<E> page = getSevice().findPage(searchable, true);
 		//生成返回实体类
 		ResponseResult result = ResponseResult.generateResponse();

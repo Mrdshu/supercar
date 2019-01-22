@@ -185,9 +185,10 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		ResponseResult result = ResponseResult.generateResponse();
 		Map<String, Map<String, Object>>  extendInfo = result.getExtendInfo();
 		
-		if(StringUtils.isEmpty(repairWorkOrderNo))
+		if(StringUtils.isEmpty(repairWorkOrderNo)){
 			return ResponseResult.generateErrorResponse("", "维修工单号不能为空！");
-		
+		}
+
 		//获取维修工单信息
 		RepairWorkorder repairWorkorder = service.getByCode(repairWorkOrderNo);
 		
