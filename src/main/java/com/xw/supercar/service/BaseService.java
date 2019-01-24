@@ -37,8 +37,9 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		baseDao = getDao();
-		if(baseDao == null)
+		if(baseDao == null) {
 			throw new IllegalArgumentException("initial "+this.getClass().getName()+"'s bao fail");
+		}
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	protected void afterSelect(E entity){}
 	/**
 	 * 查询后的操作（多个查询）
-	 * @param entity
+	 * @param entitys
 	 * @author  wangsz 2017-05-16
 	 */
 	protected void afterSelect(List<E> entitys){
@@ -169,8 +170,9 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		List<String> ids = new ArrayList<>();
 		for (E e : entitys) {
 			String id = e.getId();
-			if(!StringUtils.isEmpty(id))
+			if(!StringUtils.isEmpty(id)) {
 				ids.add(id);
+			}
 		}
 		
 		if (ids.size() > 0) {
@@ -197,8 +199,9 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	public boolean removeById(String id) {
 		E entity = getById(id);
-		if(entity == null)
+		if(entity == null) {
 			throw new IllegalArgumentException("can't find the entity of id:"+id);
+		}
 		
 		beforeRemove(entity);
 		boolean rs = baseDao.deleteById(id);
@@ -239,8 +242,9 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	public boolean hardRemoveById(String id) {
 		E entity = getById(id);
-		if(entity == null)
+		if(entity == null) {
 			throw new IllegalArgumentException("can't find the entity of id:"+id);
+		}
 		
 		beforeRemove(entity);
 		boolean rs = baseDao.hardDeleteById(id);
@@ -304,11 +308,14 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	public E getBy(Searchable searchable, Boolean useDefaultFilters, Boolean check){
 		List<E> entitys =   baseDao.selectBy(searchable, useDefaultFilters);
-		if(entitys == null || entitys.size() <= 0)
+		if(entitys == null || entitys.size() <= 0) {
 			return null;
-		if(check && entitys.size() > 1)
-			throw new IllegalArgumentException("getBy method find more than 1 row record");
-		
+		}
+		if(check && entitys.size() > 1){
+			log.error("getBy method find more than 1 row record! searchable="+searchable);
+			return entitys.get(0);
+		}
+
 		E entity = entitys.get(0);
 		afterSelect(entity);
 		
@@ -402,45 +409,77 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		}
 		//获取成员变量id对应的实体，放入map中
 		for (String attributeId : attributesId) {
-			if(attributeInfo.get(attributeId) != null) continue;
+			if(attributeInfo.get(attributeId) != null) {
+				continue;
+			}
 			
 			Object attribute = SpringContextHolder.getBean(attributeServiceClazz).getById(attributeId);
 			attributeInfo.put(attributeId, attribute);
 		}
 	}
-	
+
 	/**
 	 * 将实体成员变量多个外键对应的对象放入Data中
-	 * @param object 实体类
+	 * @param objects
 	 * @param attributeNames 外键名数组
 	 * @param attributeServicesClazz 外键对应的service的class数组
 	 * @author  wangsz 2017-06-04
 	 */
-	public void addAttributesToData(BaseDateEntity object, String[] attributeNames,Class<? extends BaseService<?>>[] attributeServicesClazz) {
-		if(object == null)
+	public void addAttributesToData(List<? extends BaseDateEntity> objects, String[] attributeNames,
+									Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		if(objects == null || objects.size() == 0) {
 			return ;
-		if(attributeNames.length != attributeServicesClazz.length)
-			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
-		
-		for (int i = 0; i < attributeNames.length; i++) {
-			addAttributeToData(object, attributeNames[i], attributeServicesClazz[i]);
+		}
+
+		if(attributeNames.length != attributeServicesClazz.length) {
+			log.error("attributeNames length must equal attributeServicesClazz length");
+			return ;
+		}
+
+		//优化数据库连接次数，获取每种attribute类型的  id-object 集合
+		Map<Class<? extends BaseService<?>>, Map<String, Object>> typesInfo = new HashMap<>(10);
+		for (int i = 0, n = attributeNames.length; i < n; i++) {
+			List<String> ids = new ArrayList<>();
+			String attributeName = attributeNames[i];
+			Class<? extends BaseService<?>> attributeServiceClazz= attributeServicesClazz[i];
+
+			for (BaseDateEntity entity : objects) {
+				String attributeId = ReflectUtil.getPropertyValue(entity, attributeName);
+				ids.add(attributeId);
+			}
+
+			List<? extends BaseEntity> types = SpringContextHolder.getBean(attributeServiceClazz).getByIds(ids);
+
+			Map<String, Object> typesMap = new HashMap<>();
+			for (BaseEntity type : types) {
+				typesMap.put(type.getId(), type);
+			}
+			typesInfo.put(attributeServiceClazz, typesMap);
+		}
+
+		for (BaseDateEntity object : objects) {
+			for (int i = 0; i < attributeNames.length; i++) {
+				addAttributeToData(object, attributeNames[i], attributeServicesClazz[i], typesInfo);
+			}
 		}
 	}
-	
+
 	/**
 	 * 将实体成员变量外键对应的对象放入Data中
 	 * @param object 实体类
 	 * @param attributeName 外键名
-	 * @param attributeServiceClass
+	 * @param attributeServiceClass attributeName对应的service的class
 	 * @author  wangsz 2017-06-04
 	 */
-	public void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
- 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
+	public void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass, Map<Class<? extends BaseService<?>>, Map<String, Object>> typesInfo) {
+		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
 		//如果该外键为空，返回
-		if(StringUtils.isEmpty(attributeId))
+		if(StringUtils.isEmpty(attributeId)) {
 			return ;
-		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
-		
+		}
+		Object type = typesInfo.get(attributeServiceClass).get(attributeId);
+
 		object.getDate().put(attributeName, type);
 	}
+
 }

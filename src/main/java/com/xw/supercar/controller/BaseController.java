@@ -272,27 +272,27 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	 * @author  wangsz 2017-06-04
 	 */
 	protected void addAttributesToData(Map<String, Object> data, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
-		if(attributesName.length != attributeServicesClazz.length)
+		if(attributesName.length != attributeServicesClazz.length) {
 			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
+		}
 		
 		if(data.containsKey("entity")){
 			BaseDateEntity entity = (BaseDateEntity) data.get("entity");
-			getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
+			List<BaseDateEntity> entities = new ArrayList<>();
+			entities.add(entity);
+			getSevice().addAttributesToData(entities, attributesName, attributeServicesClazz);
 		}
 		else if(data.containsKey("entitys")){
 			@SuppressWarnings("unchecked")
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) data.get("entitys");
-			for (BaseDateEntity entity : entities) {
-				getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
-			}
+			getSevice().addAttributesToData(entities, attributesName, attributeServicesClazz);
 		}
 		else if(data.containsKey("page")){
 			@SuppressWarnings("unchecked")
 			Page<? extends BaseDateEntity> page = (Page<? extends BaseDateEntity>) data.get("page");
 			List<? extends BaseDateEntity> entities = (List<? extends BaseDateEntity>) page.getContent();
-			for (BaseDateEntity entity : entities) {
-				getSevice().addAttributesToData(entity, attributesName, attributeServicesClazz);
-			}
+
+			getSevice().addAttributesToData(entities, attributesName, attributeServicesClazz);
 		}
 	}
 	
@@ -306,7 +306,7 @@ public abstract class BaseController<E extends BaseEntity> implements Initializi
 	protected void addAttributesToExtendInfo(ResponseResult result, String[] attributesName,Class<? extends BaseService<?>>[] attributeServicesClazz) {
 		if(attributesName.length != attributeServicesClazz.length)
 			throw new IllegalArgumentException("attributeNames length must equal attributeServicesClazz length");
-		
+
 		Map<String, Object> data = result.getData();
 		Map<String, Map<String, Object>> extendInfo = result.getExtendInfo();
 		if(extendInfo == null) {
