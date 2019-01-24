@@ -482,4 +482,14 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		object.getDate().put(attributeName, type);
 	}
 
+	public void addAttributeToData(BaseDateEntity object, String attributeName,Class<? extends BaseService<?>> attributeServiceClass) {
+ 		String attributeId = ReflectUtil.getPropertyValue(object, attributeName);
+		//如果该外键为空，返回
+		if(StringUtils.isEmpty(attributeId)) {
+			return ;
+		}
+		Object type = SpringContextHolder.getBean(attributeServiceClass).getById(attributeId);
+
+		object.getDate().put(attributeName, type);
+	}
 }

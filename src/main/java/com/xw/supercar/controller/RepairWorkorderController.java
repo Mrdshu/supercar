@@ -1,11 +1,13 @@
 package com.xw.supercar.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.transaction.Transactional;
-
+import com.xw.supercar.entity.*;
+import com.xw.supercar.entity.composite.OutPartComposite;
+import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
+import com.xw.supercar.service.*;
+import com.xw.supercar.spring.util.SpringContextHolder;
+import com.xw.supercar.sql.search.SearchOperator;
+import com.xw.supercar.sql.search.Searchable;
+import com.xw.supercar.util.CommonUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,33 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ctc.wstx.util.StringUtil;
-import com.xw.supercar.entity.Client;
-import com.xw.supercar.entity.Company;
-import com.xw.supercar.entity.Inventory;
-import com.xw.supercar.entity.Lookup;
-import com.xw.supercar.entity.OutPartInfo;
-import com.xw.supercar.entity.Part;
-import com.xw.supercar.entity.RepairWorkorder;
-import com.xw.supercar.entity.RepairWorkorderItem;
-import com.xw.supercar.entity.ResponseResult;
-import com.xw.supercar.entity.User;
-import com.xw.supercar.entity.composite.OutPartComposite;
-import com.xw.supercar.entity.composite.RepairWorkOrderComposite;
-import com.xw.supercar.service.BaseService;
-import com.xw.supercar.service.ClientService;
-import com.xw.supercar.service.CompanyService;
-import com.xw.supercar.service.InventoryService;
-import com.xw.supercar.service.LookupService;
-import com.xw.supercar.service.OutPartService;
-import com.xw.supercar.service.PartService;
-import com.xw.supercar.service.RepairWorkorderItemService;
-import com.xw.supercar.service.RepairWorkorderService;
-import com.xw.supercar.service.UserService;
-import com.xw.supercar.spring.util.SpringContextHolder;
-import com.xw.supercar.sql.search.SearchOperator;
-import com.xw.supercar.sql.search.Searchable;
-import com.xw.supercar.util.CommonUtil;
+import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -124,8 +103,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 			outPartComposite.getOutPart().setRepairWorkorderNo(repairWorkorder.getWorkorderNo());
 			result = SpringContextHolder.getBean(OutPartController.class).newOutPart(outPartComposite);
 			//出库操作为嵌套事务，若出库不成功则父事务也回滚
-			if(!result.getSuccess())
+			if(!result.getSuccess()) {
 				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			}
 		}
 		
 		return result;
@@ -277,8 +257,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	
 	//根据扩展字段查询对应账号的数据
 	public Map<String, Object> getCompanyById(Map<String, Object> itemExtendInfo,String companyId){
-		if(itemExtendInfo == null)
+		if(itemExtendInfo == null) {
 			itemExtendInfo = new HashMap<>();
+		}
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(Company.DP.id.name(), SearchOperator.eq, companyId);
 		Company part = SpringContextHolder.getBean(CompanyService.class).getBy(searchable, true, true);

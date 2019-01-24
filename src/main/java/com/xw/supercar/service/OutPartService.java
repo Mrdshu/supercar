@@ -58,7 +58,7 @@ public class OutPartService extends BaseService<OutPart>{
 	
 	/**
 	 * 根据出库工单号，获取对应的配件信息
-	 * @param repairWorkOrderNo
+	 * @param outWorkOrderNo
 	 * @return
 	 * @author  wangsz 2017-07-07
 	 */
@@ -69,10 +69,8 @@ public class OutPartService extends BaseService<OutPart>{
 				.addSearchFilter(OutPartInfo.DP.workOrderNo.name(), SearchOperator.eq, outWorkOrderNo);
 		//获取出库工单对应的配件
 		outPartInfos = SpringContextHolder.getBean(OutPartInfoService.class).findBy(searchable, true);
-		for (OutPartInfo outPartInfo : outPartInfos) {
-			addAttributesToData(outPartInfo, new String[]{OutPartInfo.DP.inventoryId.name()}
-			, new Class[]{InventoryService.class});
-		}
+		addAttributesToData(outPartInfos, new String[]{OutPartInfo.DP.inventoryId.name()}
+				, new Class[]{InventoryService.class});
 		
 		return outPartInfos;
 	}
