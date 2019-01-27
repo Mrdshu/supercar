@@ -159,7 +159,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	 * @return
 	 * @author  wangsz 2017-07-07
 	 */
-	@RequestMapping(value = "/getItemsAndParts",produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/getItemsAndParts")
 	@ResponseBody
 	public ResponseResult getItemsAndParts(String repairWorkOrderNo){
 		ResponseResult result = ResponseResult.generateResponse();
@@ -211,15 +211,17 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 			extendInfo.put(Inventory.DP.partId.name(), partExtendInfo);
 		}
 		
+		if(client != null){
 		extendInfo.put(Client.DP.type.name(), getByLookUp(carBrandExtendInfo,client.getCarBrand()));
 		extendInfo.put(Client.DP.level.name(), getByLookUp(clientLevelExtendInfo,client.getLevel()));
+			result.addAttribute("client", client);
+		}
 		//extendInfo.put(RepairWorkorder.DP.workorderState.name(), getByLookUp(repairWorkorderExtendInfo,repairWorkorder.getWorkorderState()));
 		extendInfo.put(RepairWorkorder.DP.repairTypeLK.name(), getByLookUp(repairTypeLKExtendInfo,repairWorkorder.getRepairTypeLK()));
 		extendInfo.put(RepairWorkorder.DP.clerk.name(), getByLookUp(clerkExtendInfo,repairWorkorder.getClerk()));
 		extendInfo.put(RepairWorkorderItem.DP.mechanic.name(), mechanicExtendInfo);
 		extendInfo.put(RepairWorkorder.DP.company.name(),getCompanyById(companyExtendInfo,repairWorkorder.getCompany()));
 		result.addAttribute("repairWorkorder", repairWorkorder);
-		result.addAttribute("client", client);
 		result.addAttribute("items", items);
 		result.addAttribute("outPartComposite", outPartComposite);
 		
