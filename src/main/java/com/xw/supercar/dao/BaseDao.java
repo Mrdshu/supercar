@@ -580,7 +580,6 @@ public abstract class BaseDao<E extends BaseEntity> implements InitializingBean{
 			if (sort != null && !sort.isEmpty()) filters.put("sort", sort);
 		}
 		if (id != null && !"".equals(id)) filters.put(NAME_ID, id);
-		logger.info("将entity和Searchable转换为过滤条件的map, filters={}", filters);
 		return filters;
 	}
 	

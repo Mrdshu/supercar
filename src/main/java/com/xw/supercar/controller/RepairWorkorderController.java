@@ -202,6 +202,10 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 			Map<String, Object> partExtendInfo = new HashMap<>();
 			for (OutPartInfo outPartInfo : outPartComposite.getOutPartInfos()) {
 				Inventory inventory = SpringContextHolder.getBean(InventoryService.class).getById(outPartInfo.getInventoryId());
+				if(inventory == null){
+					logger.error("inventory is not exist, id="+outPartInfo.getInventoryId());
+					continue;
+				}
 				partExtendInfo = getPartById(partExtendInfo,inventory.getPartId());
 			}
 			extendInfo.put(Inventory.DP.partId.name(), partExtendInfo);
@@ -244,7 +248,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		return itemExtendInfo;
 	}
 	
-	//根据扩展字段查询对应账号的数据
+	/**
+	 *根据扩展字段查询对应账号的数据
+	 */
 	public Map<String, Object> getPartById(Map<String, Object> itemExtendInfo,String partId){
 		if(itemExtendInfo == null)
 			itemExtendInfo = new HashMap<>();

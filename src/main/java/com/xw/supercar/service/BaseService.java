@@ -454,7 +454,13 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 			for (BaseEntity type : types) {
 				typesMap.put(type.getId(), type);
 			}
-			typesInfo.put(attributeServiceClazz, typesMap);
+
+			if(!typesInfo.containsKey(attributeServiceClazz)){
+				typesInfo.put(attributeServiceClazz, typesMap);
+			}
+			else {
+				typesInfo.get(attributeServiceClazz).putAll(typesMap);
+			}
 		}
 
 		for (BaseDateEntity object : objects) {
