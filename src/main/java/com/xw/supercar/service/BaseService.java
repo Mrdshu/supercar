@@ -268,6 +268,17 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 		afterModify(entity);
 		return entity;
 	}
+
+	/**
+	 * 根据id查询
+	 * @author  wangsz 2017-05-14
+	 */
+	public E getById(String id, boolean defaultFilters){
+		E entity =  baseDao.selectById(id, defaultFilters);
+		afterSelect(entity);
+
+		return entity;
+	}
 	
 	/**
 	 * 根据id查询
@@ -294,6 +305,23 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 			afterSelect(entity);
 		}
 		
+		return entitys;
+	}
+
+	/**
+	 * 根据id集合查询
+	 * @author  wangsz 2017-05-14
+	 */
+	public List<E> getByIds(List<String> ids, boolean defaultFilters){
+		Searchable searchable = Searchable.newSearchable()
+				.addSearchFilter(DaoConstant.NAME_ID, SearchOperator.in, ids);
+
+		List<E> entitys =  baseDao.selectBy(searchable, defaultFilters);
+
+		for (E entity : entitys) {
+			afterSelect(entity);
+		}
+
 		return entitys;
 	}
 	
@@ -427,6 +455,17 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 	 */
 	public void addAttributesToData(List<? extends BaseDateEntity> objects, String[] attributeNames,
 									Class<? extends BaseService<?>>[] attributeServicesClazz) {
+		addAttributesToData(objects, attributeNames, attributeServicesClazz, true);
+	}
+	/**
+	 * 将实体成员变量多个外键对应的对象放入Data中
+	 * @param objects
+	 * @param attributeNames 外键名数组
+	 * @param attributeServicesClazz 外键对应的service的class数组
+	 * @author  wangsz 2017-06-04
+	 */
+	public void addAttributesToData(List<? extends BaseDateEntity> objects, String[] attributeNames,
+									Class<? extends BaseService<?>>[] attributeServicesClazz,boolean defaultFilters) {
 		if(objects == null || objects.size() == 0) {
 			return ;
 		}
@@ -448,7 +487,7 @@ public abstract class BaseService<E extends BaseEntity> implements InitializingB
 				ids.add(attributeId);
 			}
 
-			List<? extends BaseEntity> types = SpringContextHolder.getBean(attributeServiceClazz).getByIds(ids);
+			List<? extends BaseEntity> types = SpringContextHolder.getBean(attributeServiceClazz).getByIds(ids,defaultFilters);
 
 			Map<String, Object> typesMap = new HashMap<>();
 			for (BaseEntity type : types) {

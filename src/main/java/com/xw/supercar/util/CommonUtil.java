@@ -110,7 +110,7 @@ public class CommonUtil {
 	 * @author wangsz
 	 */
 	public static String genRandomPwd(int pwd_len) {
-		final int maxNum = 58;
+		final int maxNum = 9;
 		int i; // 生成的随机数
 		int count = 0; // 生成的密码的长度
 		char[] str = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -118,7 +118,7 @@ public class CommonUtil {
 		Random r = new Random();
 		while (count < pwd_len) {
 			// 生成随机数，取绝对值，防止生成负数，
-			i = Math.abs(r.nextInt(maxNum))%57; // 生成的数最大为58-1
+			i = Math.abs(r.nextInt(maxNum))%8; // 生成的数最大为58-1
 			pwd.append(str[i]);
 			count++;
 		}

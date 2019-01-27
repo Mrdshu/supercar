@@ -207,7 +207,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		if(outPartComposite != null){
 			Map<String, Object> partExtendInfo = new HashMap<>();
 			for (OutPartInfo outPartInfo : outPartComposite.getOutPartInfos()) {
-				Inventory inventory = SpringContextHolder.getBean(InventoryService.class).getById(outPartInfo.getInventoryId());
+				Inventory inventory = SpringContextHolder.getBean(InventoryService.class).getById(outPartInfo.getInventoryId(),false);
 				if(inventory == null){
 					logger.error("inventory is not exist, id="+outPartInfo.getInventoryId());
 					continue;

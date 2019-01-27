@@ -70,7 +70,7 @@ public class OutPartService extends BaseService<OutPart>{
 		//获取出库工单对应的配件
 		outPartInfos = SpringContextHolder.getBean(OutPartInfoService.class).findBy(searchable, true);
 		addAttributesToData(outPartInfos, new String[]{OutPartInfo.DP.inventoryId.name()}
-				, new Class[]{InventoryService.class});
+				, new Class[]{InventoryService.class}, false);
 		
 		return outPartInfos;
 	}
