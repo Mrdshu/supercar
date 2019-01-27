@@ -9,6 +9,7 @@ import com.xw.supercar.sql.search.SearchOperator;
 import com.xw.supercar.sql.search.Searchable;
 import com.xw.supercar.util.CommonUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
  * <p>
  * 维修工单controller层
  * </p>
- * 
+ *
  * @author wangsz
  * @date 2017-07-06 22:35:59
  */
@@ -39,7 +40,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 
 	@Autowired
 	private RepairWorkorderService service;
-	
+
 	@Override
 	protected BaseService<RepairWorkorder> getSevice() {
 		return service;
@@ -53,7 +54,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		addAttributesToData(data, new String[]{RepairWorkorder.DP.company.name(),RepairWorkorder.DP.workorderState.name(),RepairWorkorder.DP.repairTypeLK.name(),RepairWorkorder.DP.clientId.name(),RepairWorkorder.DP.clerk.name()}
 		, new Class[]{CompanyService.class,LookupService.class,LookupService.class,ClientService.class,UserService.class});
 	}
-	
+
 	/**
 	 * 新增维修工单，包括绑定的维修项目和领料信息
 	 * @author  wangsz 2017-07-07
@@ -63,12 +64,12 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	@Transactional
 	public ResponseResult newRepairWorkorder(@RequestBody RepairWorkOrderComposite repairWOComposite) {
 		ResponseResult result = ResponseResult.generateResponse();
-		
+
 		Client client = repairWOComposite.getClient();
 		RepairWorkorder repairWorkorder = repairWOComposite.getRepairWorkorder();
 		List<RepairWorkorderItem> repairWorkorderItems = repairWOComposite.getRepairWorkorderItems();
 		OutPartComposite outPartComposite = repairWOComposite.getOutPartComposite();
-		
+
 		/*
 		 * 新增维修工单
 		 */
@@ -84,9 +85,9 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		String workOrderNo = CommonUtil.getTimeStampRandom();
 		repairWorkorder.setWorkorderNo(workOrderNo);
 		repairWorkorder.setClientId(client.getId());
-		
+
 		repairWorkorder = SpringContextHolder.getBean(RepairWorkorderService.class).add(repairWorkorder);
-		
+
 		/*
 		 * 新增维修工单-项目中间信息
 		 */
@@ -96,7 +97,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		}
 		if(repairWorkorderItems != null && repairWorkorderItems.size() > 0)
 			SpringContextHolder.getBean(RepairWorkorderItemService.class).add(repairWorkorderItems);
-		
+
 		/*
 		 * 新增出库工单以及对应的出库配件信息
 		 */
@@ -108,10 +109,10 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * 修改维修工单，包括绑定的维修项目和领料信息
 	 * @author  wangsz 2017-07-07
@@ -121,7 +122,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	@Transactional
 	public ResponseResult editRepairWorkOrder(@RequestBody RepairWorkOrderComposite repairWOComposite) {
 		ResponseResult result = ResponseResult.generateResponse();
-		
+
 		Client client = repairWOComposite.getClient();
 		RepairWorkorder repairWorkorder = repairWOComposite.getRepairWorkorder();
 		List<RepairWorkorderItem> repairWorkorderItems = repairWOComposite.getRepairWorkorderItems();
@@ -132,12 +133,12 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		if(!StringUtils.isEmpty(client)){
 			SpringContextHolder.getBean(ClientService.class).modify(client);
 		}
-		
-		//修改工单信息		
+
+		//修改工单信息
 		if(!StringUtils.isEmpty(repairWorkorder)){
 			SpringContextHolder.getBean(RepairWorkorderService.class).modify(repairWorkorder);
 		}
-		
+
 		/*
 		 * 修改维修工单-项目中间信息
 		 */
@@ -149,20 +150,21 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 			//重新添加维修工单的维修项目
 			rWOItemService.add(repairWorkorderItems);
 		}
-		
+
 		result.addAttribute("errorMsg", "修改成功！");
 		return result;
 	}
-	
+
 	/**
 	 * 查看维修工单的详细信息（包括服务项目和领料信息两部分）
 	 * @param repairWorkOrderNo
 	 * @return
 	 * @author  wangsz 2017-07-07
 	 */
-	@RequestMapping(value = "/getItemsAndParts")
+	@RequestMapping(value = "/getItemsAndParts",produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseResult getItemsAndParts(String repairWorkOrderNo){
+	@ApiOperation(value = "查看维修工单的详细信息")
+	public ResponseResult getItemsAndParts(@NotNull String repairWorkOrderNo){
 		ResponseResult result = ResponseResult.generateResponse();
 		Map<String, Map<String, Object>>  extendInfo = result.getExtendInfo();
 		
@@ -172,7 +174,10 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 
 		//获取维修工单信息
 		RepairWorkorder repairWorkorder = service.getByCode(repairWorkOrderNo);
-		
+		if(repairWorkorder == null){
+			return ResponseResult.generateErrorResponse("", "未查询到维修工单！");
+		}
+
 		//获取客户信息
 		Searchable clientSearchable = Searchable.newSearchable()
 				.addSearchFilter(Client.DP.id.name(), SearchOperator.eq, repairWorkorder.getClientId());
