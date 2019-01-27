@@ -167,7 +167,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 	public ResponseResult getItemsAndParts(@NotNull String repairWorkOrderNo){
 		ResponseResult result = ResponseResult.generateResponse();
 		Map<String, Map<String, Object>>  extendInfo = result.getExtendInfo();
-		
+
 		if(StringUtils.isEmpty(repairWorkOrderNo)){
 			return ResponseResult.generateErrorResponse("", "维修工单号不能为空！");
 		}
@@ -222,7 +222,7 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		extendInfo.put(Client.DP.level.name(), getByLookUp(clientLevelExtendInfo,client.getLevel()));
 			result.addAttribute("client", client);
 		}
-		//extendInfo.put(RepairWorkorder.DP.workorderState.name(), getByLookUp(repairWorkorderExtendInfo,repairWorkorder.getWorkorderState()));
+
 		extendInfo.put(RepairWorkorder.DP.repairTypeLK.name(), getByLookUp(repairTypeLKExtendInfo,repairWorkorder.getRepairTypeLK()));
 		extendInfo.put(RepairWorkorder.DP.clerk.name(), getByLookUp(clerkExtendInfo,repairWorkorder.getClerk()));
 		extendInfo.put(RepairWorkorderItem.DP.mechanic.name(), mechanicExtendInfo);
@@ -274,6 +274,11 @@ public class RepairWorkorderController extends BaseController<RepairWorkorder>{
 		if(itemExtendInfo == null) {
 			itemExtendInfo = new HashMap<>();
 		}
+
+		if(StringUtils.isEmpty(companyId)){
+			return itemExtendInfo;
+		}
+
 		Searchable searchable = Searchable.newSearchable()
 				.addSearchFilter(Company.DP.id.name(), SearchOperator.eq, companyId);
 		Company part = SpringContextHolder.getBean(CompanyService.class).getBy(searchable, true, true);
